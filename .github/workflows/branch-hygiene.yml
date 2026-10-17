@@ -1,0 +1,89 @@
+# Branch hygiene: one platform = one branch, but an idle one is archived.
+#
+# Nightly, every build/** branch whose head has had no activity for 90 days is
+# tagged archive/<platform_id>/<YYYY-MM-DD>, the tag is read back at the head's
+# exact sha, and only then is the branch deleted. The tag keeps the full tree;
+# the Factory's "Continue" recreates the branch from it. A head is never
+# deleted without a tag holding it.
+#
+# Runs HERE, where the branches live, with this repo's own GITHUB_TOKEN
+# (contents: write) -- no extra secret. Every action is one JSON line appended
+# to ledger.jsonl on the `hygiene-ledger` branch; each run's last line carries
+# the repo size, which the Factory's admin page reads.
+
+name: Branch hygiene
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Report what would be archived; move nothing"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - ".github/hygiene/**"
+      - ".github/workflows/branch-hygiene.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: branch-hygiene
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: hygiene tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --quiet pytest
+      - run: python -m pytest -q .github/hygiene
+
+  archive:
+    name: archive idle build branches
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Archive, then record every action
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "cerebrum-hygiene"
+          git config user.email "hygiene@cerebrum.dev"
+          size=$(gh api "repos/${{ github.repository }}" --jq .size)
+          dry=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then dry="--dry-run"; fi
+          status=0
+          python .github/hygiene/branch_hygiene.py --remote origin \
+            --ledger-out "$RUNNER_TEMP/lines.jsonl" --repo-size-kb "$size" $dry || status=$?
+          ledger="$RUNNER_TEMP/ledger"
+          if git ls-remote --exit-code origin refs/heads/hygiene-ledger >/dev/null; then
+            git fetch -q origin hygiene-ledger
+            git worktree add -q "$ledger" FETCH_HEAD
+            git -C "$ledger" checkout -q -B hygiene-ledger
+          else
+            git worktree add -q --detach "$ledger"
+            git -C "$ledger" checkout -q --orphan hygiene-ledger
+            git -C "$ledger" rm -rq --cached . || true
+            find "$ledger" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          fi
+          cat "$RUNNER_TEMP/lines.jsonl" >> "$ledger/ledger.jsonl"
+          git -C "$ledger" add ledger.jsonl
+          git -C "$ledger" commit -q -m "hygiene: $(date -u +%F)"
+          git -C "$ledger" push -q origin HEAD:refs/heads/hygiene-ledger
+          exit $status

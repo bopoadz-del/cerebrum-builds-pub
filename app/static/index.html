@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hotel Booking Platform</title>
+  <style>
+    :root { font-family: "IBM Plex Sans", "Segoe UI", sans-serif; background: #10141c; color: #e8eef6; }
+    body { margin: 0; }
+    header { padding: 1.2rem 1.5rem; border-bottom: 1px solid #2a3548; background: #141a24; }
+    h1 { margin: 0; font-size: 1.4rem; }
+    p.sub { margin: 0.35rem 0 0; color: #93a3bd; }
+    nav { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.8rem 1.5rem; }
+    nav button { background: #1c2430; color: #e8eef6; border: 1px solid #3a4c68; padding: 0.35rem 0.7rem; cursor: pointer; }
+    nav button.active { background: #0d4d73; }
+    main { padding: 1rem 1.5rem 3rem; }
+    label { display: block; margin: 0.6rem 0 0.2rem; }
+    input, textarea, select { width: 100%; max-width: 36rem; background: #0d1118; color: #e8eef6; border: 1px solid #3a4c68; padding: 0.4rem; }
+    button.act { margin-top: 0.8rem; background: #0d4d73; color: #fff; border: 0; padding: 0.5rem 1rem; cursor: pointer; }
+    pre { background: #0d1118; padding: 0.8rem; overflow: auto; }
+    .mods { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+    .card { border: 1px solid #2a3548; padding: 0.7rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hotel Booking Platform</h1>
+    <p class="sub">Hospitality operators — bookings, properties, pricing, reviews, and guest notices. Operator / admin. Mutations require a bearer operator token. OPERATOR_TOKEN is not stored in git.</p>
+  </header>
+  <nav id="nav"></nav>
+  <main>
+    <section id="command_center" class="panel">
+      <h2>Command center</h2>
+      <div class="mods" id="modules"></div>
+    </section>
+    <section id="live" class="panel">
+      <h2 id="cap-title">booking_management</h2>
+      <label>Operator token <input id="operator-token" type="password" autocomplete="off" placeholder="OPERATOR_TOKEN" /></label>
+      <label>Capability
+        <select id="capability"></select>
+      </label>
+      <label>Reference <input id="reference" value="sample" /></label>
+      <label>Status <input id="status" value="open" /></label>
+      <button class="act" id="post-btn" type="button">POST create</button>
+      <button class="act" id="get-btn" type="button">GET records</button>
+      <pre id="out">Ready.</pre>
+    </section>
+    <section id="operational_chat" class="panel">
+      <h2>Operational chat — property notes</h2>
+      <label>Title <input id="rag-title" value="Hotel occupancy pack" /></label>
+      <label>Text <textarea id="rag-text" rows="3">Hotel occupancy, peak season night rate, and guest booking notes for the hospitality pilot.</textarea></label>
+      <button class="act" id="ingest-btn" type="button">Ingest pack</button>
+      <label>Query <input id="rag-q" value="hotel occupancy" /></label>
+      <button class="act" id="query-btn" type="button">Query notes</button>
+    </section>
+    <section id="resident_engineer" class="panel">
+      <h2>Resident engineer</h2>
+      <p class="sub">Same live POST/GET routes. No second API.</p>
+    </section>
+  </main>
+  <script>
+    const CAPS = [
+      "booking_management",
+      "property_management",
+      "dynamic_pricing",
+      "review_management",
+      "analytics_dashboard",
+      "notification_system",
+      "search_recommendation"
+    ];
+    const UI = ["command_center", "operational_chat", "resident_engineer"];
+    const MAP = {
+      command_center: "booking_management",
+      operational_chat: "property_management",
+      resident_engineer: "analytics_dashboard"
+    };
+    let current = "booking_management";
+    const nav = document.getElementById("nav");
+    const modules = document.getElementById("modules");
+    const capSelect = document.getElementById("capability");
+    UI.forEach((name) => {
+      const b = document.createElement("button");
+      b.textContent = name;
+      b.onclick = () => select(MAP[name] || "booking_management", b);
+      nav.appendChild(b);
+      const card = document.createElement("div");
+      card.className = "card";
+      card.textContent = name;
+      modules.appendChild(card);
+    });
+    CAPS.forEach((name) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.textContent = name;
+      modules.appendChild(card);
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      capSelect.appendChild(opt);
+    });
+    capSelect.onchange = () => select(capSelect.value);
+    function select(id, btn) {
+      current = id;
+      document.getElementById("cap-title").textContent = id;
+      capSelect.value = id;
+      [...nav.children].forEach((el) => el.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+    }
+    function authHeaders() {
+      const headers = {"Content-Type": "application/json"};
+      const token = (document.getElementById("operator-token").value || "").trim();
+      if (token) headers["Authorization"] = "Bearer " + token;
+      return headers;
+    }
+    function extraFields(id) {
+      const extras = {
+        booking_management: {stay_kind: "night", room_label: "sample"},
+        property_management: {property_kind: "hotel", property_name: "sample"},
+        dynamic_pricing: {season: "peak", rate_plan: "sample"},
+        review_management: {rating_band: "excellent", guest_name: "sample"},
+        analytics_dashboard: {view_name: "sample", horizon: "today"},
+        notification_system: {notice_kind: "confirmation", guest_name: "sample"},
+        search_recommendation: {stay_intent: "leisure", destination: "sample"}
+      };
+      return extras[id] || {};
+    }
+    document.getElementById("post-btn").onclick = async () => {
+      const body = {
+        reference: document.getElementById("reference").value || "sample",
+        status: document.getElementById("status").value || "open",
+        ...extraFields(current)
+      };
+      const res = await fetch("/v1/" + current, {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify(body)
+      });
+      document.getElementById("out").textContent = JSON.stringify(await res.json(), null, 2);
+    };
+    document.getElementById("get-btn").onclick = async () => {
+      const res = await fetch("/v1/" + current);
+      document.getElementById("out").textContent = JSON.stringify(await res.json(), null, 2);
+    };
+    document.getElementById("ingest-btn").onclick = async () => {
+      const res = await fetch("/v1/rag/ingest", {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify({
+          layer: 1,
+          doc_id: document.getElementById("reference").value || "sample",
+          title: document.getElementById("rag-title").value,
+          text: document.getElementById("rag-text").value
+        })
+      });
+      document.getElementById("out").textContent = JSON.stringify(await res.json(), null, 2);
+    };
+    document.getElementById("query-btn").onclick = async () => {
+      const q = encodeURIComponent(document.getElementById("rag-q").value || "occupancy");
+      const res = await fetch("/v1/rag/query?q=" + q);
+      document.getElementById("out").textContent = JSON.stringify(await res.json(), null, 2);
+    };
+  </script>
+</body>
+</html>

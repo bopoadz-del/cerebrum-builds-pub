@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: cerebrum-hotel-booking
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: STORAGE_PATH
+        value: /var/data
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: OPERATOR_TOKEN
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: CORS_ALLOWLIST
+        sync: false

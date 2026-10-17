@@ -1,0 +1,42 @@
+{
+  "schema": "cli_receipt.v1",
+  "product": "Hotel Booking Platform",
+  "product_id": "hospitality",
+  "brand": "StayFlow Hospitality Platform",
+  "session_id": "<SESSION_ID>",
+  "branch": "build/<SESSION_ID>-ac0a3e19",
+  "cli_authored_ids": [
+    "analytics_dashboard",
+    "booking_management",
+    "dynamic_pricing",
+    "notification_system",
+    "property_management",
+    "review_management",
+    "search_recommendation"
+  ],
+  "authored_handlers": [
+    "analytics_dashboard",
+    "booking_management",
+    "dynamic_pricing",
+    "notification_system",
+    "property_management",
+    "review_management",
+    "search_recommendation"
+  ],
+  "block_ids": {
+    "booking_management": ["workflow", "database", "validation", "event_bus", "queue", "audit"],
+    "property_management": ["database", "team", "workflow", "audit"],
+    "dynamic_pricing": ["formula_executor", "recommendation_template", "analytics", "database"],
+    "review_management": ["capture", "knowledge", "vector_search", "analytics", "notification"],
+    "analytics_dashboard": ["dashboard", "analytics", "database"],
+    "notification_system": ["notification", "event_bus", "queue", "workflow"],
+    "search_recommendation": ["vector_search", "knowledge", "recommendation_template", "memory", "analytics"]
+  },
+  "gates": {
+    "code": {"suite": "pytest -m 'not pilot'", "passed": 17, "ok": true},
+    "product": {"suite": "pytest -m pilot", "passed": 3, "ok": true},
+    "store": {"suite": "scripts/acceptance.py", "score": "12/12", "ok": true}
+  },
+  "pilot_ready": true,
+  "level_grade": "STORE_GREEN"
+}

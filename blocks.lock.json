@@ -1,0 +1,393 @@
+{
+  "blocks": {
+    "analytics": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/analytics",
+      "source": "cerebrum-blocks"
+    },
+    "audit": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/audit",
+      "source": "cerebrum-blocks"
+    },
+    "capture": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/capture",
+      "source": "cerebrum-blocks"
+    },
+    "dashboard": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/dashboard",
+      "source": "cerebrum-blocks"
+    },
+    "database": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/database",
+      "source": "cerebrum-blocks"
+    },
+    "estate_maintenance": {
+      "commit": "sha256:1362c99368db8a2dad00c7114405d80e2c6c462c",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 0,
+        "findings": [],
+        "has_digests": false,
+        "mismatched": [],
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/estate_maintenance",
+      "source": "factory-vendor-mirror"
+    },
+    "estate_registry": {
+      "commit": "sha256:39591289aad3065f2fa76ae2765e44f7f0100fb7",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 0,
+        "findings": [],
+        "has_digests": false,
+        "mismatched": [],
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/estate_registry",
+      "source": "factory-vendor-mirror"
+    },
+    "event_bus": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/event_bus",
+      "source": "cerebrum-blocks"
+    },
+    "formula_executor": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/formula_executor",
+      "source": "cerebrum-blocks"
+    },
+    "knowledge": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/knowledge",
+      "source": "cerebrum-blocks"
+    },
+    "memory": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/memory",
+      "source": "cerebrum-blocks"
+    },
+    "notification": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/notification",
+      "source": "cerebrum-blocks"
+    },
+    "portfolio_rollup": {
+      "commit": "sha256:dde6d977d09a37cb19cf3fc16b01f0c8933bc11e",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 0,
+        "findings": [],
+        "has_digests": false,
+        "mismatched": [],
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/portfolio_rollup",
+      "source": "factory-vendor-mirror"
+    },
+    "queue": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/queue",
+      "source": "cerebrum-blocks"
+    },
+    "readiness_engine": {
+      "commit": "sha256:bf5647824740c37f12b414c76a00a4be9247cbc1",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 0,
+        "findings": [],
+        "has_digests": false,
+        "mismatched": [],
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/readiness_engine",
+      "source": "factory-vendor-mirror"
+    },
+    "recommendation_template": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/recommendation_template",
+      "source": "cerebrum-blocks"
+    },
+    "team": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/team",
+      "source": "cerebrum-blocks"
+    },
+    "validation": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/validation",
+      "source": "cerebrum-blocks"
+    },
+    "vector_search": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/vector_search",
+      "source": "cerebrum-blocks"
+    },
+    "workflow": {
+      "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/workflow",
+      "source": "cerebrum-blocks"
+    }
+  },
+  "kits": {
+    "platform": {
+      "blocks": [
+        "analytics",
+        "audit",
+        "capture",
+        "dashboard",
+        "database",
+        "event_bus",
+        "formula_executor",
+        "knowledge",
+        "memory",
+        "notification",
+        "queue",
+        "recommendation_template",
+        "team",
+        "validation",
+        "vector_search",
+        "workflow"
+      ],
+      "files_copied": 0,
+      "path": "kits/platform",
+      "source": "synthesized-from-factory-shelf"
+    },
+    "private_estate_operations": {
+      "blocks": [
+        "estate_maintenance",
+        "estate_registry",
+        "portfolio_rollup",
+        "readiness_engine"
+      ],
+      "files_copied": 54,
+      "path": "kits/private_estate_operations",
+      "source": "factory-vendor-mirror"
+    }
+  },
+  "runtime": {
+    "commit": "a372e769e05e47dc4dbc274f7d83eebf29a836f1",
+    "files": [
+      "vendor/cerebrum/__init__.py",
+      "vendor/cerebrum/blocks/__init__.py",
+      "vendor/cerebrum/blocks/analytics.py",
+      "vendor/cerebrum/blocks/audit.py",
+      "vendor/cerebrum/blocks/dashboard.py",
+      "vendor/cerebrum/blocks/database.py",
+      "vendor/cerebrum/blocks/event_bus.py",
+      "vendor/cerebrum/blocks/formula_executor.py",
+      "vendor/cerebrum/blocks/knowledge.py",
+      "vendor/cerebrum/blocks/memory.py",
+      "vendor/cerebrum/blocks/notification.py",
+      "vendor/cerebrum/blocks/queue.py",
+      "vendor/cerebrum/blocks/recommendation_template.py",
+      "vendor/cerebrum/blocks/team.py",
+      "vendor/cerebrum/blocks/validation.py",
+      "vendor/cerebrum/blocks/vector_search.py",
+      "vendor/cerebrum/blocks/workflow.py",
+      "vendor/cerebrum/core/__init__.py",
+      "vendor/cerebrum/core/answer_contract.py",
+      "vendor/cerebrum/core/block_result.py",
+      "vendor/cerebrum/core/input_adapter.py",
+      "vendor/cerebrum/core/llm_config.py",
+      "vendor/cerebrum/core/metric_utils.py",
+      "vendor/cerebrum/core/schema_registry.py",
+      "vendor/cerebrum/core/typed_block.py",
+      "vendor/cerebrum/core/universal_base.py",
+      "vendor/cerebrum/core/url_guard.py"
+    ],
+    "for_blocks": [
+      "analytics",
+      "audit",
+      "dashboard",
+      "database",
+      "event_bus",
+      "formula_executor",
+      "knowledge",
+      "memory",
+      "notification",
+      "queue",
+      "recommendation_template",
+      "team",
+      "validation",
+      "vector_search",
+      "workflow"
+    ],
+    "lazy_foreign_imports": [],
+    "path": "vendor/cerebrum",
+    "source": "cerebrum-blocks"
+  },
+  "schema": "blocks.lock.v1"
+}
