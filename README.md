@@ -1,30 +1,33 @@
-# Hotel Booking Platform
+# Cerebrum Builds
 
-Cerebrum-builds session for **Hotel Booking Platform** — guests search, compare, and reserve rooms while hospitality operators manage inventory, pricing, reviews, and notifications.
+The certified-build store of the Cerebrum platform. Each build is a complete
+vertical platform that the **CerebrumDev.ai Factory** assembled from certified
+**Cerebrum-Blocks** kernels and put through the build gate.
 
-Manufactured from vendored Store blocks (session `<SESSION_ID>`):
+## What lands here
 
-- `booking_management` — workflow, database, notification, queue
-- `property_management` — database, storage, document_engine
-- `dynamic_pricing` — formula_executor, analytics
-- `review_management` — database, analytics, notification
-- `analytics_dashboard` — dashboard, analytics, database
-- `notification_system` — notification, queue, workflow
-- `search_recommendation` — vector_search, recommendation_template, analytics
+A certified build lands as a `build/plt_<id>` branch carrying that platform's
+full tree — the FastAPI app, the vendored certified blocks, the pinned
+`blocks.lock.json`, the `Dockerfile`, tests, and the build receipt. The
+Factory's COLLECTOR surveys this repo so an already-built platform is reused
+instead of rebuilt.
 
-Offline platform. Channel `mcp` only. No HTTP store callbacks.
+## Lineage
 
-## Roles
+- **The Store — Cerebrum-Blocks:** the certified capability inventory.
+- **The Factory — CerebrumDev.ai:** assembles blocks into a governed,
+  deployable platform.
+- **The Builds — this repo:** the certified platform builds the Factory ships.
 
-- operator
-- admin
+## Deploy and gate
 
-Mutating routes require `OPERATOR_TOKEN` / `ADMIN_TOKEN`. CORS uses `CORS_ALLOWLIST` only (`*` is refused). Client `actor` / `user_id` is `claimed_actor` only.
+A build packages as a container (`Dockerfile`) for the platform's own AWS
+deployment; the build itself is not a live service. The build gate runs in
+GitHub Actions (Docker build + `scripts/acceptance.py`) and must pass before a
+build is certified.
 
-## Run
+## Run a build locally
 
 ```
 uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
 ```
-
-Render-ready (`Dockerfile` + `render.yaml`) is packaging, not a live deploy. Store gate = GHA docker + `scripts/acceptance.py`.
