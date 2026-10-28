@@ -9,7 +9,7 @@
 # here and refused by the Factory, which requires k/N of ITS floor. The gate
 # now keeps no list at all: it runs the product's own scripts/acceptance.py --
 # which the Factory renders from its floor -- and reports the
-# "ACCEPTANCE: k/N" that script prints. Green only when k == N.
+# score that script prints ("ACCEPTANCE: k/N" or "<LABEL> k/N ok=..."). Green only when k == N.
 #
 # It also MEASURES what only a gate can: the image is booted once against a
 # real Postgres to feed postgres_boot_200, instead of leaving it unmeasured.
@@ -141,6 +141,14 @@ jobs:
           # Fail the step: every scoring step after it is skipped, and the
           # always() steps record "no score" from gate_code_stale.txt.
           exit 1
+
+      - name: Read the token names the product's harness uses
+        # The gate's per-run token is handed to the container under the gate's
+        # own name AND every *_TOKEN name the branch's scripts/acceptance.py
+        # reads (gate_contract.py token-envs), so the booted app and the
+        # harness agree on one token whatever the generated app calls it.
+        # Names only -- no value is written here.
+        run: echo "APP_TOKEN_ENVS=$(python3 .github/store_gate/gate_contract.py token-envs scripts/acceptance.py)" >> "$GITHUB_ENV"
 
       - name: Start Postgres (gate infrastructure)
         # A step, never a `services:` container: a service that cannot be
@@ -299,11 +307,13 @@ jobs:
           # password (user and password passed as one printf argument), so no
           # credential form is ever in the workflow text.
           printf 'DATABASE_URL=postgresql://%s@host.docker.internal:5432/postgres\n' "postgres:$GATE_PG_PASSWORD" > pg_probe.env
+          TOKEN_ARGS=""
+          for name in ${APP_TOKEN_ENVS:-PLATFORM_TOKEN}; do TOKEN_ARGS="$TOKEN_ARGS -e $name=$GATE_PLATFORM_TOKEN"; done
           set +e
           docker run -d --name "$PROBE" \
             --add-host=host.docker.internal:host-gateway \
             --env-file pg_probe.env \
-            -e PLATFORM_TOKEN="$GATE_PLATFORM_TOKEN" \
+            $TOKEN_ARGS \
             $STORAGE_MOUNT_ARGS_PG \
             cerebrum-artifact:${{ github.sha }} >/dev/null 2>pg_create.err
           created=$?
@@ -413,9 +423,11 @@ jobs:
           # what the product's .dockerignore lets in, and leaving .github/
           # out of a served image is the product's call, not a missing file.
           REPO_MOUNT_ARGS=$(python3 .github/store_gate/repo_mount.py scripts/acceptance.py "$PWD" || true)
+          TOKEN_ARGS=""
+          for name in ${APP_TOKEN_ENVS:-PLATFORM_TOKEN}; do TOKEN_ARGS="$TOKEN_ARGS -e $name=$GATE_PLATFORM_TOKEN"; done
           set +e
           docker run -d --name "$CONTAINER" \
-            -e PLATFORM_TOKEN="$GATE_PLATFORM_TOKEN" \
+            $TOKEN_ARGS \
             $STORAGE_MOUNT_ARGS \
             $REPO_MOUNT_ARGS \
             cerebrum-artifact:${{ github.sha }} 2>container_create.err
@@ -472,7 +484,9 @@ jobs:
               docker cp scripts/acceptance.py "$CONTAINER:$HARNESS_PATH" || true
               ;;
           esac
-          docker exec -e PLATFORM_TOKEN="$GATE_PLATFORM_TOKEN" \
+          TOKEN_ARGS=""
+          for name in ${APP_TOKEN_ENVS:-PLATFORM_TOKEN}; do TOKEN_ARGS="$TOKEN_ARGS -e $name=$GATE_PLATFORM_TOKEN"; done
+          docker exec $TOKEN_ARGS \
             -e STORE_DOCKER_HEALTH=200 \
             -e STORE_POSTGRES_BOOT="${STORE_POSTGRES_BOOT:-0}" \
             -e STORE_AUDIT_CLEAN="${STORE_AUDIT_CLEAN:-}" \
@@ -530,11 +544,14 @@ jobs:
               for line in lines:
                   if line["name"] in typed:
                       line["evidence_rows"] = list(line.get("evidence_rows") or []) + list(typed[line["name"]])
-          # The product's own verdict: the LAST "ACCEPTANCE: k/N" line.
-          scores = re.findall(r"^ACCEPTANCE:\s*(\d+)\s*/\s*(\d+)\s*$", text, re.MULTILINE)
-          if scores:
-              passed, total = (int(x) for x in scores[-1])
-              ok = total > 0 and passed == total
+          # The product's own verdict: the LAST score line the harness printed
+          # -- "ACCEPTANCE: k/N" or a summary carrying its own verdict such as
+          # "STORE k/N ok=True" (gate_contract.parse_score).
+          sys.path.insert(0, ".github/store_gate")
+          from gate_contract import parse_score
+          parsed = parse_score(text)
+          if parsed:
+              passed, total, ok = parsed
               score = f"{passed}/{total}"
           else:
               passed, total, ok = 0, 0, False

@@ -365,6 +365,7 @@ def test_a_service_whose_image_never_pulled_is_named_by_the_scorer(tmp_path):
     """Job 115104003598: the postgres pull failed and the result read "no
     score" naming nothing. The Start Postgres step now names the image."""
     (tmp_path / "work").mkdir()
+    _gate_tree(tmp_path / "work")  # the gate always runs with its helpers (B-2: parse_score)
     (tmp_path / "work" / "image_pull_failed.txt").write_text(
         "image pull failed: ghcr.io/acme/mirror/postgres:16@sha256:x (ghcr.io/acme/mirror/postgres@sha256:x: unauthorized)\n",
         encoding="utf-8",
@@ -398,6 +399,7 @@ def test_a_base_image_that_never_pulled_is_named_by_the_scorer(tmp_path):
 @pytest.mark.skipif(BASH is None, reason="bash is required to run the step")
 def test_started_services_and_pulled_bases_are_scored_as_always(tmp_path):
     (tmp_path / "work").mkdir()
+    _gate_tree(tmp_path / "work")  # the gate always runs with its helpers (B-2: parse_score)
     (tmp_path / "work" / "acceptance.out").write_text("PASS a - ok\nACCEPTANCE: 1/1\n", encoding="utf-8")
     proc, _, work = _run(tmp_path, PARSE, _service_env())
     report = json.loads((work / "store_gate.json").read_text(encoding="utf-8"))
