@@ -223,11 +223,49 @@ def test_every_container_gets_the_token_under_the_recorded_names():
 @pytest.mark.parametrize(
     "printed, want",
     [
-        ("PASS a\nFAIL b\nACCEPTANCE: 1/2\nPASS a\nPASS b\nSTORE 2/2 ok=True\n", (2, 2, True)),
-        ("PASS a\nPASS b\nSTORE 2/2 ok=True\nPASS a\nFAIL b\nACCEPTANCE: 1/2\n", (1, 2, False)),
-        ("FAIL a\nFAIL b\nACCEPTANCE: 0/2\nPASS a\nPASS b\nACCEPTANCE: 2/2\nEXTRA 0/9\n", (2, 2, True)),
-        ("PASS a\nPASS b\nSTORE 2/2 ok=True\nPASS a\nFAIL b\nSTORE 1/2 ok=False\n", (1, 2, False)),
+        ("PASS a\nFAIL b\nACCEPTANCE: 1/2\nPASS c\nPASS d\nSTORE 3/4 ok=False\n", (3, 4, False)),
+        ("PASS a\nPASS b\nSTORE 2/2 ok=True\nPASS c\nFAIL d\nACCEPTANCE: 3/4\n", (3, 4, False)),
+        ("PASS a\nACCEPTANCE: 1/1\nPASS b\nACCEPTANCE: 2/2\nEXTRA 0/9\n", (2, 2, True)),
+        ("PASS a\nPASS b\nSTORE 2/2 ok=True\nFAIL c\nSTORE 2/3 ok=False\n", (2, 3, False)),
     ],
 )
 def test_the_last_score_line_wins_across_formats(printed, want):
     assert gate_contract.parse_score(printed) == want
+
+
+# -- 0915Z: NOT_RUN counts in N, never in k; N and FAIL span the whole output ----------------
+
+
+def test_not_run_counts_in_n_never_in_k():
+    assert gate_contract.parse_score("PASS a\nNOT_RUN b\n") == (1, 2, False)
+
+
+@pytest.mark.parametrize(
+    "printed, want",
+    [
+        ("FAIL a\nNOT_RUN b\nNOT_RUN c\nACCEPTANCE: 0/3\n", (0, 3, False)),
+        ("PASS a\nNOT_RUN b\nSTORE 1/2 ok=False\n", (1, 2, False)),
+    ],
+)
+def test_a_backed_summary_with_not_run_is_accepted(printed, want):
+    assert gate_contract.parse_score(printed) == want
+
+
+@pytest.mark.parametrize(
+    "printed",
+    ["PASS a\nNOT_RUN b\nACCEPTANCE: 1/1\n", "PASS a\nNOT_RUN b\nSTORE 2/2 ok=True\n"],
+)
+def test_an_unbacked_summary_with_not_run_is_refused(printed):
+    assert gate_contract.parse_score(printed) is None
+
+
+@pytest.mark.parametrize(
+    "printed",
+    [
+        "PASS a\nFAIL b\nACCEPTANCE: 1/2\nPASS c\nACCEPTANCE: 1/1\n",
+        "FAIL a\nSTORE 0/1 ok=False\nPASS b\nPASS c\nSTORE 2/2 ok=True\n",
+    ],
+)
+def test_a_fail_in_an_earlier_segment_keeps_the_run_red(printed):
+    got = gate_contract.parse_score(printed)
+    assert got is None or got[2] is False

@@ -4,14 +4,14 @@ itself prints and declares. Nothing here names a product.
 * ``parse_score(text)`` -- the gate works the score out ITSELF from the per-row
   statuses the harness printed (``PASS``/``FAIL``/``SKIP`` lines, and the
   gate's own ``NOT_RUN``): k = PASS rows only (SKIP never counts), N = all rows.
-  A summary line -- ``ACCEPTANCE: k/N`` or ``<LABEL> k/N ok=<bool>`` -- is only
-  a claim: it is accepted when the rows printed since the previous summary back
-  it exactly (same k, same N, a declared verdict equal to k == N, and no
-  status row after the last summary). Any summary those rows do not back,
-  including a summary with no rows at all, is REFUSED: no score, so the gate
-  is red. The LAST summary line wins. ``<LABEL> k/N`` with no verdict (an
-  informational ``EXTRA 3/4``) is not a summary. Rows with no summary: the
-  derived score.
+  Rows are counted over the WHOLE output, and a FAIL row anywhere makes the
+  result red. A summary line -- ``ACCEPTANCE: k/N`` or ``<LABEL> k/N
+  ok=<bool>`` -- is only a claim. The LAST summary line is the one that must
+  match the whole-output count (same k, same N, a declared verdict equal to
+  k == N); where rows sit between summaries is informational only. A summary
+  the rows do not back, including one with no rows at all, is REFUSED: no
+  score, so the gate is red. ``<LABEL> k/N`` with no verdict (an informational
+  ``EXTRA 3/4``) is not a summary. Rows with no summary: the derived score.
 * ``token_env_names(harness)`` -- the environment variable names the product's
   own harness reads its bearer token from (``*_TOKEN`` read through
   ``os.environ[...]``, ``os.environ.get``, ``os.environ.setdefault`` or
@@ -42,34 +42,31 @@ GATE_TOKEN_ENV = "PLATFORM_TOKEN"
 def parse_score(text: str) -> Optional[Tuple[int, int, bool]]:
     """Return (passed, total, ok) derived from per-row statuses, or None
     (refused / nothing measured)."""
-    passed = total = 0  # rows since the previous summary
-    last = None  # (claimed k, claimed N, declared ok, rows passed, rows total)
-    trailing = False
+    passed = total = failed = 0  # rows across the whole output
+    last = None  # (claimed k, claimed N, declared ok) of the last summary
     for raw in (text or "").splitlines():
         line = raw.strip()
         row = _ROW.match(line)
         if row:
             total += 1
             passed += row.group("status") == "PASS"
-            trailing = last is not None
+            failed += row.group("status") == "FAIL"
             continue
         m = _SCORE.match(line)
         if not m or (m.group("label") is not None and m.group("ok") is None):
             continue  # not a summary (an informational k/N carries no verdict)
-        last = (int(m.group("k")), int(m.group("n")), m.group("ok"), passed, total)
-        passed = total = 0
-        trailing = False
+        last = (int(m.group("k")), int(m.group("n")), m.group("ok"))
+    if total == 0:
+        return None  # nothing measured; a summary alone is not backed
+    ok = failed == 0 and passed == total
     if last is None:
-        if total == 0:
-            return None
-        return passed, total, passed == total
-    k, n, declared, rows_passed, rows_total = last
-    if trailing or rows_total == 0 or (k, n) != (rows_passed, rows_total):
-        return None  # a summary the rows do not back is refused
-    ok = rows_total > 0 and rows_passed == rows_total
+        return passed, total, ok
+    k, n, declared = last
+    if (k, n) != (passed, total):
+        return None  # the last summary is not the whole-output count: refused
     if declared is not None and (declared.lower() == "true") != ok:
         return None
-    return rows_passed, rows_total, ok
+    return passed, total, ok
 
 
 def _env_name(node: ast.AST) -> Optional[str]:
