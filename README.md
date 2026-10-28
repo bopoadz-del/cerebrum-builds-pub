@@ -1,33 +1,33 @@
 # Cerebrum Builds
 
-The certified-build store of the Cerebrum platform. Each build is a complete
-vertical platform that the **CerebrumDev.ai Factory** assembled from certified
-**Cerebrum-Blocks** kernels and put through the build gate.
+The Fork (the-shovel) was built first, by hand, from block code; its blocks were extracted to create the Store (cerebrum-blocks); the Factory (CerebrumDev.ai) was built on the Store afterwards. The Fork is not a Factory product.
+
+Its role: the certified-build store — the platform builds the CerebrumDev.ai Factory produces land here.
 
 ## What lands here
 
-A certified build lands as a `build/plt_<id>` branch carrying that platform's
-full tree — the FastAPI app, the vendored certified blocks, the pinned
-`blocks.lock.json`, the `Dockerfile`, tests, and the build receipt. The
-Factory's COLLECTOR surveys this repo so an already-built platform is reused
-instead of rebuilt.
+Each certified build is a complete vertical platform the Factory assembled from
+certified Cerebrum-Blocks kernels. A build lands as a `build/plt_<id>` branch
+carrying that platform's full tree — the FastAPI app, the vendored certified
+blocks, the pinned `blocks.lock.json`, the `Dockerfile`, tests, and the build
+receipt. The Factory's COLLECTOR surveys this repo so an already-built platform
+is reused instead of rebuilt.
 
-## Lineage
+`main` holds the build gate and nothing else — no platform tree lives on
+`main`; every build is its own `build/plt_*` branch.
 
-- **The Store — Cerebrum-Blocks:** the certified capability inventory.
-- **The Factory — CerebrumDev.ai:** assembles blocks into a governed,
-  deployable platform.
-- **The Builds — this repo:** the certified platform builds the Factory ships.
+## The gate
 
-## Deploy and gate
+The gate runs in GitHub Actions: it `docker build`s the artifact image and runs
+`scripts/acceptance.py` inside it. Acceptance is a **k/N contract** — N measured
+checks, k of them passing — and a build is certified only at the required k/N;
+below it the build is not certified. A build packages as a container
+(`Dockerfile`) for the platform's own AWS deployment; the build itself is not a
+live service.
 
-A build packages as a container (`Dockerfile`) for the platform's own AWS
-deployment; the build itself is not a live service. The build gate runs in
-GitHub Actions (Docker build + `scripts/acceptance.py`) and must pass before a
-build is certified.
+## Auth convention
 
-## Run a build locally
-
-```
-uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
-```
+Generated platforms gate mutating routes behind token env vars (for example
+`OPERATOR_TOKEN` and `ADMIN_TOKEN`), and restrict CORS to `CORS_ALLOWLIST` (a
+wildcard is refused). A client-supplied `actor` / `user_id` is a claimed value
+only.
