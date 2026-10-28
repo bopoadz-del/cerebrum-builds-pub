@@ -269,3 +269,14 @@ def test_an_unbacked_summary_with_not_run_is_refused(printed):
 def test_a_fail_in_an_earlier_segment_keeps_the_run_red(printed):
     got = gate_contract.parse_score(printed)
     assert got is None or got[2] is False
+
+
+# -- 0930Z: the claimed k must equal the PASS rows (S5) -----------------------------------------
+
+
+@pytest.mark.parametrize(
+    "printed",
+    ["PASS a\nPASS b\nACCEPTANCE: 1/2\n", "PASS a\nFAIL b\nSTORE 2/2 ok=False\n"],
+)
+def test_a_summary_whose_k_is_not_the_pass_rows_is_refused(printed):
+    assert gate_contract.parse_score(printed) is None
