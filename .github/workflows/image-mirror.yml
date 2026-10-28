@@ -1,0 +1,94 @@
+# Image mirror: every image the Store gate, its replay and the builds pull,
+# copied BY DIGEST into the account's own GitHub Container Registry
+# (ghcr.io/<owner>/mirror/<name>), so no run depends on a public registry's
+# anonymous pull limit. Live 2026-10-13: ECR Public answered "toomanyrequests:
+# Data limit exceeded" to the replay runners (runs 38348113721, 38350862279)
+# for the postgres service image and the products' base images, after Docker
+# Hub's 429s had been routed around (2026-10-09).
+#
+# The list is DERIVED, never kept by hand: every workflow's `image:` keys
+# here and every branch's Dockerfile FROM lines (what the gate builds, the
+# known-bad fixtures included). Only this repository's own images: a ghcr
+# package is readable by the repository that published it, so every other
+# repository of the account publishes its own mirror from its own workflow.
+# A floating tag is re-resolved weekly; a digest pin is copied as itself.
+#
+# Only the built-in GITHUB_TOKEN (packages: write) -- no other secret.
+
+name: Image mirror
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 4 * * 1"
+  # A change to the mirror itself is mirrored and read back before merge.
+  pull_request:
+    paths:
+      - ".github/workflows/image-mirror.yml"
+      - ".github/store_gate/base_images.py"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: image-mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    name: mirror base images to ghcr.io (by digest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      IMAGE_MIRROR: ghcr.io/${{ github.repository_owner }}/mirror
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Every branch: their Dockerfiles are what the gate builds.
+          fetch-depth: 0
+
+      - name: Derive the images the gate and the builds pull
+        run: |
+          set -euo pipefail
+          python3 -c "import yaml" 2>/dev/null || python3 -m pip install --quiet pyyaml
+          mkdir -p "$RUNNER_TEMP/dockerfiles"
+          n=0
+          while IFS= read -r ref; do
+            if git cat-file -e "${ref}:Dockerfile" 2>/dev/null; then
+              n=$((n + 1))
+              git show "${ref}:Dockerfile" > "$RUNNER_TEMP/dockerfiles/${n}.Dockerfile"
+            fi
+          done < <(git for-each-ref --format='%(refname)' refs/remotes/origin)
+          echo "Dockerfiles read from ${n} branches"
+          python3 .github/store_gate/base_images.py derive "$IMAGE_MIRROR" \
+            .github/workflows/*.yml "$RUNNER_TEMP"/dockerfiles/*.Dockerfile \
+            > "$RUNNER_TEMP/images.txt"
+          cat "$RUNNER_TEMP/images.txt"
+
+      - name: Log in to ghcr.io with the built-in token
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ github.token }}
+        run: printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+
+      - name: Copy each image in by digest and read it back
+        run: |
+          set -uo pipefail
+          python3 .github/store_gate/base_images.py mirror "$IMAGE_MIRROR" mirror_lock.json "$RUNNER_TEMP/images.txt"
+          code=$?
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          rows = json.load(open("mirror_lock.json", encoding="utf-8"))
+          print("## Image mirror\n\n| upstream | mirror (by digest) |\n|---|---|")
+          for r in rows:
+              print(f"| `{r['upstream']}` | {('`' + r['mirrored'] + '`') if r['mirrored'] else 'NOT MIRRORED: ' + r['error']} |")
+          PY
+          exit "$code"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mirror-lock
+          path: mirror_lock.json
+          if-no-files-found: warn

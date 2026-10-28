@@ -33,26 +33,6 @@ on:
         description: The build branch to gate (build/plt_*).
         type: string
         required: true
-  # The gate REPLAY (gate-replay.yml, owner rule 2026-10-08): the same gate,
-  # run on a build it already certified, with the gate scripts -- and, for a
-  # Factory change, the Factory-rendered files -- under change. A replay never
-  # writes the build's commit status and never fails on the score: the
-  # replay's own verdict job compares the result with the certified one.
-  workflow_call:
-    inputs:
-      product_sha:
-        description: The certified build commit to gate.
-        type: string
-        required: true
-      replay_label:
-        description: Names this replay's artifact; set only by the gate replay.
-        type: string
-        required: true
-      overlay_artifact:
-        description: Artifact of Factory-rendered files laid over the build before it is gated.
-        type: string
-        required: false
-        default: ""
 
 permissions:
   contents: read
@@ -70,15 +50,12 @@ jobs:
       # Throwaway values for the gate's own containers, generated per run (no value is stored in the repo).
       GATE_PG_PASSWORD: gate-pg-${{ github.run_id }}-${{ github.run_attempt }}
       GATE_PLATFORM_TOKEN: gate-token-${{ github.run_id }}-${{ github.run_attempt }}
-      REPLAY_LABEL: ${{ inputs.replay_label }}
-      PRODUCT_SHA: ${{ inputs.product_sha }}
       # The gate's own service images, "<name>=<image>": pulled by the "Start
       # Postgres" step (base_images.py pull), mirrored by image-mirror.yml
       # (derived from this key), named by the scorer when a pull fails.
       GATE_SERVICE_IMAGES: postgres=ghcr.io/${{ github.repository_owner }}/mirror/postgres:16@sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d
     steps:
       - name: Refuse a dispatch that does not name a build branch
-        if: ${{ !inputs.replay_label }}
         env:
           BUILD_REF: ${{ inputs.build_ref }}
         run: |
@@ -89,14 +66,13 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          # A dispatch: the named build branch. A replay: the certified commit.
-          ref: ${{ inputs.product_sha || inputs.build_ref }}
+          # The named build branch.
+          ref: ${{ inputs.build_ref }}
 
       - name: Record the commit under test
         run: echo "BUILD_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
 
       - name: Check out the gate helpers from this workflow's commit
-        if: ${{ !inputs.replay_label }}
         uses: actions/checkout@v4
         with:
           ref: ${{ github.workflow_sha }}
@@ -104,7 +80,6 @@ jobs:
           sparse-checkout: .github/store_gate
 
       - name: Use the gate helpers from this workflow's commit
-        if: ${{ !inputs.replay_label }}
         run: |
           set -euo pipefail
           rm -rf .github/store_gate
@@ -125,7 +100,6 @@ jobs:
         # the current gate (the Factory does so before it dispatches). An
         # unverifiable comparison is the same "no score". A replay runs the
         # gate under change by design and is judged by its own verdict job.
-        if: ${{ !inputs.replay_label }}
         env:
           GATE_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GATE_WORKFLOW_SHA: ${{ github.workflow_sha }}
@@ -167,28 +141,6 @@ jobs:
           # Fail the step: every scoring step after it is skipped, and the
           # always() steps record "no score" from gate_code_stale.txt.
           exit 1
-
-      - name: Check out the gate scripts under replay
-        if: ${{ inputs.replay_label }}
-        uses: actions/checkout@v4
-        with:
-          path: _gate_under_replay
-
-      - name: Use the gate scripts under replay
-        if: ${{ inputs.replay_label }}
-        run: |
-          set -euo pipefail
-          rm -rf .github/store_gate
-          mkdir -p .github
-          cp -R _gate_under_replay/.github/store_gate .github/store_gate
-          rm -rf _gate_under_replay
-
-      - name: Lay the Factory files under replay over the build
-        if: ${{ inputs.overlay_artifact }}
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ inputs.overlay_artifact }}
-          path: .
 
       - name: Start Postgres (gate infrastructure)
         # A step, never a `services:` container: a service that cannot be
@@ -649,7 +601,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.replay_label && format('gate-replay-{0}', inputs.replay_label) || format('store-gate-{0}', github.sha) }}
+          name: store-gate-${{ github.sha }}
           path: |
             store_gate.json
             acceptance.out
@@ -663,7 +615,7 @@ jobs:
         # Factory polled, timed out, and could not say which check failed
         # (2026-10-04, two builds scored 19/22 and 20/22 with no status).
         # A replay never writes it: the build's status is its certified verdict.
-        if: ${{ always() && !inputs.replay_label }}
+        if: ${{ always() }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
