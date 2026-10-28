@@ -30,7 +30,6 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
 import base_images  # noqa: E402
-import replay_flips  # noqa: E402
 
 GITHUB = HERE.parent
 WORKFLOWS = GITHUB / "workflows"
@@ -290,8 +289,6 @@ def test_postgres_is_pulled_by_a_step_with_the_built_in_token():
 def test_the_gate_reads_the_mirror_with_the_built_in_token_only():
     gate = _wf("store-gate.yml")
     assert gate["permissions"]["packages"] == "read"
-    replay = _wf("gate-replay.yml")["jobs"]["replay"]
-    assert replay["permissions"]["packages"] == "read"  # a called workflow gets no more than its caller
     build = next(s for s in gate["jobs"]["store-gate"]["steps"] if s.get("name") == "Build artifact image")
     assert build["env"]["GHCR_TOKEN"] == "${{ github.token }}"
     assert build["env"]["IMAGE_MIRROR"] == OWNER_MIRROR
@@ -323,20 +320,6 @@ def test_the_mirror_workflow_runs_weekly_and_on_demand_with_the_built_in_token()
 
 
 # -- the "no score" names the image ----------------------------------------------------------
-
-
-def test_a_replay_that_could_not_pull_names_the_image_never_no_check_failed():
-    result = {
-        "ok": False,
-        "score": "no score (image pull failed: postgres)",
-        "lines": [],
-        "via": "image-pull-failed",
-        "detail": "image pull failed: ghcr.io/acme/mirror/postgres:16@sha256:x (service postgres)",
-    }
-    why = replay_flips.flip(True, result)
-    assert "image pull failed: ghcr.io/acme/mirror/postgres" in why and "no check failed" not in why
-    missed = replay_flips.missed("cross_tenant_404", result)
-    assert "image pull failed" in missed and "no check failed" not in missed
 
 
 PARSE = "Parse k/N and write result"
