@@ -9,7 +9,7 @@
 # here and refused by the Factory, which requires k/N of ITS floor. The gate
 # now keeps no list at all: it runs the product's own scripts/acceptance.py --
 # which the Factory renders from its floor -- and reports the
-# "ACCEPTANCE: k/N" that script prints. Green only when k == N.
+# score that script prints ("ACCEPTANCE: k/N" or "<LABEL> k/N ok=..."). Green only when k == N.
 #
 # It also MEASURES what only a gate can: the image is booted once against a
 # real Postgres to feed postgres_boot_200, instead of leaving it unmeasured.
@@ -24,26 +24,15 @@ on:
   # (live 2026-10-01: two "Store acceptance gate" runs per push) — a duplicate
   # gate execution, never a distinct result. One trigger, one run.
   workflow_dispatch:
-  # The gate REPLAY (gate-replay.yml, owner rule 2026-10-08): the same gate,
-  # run on a build it already certified, with the gate scripts -- and, for a
-  # Factory change, the Factory-rendered files -- under change. A replay never
-  # writes the build's commit status and never fails on the score: the
-  # replay's own verdict job compares the result with the certified one.
-  workflow_call:
+    # main carries only this gate; the product lives on its build branch.
+    # A dispatch names that branch: it is checked out, Docker-built and
+    # judged by ITS OWN scripts/acceptance.py. The gate helpers always come
+    # from this workflow's commit (main), never from the branch.
     inputs:
-      product_sha:
-        description: The certified build commit to gate.
+      build_ref:
+        description: The build branch to gate (build/plt_*).
         type: string
         required: true
-      replay_label:
-        description: Names this replay's artifact; set only by the gate replay.
-        type: string
-        required: true
-      overlay_artifact:
-        description: Artifact of Factory-rendered files laid over the build before it is gated.
-        type: string
-        required: false
-        default: ""
 
 permissions:
   contents: read
@@ -61,17 +50,42 @@ jobs:
       # Throwaway values for the gate's own containers, generated per run (no value is stored in the repo).
       GATE_PG_PASSWORD: gate-pg-${{ github.run_id }}-${{ github.run_attempt }}
       GATE_PLATFORM_TOKEN: gate-token-${{ github.run_id }}-${{ github.run_attempt }}
-      REPLAY_LABEL: ${{ inputs.replay_label }}
-      PRODUCT_SHA: ${{ inputs.product_sha }}
       # The gate's own service images, "<name>=<image>": pulled by the "Start
       # Postgres" step (base_images.py pull), mirrored by image-mirror.yml
       # (derived from this key), named by the scorer when a pull fails.
       GATE_SERVICE_IMAGES: postgres=ghcr.io/${{ github.repository_owner }}/mirror/postgres:16@sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d
     steps:
+      - name: Refuse a dispatch that does not name a build branch
+        env:
+          BUILD_REF: ${{ inputs.build_ref }}
+        run: |
+          case "${BUILD_REF:-}" in
+            build/plt_*) echo "gating ${BUILD_REF}" ;;
+            *) echo "build_ref must name a build/plt_* branch, got '${BUILD_REF:-}'"; exit 1 ;;
+          esac
+
       - uses: actions/checkout@v4
         with:
-          # Empty (a dispatch on a build branch): that branch, as always.
-          ref: ${{ inputs.product_sha }}
+          # The named build branch.
+          ref: ${{ inputs.build_ref }}
+
+      - name: Record the commit under test
+        run: echo "BUILD_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Check out the gate helpers from this workflow's commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: _gate_main
+          sparse-checkout: .github/store_gate
+
+      - name: Use the gate helpers from this workflow's commit
+        run: |
+          set -euo pipefail
+          rm -rf .github/store_gate
+          mkdir -p .github
+          cp -R _gate_main/.github/store_gate .github/store_gate
+          rm -rf _gate_main
 
       - name: Verify the gate code is the default branch's
         # A dispatch runs THIS file and the helpers under .github/store_gate/
@@ -86,7 +100,6 @@ jobs:
         # the current gate (the Factory does so before it dispatches). An
         # unverifiable comparison is the same "no score". A replay runs the
         # gate under change by design and is judged by its own verdict job.
-        if: ${{ !inputs.replay_label }}
         env:
           GATE_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GATE_WORKFLOW_SHA: ${{ github.workflow_sha }}
@@ -129,27 +142,13 @@ jobs:
           # always() steps record "no score" from gate_code_stale.txt.
           exit 1
 
-      - name: Check out the gate scripts under replay
-        if: ${{ inputs.replay_label }}
-        uses: actions/checkout@v4
-        with:
-          path: _gate_under_replay
-
-      - name: Use the gate scripts under replay
-        if: ${{ inputs.replay_label }}
-        run: |
-          set -euo pipefail
-          rm -rf .github/store_gate
-          mkdir -p .github
-          cp -R _gate_under_replay/.github/store_gate .github/store_gate
-          rm -rf _gate_under_replay
-
-      - name: Lay the Factory files under replay over the build
-        if: ${{ inputs.overlay_artifact }}
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ inputs.overlay_artifact }}
-          path: .
+      - name: Read the token names the product's harness uses
+        # The gate's per-run token is handed to the container under the gate's
+        # own name AND every *_TOKEN name the branch's scripts/acceptance.py
+        # reads (gate_contract.py token-envs), so the booted app and the
+        # harness agree on one token whatever the generated app calls it.
+        # Names only -- no value is written here.
+        run: echo "APP_TOKEN_ENVS=$(python3 .github/store_gate/gate_contract.py token-envs scripts/acceptance.py)" >> "$GITHUB_ENV"
 
       - name: Start Postgres (gate infrastructure)
         # A step, never a `services:` container: a service that cannot be
@@ -308,11 +307,13 @@ jobs:
           # password (user and password passed as one printf argument), so no
           # credential form is ever in the workflow text.
           printf 'DATABASE_URL=postgresql://%s@host.docker.internal:5432/postgres\n' "postgres:$GATE_PG_PASSWORD" > pg_probe.env
+          TOKEN_ARGS=""
+          for name in ${APP_TOKEN_ENVS:-PLATFORM_TOKEN}; do TOKEN_ARGS="$TOKEN_ARGS -e $name=$GATE_PLATFORM_TOKEN"; done
           set +e
           docker run -d --name "$PROBE" \
             --add-host=host.docker.internal:host-gateway \
             --env-file pg_probe.env \
-            -e PLATFORM_TOKEN="$GATE_PLATFORM_TOKEN" \
+            $TOKEN_ARGS \
             $STORAGE_MOUNT_ARGS_PG \
             cerebrum-artifact:${{ github.sha }} >/dev/null 2>pg_create.err
           created=$?
@@ -422,9 +423,11 @@ jobs:
           # what the product's .dockerignore lets in, and leaving .github/
           # out of a served image is the product's call, not a missing file.
           REPO_MOUNT_ARGS=$(python3 .github/store_gate/repo_mount.py scripts/acceptance.py "$PWD" || true)
+          TOKEN_ARGS=""
+          for name in ${APP_TOKEN_ENVS:-PLATFORM_TOKEN}; do TOKEN_ARGS="$TOKEN_ARGS -e $name=$GATE_PLATFORM_TOKEN"; done
           set +e
           docker run -d --name "$CONTAINER" \
-            -e PLATFORM_TOKEN="$GATE_PLATFORM_TOKEN" \
+            $TOKEN_ARGS \
             $STORAGE_MOUNT_ARGS \
             $REPO_MOUNT_ARGS \
             cerebrum-artifact:${{ github.sha }} 2>container_create.err
@@ -481,13 +484,15 @@ jobs:
               docker cp scripts/acceptance.py "$CONTAINER:$HARNESS_PATH" || true
               ;;
           esac
-          docker exec -e PLATFORM_TOKEN="$GATE_PLATFORM_TOKEN" \
+          TOKEN_ARGS=""
+          for name in ${APP_TOKEN_ENVS:-PLATFORM_TOKEN}; do TOKEN_ARGS="$TOKEN_ARGS -e $name=$GATE_PLATFORM_TOKEN"; done
+          docker exec $TOKEN_ARGS \
             -e STORE_DOCKER_HEALTH=200 \
             -e STORE_POSTGRES_BOOT="${STORE_POSTGRES_BOOT:-0}" \
             -e STORE_AUDIT_CLEAN="${STORE_AUDIT_CLEAN:-}" \
             $HARNESS_ENV \
             "$CONTAINER" python3 "$HARNESS_PATH" | tee acceptance.out || rc=$?
-          # A replay's score is data for its verdict job (replay_flips.py) --
+          # A replay's score is data for its verdict job (replays now run in the Factory: .github/gate_replay/replay_in_factory.py) --
           # a known-bad build failing here is the replay working -- never this
           # job's exit. A dispatched gate keeps the harness's own exit code.
           if [ -n "${REPLAY_LABEL:-}" ]; then exit 0; fi
@@ -539,11 +544,14 @@ jobs:
               for line in lines:
                   if line["name"] in typed:
                       line["evidence_rows"] = list(line.get("evidence_rows") or []) + list(typed[line["name"]])
-          # The product's own verdict: the LAST "ACCEPTANCE: k/N" line.
-          scores = re.findall(r"^ACCEPTANCE:\s*(\d+)\s*/\s*(\d+)\s*$", text, re.MULTILINE)
-          if scores:
-              passed, total = (int(x) for x in scores[-1])
-              ok = total > 0 and passed == total
+          # The gate derives k/N itself from the per-row statuses (k = PASS
+          # rows, SKIP never counts, N = all rows); a summary line the rows do
+          # not back is refused -> no score (gate_contract.parse_score).
+          sys.path.insert(0, ".github/store_gate")
+          from gate_contract import parse_score
+          parsed = parse_score(text)
+          if parsed:
+              passed, total, ok = parsed
               score = f"{passed}/{total}"
           else:
               passed, total, ok = 0, 0, False
@@ -594,7 +602,7 @@ jobs:
               "score": score,
               "lines": lines,
               "checks": [line["name"] for line in lines],
-              "sha": os.environ.get("PRODUCT_SHA") or os.environ.get("GITHUB_SHA", ""),
+              "sha": os.environ.get("BUILD_SHA") or os.environ.get("PRODUCT_SHA") or os.environ.get("GITHUB_SHA", ""),
               "via": via,
           }
           if detail:
@@ -610,7 +618,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.replay_label && format('gate-replay-{0}', inputs.replay_label) || format('store-gate-{0}', github.sha) }}
+          name: store-gate-${{ github.sha }}
           path: |
             store_gate.json
             acceptance.out
@@ -624,7 +632,7 @@ jobs:
         # Factory polled, timed out, and could not say which check failed
         # (2026-10-04, two builds scored 19/22 and 20/22 with no status).
         # A replay never writes it: the build's status is its certified verdict.
-        if: ${{ always() && !inputs.replay_label }}
+        if: ${{ always() }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -653,7 +661,7 @@ jobs:
           # fit is dropped by the Factory's parser, never guessed at.
           description="${description:0:140}"
           gh api --method POST \
-            "repos/${{ github.repository }}/statuses/${{ github.sha }}" \
+            "repos/${{ github.repository }}/statuses/${BUILD_SHA}" \
             -f state="$state" \
             -f context="store-gate" \
             -f description="${description}"

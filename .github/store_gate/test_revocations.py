@@ -25,7 +25,6 @@ import yaml
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-import replay_select  # noqa: E402
 import revocations  # noqa: E402
 
 WORKFLOW = HERE.parent / "workflows" / "revoke-certifications.yml"
@@ -86,7 +85,7 @@ def test_an_entry_missing_a_field_is_refused(tmp_path):
 
 
 def test_no_branch_name_lives_in_the_code():
-    for name in ("revocations.py", "replay_select.py"):
+    for name in ("revocations.py",):
         assert "plt_" not in (HERE / name).read_text(encoding="utf-8")
 
 
@@ -95,23 +94,6 @@ def _run(branch, sha, run_id, conclusion="success"):
         "status": "completed", "head_branch": branch, "head_sha": sha,
         "id": run_id, "conclusion": conclusion, "created_at": "2026-10-08T11:07:12Z",
     }
-
-
-def test_the_replay_skips_a_revoked_certification():
-    runs = [_run("build/plt_x", "a" * 40, 111), _run("build/plt_y", "b" * 40, 112)]
-    picked = replay_select.certified(
-        runs, lambda sha: "success", lambda b: True, 3, revoked_runs={111}
-    )
-    assert [p["branch"] for p in picked] == ["build/plt_y"]
-
-
-def test_a_regated_branch_is_selected_again():
-    # A newer successful run on the same branch is a new certification.
-    runs = [_run("build/plt_x", "a" * 40, 222), _run("build/plt_x", "a" * 40, 111)]
-    picked = replay_select.certified(
-        runs, lambda sha: "success", lambda b: True, 3, revoked_runs={111}
-    )
-    assert [p["run_id"] for p in picked] == [222]
 
 
 def test_apply_withdraws_the_status_only_while_the_revoked_run_is_newest():

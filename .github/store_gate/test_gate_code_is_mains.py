@@ -219,7 +219,7 @@ def test_a_branch_carrying_the_default_branch_s_gate_is_scored(tmp_path):
     assert proc.returncode == 0, (proc.stdout, proc.stderr)
     assert recorded.get("GATE_CODE") == "current"
     assert not (run / "gate_code_stale.txt").exists()
-    (run / "acceptance.out").write_text("ACCEPTANCE: 22/22\n", encoding="utf-8")
+    (run / "acceptance.out").write_text("PASS c - ok\n" * 22 + "ACCEPTANCE: 22/22\n", encoding="utf-8")  # 0900Z: backed by rows
     proc, _ = _run_step(run, PARSE, {"GITHUB_SHA": "f" * 40})
     report = json.loads((run / "store_gate.json").read_text(encoding="utf-8"))
     assert proc.returncode == 0 and report["ok"] is True and report["score"] == "22/22"
@@ -234,15 +234,17 @@ def test_an_unverifiable_comparison_is_no_score(tmp_path):
     assert proc.returncode != 0
 
 
-def test_the_check_runs_first_on_every_dispatch_and_never_on_a_replay():
+def test_the_check_runs_first_on_every_dispatch():
     steps = _steps()
     names = [s.get("name") for s in steps]
     verify = names.index(VERIFY)
-    # Right after the product checkout: before the replay overlay, the
-    # image build and every scoring step.
-    assert verify == 1 and "actions/checkout" in str(steps[0].get("uses"))
+    # After the build_ref guard (0), the build-branch checkout (1), the
+    # BUILD_SHA record (2) and the main-helper checkout + copy (3, 4); before
+    # the image build and every scoring step. There is no replay path on main
+    # any more, so the check is unconditional on every dispatch.
+    assert verify == 5 and "actions/checkout" in str(steps[1].get("uses"))
     step = steps[verify]
-    assert "replay_label" in str(step.get("if"))
+    assert not step.get("if")
     assert step["env"]["GATE_DEFAULT_BRANCH"] == "${{ github.event.repository.default_branch }}"
     assert step["env"]["GATE_WORKFLOW_SHA"] == "${{ github.workflow_sha }}"
     # The step fails closed: only always() steps run after it, and those are
