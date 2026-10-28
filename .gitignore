@@ -1,9 +1,0 @@
-__pycache__/
-*.pyc
-.pytest_cache/
-data/
-.venv/
-venv/
-*.egg-info/
-.coverage
-htmlcov/

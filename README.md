@@ -27,4 +27,4 @@ Mutating routes require `OPERATOR_TOKEN` / `ADMIN_TOKEN`. CORS uses `CORS_ALLOWL
 uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
 ```
 
-Render-ready (`Dockerfile` + `render.yaml`) is packaging, not a live deploy. Store gate = GHA docker + `scripts/acceptance.py`.
+Render-ready (`Dockerfile` + `render.yaml`, on the build branch) is packaging, not a live deploy. Store gate = GHA docker + the build branch's own `scripts/acceptance.py`, dispatched from main's `.github/workflows/store-gate.yml` with `build_ref`.

@@ -24,6 +24,15 @@ on:
   # (live 2026-10-01: two "Store acceptance gate" runs per push) — a duplicate
   # gate execution, never a distinct result. One trigger, one run.
   workflow_dispatch:
+    # main carries only this gate; the product lives on its build branch.
+    # A dispatch names that branch: it is checked out, Docker-built and
+    # judged by ITS OWN scripts/acceptance.py. The gate helpers always come
+    # from this workflow's commit (main), never from the branch.
+    inputs:
+      build_ref:
+        description: The build branch to gate (build/plt_*).
+        type: string
+        required: true
   # The gate REPLAY (gate-replay.yml, owner rule 2026-10-08): the same gate,
   # run on a build it already certified, with the gate scripts -- and, for a
   # Factory change, the Factory-rendered files -- under change. A replay never
@@ -68,10 +77,40 @@ jobs:
       # (derived from this key), named by the scorer when a pull fails.
       GATE_SERVICE_IMAGES: postgres=ghcr.io/${{ github.repository_owner }}/mirror/postgres:16@sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d
     steps:
+      - name: Refuse a dispatch that does not name a build branch
+        if: ${{ !inputs.replay_label }}
+        env:
+          BUILD_REF: ${{ inputs.build_ref }}
+        run: |
+          case "${BUILD_REF:-}" in
+            build/plt_*) echo "gating ${BUILD_REF}" ;;
+            *) echo "build_ref must name a build/plt_* branch, got '${BUILD_REF:-}'"; exit 1 ;;
+          esac
+
       - uses: actions/checkout@v4
         with:
-          # Empty (a dispatch on a build branch): that branch, as always.
-          ref: ${{ inputs.product_sha }}
+          # A dispatch: the named build branch. A replay: the certified commit.
+          ref: ${{ inputs.product_sha || inputs.build_ref }}
+
+      - name: Record the commit under test
+        run: echo "BUILD_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Check out the gate helpers from this workflow's commit
+        if: ${{ !inputs.replay_label }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: _gate_main
+          sparse-checkout: .github/store_gate
+
+      - name: Use the gate helpers from this workflow's commit
+        if: ${{ !inputs.replay_label }}
+        run: |
+          set -euo pipefail
+          rm -rf .github/store_gate
+          mkdir -p .github
+          cp -R _gate_main/.github/store_gate .github/store_gate
+          rm -rf _gate_main
 
       - name: Verify the gate code is the default branch's
         # A dispatch runs THIS file and the helpers under .github/store_gate/
@@ -594,7 +633,7 @@ jobs:
               "score": score,
               "lines": lines,
               "checks": [line["name"] for line in lines],
-              "sha": os.environ.get("PRODUCT_SHA") or os.environ.get("GITHUB_SHA", ""),
+              "sha": os.environ.get("BUILD_SHA") or os.environ.get("PRODUCT_SHA") or os.environ.get("GITHUB_SHA", ""),
               "via": via,
           }
           if detail:
@@ -653,7 +692,7 @@ jobs:
           # fit is dropped by the Factory's parser, never guessed at.
           description="${description:0:140}"
           gh api --method POST \
-            "repos/${{ github.repository }}/statuses/${{ github.sha }}" \
+            "repos/${{ github.repository }}/statuses/${BUILD_SHA}" \
             -f state="$state" \
             -f context="store-gate" \
             -f description="${description}"
