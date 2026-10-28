@@ -64,13 +64,16 @@ def _run(run, name, env_extra=None):
 # -- fix 1: the score the gate actually prints -------------------------------------------------
 
 
+R3 = "PASS a - ok\nPASS b - ok\nPASS c - ok\n"
+
+
 @pytest.mark.parametrize(
     "printed, want",
     [
-        ("PASS a — ok\nACCEPTANCE: 22/22\n", (22, 22, True)),
-        ("PASS a — ok\nFAIL b — no\nSTORE 12/13 ok=False\nEXTRA 4/4\n", (12, 13, False)),
-        ("STORE 13/13 ok=True\nEXTRA 1/4\n", (13, 13, True)),
-        ("ACCEPTANCE: 3/5\n", (3, 5, False)),
+        (R3 + "ACCEPTANCE: 3/3\n", (3, 3, True)),
+        ("PASS a - ok\nFAIL b - no\nACCEPTANCE: 1/2\n", (1, 2, False)),
+        (R3 + "STORE 3/3 ok=True\nEXTRA 1/4\n", (3, 3, True)),
+        ("PASS a - ok\nFAIL b - no\nSTORE 1/2 ok=False\nEXTRA 4/4\n", (1, 2, False)),
     ],
 )
 def test_parse_score_reads_either_printed_format(printed, want):
@@ -79,13 +82,16 @@ def test_parse_score_reads_either_printed_format(printed, want):
 
 def test_a_line_without_its_own_verdict_is_not_the_score():
     assert gate_contract.parse_score("EXTRA 4/4\n") is None
-    assert gate_contract.parse_score("STORE 13/13 ok=False\n") == (13, 13, False)
+    assert gate_contract.parse_score("PASS a\nFAIL b\nEXTRA 2/2\n") == (1, 2, False)  # rows, derived
     assert gate_contract.parse_score("") is None
 
 
 @pytest.mark.parametrize(
     "printed, score, ok",
-    [("ACCEPTANCE: 21/22\n", "21/22", False), ("STORE 13/13 ok=True\nEXTRA 2/5\n", "13/13", True)],
+    [
+        ("PASS a\nFAIL b\nACCEPTANCE: 1/2\n", "1/2", False),
+        (R3 + "STORE 3/3 ok=True\nEXTRA 2/5\n", "3/3", True),
+    ],
 )
 def test_the_workflow_parse_step_scores_what_the_harness_printed(tmp_path, printed, score, ok):
     run = _tree(tmp_path)
@@ -94,6 +100,82 @@ def test_the_workflow_parse_step_scores_what_the_harness_printed(tmp_path, print
     report = json.loads((run / "store_gate.json").read_text(encoding="utf-8"))
     assert report["score"] == score and report["ok"] is ok, (proc.stdout, proc.stderr)
     assert proc.returncode == (0 if ok else 1)
+
+
+# -- 0900Z: the gate derives k/N from rows; SKIP never counts; unbacked summaries are refused --
+
+
+@pytest.mark.parametrize(
+    "printed",
+    [
+        "PASS boot\nSKIP x\nSKIP y\nSTORE 3/3 ok=True\n",
+        "PASS health\nSKIP a\nPASS b\nSKIP c\nGATE 4/4 ok=True\nEXTRA 1/1\n",
+    ],
+)
+def test_a_skip_inflated_summary_is_not_green(printed):
+    got = gate_contract.parse_score(printed)
+    assert got is None or got[2] is False
+
+
+@pytest.mark.parametrize(
+    "printed, want",
+    [
+        ("PASS boot\nSKIP x\nSKIP y\n", (1, 3, False)),
+        ("PASS health\nSKIP a\nPASS b\nSKIP c\n", (2, 4, False)),
+    ],
+)
+def test_skip_rows_count_in_n_never_in_k(printed, want):
+    assert gate_contract.parse_score(printed) == want
+
+
+@pytest.mark.parametrize(
+    "printed, want",
+    [
+        ("PASS boot\nPASS x\nPASS y\nSTORE 3/3 ok=True\n", (3, 3, True)),
+        ("PASS health\nPASS a\nPASS b\nPASS c\nGATE 4/4 ok=True\nEXTRA 1/1\n", (4, 4, True)),
+    ],
+)
+def test_an_honest_all_pass_summary_is_green(printed, want):
+    assert gate_contract.parse_score(printed) == want
+
+
+@pytest.mark.parametrize(
+    "printed",
+    [
+        "STORE 3/3 ok=True\n",
+        "ACCEPTANCE: 22/22\n",
+        "STORE 13/13 ok=True\nEXTRA 1/4\n",
+        "ACCEPTANCE: 3/5\n",
+    ],
+)
+def test_a_summary_only_input_gets_no_score(printed):
+    assert gate_contract.parse_score(printed) is None
+
+
+@pytest.mark.parametrize(
+    "printed",
+    [
+        "PASS a\nACCEPTANCE: 22/22\n",  # N not backed
+        "PASS a\nFAIL b\nSTORE 2/2 ok=True\n",  # k not backed
+        "PASS a\nPASS b\nSTORE 2/2 ok=False\n",  # verdict not backed
+        "PASS a\nACCEPTANCE: 1/1\nFAIL late\n",  # a row after the last summary
+    ],
+)
+def test_a_summary_the_rows_do_not_back_is_refused(printed):
+    assert gate_contract.parse_score(printed) is None
+
+
+@pytest.mark.parametrize(
+    "printed",
+    ["PASS boot\nSKIP x\nSKIP y\nSTORE 3/3 ok=True\n", "ACCEPTANCE: 22/22\n"],
+)
+def test_the_workflow_parse_step_refuses_an_unbacked_summary(tmp_path, printed):
+    run = _tree(tmp_path)
+    (run / "acceptance.out").write_text(printed, encoding="utf-8")
+    proc, _ = _run(run, PARSE)
+    report = json.loads((run / "store_gate.json").read_text(encoding="utf-8"))
+    assert report["score"] == "no score" and report["ok"] is False
+    assert proc.returncode != 0
 
 
 # -- fix 2: the token name matches the generated app's ----------------------------------------
@@ -141,10 +223,10 @@ def test_every_container_gets_the_token_under_the_recorded_names():
 @pytest.mark.parametrize(
     "printed, want",
     [
-        ("ACCEPTANCE: 1/2\nSTORE 2/2 ok=True\n", (2, 2, True)),
-        ("STORE 2/2 ok=True\nACCEPTANCE: 1/2\n", (1, 2, False)),
-        ("ACCEPTANCE: 0/4\nPASS x\nACCEPTANCE: 4/4\nEXTRA 0/9\n", (4, 4, True)),
-        ("STORE 3/3 ok=True\nFAIL y\nSTORE 2/3 ok=False\n", (2, 3, False)),
+        ("PASS a\nFAIL b\nACCEPTANCE: 1/2\nPASS a\nPASS b\nSTORE 2/2 ok=True\n", (2, 2, True)),
+        ("PASS a\nPASS b\nSTORE 2/2 ok=True\nPASS a\nFAIL b\nACCEPTANCE: 1/2\n", (1, 2, False)),
+        ("FAIL a\nFAIL b\nACCEPTANCE: 0/2\nPASS a\nPASS b\nACCEPTANCE: 2/2\nEXTRA 0/9\n", (2, 2, True)),
+        ("PASS a\nPASS b\nSTORE 2/2 ok=True\nPASS a\nFAIL b\nSTORE 1/2 ok=False\n", (1, 2, False)),
     ],
 )
 def test_the_last_score_line_wins_across_formats(printed, want):

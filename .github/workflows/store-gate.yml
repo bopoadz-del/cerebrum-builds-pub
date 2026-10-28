@@ -544,9 +544,9 @@ jobs:
               for line in lines:
                   if line["name"] in typed:
                       line["evidence_rows"] = list(line.get("evidence_rows") or []) + list(typed[line["name"]])
-          # The product's own verdict: the LAST score line the harness printed
-          # -- "ACCEPTANCE: k/N" or a summary carrying its own verdict such as
-          # "STORE k/N ok=True" (gate_contract.parse_score).
+          # The gate derives k/N itself from the per-row statuses (k = PASS
+          # rows, SKIP never counts, N = all rows); a summary line the rows do
+          # not back is refused -> no score (gate_contract.parse_score).
           sys.path.insert(0, ".github/store_gate")
           from gate_contract import parse_score
           parsed = parse_score(text)

@@ -219,7 +219,7 @@ def test_a_branch_carrying_the_default_branch_s_gate_is_scored(tmp_path):
     assert proc.returncode == 0, (proc.stdout, proc.stderr)
     assert recorded.get("GATE_CODE") == "current"
     assert not (run / "gate_code_stale.txt").exists()
-    (run / "acceptance.out").write_text("ACCEPTANCE: 22/22\n", encoding="utf-8")
+    (run / "acceptance.out").write_text("PASS c - ok\n" * 22 + "ACCEPTANCE: 22/22\n", encoding="utf-8")  # 0900Z: backed by rows
     proc, _ = _run_step(run, PARSE, {"GITHUB_SHA": "f" * 40})
     report = json.loads((run / "store_gate.json").read_text(encoding="utf-8"))
     assert proc.returncode == 0 and report["ok"] is True and report["score"] == "22/22"

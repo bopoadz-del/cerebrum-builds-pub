@@ -1,12 +1,17 @@
 """The gate's contract with the product under test, read from what the product
 itself prints and declares. Nothing here names a product.
 
-* ``parse_score(text)`` -- the score the harness actually printed. A score line
-  is either ``ACCEPTANCE: k/N`` or a summary line that carries its own verdict,
-  ``<LABEL> k/N ok=<True|False>`` (for example a harness that prints its floor as
-  ``STORE 13/13 ok=True``). A ``k/N`` line without a verdict (an informational
-  ``EXTRA 3/4``) is not a score. The LAST score line wins. Green only when
-  N > 0, k == N, and any declared verdict agrees.
+* ``parse_score(text)`` -- the gate works the score out ITSELF from the per-row
+  statuses the harness printed (``PASS``/``FAIL``/``SKIP`` lines, and the
+  gate's own ``NOT_RUN``): k = PASS rows only (SKIP never counts), N = all rows.
+  A summary line -- ``ACCEPTANCE: k/N`` or ``<LABEL> k/N ok=<bool>`` -- is only
+  a claim: it is accepted when the rows printed since the previous summary back
+  it exactly (same k, same N, a declared verdict equal to k == N, and no
+  status row after the last summary). Any summary those rows do not back,
+  including a summary with no rows at all, is REFUSED: no score, so the gate
+  is red. The LAST summary line wins. ``<LABEL> k/N`` with no verdict (an
+  informational ``EXTRA 3/4``) is not a summary. Rows with no summary: the
+  derived score.
 * ``token_env_names(harness)`` -- the environment variable names the product's
   own harness reads its bearer token from (``*_TOKEN`` read through
   ``os.environ[...]``, ``os.environ.get``, ``os.environ.setdefault`` or
@@ -25,29 +30,46 @@ from typing import List, Optional, Tuple
 
 _SCORE = re.compile(
     r"^(?:ACCEPTANCE:|(?P<label>[A-Z][A-Z0-9_]*))\s*(?P<k>\d+)\s*/\s*(?P<n>\d+)"
-    r"(?:\s+ok=(?P<ok>True|False|true|false))?\s*$",
-    re.MULTILINE,
+    r"(?:\s+ok=(?P<ok>True|False|true|false))?\s*$"
 )
+#: A per-row status line. Only PASS counts toward k; every row counts toward N.
+_ROW = re.compile(r"^(?P<status>PASS|FAIL|SKIP|NOT_RUN)\b")
 
 #: The gate's own name for its token, always passed as well.
 GATE_TOKEN_ENV = "PLATFORM_TOKEN"
 
 
 def parse_score(text: str) -> Optional[Tuple[int, int, bool]]:
-    """Return (passed, total, ok) from the last score line, or None."""
-    last = None
-    for m in _SCORE.finditer(text or ""):
-        if m.group("label") is not None and m.group("ok") is None:
-            continue  # a k/N line with no verdict of its own is not the score
-        last = m
+    """Return (passed, total, ok) derived from per-row statuses, or None
+    (refused / nothing measured)."""
+    passed = total = 0  # rows since the previous summary
+    last = None  # (claimed k, claimed N, declared ok, rows passed, rows total)
+    trailing = False
+    for raw in (text or "").splitlines():
+        line = raw.strip()
+        row = _ROW.match(line)
+        if row:
+            total += 1
+            passed += row.group("status") == "PASS"
+            trailing = last is not None
+            continue
+        m = _SCORE.match(line)
+        if not m or (m.group("label") is not None and m.group("ok") is None):
+            continue  # not a summary (an informational k/N carries no verdict)
+        last = (int(m.group("k")), int(m.group("n")), m.group("ok"), passed, total)
+        passed = total = 0
+        trailing = False
     if last is None:
+        if total == 0:
+            return None
+        return passed, total, passed == total
+    k, n, declared, rows_passed, rows_total = last
+    if trailing or rows_total == 0 or (k, n) != (rows_passed, rows_total):
+        return None  # a summary the rows do not back is refused
+    ok = rows_total > 0 and rows_passed == rows_total
+    if declared is not None and (declared.lower() == "true") != ok:
         return None
-    passed, total = int(last.group("k")), int(last.group("n"))
-    ok = total > 0 and passed == total
-    declared = last.group("ok")
-    if declared is not None:
-        ok = ok and declared.lower() == "true"
-    return passed, total, ok
+    return rows_passed, rows_total, ok
 
 
 def _env_name(node: ast.AST) -> Optional[str]:
