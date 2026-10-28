@@ -492,7 +492,7 @@ jobs:
             -e STORE_AUDIT_CLEAN="${STORE_AUDIT_CLEAN:-}" \
             $HARNESS_ENV \
             "$CONTAINER" python3 "$HARNESS_PATH" | tee acceptance.out || rc=$?
-          # A replay's score is data for its verdict job (replay_flips.py) --
+          # A replay's score is data for its verdict job (replays now run in the Factory: .github/gate_replay/replay_in_factory.py) --
           # a known-bad build failing here is the replay working -- never this
           # job's exit. A dispatched gate keeps the harness's own exit code.
           if [ -n "${REPLAY_LABEL:-}" ]; then exit 0; fi

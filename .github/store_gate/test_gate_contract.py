@@ -133,3 +133,19 @@ def test_every_container_gets_the_token_under_the_recorded_names():
         run = _step(step)["run"]
         assert 'for name in ${APP_TOKEN_ENVS:-PLATFORM_TOKEN}' in run and "$TOKEN_ARGS" in run
     assert wf.count("$TOKEN_ARGS \\") == 3  # postgres probe, gate container, harness exec
+
+
+# -- B-2 rework 1: mixed formats, multi-line, the LAST score line wins -------------------------
+
+
+@pytest.mark.parametrize(
+    "printed, want",
+    [
+        ("ACCEPTANCE: 1/2\nSTORE 2/2 ok=True\n", (2, 2, True)),
+        ("STORE 2/2 ok=True\nACCEPTANCE: 1/2\n", (1, 2, False)),
+        ("ACCEPTANCE: 0/4\nPASS x\nACCEPTANCE: 4/4\nEXTRA 0/9\n", (4, 4, True)),
+        ("STORE 3/3 ok=True\nFAIL y\nSTORE 2/3 ok=False\n", (2, 3, False)),
+    ],
+)
+def test_the_last_score_line_wins_across_formats(printed, want):
+    assert gate_contract.parse_score(printed) == want
