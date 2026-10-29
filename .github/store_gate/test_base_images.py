@@ -30,7 +30,6 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
 import base_images  # noqa: E402
-import replay_flips  # noqa: E402
 
 GITHUB = HERE.parent
 WORKFLOWS = GITHUB / "workflows"
@@ -290,8 +289,6 @@ def test_postgres_is_pulled_by_a_step_with_the_built_in_token():
 def test_the_gate_reads_the_mirror_with_the_built_in_token_only():
     gate = _wf("store-gate.yml")
     assert gate["permissions"]["packages"] == "read"
-    replay = _wf("gate-replay.yml")["jobs"]["replay"]
-    assert replay["permissions"]["packages"] == "read"  # a called workflow gets no more than its caller
     build = next(s for s in gate["jobs"]["store-gate"]["steps"] if s.get("name") == "Build artifact image")
     assert build["env"]["GHCR_TOKEN"] == "${{ github.token }}"
     assert build["env"]["IMAGE_MIRROR"] == OWNER_MIRROR
@@ -323,20 +320,6 @@ def test_the_mirror_workflow_runs_weekly_and_on_demand_with_the_built_in_token()
 
 
 # -- the "no score" names the image ----------------------------------------------------------
-
-
-def test_a_replay_that_could_not_pull_names_the_image_never_no_check_failed():
-    result = {
-        "ok": False,
-        "score": "no score (image pull failed: postgres)",
-        "lines": [],
-        "via": "image-pull-failed",
-        "detail": "image pull failed: ghcr.io/acme/mirror/postgres:16@sha256:x (service postgres)",
-    }
-    why = replay_flips.flip(True, result)
-    assert "image pull failed: ghcr.io/acme/mirror/postgres" in why and "no check failed" not in why
-    missed = replay_flips.missed("cross_tenant_404", result)
-    assert "image pull failed" in missed and "no check failed" not in missed
 
 
 PARSE = "Parse k/N and write result"
@@ -382,6 +365,7 @@ def test_a_service_whose_image_never_pulled_is_named_by_the_scorer(tmp_path):
     """Job 115104003598: the postgres pull failed and the result read "no
     score" naming nothing. The Start Postgres step now names the image."""
     (tmp_path / "work").mkdir()
+    _gate_tree(tmp_path / "work")  # the gate always runs with its helpers (B-2: parse_score)
     (tmp_path / "work" / "image_pull_failed.txt").write_text(
         "image pull failed: ghcr.io/acme/mirror/postgres:16@sha256:x (ghcr.io/acme/mirror/postgres@sha256:x: unauthorized)\n",
         encoding="utf-8",
@@ -415,6 +399,7 @@ def test_a_base_image_that_never_pulled_is_named_by_the_scorer(tmp_path):
 @pytest.mark.skipif(BASH is None, reason="bash is required to run the step")
 def test_started_services_and_pulled_bases_are_scored_as_always(tmp_path):
     (tmp_path / "work").mkdir()
+    _gate_tree(tmp_path / "work")  # the gate always runs with its helpers (B-2: parse_score)
     (tmp_path / "work" / "acceptance.out").write_text("PASS a - ok\nACCEPTANCE: 1/1\n", encoding="utf-8")
     proc, _, work = _run(tmp_path, PARSE, _service_env())
     report = json.loads((work / "store_gate.json").read_text(encoding="utf-8"))

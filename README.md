@@ -18,8 +18,9 @@ is reused instead of rebuilt.
 
 ## The gate
 
-The gate runs in GitHub Actions: it `docker build`s the artifact image and runs
-`scripts/acceptance.py` inside it. Acceptance is a **k/N contract** — N measured
+The gate runs in GitHub Actions: main's `.github/workflows/store-gate.yml` is
+dispatched with `build_ref`, `docker build`s the build branch's artifact image,
+and runs that build branch's own `scripts/acceptance.py` inside it. Acceptance is a **k/N contract** — N measured
 checks, k of them passing — and a build is certified only at the required k/N;
 below it the build is not certified. A build packages as a container
 (`Dockerfile`) for the platform's own AWS deployment; the build itself is not a

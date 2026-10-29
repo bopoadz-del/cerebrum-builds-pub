@@ -59,6 +59,16 @@ def _step_script(name: str) -> str:
     raise AssertionError(f"store-gate.yml has no step named {name!r}")
 
 
+def _job_env() -> dict:
+    """The store-gate job's env, each `${{ ... }}` expression replaced by a
+    fixed test value (no secret is involved: the job generates these)."""
+    import re
+
+    doc = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+    job_env = doc["jobs"]["store-gate"].get("env") or {}
+    return {k: re.sub(r"\$\{\{[^}]*\}\}", "test", str(v)) for k, v in job_env.items()}
+
+
 def _shim(directory: Path, name: str, body: str) -> None:
     path = directory / name
     path.write_text("#!/usr/bin/env bash\n" + body, encoding="utf-8", newline="\n")
@@ -84,6 +94,11 @@ def _run(tmp_path: Path, step: str, docker: str, *, extra_shims=(), env=None) ->
     env.setdefault("STORAGE_MOUNT_ARGS_PG", "-v storegate-pg-test:/data")
     # What the build step's own env sets: the account's mirror.
     env.setdefault("IMAGE_MIRROR", "ghcr.io/acme/mirror")
+    # What the job's own env sets (store-gate.yml jobs.store-gate.env):
+    # throwaway per-run values for the gate's own containers. The steps run
+    # under `set -u`, so the test gives them dummy values as the job does.
+    for name, value in _job_env().items():
+        env.setdefault(name, value)
     # GitHub's default for a run block with no `shell:` is `bash -e {0}`.
     proc = subprocess.run(
         [BASH, "-e", str(script)],
