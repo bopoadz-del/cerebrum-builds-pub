@@ -23,8 +23,7 @@ dispatched with `build_ref`, `docker build`s the build branch's artifact image,
 and runs that build branch's own `scripts/acceptance.py` inside it. Acceptance is a **k/N contract** — N measured
 checks, k of them passing — and a build is certified only at the required k/N;
 below it the build is not certified. A build packages as a container
-(`Dockerfile`) for the platform's own AWS deployment; the build itself is not a
-live service.
+(`Dockerfile`); the build itself is not a live service.
 
 ## Auth convention
 
