@@ -1,0 +1,46 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.sap_odata_connector"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "sap_odata_connector"
+      },
+      {
+        "type": "capability",
+        "value": "sap_odata_connector"
+      }
+    ]
+  },
+  "agent_id": "product.hat.sap_odata_connector",
+  "allowed_actions": [
+    "product.sap_odata_connector"
+  ],
+  "block_ids": [
+    "sap_odata_connector"
+  ],
+  "discipline": "sap_odata_connector",
+  "display_name": "car manufacturing platform Sap Odata Connector Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'sap_odata_connector' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "sap_odata_connector"
+  ]
+}

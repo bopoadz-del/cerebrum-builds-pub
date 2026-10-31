@@ -1,0 +1,138 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "blueprint_id": "product:product_blueprint.v1",
+  "factory": "CerebrumDev.ai",
+  "factory_commit": "39b45f643963e5ebdd15f850d3592cbc453fef8a",
+  "generated_at": "blueprint:f1cb53bf3c76d0e4788351203387f5046e6742a04c79f00ed02135802c988439",
+  "inputs_hash": "f1cb53bf3c76d0e4788351203387f5046e6742a04c79f00ed02135802c988439",
+  "kernel_version": "1.0.0",
+  "plan": {
+    "capabilities": [
+      {
+        "block_ids": [
+          "knowledge",
+          "search",
+          "vector_search",
+          "llm_enhancer",
+          "ocr"
+        ],
+        "capability_id": "document_grounded_qa",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "finance_canonical_model",
+          "finance_import",
+          "finance_data_quality",
+          "finance_reconciliation",
+          "validation"
+        ],
+        "capability_id": "supplier_cost_and_parts_pricing",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "approval_rules",
+          "notification",
+          "email",
+          "analytics",
+          "dashboard"
+        ],
+        "capability_id": "cost_price_movement_alerts",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "version_diff",
+          "microsoft_365",
+          "notification",
+          "email",
+          "audit"
+        ],
+        "capability_id": "document_revision_nudges",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "onedrive",
+          "microsoft_365",
+          "capture",
+          "ingestion_provenance",
+          "pdf"
+        ],
+        "capability_id": "document_ingestion_from_m365_and_upload",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "dashboard",
+          "analytics",
+          "aesthetic_kit"
+        ],
+        "capability_id": "manager_dashboard",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "auth",
+          "user_auth",
+          "multi_tenant_rbac"
+        ],
+        "capability_id": "manager_only_access",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "sap_odata_connector"
+        ],
+        "capability_id": "sap_odata_connector",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      }
+    ],
+    "dual_registered_blocks": [
+      "aesthetic_kit",
+      "analytics",
+      "approval_rules",
+      "audit",
+      "auth",
+      "capture",
+      "dashboard",
+      "email",
+      "finance_canonical_model",
+      "finance_data_quality",
+      "finance_import",
+      "finance_reconciliation",
+      "ingestion_provenance",
+      "knowledge",
+      "llm_enhancer",
+      "microsoft_365",
+      "multi_tenant_rbac",
+      "notification",
+      "ocr",
+      "onedrive",
+      "pdf",
+      "sap_odata_connector",
+      "search",
+      "user_auth",
+      "validation",
+      "vector_search",
+      "version_diff"
+    ],
+    "fail_closed": true,
+    "inventory_domain_gaps": [],
+    "product_id": "product",
+    "unsupported": [],
+    "vertical_scoped_out": []
+  },
+  "product_id": "product",
+  "schema": "factory_provenance.v1",
+  "writer_receipt": "sha256:0331f456b549fb6f0016f6cb86d11486b7235f6d4e91a87ffb4aaf2e7b03637f"
+}

@@ -1,0 +1,50 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.document_grounded_qa"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "document_grounded_qa"
+      },
+      {
+        "type": "capability",
+        "value": "document_grounded_qa"
+      }
+    ]
+  },
+  "agent_id": "product.hat.document_grounded_qa",
+  "allowed_actions": [
+    "product.document_grounded_qa"
+  ],
+  "block_ids": [
+    "knowledge",
+    "search",
+    "vector_search",
+    "llm_enhancer",
+    "ocr"
+  ],
+  "discipline": "document_grounded_qa",
+  "display_name": "car manufacturing platform Document Grounded Qa Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'document_grounded_qa' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "document_grounded_qa"
+  ]
+}

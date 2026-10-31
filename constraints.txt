@@ -1,0 +1,36 @@
+# Rendered by the Factory from one table (dependency_pins.FACTORY_PINS);
+# re-rendered on every re-entry. Install with:
+#   pip install -c constraints.txt -r requirements.txt
+# Only the framework stack is pinned. A requirements line that bounds
+# a pinned distribution differently keeps its declaration, and the pin
+# is dropped; what a dependency's own metadata bounds is pip's to honour.
+fastapi==0.143.2
+starlette==1.7.0
+uvicorn==0.54.0
+pydantic==2.14.1
+anyio==4.15.1
+sqlalchemy==2.1.4
+alembic==1.20.0
+psycopg==3.3.6
+pytest==9.1.1
+httpx==0.28.1
+annotated-doc==0.0.5
+annotated-types==0.8.0
+certifi==2026.10.23
+click==8.5.0
+colorama==0.4.6
+h11==0.16.0
+httpcore==1.0.9
+idna==3.20
+iniconfig==2.3.1
+mako==1.4.3
+markupsafe==3.0.4
+opentelemetry-api==1.45.1
+packaging==26.3
+pluggy==1.7.0
+psycopg-binary==3.3.6
+pydantic-core==2.50.1
+pygments==2.21.0
+typing-extensions==4.16.0
+typing-inspection==0.4.4
+tzdata==2026.5

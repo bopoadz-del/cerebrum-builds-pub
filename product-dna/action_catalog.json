@@ -1,0 +1,85 @@
+{
+  "actions": [
+    {
+      "block_ids": [
+        "knowledge",
+        "search",
+        "vector_search",
+        "llm_enhancer",
+        "ocr"
+      ],
+      "capability_id": "document_grounded_qa",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_canonical_model",
+        "finance_import",
+        "finance_data_quality",
+        "finance_reconciliation",
+        "validation"
+      ],
+      "capability_id": "supplier_cost_and_parts_pricing",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "approval_rules",
+        "notification",
+        "email",
+        "analytics",
+        "dashboard"
+      ],
+      "capability_id": "cost_price_movement_alerts",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "version_diff",
+        "microsoft_365",
+        "notification",
+        "email",
+        "audit"
+      ],
+      "capability_id": "document_revision_nudges",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "onedrive",
+        "microsoft_365",
+        "capture",
+        "ingestion_provenance",
+        "pdf"
+      ],
+      "capability_id": "document_ingestion_from_m365_and_upload",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "aesthetic_kit"
+      ],
+      "capability_id": "manager_dashboard",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth",
+        "user_auth",
+        "multi_tenant_rbac"
+      ],
+      "capability_id": "manager_only_access",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "sap_odata_connector"
+      ],
+      "capability_id": "sap_odata_connector",
+      "strategy": "REUSE"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

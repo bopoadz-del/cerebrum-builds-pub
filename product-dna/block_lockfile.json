@@ -1,0 +1,115 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "factory_commit": "39b45f643963e5ebdd15f850d3592cbc453fef8a",
+  "pins": [
+    {
+      "block_id": "aesthetic_kit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "analytics",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "approval_rules",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "auth",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "capture",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dashboard",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "email",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_canonical_model",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_data_quality",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_import",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_reconciliation",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "ingestion_provenance",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "knowledge",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "llm_enhancer",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "microsoft_365",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "multi_tenant_rbac",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "notification",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "ocr",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "onedrive",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "pdf",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "sap_odata_connector",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "user_auth",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "validation",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "vector_search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "version_diff",
+      "source": "dual_registry"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,50 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.cost_price_movement_alerts"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "cost_price_movement_alerts"
+      },
+      {
+        "type": "capability",
+        "value": "cost_price_movement_alerts"
+      }
+    ]
+  },
+  "agent_id": "product.hat.cost_price_movement_alerts",
+  "allowed_actions": [
+    "product.cost_price_movement_alerts"
+  ],
+  "block_ids": [
+    "approval_rules",
+    "notification",
+    "email",
+    "analytics",
+    "dashboard"
+  ],
+  "discipline": "cost_price_movement_alerts",
+  "display_name": "car manufacturing platform Cost Price Movement Alerts Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'cost_price_movement_alerts' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "cost_price_movement_alerts"
+  ]
+}

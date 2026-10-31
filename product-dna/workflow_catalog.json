@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "workflows": [
+    {
+      "description": "Default linear workflow over planned capabilities.",
+      "name": "Capability sequence",
+      "steps": [
+        {
+          "capability_id": "document_grounded_qa",
+          "role": "execute"
+        },
+        {
+          "capability_id": "supplier_cost_and_parts_pricing",
+          "role": "execute"
+        },
+        {
+          "capability_id": "cost_price_movement_alerts",
+          "role": "execute"
+        },
+        {
+          "capability_id": "document_revision_nudges",
+          "role": "execute"
+        },
+        {
+          "capability_id": "document_ingestion_from_m365_and_upload",
+          "role": "execute"
+        },
+        {
+          "capability_id": "manager_dashboard",
+          "role": "execute"
+        },
+        {
+          "capability_id": "manager_only_access",
+          "role": "execute"
+        },
+        {
+          "capability_id": "sap_odata_connector",
+          "role": "execute"
+        }
+      ],
+      "workflow_id": "product.capability_sequence"
+    }
+  ]
+}

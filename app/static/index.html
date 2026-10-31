@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plant Manager Console</title>
+  <style>
+    :root { --ink:#15202b; --muted:#5b6b7b; --line:#d9e2ec; --accent:#0f6b5f; --warn:#a63b1f; --bg:#f6f8fb; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); }
+    header { background:var(--ink); color:#fff; padding:18px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    header h1 { font-size:18px; margin:0; letter-spacing:.02em; }
+    header p { margin:0; color:#c9d6e2; font-size:12px; }
+    main { max-width:1180px; margin:0 auto; padding:22px; display:grid; gap:18px; grid-template-columns: repeat(auto-fit,minmax(340px,1fr)); }
+    section { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+    h2 { font-size:15px; margin:0 0 10px; }
+    h3 { font-size:13px; margin:0 0 8px; color:var(--muted); }
+    label { display:block; font-size:12px; color:var(--muted); margin:8px 0 4px; }
+    input, select, textarea, button { font:inherit; }
+    input, select, textarea { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:7px; background:#fff; }
+    textarea { min-height:84px; resize:vertical; }
+    button { background:var(--accent); color:#fff; border:0; border-radius:7px; padding:9px 14px; cursor:pointer; margin-top:10px; }
+    button.secondary { background:#e6eef7; color:var(--ink); }
+    pre { white-space:pre-wrap; word-break:break-word; background:#0e1720; color:#e7f0f7; padding:10px; border-radius:8px; font-size:12px; max-height:280px; overflow:auto; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; }
+    .row > * { flex:1 1 140px; }
+    .pill { display:inline-block; border-radius:999px; padding:2px 9px; font-size:11px; background:#e6eef7; color:var(--muted); }
+    .authority { background:#eaf6f3; color:var(--accent); }
+    .error { color:var(--warn); }
+    .muted { color:var(--muted); font-size:12px; }
+    table { width:100%; border-collapse:collapse; font-size:12px; }
+    th, td { text-align:left; padding:6px 4px; border-bottom:1px solid var(--line); }
+    #login { max-width:460px; margin:40px auto; }
+    .wide { grid-column:1 / -1; }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Plant Manager Console</h1>
+    <p>Two Moroccan EV plants · money and documents · MAD</p>
+  </div>
+  <div><span class="pill" id="status">not signed in</span></div>
+</header>
+
+<main>
+  <section id="login">
+    <h2>Manager sign-in</h2>
+    <p class="muted">Paste the manager token issued for this deployment. It is kept only in this browser tab.</p>
+    <label for="token">Bearer token</label>
+    <input id="token" type="password" autocomplete="off" placeholder="PLATFORM_TOKEN" />
+    <button id="signin">Sign in</button>
+    <p class="muted" id="loginmsg"></p>
+  </section>
+
+  <section>
+    <h2>Ask the documents</h2>
+    <p class="muted">Answers come only from documents ingested for your plant, with the source and its authority label.</p>
+    <label for="question">Question</label>
+    <textarea id="question" placeholder="What is the torque for the battery pack mounting bolts?"></textarea>
+    <div class="row">
+      <div><label for="plantqa">Plant</label>
+        <select id="plantqa"><option value="plant-casablanca">Casablanca</option><option value="plant-tanger">Tanger</option></select></div>
+      <div><label for="topk">Passages</label><input id="topk" type="number" min="1" max="20" value="5" /></div>
+    </div>
+    <button id="ask">Ask</button>
+    <div id="answer"></div>
+  </section>
+
+  <section>
+    <h2>Manager dashboard</h2>
+    <p class="muted">Cost and parts-price movements, document revisions and open alerts across the plants.</p>
+    <div class="row">
+      <div><label for="plantdb">Plant</label>
+        <select id="plantdb"><option value="all">Both plants</option><option value="plant-casablanca">Casablanca</option><option value="plant-tanger">Tanger</option></select></div>
+      <div><label for="alerts">Include alerts</label><select id="alerts"><option value="true">Yes</option><option value="false">No</option></select></div>
+    </div>
+    <button id="board">Load dashboard</button>
+    <div id="boardout"></div>
+  </section>
+
+  <section>
+    <h2>Ingest a document</h2>
+    <p class="muted">Paste the text of a BOM, work instruction, quality procedure or supplier price list.</p>
+    <label for="docname">Document name</label>
+    <input id="docname" placeholder="WI-114 battery pack torque" />
+    <div class="row">
+      <div><label for="doctype">Type</label>
+        <select id="doctype"><option value="bom">BOM</option><option value="work_instruction">Work instruction</option><option value="quality_procedure">Quality procedure</option><option value="supplier_price_list">Supplier price list</option></select></div>
+      <div><label for="docsource">Source</label>
+        <select id="docsource"><option value="upload">Upload</option><option value="onedrive">OneDrive</option><option value="outlook">Outlook</option></select></div>
+    </div>
+    <label for="doctext">Document text</label>
+    <textarea id="doctext"></textarea>
+    <button id="ingest">Ingest</button>
+    <div id="ingestout"></div>
+  </section>
+
+  <section>
+    <h2>Cost and price movement alert</h2>
+    <p class="muted">Register a supplier cost or parts-price movement against a MAD threshold.</p>
+    <div class="row">
+      <div><label for="alertref">Alert reference</label><input id="alertref" placeholder="PO-2026-0042" /></div>
+      <div><label for="part">Part number</label><input id="part" placeholder="BAT-MOD-77" /></div>
+    </div>
+    <div class="row">
+      <div><label for="threshold">Threshold (MAD)</label><input id="threshold" type="number" min="0" step="0.01" value="500" /></div>
+      <div><label for="previous">Previous price (MAD)</label><input id="previous" type="number" min="0" step="0.01" value="1000" /></div>
+      <div><label for="current">Current price (MAD)</label><input id="current" type="number" min="0" step="0.01" value="1700" /></div>
+    </div>
+    <button id="raise">Raise alert</button>
+    <div id="alertout"></div>
+  </section>
+
+  <section>
+    <h2>Document revision nudge</h2>
+    <p class="muted">Tell affected managers when a work instruction or quality procedure is revised.</p>
+    <div class="row">
+      <div><label for="revname">Document name</label><input id="revname" placeholder="QP-031 incoming inspection" /></div>
+      <div><label for="revtype">Type</label>
+        <select id="revtype"><option value="work_instruction">Work instruction</option><option value="quality_procedure">Quality procedure</option><option value="bom">BOM</option><option value="supplier_price_list">Supplier price list</option></select></div>
+    </div>
+    <div class="row">
+      <div><label for="revfrom">From revision</label><input id="revfrom" value="A" /></div>
+      <div><label for="revto">To revision</label><input id="revto" value="B" /></div>
+      <div><label for="revmail">Manager email</label><input id="revmail" type="email" placeholder="manager@plant.ma" /></div>
+    </div>
+    <button id="nudge">Send nudge</button>
+    <div id="revout"></div>
+  </section>
+
+  <section class="wide">
+    <h2>Capabilities discovered from the API</h2>
+    <p class="muted">The console renders whatever the platform declares, then drives the live routes above.</p>
+    <table><thead><tr><th>Capability</th><th>Entity</th><th>Blocks</th></tr></thead><tbody id="caps"></tbody></table>
+  </section>
+
+  <section class="wide">
+    <h2>Recent records</h2>
+    <div class="row">
+      <div><h3>Alerts</h3><div id="alertslist" class="muted">Sign in to load.</div></div>
+      <div><h3>Revisions</h3><div id="revlist" class="muted">Sign in to load.</div></div>
+      <div><h3>Cost records</h3><div id="costlist" class="muted">Sign in to load.</div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const state = { token: sessionStorage.getItem("manager_token") || "" };
+
+function el(id) { return document.getElementById(id); }
+
+function render(target, data) {
+  const node = el(target);
+  const text = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+  node.innerHTML = '<pre>' + text.replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])) + '</pre>';
+}
+
+function showAuthority(target, payload) {
+  const auth = payload && (payload.authority || (payload.result && payload.result.authority));
+  if (!auth) return;
+  const node = el(target);
+  const badge = document.createElement("p");
+  badge.className = "pill authority";
+  badge.textContent = "Authority: layer " + auth.layer + " · " + auth.label + (auth.source ? " · " + auth.source : "");
+  node.prepend(badge);
+}
+
+async function api(path, options = {}) {
+  const headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
+  if (state.token) headers["Authorization"] = "Bearer " + state.token;
+  const response = await fetch(path, Object.assign({}, options, { headers }));
+  let body = null;
+  try { body = await response.json(); } catch (e) { body = { ok: false, error: "non-JSON response" }; }
+  return { status: response.status, body };
+}
+
+function setStatus() {
+  el("status").textContent = state.token ? "signed in" : "not signed in";
+}
+
+async function loadCapabilities() {
+  const { status, body } = await api("/v1/capabilities");
+  const tbody = el("caps");
+  tbody.innerHTML = "";
+  if (status !== 200 || !body || !body.items) return;
+  body.items.forEach(item => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + item.name + "</td><td><code>" + item.entity + "</code></td><td>" + item.blocks.join(", ") + "</td>";
+    tbody.appendChild(tr);
+  });
+}
+
+async function loadRecords() {
+  for (const [entry, path] of [
+    ["alertslist", "/v1/cost_price_movement_alerts"],
+    ["revlist", "/v1/document_revision_nudges"],
+    ["costlist", "/v1/supplier_cost_and_parts_pricing"]
+  ]) {
+    const { status, body } = await api(path);
+    const node = el(entry);
+    if (status === 401) { node.textContent = "Sign in to load."; continue; }
+    const rows = (body && (body.items || body.records)) || [];
+    if (!rows.length) { node.textContent = "No records yet."; continue; }
+    node.innerHTML = "<table><thead><tr><th>id</th><th>reference</th><th>status</th></tr></thead><tbody>" +
+      rows.slice(0, 8).map(r => "<tr><td>" + r.id + "</td><td>" + (r.reference || "") + "</td><td>" + (r.status || "") + "</td></tr>").join("") +
+      "</tbody></table>";
+  }
+}
+
+el("signin").addEventListener("click", async () => {
+  state.token = el("token").value.trim();
+  sessionStorage.setItem("manager_token", state.token);
+  setStatus();
+  const { status } = await api("/v1/manager_only_access");
+  el("loginmsg").textContent = status === 200 ? "Signed in as a manager." : "That token was not accepted.";
+  await loadCapabilities();
+  await loadRecords();
+});
+
+el("ask").addEventListener("click", async () => {
+  const payload = {
+    question: el("question").value.trim() || "summarize the uploaded plant documents",
+    plant: el("plantqa").value,
+    top_k: Number(el("topk").value || 5)
+  };
+  const { status, body } = await api("/v1/document_grounded_qa", { method: "POST", body: JSON.stringify(payload) });
+  render("answer", body);
+  if (status === 200) showAuthority("answer", body);
+});
+
+el("board").addEventListener("click", async () => {
+  const payload = { plant: el("plantdb").value, include_alerts: el("alerts").value === "true" };
+  const { body } = await api("/v1/manager_dashboard", { method: "POST", body: JSON.stringify(payload) });
+  render("boardout", body);
+});
+
+el("ingest").addEventListener("click", async () => {
+  const payload = {
+    text: el("doctext").value,
+    document_name: el("docname").value,
+    document_type: el("doctype").value,
+    source: el("docsource").value
+  };
+  const { body } = await api("/v1/rag/ingest", { method: "POST", body: JSON.stringify(payload) });
+  render("ingestout", body);
+  await loadRecords();
+});
+
+el("raise").addEventListener("click", async () => {
+  const payload = {
+    alert_reference: el("alertref").value || "PO-2026-0042",
+    part_number: el("part").value,
+    threshold_mad: Number(el("threshold").value || 0),
+    previous_price_mad: Number(el("previous").value || 0),
+    current_price_mad: Number(el("current").value || 0)
+  };
+  const { body } = await api("/v1/cost_price_movement_alerts", { method: "POST", body: JSON.stringify(payload) });
+  render("alertout", body);
+  await loadRecords();
+});
+
+el("nudge").addEventListener("click", async () => {
+  const payload = {
+    document_name: el("revname").value || "QP-031 incoming inspection",
+    document_type: el("revtype").value,
+    revision_from: el("revfrom").value,
+    revision_to: el("revto").value,
+    manager_email: el("revmail").value
+  };
+  const { body } = await api("/v1/document_revision_nudges", { method: "POST", body: JSON.stringify(payload) });
+  render("revout", body);
+  await loadRecords();
+});
+
+setStatus();
+if (state.token) { loadCapabilities(); loadRecords(); }
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.manager_dashboard"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "manager_dashboard"
+      },
+      {
+        "type": "capability",
+        "value": "manager_dashboard"
+      }
+    ]
+  },
+  "agent_id": "product.hat.manager_dashboard",
+  "allowed_actions": [
+    "product.manager_dashboard"
+  ],
+  "block_ids": [
+    "dashboard",
+    "analytics",
+    "aesthetic_kit"
+  ],
+  "discipline": "manager_dashboard",
+  "display_name": "car manufacturing platform Manager Dashboard Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'manager_dashboard' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "manager_dashboard"
+  ]
+}

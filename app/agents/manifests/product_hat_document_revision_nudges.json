@@ -1,0 +1,50 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.document_revision_nudges"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "document_revision_nudges"
+      },
+      {
+        "type": "capability",
+        "value": "document_revision_nudges"
+      }
+    ]
+  },
+  "agent_id": "product.hat.document_revision_nudges",
+  "allowed_actions": [
+    "product.document_revision_nudges"
+  ],
+  "block_ids": [
+    "version_diff",
+    "microsoft_365",
+    "notification",
+    "email",
+    "audit"
+  ],
+  "discipline": "document_revision_nudges",
+  "display_name": "car manufacturing platform Document Revision Nudges Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'document_revision_nudges' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "document_revision_nudges"
+  ]
+}

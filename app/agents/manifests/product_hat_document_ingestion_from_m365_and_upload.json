@@ -1,0 +1,50 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.document_ingestion_from_m365_and_upload"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "document_ingestion_from_m365_and_upload"
+      },
+      {
+        "type": "capability",
+        "value": "document_ingestion_from_m365_and_upload"
+      }
+    ]
+  },
+  "agent_id": "product.hat.document_ingestion_from_m365_and_upload",
+  "allowed_actions": [
+    "product.document_ingestion_from_m365_and_upload"
+  ],
+  "block_ids": [
+    "onedrive",
+    "microsoft_365",
+    "capture",
+    "ingestion_provenance",
+    "pdf"
+  ],
+  "discipline": "document_ingestion_from_m365_and_upload",
+  "display_name": "car manufacturing platform Document Ingestion From M365 And Upload Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'document_ingestion_from_m365_and_upload' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "document_ingestion_from_m365_and_upload"
+  ]
+}
