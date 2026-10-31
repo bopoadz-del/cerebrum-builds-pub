@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    "analytics",
+    "audit",
+    "auth",
+    "billing",
+    "dashboard",
+    "finance_canonical_model",
+    "finance_coa_governance",
+    "geolocation_tracking",
+    "multi_tenant_rbac",
+    "task_listing",
+    "vendor_catalog",
+    "workflow"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "analytics",
+    "audit",
+    "auth",
+    "billing",
+    "dashboard",
+    "finance_canonical_model",
+    "finance_coa_governance",
+    "geolocation_tracking",
+    "multi_tenant_rbac",
+    "task_listing",
+    "vendor_catalog",
+    "workflow"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "analytics": "vendor/blocks/analytics",
+    "audit": "vendor/blocks/audit",
+    "auth": "vendor/blocks/auth",
+    "billing": "vendor/blocks/billing",
+    "dashboard": "vendor/blocks/dashboard",
+    "finance_canonical_model": "vendor/blocks/finance_canonical_model",
+    "finance_coa_governance": "vendor/blocks/finance_coa_governance",
+    "geolocation_tracking": "vendor/blocks/geolocation_tracking",
+    "multi_tenant_rbac": "vendor/blocks/multi_tenant_rbac",
+    "task_listing": "vendor/blocks/task_listing",
+    "vendor_catalog": "vendor/blocks/vendor_catalog",
+    "workflow": "vendor/blocks/workflow"
+  },
+  "version": "1.0.0"
+}
