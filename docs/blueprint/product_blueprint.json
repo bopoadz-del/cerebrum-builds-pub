@@ -1,0 +1,99 @@
+{
+  "build_level": "prototype",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "task_listing",
+        "geolocation_tracking",
+        "workflow"
+      ],
+      "connectors": [],
+      "description": "Plan, schedule and track coffee-waste collections from caf\u00e9s and other sources: log source details, pickup dates, quantities collected and status through to delivery at the factory.",
+      "id": "collection_planning_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "task_listing",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Track compost batches through production stages, curing and quality checks: record batch inputs, process steps, curing durations, and quality test results with pass/fail status.",
+      "id": "batch_production_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "vendor_catalog",
+        "workflow"
+      ],
+      "connectors": [],
+      "description": "Manage the product catalog, price lists, customer records and customer orders, including order lines and totals.",
+      "id": "catalog_pricing_orders",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "billing",
+        "finance_canonical_model",
+        "finance_coa_governance"
+      ],
+      "connectors": [],
+      "description": "Generate invoices in Tunisian dinar (TND) with Tunisian VAT (e.g. 19%) applied according to Tunisian rules, including line items, VAT breakdown and totals, and track invoice status.",
+      "id": "invoicing_tunisian_vat",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth",
+        "multi_tenant_rbac"
+      ],
+      "connectors": [],
+      "description": "Provide secure login and role-based access for the 5-10 internal staff covering collection/logistics, production floor, sales and finance.",
+      "id": "internal_staff_access",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics"
+      ],
+      "connectors": [],
+      "description": "Show an operational dashboard of collection status, batch progress, orders and invoices for internal staff.",
+      "id": "operational_dashboard",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "TN",
+    "currency": "TND"
+  },
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Composting Products from Coffee in Tunisia",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A standalone prototype platform for a small Tunisian factory that turns coffee waste into composting products. It serves 5-10 internal staff across collection logistics, production, sales and finance. The system plans and tracks coffee-waste collections from caf\u00e9s and other sources, follows compost batches through production, curing and quality checks, and manages the product catalog, price lists, customer orders and invoicing with Tunisian VAT (e.g. 19%) applied according to Tunisian rules. No ",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
