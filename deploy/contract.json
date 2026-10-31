@@ -1,0 +1,48 @@
+{
+  "schema": "deploy.contract.v1",
+  "product_id": "product",
+  "service": {
+    "build": "Dockerfile",
+    "start": "sh /app/scripts/entrypoint.sh",
+    "port_env": "PORT",
+    "default_port": 8000,
+    "health_path": "/health",
+    "metrics_path": "/metrics"
+  },
+  "persistence": {
+    "root_env": "STORAGE_PATH",
+    "image_default": "/data",
+    "volume": "/data",
+    "database_default": "STORAGE_PATH/platform.db",
+    "database_url_env": "DATABASE_URL",
+    "migrations": "alembic upgrade head at boot",
+    "backup_dir_env": "BACKUP_DIR"
+  },
+  "required_env": [
+    "PLATFORM_TOKEN"
+  ],
+  "optional_env": [
+    "TENANT_TOKENS",
+    "STORAGE_PATH",
+    "DATABASE_URL",
+    "BACKUP_DIR",
+    "PLATFORM_TAX_RATE",
+    "SAP_ERP_CREDENTIALS",
+    "OUTLOOK_CREDENTIALS",
+    "ONEDRIVE_CLIENT_ID",
+    "ONEDRIVE_CLIENT_SECRET",
+    "ONEDRIVE_REFRESH_TOKEN",
+    "MICROSOFT365_CLIENT_ID",
+    "MICROSOFT365_CLIENT_SECRET",
+    "SENTRY_DSN"
+  ],
+  "health": {
+    "fail_closed": true,
+    "checks": ["process", "persistent_disk", "database", "migrations"]
+  },
+  "capacity": {
+    "disk_gb": 1,
+    "replicas": 0,
+    "ha": false
+  }
+}

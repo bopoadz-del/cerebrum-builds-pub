@@ -89,6 +89,8 @@
         <select id="doctype"><option value="bom">BOM</option><option value="work_instruction">Work instruction</option><option value="quality_procedure">Quality procedure</option><option value="supplier_price_list">Supplier price list</option></select></div>
       <div><label for="docsource">Source</label>
         <select id="docsource"><option value="upload">Upload</option><option value="onedrive">OneDrive</option><option value="outlook">Outlook</option></select></div>
+      <div><label for="docplant">Plant</label>
+        <select id="docplant"><option value="plant-casablanca">Casablanca</option><option value="plant-tanger">Tanger</option></select></div>
     </div>
     <label for="doctext">Document text</label>
     <textarea id="doctext"></textarea>
@@ -240,7 +242,8 @@ el("ingest").addEventListener("click", async () => {
     text: el("doctext").value,
     document_name: el("docname").value,
     document_type: el("doctype").value,
-    source: el("docsource").value
+    source: el("docsource").value,
+    plant: el("docplant").value
   };
   const { body } = await api("/v1/rag/ingest", { method: "POST", body: JSON.stringify(payload) });
   render("ingestout", body);

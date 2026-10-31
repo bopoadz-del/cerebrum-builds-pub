@@ -7,6 +7,7 @@ from typing import Any, Dict
 
 from app.actions._common import block_failure, envelope, token_from_env
 from app.dispatch import execute
+from app.tenancy import current_tenant
 
 AUTHORED_BY = "codewhale exec"
 
@@ -49,7 +50,7 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
 
     tenants = execute(
         "multi_tenant_rbac",
-        {"user_id": email, "tenant_id": plant},
+        {"user_id": email, "tenant_id": current_tenant(), "plant": plant},
         action=BLOCK_DEFAULT_ACTIONS.get("multi_tenant_rbac"),
     )
     refused = block_failure("multi_tenant_rbac", tenants)
@@ -62,10 +63,18 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
             "role": role,
             "plant": plant,
             "manager_only": role == "manager",
-            "platform_key_valid": bool(key.get("valid")),
+            "login": {
+                "method": "platform_bearer_token",
+                "tenant_token_checked": bool(token_from_env()),
+                "credential_store_checked": bool(key.get("valid")),
+            },
             "registered": registered.get("status") == "ok",
+            "credential_state": "provisional"
+            if registered.get("status") == "ok"
+            else "existing",
             "visible_tenants": tenants.get("tenants") or [],
             "visible_projects": tenants.get("projects") or [],
+            "plant_scope": [plant] if plant else [],
         },
         record,
     )

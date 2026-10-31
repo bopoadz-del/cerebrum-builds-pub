@@ -28,6 +28,19 @@ class Principal:
     token: str
 
 
+def _same(left: str, right: str) -> bool:
+    """Constant-time comparison that cannot raise on a non-ASCII header.
+
+    ``hmac.compare_digest`` refuses str values with non-ASCII characters, and
+    a caller controls the bearer header. Comparing UTF-8 bytes keeps the
+    constant-time property and turns a malformed token into a rejection.
+    """
+    try:
+        return hmac.compare_digest(str(left).encode("utf-8"), str(right).encode("utf-8"))
+    except (TypeError, ValueError):
+        return False
+
+
 def _presented(headers) -> str:
     if isinstance(headers, str):
         value = headers
@@ -60,10 +73,10 @@ def resolve_tenant(headers) -> Principal:
     if not token:
         raise Unauthorized("missing bearer token")
     platform_token = (os.getenv("PLATFORM_TOKEN") or "").strip()
-    if platform_token and hmac.compare_digest(token, platform_token):
+    if platform_token and _same(token, platform_token):
         return Principal(user_id=PLATFORM_TENANT, tenant_id=PLATFORM_TENANT, token=token)
     for candidate, tenant in _tenant_tokens().items():
-        if hmac.compare_digest(token, candidate):
+        if _same(token, candidate):
             return Principal(user_id=tenant, tenant_id=tenant, token=token)
     raise Unauthorized("unknown bearer token")
 

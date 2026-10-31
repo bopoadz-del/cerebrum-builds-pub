@@ -47,7 +47,8 @@ def _chunks(text: str, limit: int = 420) -> List[str]:
 
 
 def ingest(text: str, source: str = "upload", document_name: str = "",
-           document_type: str = "bom", tenant_id: str = "") -> Dict[str, Any]:
+           document_type: str = "bom", tenant_id: str = "",
+           plant: str = "") -> Dict[str, Any]:
     tenant = tenant_id or current_tenant()
     body = str(text or "")
     if not body.strip():
@@ -61,6 +62,7 @@ def ingest(text: str, source: str = "upload", document_name: str = "",
             "source": source or "upload",
             "document_name": document_name or "",
             "document_type": document_type or "bom",
+            "plant": plant or "",
         },
         tenant_id=tenant,
     )
@@ -71,12 +73,20 @@ def _documents(tenant_id: str) -> List[Dict[str, Any]]:
     return store.list_all(ENTITY, tenant_id=tenant_id)
 
 
-def search(query: str, top_k: int = 5, tenant_id: str = "") -> List[Dict[str, Any]]:
+def search(query: str, top_k: int = 5, tenant_id: str = "",
+           plant: str = "", document_type: str = "") -> List[Dict[str, Any]]:
     tenant = tenant_id or current_tenant()
     question = _tokens(query)
     if not question:
         return []
     documents = _documents(tenant)
+    if plant:
+        documents = [row for row in documents if row.get("plant") in (None, "", plant)]
+    if document_type:
+        documents = [
+            row for row in documents
+            if row.get("document_type") in (None, "", document_type)
+        ]
     if not documents:
         return []
     chunk_rows: List[Dict[str, Any]] = []

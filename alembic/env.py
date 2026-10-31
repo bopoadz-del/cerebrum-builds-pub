@@ -15,8 +15,12 @@ if str(ROOT) not in sys.path:
 from app import db as _db  # noqa: E402
 
 config = context.config
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+# The app's boot path (app.migrations.upgrade_head) runs after the product has
+# installed its JSON request logging. Re-running alembic.ini's logging config
+# there would replace that root handler with a stderr formatter and drop
+# request lines. The CLI (no app imported) keeps its own configuration.
+if config.config_file_name is not None and "app.observe" not in sys.modules:
+    fileConfig(config.config_file_name, disable_existing_loggers=False)
 
 target_metadata = None
 

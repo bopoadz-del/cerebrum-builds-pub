@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Dict
 
 from app import formulas, store
+from app.authority import authority
 from app.actions._common import block_failure, envelope
 from app.dispatch import execute
 from app.tenancy import current_tenant
@@ -31,6 +32,11 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
     alerts = store.list_all("cost_price_movement_alerts", tenant_id=tenant)
     revisions = store.list_all("document_revision_nudges", tenant_id=tenant)
     costs = store.list_all("supplier_cost_and_parts_pricing", tenant_id=tenant)
+    if plant != "all":
+        # A plant view must not report another plant's money as its own.
+        alerts = [row for row in alerts if row.get("plant") in (None, "", plant)]
+        revisions = [row for row in revisions if row.get("plant") in (None, "", plant)]
+        costs = [row for row in costs if row.get("plant") in (None, "", plant)]
     open_alerts = [row for row in alerts if row.get("status") != "closed"]
     markups = []
     for row in costs:
@@ -69,17 +75,27 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
     if refused:
         return refused
 
+    layout = board.get("layout") or {}
+    aesthetic = {
+        "verdict": kit.get("verdict"),
+        "ships": kit.get("ships"),
+        "findings": len(kit.get("findings") or []),
+        "blocked_reason": kit.get("blocked_reason"),
+    }
     return envelope(
         {
             "plant": plant,
             "widgets": len(board.get("widgets") or []),
-            "theme": board.get("theme"),
+            "theme": board.get("theme") or (layout.get("theme") if isinstance(layout, dict) else None),
+            "layout": layout.get("name") if isinstance(layout, dict) else layout,
+            "layout_widgets": (layout.get("widgets") if isinstance(layout, dict) else []),
             "alerts_open": len(open_alerts),
             "cost_records": len(costs),
             "average_markup_ratio": round(sum(markups) / len(markups), 6) if markups else None,
             "revisions": len(revisions),
             "metrics_available": bool(metrics),
-            "layout": (kit.get("result") or {}).get("verdict") if isinstance(kit.get("result"), dict) else "refused",
+            "aesthetic": aesthetic,
+            "authority": authority(3, source="markup_on_cost"),
             "include_alerts": bool(record.get("include_alerts", True)),
         },
         record,

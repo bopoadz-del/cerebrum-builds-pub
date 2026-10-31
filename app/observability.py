@@ -29,6 +29,11 @@ _STATUS: Dict[int, int] = defaultdict(int)
 #: Auth attempts per client, for the rate limit.
 _ATTEMPTS: Dict[str, Deque[float]] = defaultdict(deque)
 
+#: Requests come before routing/auth, so an unauthenticated caller controls
+#: the path label. Cap the series set: labels beyond the cap share one
+#: bucket instead of letting a scanner grow the maps without bound.
+MAX_SERIES = int(os.environ.get("METRICS_MAX_SERIES", "200"))
+
 RATE_LIMIT_WINDOW_S = float(os.environ.get("AUTH_RATE_WINDOW_S", "60"))
 RATE_LIMIT_MAX = int(os.environ.get("AUTH_RATE_MAX", "20"))
 AUTH_PREFIXES = ("/v1/auth", "/v1/login", "/v1/token", "/auth", "/login")
@@ -81,6 +86,8 @@ def mount_observability(app: Any) -> None:
         response = await call_next(request)
         elapsed = time.perf_counter() - started
         key = (request.method, path)
+        if key not in _COUNTS and len(_COUNTS) >= MAX_SERIES:
+            key = (request.method, "<other>")
         _COUNTS[key] += 1
         _SECONDS[key] += elapsed
         _STATUS[response.status_code] += 1

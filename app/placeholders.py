@@ -8,7 +8,6 @@ and stores nothing. app.placeholders is the single source of that answer.
 
 from __future__ import annotations
 
-import os
 from typing import Dict, List
 
 PLACEHOLDER_CONNECTORS: Dict[str, List[str]] = {
@@ -24,12 +23,14 @@ CONNECTOR_DETAIL = {
 
 
 def missing_settings(capability_id: str) -> List[str]:
-    """Settings this capability needs that the deploy environment lacks."""
-    missing: List[str] = []
-    for setting in PLACEHOLDER_CONNECTORS.get(capability_id, []):
-        if not (os.getenv(setting) or "").strip():
-            missing.append(setting)
-    return missing
+    """The connectors this capability declares that have no adapter.
+
+    A declared placeholder has no donor implementation in this image, so
+    setting its environment variable does not make the integration real.
+    The refusal is unconditional: the capability answers 503 and stores
+    nothing rather than inventing ERP rows or claiming an email was sent.
+    """
+    return list(PLACEHOLDER_CONNECTORS.get(capability_id, []))
 
 
 def refusal(capability_id: str, missing: List[str]) -> dict:

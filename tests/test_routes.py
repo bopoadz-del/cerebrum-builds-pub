@@ -237,7 +237,7 @@ def test_every_capability_route_answers():
     """Code-phase: each capability POST answers HTTP 200 JSON.
     Store ok: False is allowed here — acceptance is the pilot test."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'question': 'sample', 'plant': 'plant-casablanca', 'document_type': 'bom', 'top_k': 1, 'answer': 'sample', 'authority': 'sample', 'tenant_scope': 'sample'}
     resp, _corr = _post_accepting("/v1/document_grounded_qa", payload, AUTH, 'document_grounded_qa')
     if resp.status_code not in (200,):
         failures.append('document_grounded_qa: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -263,7 +263,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('document_grounded_qa list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'invoice_reference': 'sample', 'supplier': 'sample', 'part_number': 'sample', 'amount_mad': 1.0, 'quantity': 1, 'unit_cost_mad': 1.0, 'price_mad': 1.0, 'plant': 'plant-casablanca', 'invoice_date': '2026-09-03', 'markup_ratio': 1.5}
     resp, _corr = _post_accepting("/v1/supplier_cost_and_parts_pricing", payload, AUTH, 'supplier_cost_and_parts_pricing')
     try:
         body = resp.json()
@@ -278,7 +278,7 @@ def test_every_capability_route_answers():
     if listed.status_code not in (200,):
         failures.append('supplier_cost_and_parts_pricing list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'alert_reference': 'sample', 'part_number': 'sample', 'supplier': 'sample', 'threshold_mad': 1.0, 'movement_pct': 1.5, 'previous_price_mad': 1.0, 'current_price_mad': 1.0, 'alert_level': 'info', 'plant': 'plant-casablanca', 'notified': True}
     resp, _corr = _post_accepting("/v1/cost_price_movement_alerts", payload, AUTH, 'cost_price_movement_alerts')
     try:
         body = resp.json()
@@ -293,7 +293,7 @@ def test_every_capability_route_answers():
     if listed.status_code not in (200,):
         failures.append('cost_price_movement_alerts list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'document_type': 'bom', 'revision_from': 'sample', 'revision_to': 'sample', 'manager_email': 'guest@example.com', 'plant': 'plant-casablanca', 'notified': True}
     resp, _corr = _post_accepting("/v1/document_revision_nudges", payload, AUTH, 'document_revision_nudges')
     if resp.status_code not in (200,):
         failures.append('document_revision_nudges: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -319,7 +319,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('document_revision_nudges list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'source': 'onedrive', 'document_type': 'bom', 'content_text': 'sample', 'drive_item_id': 'sample', 'plant': 'plant-casablanca'}
     resp, _corr = _post_accepting("/v1/document_ingestion_from_m365_and_upload", payload, AUTH, 'document_ingestion_from_m365_and_upload')
     try:
         body = resp.json()
@@ -334,7 +334,7 @@ def test_every_capability_route_answers():
     if listed.status_code not in (200,):
         failures.append('document_ingestion_from_m365_and_upload list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'plant': 'plant-casablanca', 'period_start': '2026-09-03', 'period_end': '2026-09-03', 'include_alerts': True, 'layout': 'sample'}
     resp, _corr = _post_accepting("/v1/manager_dashboard", payload, AUTH, 'manager_dashboard')
     if resp.status_code not in (200,):
         failures.append('manager_dashboard: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -360,7 +360,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('manager_dashboard list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'manager_name': 'sample', 'manager_email': 'guest@example.com', 'role': 'manager', 'plant': 'plant-casablanca'}
     resp, _corr = _post_accepting("/v1/manager_only_access", payload, AUTH, 'manager_only_access')
     if resp.status_code not in (200,):
         failures.append('manager_only_access: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -386,7 +386,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('manager_only_access list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'company_code': 'sample', 'operation': 'status', 'base_url': 'sample'}
     resp, _corr = _post_accepting("/v1/sap_odata_connector", payload, AUTH, 'sap_odata_connector')
     if resp.status_code not in (200,):
         failures.append('sap_odata_connector: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -420,7 +420,7 @@ def test_every_capability_route_accepts_payload():
     """Pilot: spec payload is accepted (ok is not False) and persisted.
     Not the factory code-phase gate."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'question': 'sample', 'plant': 'plant-casablanca', 'document_type': 'bom', 'top_k': 1, 'answer': 'sample', 'authority': 'sample', 'tenant_scope': 'sample'}
     resp, _corr = _post_accepting("/v1/document_grounded_qa", payload, AUTH, 'document_grounded_qa')
     if resp.status_code not in (200,):
         failures.append('document_grounded_qa: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -446,7 +446,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('document_grounded_qa missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'invoice_reference': 'sample', 'supplier': 'sample', 'part_number': 'sample', 'amount_mad': 1.0, 'quantity': 1, 'unit_cost_mad': 1.0, 'price_mad': 1.0, 'plant': 'plant-casablanca', 'invoice_date': '2026-09-03', 'markup_ratio': 1.5}
     resp, _corr = _post_accepting("/v1/supplier_cost_and_parts_pricing", payload, AUTH, 'supplier_cost_and_parts_pricing')
     try:
         body = resp.json()
@@ -461,7 +461,7 @@ def test_every_capability_route_accepts_payload():
     if listed.status_code not in (200,):
         failures.append('supplier_cost_and_parts_pricing list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'alert_reference': 'sample', 'part_number': 'sample', 'supplier': 'sample', 'threshold_mad': 1.0, 'movement_pct': 1.5, 'previous_price_mad': 1.0, 'current_price_mad': 1.0, 'alert_level': 'info', 'plant': 'plant-casablanca', 'notified': True}
     resp, _corr = _post_accepting("/v1/cost_price_movement_alerts", payload, AUTH, 'cost_price_movement_alerts')
     try:
         body = resp.json()
@@ -476,7 +476,7 @@ def test_every_capability_route_accepts_payload():
     if listed.status_code not in (200,):
         failures.append('cost_price_movement_alerts list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'document_type': 'bom', 'revision_from': 'sample', 'revision_to': 'sample', 'manager_email': 'guest@example.com', 'plant': 'plant-casablanca', 'notified': True}
     resp, _corr = _post_accepting("/v1/document_revision_nudges", payload, AUTH, 'document_revision_nudges')
     if resp.status_code not in (200,):
         failures.append('document_revision_nudges: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -502,7 +502,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('document_revision_nudges missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'source': 'onedrive', 'document_type': 'bom', 'content_text': 'sample', 'drive_item_id': 'sample', 'plant': 'plant-casablanca'}
     resp, _corr = _post_accepting("/v1/document_ingestion_from_m365_and_upload", payload, AUTH, 'document_ingestion_from_m365_and_upload')
     try:
         body = resp.json()
@@ -517,7 +517,7 @@ def test_every_capability_route_accepts_payload():
     if listed.status_code not in (200,):
         failures.append('document_ingestion_from_m365_and_upload list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'plant': 'plant-casablanca', 'period_start': '2026-09-03', 'period_end': '2026-09-03', 'include_alerts': True, 'layout': 'sample'}
     resp, _corr = _post_accepting("/v1/manager_dashboard", payload, AUTH, 'manager_dashboard')
     if resp.status_code not in (200,):
         failures.append('manager_dashboard: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -543,7 +543,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('manager_dashboard missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'manager_name': 'sample', 'manager_email': 'guest@example.com', 'role': 'manager', 'plant': 'plant-casablanca'}
     resp, _corr = _post_accepting("/v1/manager_only_access", payload, AUTH, 'manager_only_access')
     if resp.status_code not in (200,):
         failures.append('manager_only_access: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -569,7 +569,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('manager_only_access missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'company_code': 'sample', 'operation': 'status', 'base_url': 'sample'}
     resp, _corr = _post_accepting("/v1/sap_odata_connector", payload, AUTH, 'sap_odata_connector')
     if resp.status_code not in (200,):
         failures.append('sap_odata_connector: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))

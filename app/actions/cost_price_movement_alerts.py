@@ -37,6 +37,15 @@ def _number(value: Any) -> float:
 
 def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
     record = dict(payload or {})
+    missing = [
+        name for name in ("threshold_mad", "previous_price_mad", "current_price_mad")
+        if record.get(name) in (None, "")
+    ]
+    if missing:
+        # A movement needs both prices and the manager's threshold. Coercing
+        # an absent price to zero invents a critical breach.
+        return {"ok": False, "error": "missing_price_input", "missing": missing,
+                "capability_id": CAPABILITY_ID}
     reference = str(record.get("alert_reference") or record.get("reference") or "price-movement")
     threshold = _number(record.get("threshold_mad"))
     previous = _number(record.get("previous_price_mad"))
@@ -99,8 +108,10 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
             "delta_mad": delta,
             "breached": breached,
             "alert_level": level,
-            "notified": bool(notice.get("sent")),
+            "notification_sent": bool(notice.get("sent")),
             "email_valid": bool(mail.get("valid")),
+            "email_sent": False,
+            "email_delivery": "outlook adapter not configured; address validated only",
             "analytics_tracked": bool(metric.get("tracked")),
             "approval_sets": len((rules.get("result") or {}).get("sets") or rules.get("sets") or []),
             "dashboard_widgets": len(board.get("widgets") or []),

@@ -13,8 +13,8 @@ from app.main import app
 from app.observe import JsonFormatter, REQUEST_ID_HEADER, strip_emoji
 from app.revision import MARK_BASELINE, REVISION_N
 
-ENTITY = ''
-SAMPLE = {}
+ENTITY = 'cost_price_movement_alerts'
+SAMPLE = {'reference': 's10-row', 'status': 'open', 'alert_reference': 's10-row', 'part_number': 's10-row', 'supplier': 's10-row', 'threshold_mad': 1.0, 'movement_pct': 1.5, 'previous_price_mad': 1.0, 'current_price_mad': 1.0, 'alert_level': 'info', 'plant': 'plant-casablanca', 'notified': True}
 TENANT = "test-tenant"
 
 

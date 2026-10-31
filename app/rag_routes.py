@@ -7,10 +7,11 @@ from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
+from starlette.concurrency import run_in_threadpool
 
-from app import llm, retrieval
+from app import llm, retrieval, security
 from app.authority import authority
-from app.tenancy import Unauthorized, current_tenant, require_principal, reset_current_tenant, set_current_tenant
+from app.tenancy import Unauthorized, require_principal, reset_current_tenant, set_current_tenant
 
 router = APIRouter()
 
@@ -36,6 +37,8 @@ async def ingest(request: Request):
     except Unauthorized:
         return _unauthorized()
     raw = await request.body()
+    if security.body_too_large(raw):
+        return JSONResponse(status_code=413, content={"ok": False, "error": "body_too_large"})
     try:
         body = json.loads(raw.decode("utf-8")) if raw else {}
     except (UnicodeDecodeError, ValueError):
@@ -50,17 +53,15 @@ async def ingest(request: Request):
                      "rejection_reason": "missing_required"},
             headers={"X-Rejected-Field": json.dumps("text"), "X-Rejection-Reason": "missing_required"},
         )
-    token = set_current_tenant(principal.tenant_id)
-    try:
-        saved = retrieval.ingest(
-            text,
-            source=str(body.get("source") or "upload"),
-            document_name=str(body.get("document_name") or body.get("title") or ""),
-            document_type=str(body.get("document_type") or "bom"),
-            tenant_id=principal.tenant_id,
-        )
-    finally:
-        reset_current_tenant(token)
+    saved = await run_in_threadpool(
+        retrieval.ingest,
+        text,
+        str(body.get("source") or "upload"),
+        str(body.get("document_name") or body.get("title") or ""),
+        str(body.get("document_type") or "bom"),
+        principal.tenant_id,
+        str(body.get("plant") or ""),
+    )
     return JSONResponse(
         status_code=200,
         content={"ok": True, "id": saved.get("id"), "record": saved, "stored": saved,
@@ -96,11 +97,13 @@ async def query_get(request: Request):
         top_k = int(params.get("top_k") or 5)
     except (TypeError, ValueError):
         top_k = 5
+    top_k = max(1, min(20, top_k))
     if not question.strip():
         return JSONResponse(status_code=422, content={"ok": False, "error": "missing_required",
                                                       "rejected_field": "q",
                                                       "rejection_reason": "missing_required"})
-    return JSONResponse(status_code=200, content=_query(principal.tenant_id, question, top_k))
+    body = await run_in_threadpool(_query, principal.tenant_id, question, top_k)
+    return JSONResponse(status_code=200, content=body)
 
 
 @router.post("/v1/rag/query", operation_id="rag_query_post")
@@ -121,8 +124,10 @@ async def query_post(request: Request):
         top_k = int(body.get("top_k") or 5)
     except (TypeError, ValueError):
         top_k = 5
+    top_k = max(1, min(20, top_k))
     if not question.strip():
         return JSONResponse(status_code=422, content={"ok": False, "error": "missing_required",
                                                       "rejected_field": "q",
                                                       "rejection_reason": "missing_required"})
-    return JSONResponse(status_code=200, content=_query(principal.tenant_id, question, top_k))
+    body = await run_in_threadpool(_query, principal.tenant_id, question, top_k)
+    return JSONResponse(status_code=200, content=body)

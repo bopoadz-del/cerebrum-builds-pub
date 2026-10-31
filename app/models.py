@@ -119,10 +119,10 @@ CostPriceMovementAlerts = _base(
         "alert_reference": {"type": "str", "required": True},
         "part_number": {"type": "str"},
         "supplier": {"type": "str"},
-        "threshold_mad": {"type": "money", "min": 0},
+        "threshold_mad": {"type": "money", "min": 0, "required": True},
         "movement_pct": {"type": "float"},
-        "previous_price_mad": {"type": "money", "min": 0},
-        "current_price_mad": {"type": "money", "min": 0},
+        "previous_price_mad": {"type": "money", "min": 0, "required": True},
+        "current_price_mad": {"type": "money", "min": 0, "required": True},
         "alert_level": {"type": "str", "allowed_values": ["info", "warning", "critical"]},
         "plant": {"type": "str", "allowed_values": list(PLANT_VALUES)},
         "notified": {"type": "bool"},
@@ -156,17 +156,18 @@ DocumentRevisionNudges = _base(
 
 DocumentIngestionFromM365AndUpload = _base(
     "document_ingestion_from_m365_and_upload",
-    ["document_name", "source", "document_type", "content_text", "drive_item_id", "plant"],
+    ["document_name", "source", "document_type", "content_text", "drive_item_id", "file_path", "plant"],
     {
         "document_name": {"type": "str", "required": True},
         "source": {"type": "str", "allowed_values": ["onedrive", "outlook", "upload"]},
         "document_type": {"type": "str", "allowed_values": list(DOCUMENT_TYPES)},
         "content_text": {"type": "str"},
         "drive_item_id": {"type": "str"},
+        "file_path": {"type": "str"},
         "plant": {"type": "str", "allowed_values": list(PLANT_VALUES)},
     },
     {"document_name": "str", "source": "str", "document_type": "str",
-     "content_text": "str", "drive_item_id": "str", "plant": "str"},
+     "content_text": "str", "drive_item_id": "str", "file_path": "str", "plant": "str"},
     {"source": "upload", "document_type": "bom"},
     [], [],
 )
@@ -192,7 +193,7 @@ ManagerOnlyAccess = _base(
     ["manager_name", "manager_email", "role", "plant"],
     {
         "manager_name": {"type": "str"},
-        "manager_email": {"type": "str", "format": "email"},
+        "manager_email": {"type": "str", "format": "email", "required": True},
         "role": {"type": "str", "allowed_values": ["manager"]},
         "plant": {"type": "str", "allowed_values": list(PLANT_VALUES)},
     },

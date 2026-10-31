@@ -64,7 +64,13 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
     if refused:
         return refused
 
-    hits = retrieval.search(question, top_k=top_k, tenant_id=current_tenant())
+    hits = retrieval.search(
+        question,
+        top_k=top_k,
+        tenant_id=current_tenant(),
+        plant=str(record.get("plant") or ""),
+        document_type=str(record.get("document_type") or ""),
+    )
     sources = retrieval.citations(hits)
     synthesis = llm.synthesize(question, hits)
     answer_authority = authority(2, source=sources[0]["document_name"] if sources else "no_source")

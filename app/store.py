@@ -226,12 +226,16 @@ def get(entity: str, record_id: int, tenant_id: str) -> Optional[Dict[str, Any]]
     return _row_to_dict(entity, row) if row is not None else None
 
 
-def list_all(entity: str, tenant_id: str) -> List[Dict[str, Any]]:
+def list_all(entity: str, tenant_id: str, limit: Optional[int] = None,
+             offset: int = 0) -> List[Dict[str, Any]]:
     table = _table(entity)
+    query = select(table).where(table.c.tenant_id == tenant_id).order_by(table.c.id)
+    if offset:
+        query = query.offset(int(offset))
+    if limit is not None:
+        query = query.limit(int(limit))
     with _db.engine().connect() as conn:
-        rows = conn.execute(
-            select(table).where(table.c.tenant_id == tenant_id).order_by(table.c.id)
-        ).fetchall()
+        rows = conn.execute(query).fetchall()
     return [_row_to_dict(entity, row) for row in rows]
 
 

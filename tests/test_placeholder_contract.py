@@ -183,7 +183,7 @@ def _record_capability_failure(capability_id):
 
 def test_cost_price_movement_alerts_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/cost_price_movement_alerts", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/cost_price_movement_alerts", {}, AUTH, 'cost_price_movement_alerts')
+    resp, _corr = _post_accepting("/v1/cost_price_movement_alerts", {'reference': 'sample', 'status': 'open', 'alert_reference': 'sample', 'part_number': 'sample', 'supplier': 'sample', 'threshold_mad': 1.0, 'movement_pct': 1.5, 'previous_price_mad': 1.0, 'current_price_mad': 1.0, 'alert_level': 'info', 'plant': 'plant-casablanca', 'notified': True}, AUTH, 'cost_price_movement_alerts')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False
@@ -197,7 +197,7 @@ def test_cost_price_movement_alerts_answers_the_declared_unavailable_refusal():
 
 def test_document_ingestion_from_m365_and_upload_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/document_ingestion_from_m365_and_upload", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/document_ingestion_from_m365_and_upload", {}, AUTH, 'document_ingestion_from_m365_and_upload')
+    resp, _corr = _post_accepting("/v1/document_ingestion_from_m365_and_upload", {'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'source': 'onedrive', 'document_type': 'bom', 'content_text': 'sample', 'drive_item_id': 'sample', 'plant': 'plant-casablanca'}, AUTH, 'document_ingestion_from_m365_and_upload')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False
@@ -211,7 +211,7 @@ def test_document_ingestion_from_m365_and_upload_answers_the_declared_unavailabl
 
 def test_supplier_cost_and_parts_pricing_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/supplier_cost_and_parts_pricing", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/supplier_cost_and_parts_pricing", {}, AUTH, 'supplier_cost_and_parts_pricing')
+    resp, _corr = _post_accepting("/v1/supplier_cost_and_parts_pricing", {'reference': 'sample', 'status': 'open', 'invoice_reference': 'sample', 'supplier': 'sample', 'part_number': 'sample', 'amount_mad': 1.0, 'quantity': 1, 'unit_cost_mad': 1.0, 'price_mad': 1.0, 'plant': 'plant-casablanca', 'invoice_date': '2026-09-03', 'markup_ratio': 1.5}, AUTH, 'supplier_cost_and_parts_pricing')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False

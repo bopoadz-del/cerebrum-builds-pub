@@ -15,12 +15,12 @@ import pytest
 from app import backup, store
 from app.migrations import current_revision, downgrade, upgrade_head, upgrade_to
 
-ENTITY = ''
-SAMPLE = {}
+ENTITY = 'cost_price_movement_alerts'
+SAMPLE = {'reference': 's10-row', 'status': 'open', 'alert_reference': 's10-row', 'part_number': 's10-row', 'supplier': 's10-row', 'threshold_mad': 1.0, 'movement_pct': 1.5, 'previous_price_mad': 1.0, 'current_price_mad': 1.0, 'alert_level': 'info', 'plant': 'plant-casablanca', 'notified': True}
 #: Tenant the generated tests act as. Tenant-scoped store calls require
 #: an explicit tenant — never a default (the tenancy module's rule).
 TENANT = "test-tenant"
-ENTITIES = []
+ENTITIES = ['cost_price_movement_alerts', 'document_grounded_qa', 'document_ingestion_from_m365_and_upload', 'document_revision_nudges', 'manager_dashboard', 'manager_only_access', 'sap_odata_connector', 'supplier_cost_and_parts_pricing']
 REV_V1 = '0001_baseline'
 REV_V2 = '0002_lifecycle_audit'
 AUDIT = 'lifecycle_audit'

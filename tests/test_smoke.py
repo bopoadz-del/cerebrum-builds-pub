@@ -83,7 +83,7 @@ def test_every_capability_handle_returns_mapping():
     failures = []
     from app.actions import document_grounded_qa
     try:
-        out = document_grounded_qa.handle({})
+        out = document_grounded_qa.handle({'reference': 'sample', 'status': 'open', 'question': 'sample', 'plant': 'plant-casablanca', 'document_type': 'bom', 'top_k': 1, 'answer': 'sample', 'authority': 'sample', 'tenant_scope': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -91,7 +91,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('document_grounded_qa')
     from app.actions import supplier_cost_and_parts_pricing
     try:
-        out = supplier_cost_and_parts_pricing.handle({})
+        out = supplier_cost_and_parts_pricing.handle({'reference': 'sample', 'status': 'open', 'invoice_reference': 'sample', 'supplier': 'sample', 'part_number': 'sample', 'amount_mad': 1.0, 'quantity': 1, 'unit_cost_mad': 1.0, 'price_mad': 1.0, 'plant': 'plant-casablanca', 'invoice_date': '2026-09-03', 'markup_ratio': 1.5})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -99,7 +99,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('supplier_cost_and_parts_pricing')
     from app.actions import cost_price_movement_alerts
     try:
-        out = cost_price_movement_alerts.handle({})
+        out = cost_price_movement_alerts.handle({'reference': 'sample', 'status': 'open', 'alert_reference': 'sample', 'part_number': 'sample', 'supplier': 'sample', 'threshold_mad': 1.0, 'movement_pct': 1.5, 'previous_price_mad': 1.0, 'current_price_mad': 1.0, 'alert_level': 'info', 'plant': 'plant-casablanca', 'notified': True})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -107,7 +107,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('cost_price_movement_alerts')
     from app.actions import document_revision_nudges
     try:
-        out = document_revision_nudges.handle({})
+        out = document_revision_nudges.handle({'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'document_type': 'bom', 'revision_from': 'sample', 'revision_to': 'sample', 'manager_email': 'guest@example.com', 'plant': 'plant-casablanca', 'notified': True})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -115,7 +115,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('document_revision_nudges')
     from app.actions import document_ingestion_from_m365_and_upload
     try:
-        out = document_ingestion_from_m365_and_upload.handle({})
+        out = document_ingestion_from_m365_and_upload.handle({'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'source': 'onedrive', 'document_type': 'bom', 'content_text': 'sample', 'drive_item_id': 'sample', 'plant': 'plant-casablanca'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -123,7 +123,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('document_ingestion_from_m365_and_upload')
     from app.actions import manager_dashboard
     try:
-        out = manager_dashboard.handle({})
+        out = manager_dashboard.handle({'reference': 'sample', 'status': 'open', 'plant': 'plant-casablanca', 'period_start': '2026-09-03', 'period_end': '2026-09-03', 'include_alerts': True, 'layout': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -131,7 +131,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('manager_dashboard')
     from app.actions import manager_only_access
     try:
-        out = manager_only_access.handle({})
+        out = manager_only_access.handle({'reference': 'sample', 'status': 'open', 'manager_name': 'sample', 'manager_email': 'guest@example.com', 'role': 'manager', 'plant': 'plant-casablanca'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -139,7 +139,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('manager_only_access')
     from app.actions import sap_odata_connector
     try:
-        out = sap_odata_connector.handle({})
+        out = sap_odata_connector.handle({'reference': 'sample', 'status': 'open', 'company_code': 'sample', 'operation': 'status', 'base_url': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -157,7 +157,7 @@ def test_every_capability_executes_end_to_end():
     import json as _json
     failures = []
     from app.actions import document_grounded_qa
-    out = document_grounded_qa.handle({})
+    out = document_grounded_qa.handle({'reference': 'sample', 'status': 'open', 'question': 'sample', 'plant': 'plant-casablanca', 'document_type': 'bom', 'top_k': 1, 'answer': 'sample', 'authority': 'sample', 'tenant_scope': 'sample'})
     if not isinstance(out, dict):
         failures.append('document_grounded_qa returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('document_grounded_qa')
@@ -168,7 +168,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('document_grounded_qa reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('document_grounded_qa')
     from app.actions import supplier_cost_and_parts_pricing
-    out = supplier_cost_and_parts_pricing.handle({})
+    out = supplier_cost_and_parts_pricing.handle({'reference': 'sample', 'status': 'open', 'invoice_reference': 'sample', 'supplier': 'sample', 'part_number': 'sample', 'amount_mad': 1.0, 'quantity': 1, 'unit_cost_mad': 1.0, 'price_mad': 1.0, 'plant': 'plant-casablanca', 'invoice_date': '2026-09-03', 'markup_ratio': 1.5})
     if not isinstance(out, dict):
         failures.append('supplier_cost_and_parts_pricing returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('supplier_cost_and_parts_pricing')
@@ -179,7 +179,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('supplier_cost_and_parts_pricing reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('supplier_cost_and_parts_pricing')
     from app.actions import cost_price_movement_alerts
-    out = cost_price_movement_alerts.handle({})
+    out = cost_price_movement_alerts.handle({'reference': 'sample', 'status': 'open', 'alert_reference': 'sample', 'part_number': 'sample', 'supplier': 'sample', 'threshold_mad': 1.0, 'movement_pct': 1.5, 'previous_price_mad': 1.0, 'current_price_mad': 1.0, 'alert_level': 'info', 'plant': 'plant-casablanca', 'notified': True})
     if not isinstance(out, dict):
         failures.append('cost_price_movement_alerts returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('cost_price_movement_alerts')
@@ -190,7 +190,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('cost_price_movement_alerts reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('cost_price_movement_alerts')
     from app.actions import document_revision_nudges
-    out = document_revision_nudges.handle({})
+    out = document_revision_nudges.handle({'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'document_type': 'bom', 'revision_from': 'sample', 'revision_to': 'sample', 'manager_email': 'guest@example.com', 'plant': 'plant-casablanca', 'notified': True})
     if not isinstance(out, dict):
         failures.append('document_revision_nudges returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('document_revision_nudges')
@@ -201,7 +201,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('document_revision_nudges reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('document_revision_nudges')
     from app.actions import document_ingestion_from_m365_and_upload
-    out = document_ingestion_from_m365_and_upload.handle({})
+    out = document_ingestion_from_m365_and_upload.handle({'reference': 'sample', 'status': 'open', 'document_name': 'sample', 'source': 'onedrive', 'document_type': 'bom', 'content_text': 'sample', 'drive_item_id': 'sample', 'plant': 'plant-casablanca'})
     if not isinstance(out, dict):
         failures.append('document_ingestion_from_m365_and_upload returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('document_ingestion_from_m365_and_upload')
@@ -212,7 +212,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('document_ingestion_from_m365_and_upload reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('document_ingestion_from_m365_and_upload')
     from app.actions import manager_dashboard
-    out = manager_dashboard.handle({})
+    out = manager_dashboard.handle({'reference': 'sample', 'status': 'open', 'plant': 'plant-casablanca', 'period_start': '2026-09-03', 'period_end': '2026-09-03', 'include_alerts': True, 'layout': 'sample'})
     if not isinstance(out, dict):
         failures.append('manager_dashboard returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('manager_dashboard')
@@ -223,7 +223,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('manager_dashboard reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('manager_dashboard')
     from app.actions import manager_only_access
-    out = manager_only_access.handle({})
+    out = manager_only_access.handle({'reference': 'sample', 'status': 'open', 'manager_name': 'sample', 'manager_email': 'guest@example.com', 'role': 'manager', 'plant': 'plant-casablanca'})
     if not isinstance(out, dict):
         failures.append('manager_only_access returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('manager_only_access')
@@ -234,7 +234,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('manager_only_access reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('manager_only_access')
     from app.actions import sap_odata_connector
-    out = sap_odata_connector.handle({})
+    out = sap_odata_connector.handle({'reference': 'sample', 'status': 'open', 'company_code': 'sample', 'operation': 'status', 'base_url': 'sample'})
     if not isinstance(out, dict):
         failures.append('sap_odata_connector returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('sap_odata_connector')

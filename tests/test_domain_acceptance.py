@@ -14,7 +14,7 @@ from app.domain_ops import OUTCOMES, perform_all
 from app.migrations import upgrade_head
 
 EXPECTED = ['create_persists', 'read_returns_persisted', 'update_persists', 'delete_persists', 'list_only_persisted', 'queue_item_processed', 'refused_action_errors', 'idempotent_duplicate_safe', 'unauthorized_rejected', 'missing_field_rejected']
-CAPABILITY = ''
+CAPABILITY = 'cost_price_movement_alerts'
 
 
 import json as _cap_json
