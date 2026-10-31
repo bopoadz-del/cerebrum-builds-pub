@@ -1,0 +1,143 @@
+{
+  "build_level": "pilot",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "knowledge",
+        "search",
+        "vector_search",
+        "llm_enhancer",
+        "ocr"
+      ],
+      "connectors": [],
+      "description": "Managers ask natural-language questions grounded in uploaded documents (BOMs, work instructions, quality procedures, supplier price lists); the system retrieves the relevant passages across both plants and answers from them, citing the source.",
+      "id": "document_grounded_qa",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_canonical_model",
+        "finance_import",
+        "finance_data_quality",
+        "finance_reconciliation",
+        "validation"
+      ],
+      "connectors": [
+        "sap_erp"
+      ],
+      "description": "Tracks supplier costs, parts pricing and invoices in MAD, pulls costing and invoicing data from SAP ERP, and holds the money model the reasoning layer reasons over.",
+      "id": "supplier_cost_and_parts_pricing",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "approval_rules",
+        "notification",
+        "email",
+        "analytics",
+        "dashboard"
+      ],
+      "connectors": [
+        "outlook"
+      ],
+      "description": "Watches supplier cost and parts price movements (on POs and invoices) against manager-set thresholds in MAD, and raises alerts with an emailed Outlook notification and a dashboard entry.",
+      "id": "cost_price_movement_alerts",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "version_diff",
+        "microsoft_365",
+        "notification",
+        "email",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Detects when a work instruction or quality procedure is revised in Microsoft 365 or on upload, and nudges affected managers by Outlook email and on the dashboard.",
+      "id": "document_revision_nudges",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "onedrive",
+        "microsoft_365",
+        "capture",
+        "ingestion_provenance",
+        "pdf"
+      ],
+      "connectors": [
+        "outlook"
+      ],
+      "description": "Ingests BOMs, work instructions, quality procedures and supplier price lists from OneDrive/Outlook and from direct file uploads, with provenance recorded so answers stay grounded.",
+      "id": "document_ingestion_from_m365_and_upload",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "aesthetic_kit"
+      ],
+      "connectors": [],
+      "description": "A single manager dashboard showing cost and parts-price movements in MAD, recent document revisions, and open alerts across both plants.",
+      "id": "manager_dashboard",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth",
+        "user_auth",
+        "multi_tenant_rbac"
+      ],
+      "connectors": [],
+      "description": "Simple manager-only log-in and roles, covering a handful to a few dozen managers across the two Moroccan plants.",
+      "id": "manager_only_access",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "sap_odata_connector"
+      ],
+      "connectors": [],
+      "description": "Sap Odata Connector capability (reused from the block store)",
+      "id": "sap_odata_connector",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "sap_erp",
+    "outlook"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "MA",
+    "currency": "MAD"
+  },
+  "n_required": 8,
+  "product_id": "product",
+  "product_name": "car manufacturing platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A pilot platform for manager-level users at two electric-car plants in Morocco, each running five production lines on 12-hour shifts around the clock. It puts a reasoning layer over money and documents: it tracks supplier costs, parts pricing and invoicing in MAD, plugs into SAP ERP for costing/invoicing data, and answers managers' questions grounded in documents they upload (BOMs, work instructions, quality procedures, supplier price lists) sourced from Microsoft 365 (OneDrive/Outlook) and uplo",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}

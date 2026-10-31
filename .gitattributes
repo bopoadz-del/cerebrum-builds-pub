@@ -1,3 +1,0 @@
-# Line endings: every text file is stored with LF on every platform; git's own
-# detection decides text vs binary per file.
-* text=auto eol=lf
