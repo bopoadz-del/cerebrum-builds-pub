@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.collection_planning_tracking"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "collection_planning_tracking"
+      },
+      {
+        "type": "capability",
+        "value": "collection_planning_tracking"
+      }
+    ]
+  },
+  "agent_id": "product.hat.collection_planning_tracking",
+  "allowed_actions": [
+    "product.collection_planning_tracking"
+  ],
+  "block_ids": [
+    "task_listing",
+    "geolocation_tracking",
+    "workflow"
+  ],
+  "discipline": "collection_planning_tracking",
+  "display_name": "Composting Products from Coffee in Tunisia Collection Planning Tracking Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'collection_planning_tracking' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "collection_planning_tracking"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "workflows": [
+    {
+      "description": "Default linear workflow over planned capabilities.",
+      "name": "Capability sequence",
+      "steps": [
+        {
+          "capability_id": "collection_planning_tracking",
+          "role": "execute"
+        },
+        {
+          "capability_id": "batch_production_tracking",
+          "role": "execute"
+        },
+        {
+          "capability_id": "catalog_pricing_orders",
+          "role": "execute"
+        },
+        {
+          "capability_id": "invoicing_tunisian_vat",
+          "role": "execute"
+        },
+        {
+          "capability_id": "internal_staff_access",
+          "role": "execute"
+        },
+        {
+          "capability_id": "operational_dashboard",
+          "role": "execute"
+        }
+      ],
+      "workflow_id": "product.capability_sequence"
+    }
+  ]
+}

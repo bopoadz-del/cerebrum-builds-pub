@@ -1,0 +1,47 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.operational_dashboard"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "operational_dashboard"
+      },
+      {
+        "type": "capability",
+        "value": "operational_dashboard"
+      }
+    ]
+  },
+  "agent_id": "product.hat.operational_dashboard",
+  "allowed_actions": [
+    "product.operational_dashboard"
+  ],
+  "block_ids": [
+    "dashboard",
+    "analytics"
+  ],
+  "discipline": "operational_dashboard",
+  "display_name": "Composting Products from Coffee in Tunisia Operational Dashboard Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'operational_dashboard' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "operational_dashboard"
+  ]
+}

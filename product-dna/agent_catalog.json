@@ -1,0 +1,339 @@
+{
+  "agents": [
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "auto",
+        "put_off_by": [
+          "disable:product.base"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "unknown"
+          }
+        ]
+      },
+      "agent_id": "product.base",
+      "allowed_actions": [
+        "product.collection_planning_tracking",
+        "product.batch_production_tracking",
+        "product.catalog_pricing_orders",
+        "product.invoicing_tunisian_vat",
+        "product.internal_staff_access",
+        "product.operational_dashboard"
+      ],
+      "context_sources": [
+        {
+          "description": "Tenant/project documents via hybrid retrieval",
+          "kind": "project_documents",
+          "source_id": "project_docs"
+        }
+      ],
+      "discipline": "base",
+      "display_name": "Composting Products from Coffee in Tunisia Base Agent",
+      "extends": null,
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "base",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "summary": "Shared product cortex adapted from RetailClient hat patterns: trusted context, ActionRegistry awareness, honesty policies. Discipline hats specialize this base \u2014 they never replace it.",
+      "tags": [
+        "base",
+        "factory-generated",
+        "product"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.collection_planning_tracking"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "collection_planning_tracking"
+          },
+          {
+            "type": "capability",
+            "value": "collection_planning_tracking"
+          }
+        ]
+      },
+      "agent_id": "product.hat.collection_planning_tracking",
+      "allowed_actions": [
+        "product.collection_planning_tracking"
+      ],
+      "block_ids": [
+        "task_listing",
+        "geolocation_tracking",
+        "workflow"
+      ],
+      "discipline": "collection_planning_tracking",
+      "display_name": "Composting Products from Coffee in Tunisia Collection Planning Tracking Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'collection_planning_tracking' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "collection_planning_tracking"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.batch_production_tracking"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "batch_production_tracking"
+          },
+          {
+            "type": "capability",
+            "value": "batch_production_tracking"
+          }
+        ]
+      },
+      "agent_id": "product.hat.batch_production_tracking",
+      "allowed_actions": [
+        "product.batch_production_tracking"
+      ],
+      "block_ids": [
+        "workflow",
+        "task_listing",
+        "audit"
+      ],
+      "discipline": "batch_production_tracking",
+      "display_name": "Composting Products from Coffee in Tunisia Batch Production Tracking Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'batch_production_tracking' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "batch_production_tracking"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.catalog_pricing_orders"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "catalog_pricing_orders"
+          },
+          {
+            "type": "capability",
+            "value": "catalog_pricing_orders"
+          }
+        ]
+      },
+      "agent_id": "product.hat.catalog_pricing_orders",
+      "allowed_actions": [
+        "product.catalog_pricing_orders"
+      ],
+      "block_ids": [
+        "vendor_catalog",
+        "workflow"
+      ],
+      "discipline": "catalog_pricing_orders",
+      "display_name": "Composting Products from Coffee in Tunisia Catalog Pricing Orders Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'catalog_pricing_orders' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "catalog_pricing_orders"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.invoicing_tunisian_vat"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "invoicing_tunisian_vat"
+          },
+          {
+            "type": "capability",
+            "value": "invoicing_tunisian_vat"
+          }
+        ]
+      },
+      "agent_id": "product.hat.invoicing_tunisian_vat",
+      "allowed_actions": [
+        "product.invoicing_tunisian_vat"
+      ],
+      "block_ids": [
+        "billing",
+        "finance_canonical_model",
+        "finance_coa_governance"
+      ],
+      "discipline": "invoicing_tunisian_vat",
+      "display_name": "Composting Products from Coffee in Tunisia Invoicing Tunisian Vat Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'invoicing_tunisian_vat' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "invoicing_tunisian_vat"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.internal_staff_access"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "internal_staff_access"
+          },
+          {
+            "type": "capability",
+            "value": "internal_staff_access"
+          }
+        ]
+      },
+      "agent_id": "product.hat.internal_staff_access",
+      "allowed_actions": [
+        "product.internal_staff_access"
+      ],
+      "block_ids": [
+        "auth",
+        "multi_tenant_rbac"
+      ],
+      "discipline": "internal_staff_access",
+      "display_name": "Composting Products from Coffee in Tunisia Internal Staff Access Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'internal_staff_access' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "internal_staff_access"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.operational_dashboard"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "operational_dashboard"
+          },
+          {
+            "type": "capability",
+            "value": "operational_dashboard"
+          }
+        ]
+      },
+      "agent_id": "product.hat.operational_dashboard",
+      "allowed_actions": [
+        "product.operational_dashboard"
+      ],
+      "block_ids": [
+        "dashboard",
+        "analytics"
+      ],
+      "discipline": "operational_dashboard",
+      "display_name": "Composting Products from Coffee in Tunisia Operational Dashboard Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'operational_dashboard' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "operational_dashboard"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0"
+}

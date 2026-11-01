@@ -1,0 +1,12 @@
+.git
+.codewhale
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.data
+data
+*.db
+*.db-wal
+*.db-shm
+.env

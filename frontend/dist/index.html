@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coffee-compost factory operations</title>
+<style>
+  :root { color-scheme: light; --ink:#1d2320; --muted:#5c6b63; --line:#d7ded9;
+          --bg:#f4f6f3; --card:#ffffff; --accent:#2f6b4f; --warn:#8a4b16; --bad:#9b2c2c; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--accent); color:#fff; padding:16px 22px; display:flex;
+           align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  header h1 { font-size:19px; margin:0; font-weight:650; letter-spacing:.2px; }
+  header .sub { font-size:12.5px; opacity:.85; }
+  main { max-width:1180px; margin:18px auto 60px; padding:0 18px; display:grid;
+         grid-template-columns: 320px 1fr; gap:18px; align-items:start; }
+  @media (max-width: 880px) { main { grid-template-columns: 1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card h2 { font-size:14px; margin:0 0 12px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); }
+  label { display:block; font-size:12.5px; color:var(--muted); margin:10px 0 4px; }
+  input, select, textarea { width:100%; padding:8px 9px; border:1px solid var(--line);
+          border-radius:7px; font:inherit; background:#fff; color:var(--ink); }
+  textarea { min-height:64px; resize:vertical; }
+  button { font:inherit; padding:9px 14px; border-radius:8px; border:1px solid transparent;
+           background:var(--accent); color:#fff; cursor:pointer; }
+  button.secondary { background:#fff; color:var(--accent); border-color:var(--accent); }
+  button:disabled { opacity:.55; cursor:not-allowed; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .cap-list { list-style:none; padding:0; margin:0; }
+  .cap-list li { padding:9px 10px; border:1px solid var(--line); border-radius:8px;
+                 margin-bottom:8px; cursor:pointer; }
+  .cap-list li.active { border-color:var(--accent); background:#eef5f0; }
+  .cap-list .id { font-weight:600; font-size:13px; }
+  .cap-list .blocks { font-size:11.5px; color:var(--muted); }
+  .authline { font-size:12.5px; background:#eef5f0; border:1px solid #c9ded2;
+              padding:7px 9px; border-radius:7px; color:#26523d; margin-bottom:12px; }
+  .authline strong { font-weight:650; }
+  .status { font-size:13px; margin-top:10px; white-space:pre-wrap; word-break:break-word; }
+  .status.err { color:var(--bad); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.4px; }
+  pre { background:#0f1712; color:#d8efe0; padding:12px; border-radius:8px; overflow:auto;
+        font-size:12px; max-height:340px; }
+  .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; }
+  .metric { border:1px solid var(--line); border-radius:8px; padding:10px; }
+  .metric .n { font-size:22px; font-weight:700; }
+  .metric .k { font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
+  .hint { font-size:12px; color:var(--muted); }
+  .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:99px;
+         background:#eef5f0; color:#26523d; border:1px solid #c9ded2; }
+  .tag.bad { background:#fbeeee; color:var(--bad); border-color:#e8c9c9; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Coffee-compost factory operations</h1>
+    <div class="sub">Collections &middot; batches &middot; catalog &middot; Tunisian VAT invoices &middot; staff &middot; dashboard</div>
+  </div>
+  <div class="sub">Platform console &mdash; every answer carries its authority layer</div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Session</h2>
+    <label for="token">Platform bearer token</label>
+    <input id="token" type="password" autocomplete="off" placeholder="PLATFORM_TOKEN">
+    <div class="row" style="margin-top:10px">
+      <button id="connect">Connect</button>
+      <span id="session" class="hint">not connected</span>
+    </div>
+    <h2 style="margin-top:20px">Capabilities</h2>
+    <ul id="caps" class="cap-list"><li class="hint">Connect to load the roster.</li></ul>
+    <div class="row" style="margin-top:6px">
+      <button id="refresh" class="secondary">Refresh roster</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="card" id="workCard">
+      <h2 id="workTitle">Record</h2>
+      <div id="authority" class="authline" hidden></div>
+      <form id="form" autocomplete="off">
+        <div id="fields" class="metrics"></div>
+        <div class="row" style="margin-top:14px">
+          <button type="submit" id="save">Save record</button>
+          <button type="button" id="loadRecords" class="secondary">Load records</button>
+          <button type="button" id="runDashboard" class="secondary">Run operations dashboard</button>
+        </div>
+      </form>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <div id="dashboard" style="margin-top:14px"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Records</h2>
+      <div id="records" class="hint">No records loaded.</div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Platform answer</h2>
+      <pre id="answer">{}</pre>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  "use strict";
+  const state = { token: "", capability: null, capabilities: [] };
+
+  const $ = (id) => document.getElementById(id);
+  const tokenInput = $("token");
+  const capsEl = $("caps");
+  const fieldsEl = $("fields");
+  const statusEl = $("status");
+  const answerEl = $("answer");
+  const authEl = $("authority");
+  const recordsEl = $("records");
+  const dashboardEl = $("dashboard");
+
+  state.token = localStorage.getItem("platform_token") || "";
+  tokenInput.value = state.token;
+
+  function headers() {
+    return { "Content-Type": "application/json", "Authorization": "Bearer " + state.token };
+  }
+
+  function setStatus(text, bad) {
+    statusEl.textContent = text || "";
+    statusEl.className = "status" + (bad ? " err" : "");
+  }
+
+  function showAuthority(body) {
+    const label = body && (body.authority || (body.result && body.result.authority));
+    if (!label) { authEl.hidden = true; return; }
+    const name = label.name || ("layer " + label.layer);
+    authEl.hidden = false;
+    authEl.innerHTML = "Authority: <strong>layer " + escapeHtml(String(label.layer)) + " &middot; " +
+      escapeHtml(name) + "</strong> &mdash; " + escapeHtml(label.source || "") +
+      (label.schema ? " <span class='tag'>" + escapeHtml(label.schema) + "</span>" : "");
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  async function api(path, options) {
+    const resp = await fetch(path, Object.assign({ headers: headers() }, options || {}));
+    let body = null;
+    try { body = await resp.json(); } catch (_) { body = { ok: false, error: "HTTP " + resp.status }; }
+    if (!resp.ok && (!body || typeof body !== "object")) body = { ok: false, error: "HTTP " + resp.status };
+    if (resp.status === 401) throw new Error("401 authentication required: enter a valid PLATFORM_TOKEN");
+    return body;
+  }
+
+  function renderCaps() {
+    capsEl.innerHTML = "";
+    if (!state.capabilities.length) {
+      capsEl.innerHTML = "<li class='hint'>No capabilities returned.</li>";
+      return;
+    }
+    state.capabilities.forEach((cap) => {
+      const li = document.createElement("li");
+      li.className = cap.capability_id === (state.capability && state.capability.capability_id) ? "active" : "";
+      li.innerHTML = "<div class='id'>" + escapeHtml(cap.capability_id) + "</div>" +
+        "<div class='blocks'>" + escapeHtml((cap.block_ids || []).join(", ") || "no blocks") + "</div>";
+      li.addEventListener("click", () => selectCapability(cap));
+      capsEl.appendChild(li);
+    });
+  }
+
+  function fieldControl(name, rule, kind) {
+    const wrap = document.createElement("div");
+    const label = document.createElement("label");
+    label.textContent = name + (rule && rule.required ? " *" : "");
+    label.htmlFor = "f_" + name;
+    const id = "f_" + name;
+    let input;
+    if (kind === "bool") {
+      input = document.createElement("input"); input.type = "checkbox";
+    } else if (rule && Array.isArray(rule.allowed_values) && rule.allowed_values.length) {
+      input = document.createElement("select");
+      rule.allowed_values.forEach((value) => {
+        const opt = document.createElement("option");
+        opt.value = String(value); opt.textContent = String(value);
+        input.appendChild(opt);
+      });
+    } else if (rule && (rule.format === "date" || rule.format === "datetime")) {
+      input = document.createElement("input");
+      input.type = rule.format === "date" ? "date" : "datetime-local";
+    } else if (rule && rule.format === "email") {
+      input = document.createElement("input"); input.type = "email";
+    } else if (rule && rule.format === "money") {
+      input = document.createElement("input"); input.type = "number"; input.step = "0.001";
+    } else {
+      input = document.createElement("input"); input.type = "text";
+    }
+    input.id = id; input.name = name;
+    if (rule && rule.required) input.required = true;
+    if (rule && rule.min !== undefined) input.min = String(rule.min);
+    if (rule && rule.max !== undefined) input.max = String(rule.max);
+    wrap.appendChild(label); wrap.appendChild(input);
+    return wrap;
+  }
+
+  function selectCapability(cap) {
+    state.capability = cap;
+    renderCaps();
+    $("workTitle").textContent = cap.capability_id;
+    fieldsEl.innerHTML = "";
+    (cap.fields || []).forEach((name) => {
+      fieldsEl.appendChild(fieldControl(
+        name, (cap.constraints || {})[name] || {}, (cap.field_types || {})[name] || "str"
+      ));
+    });
+    authEl.hidden = true;
+    dashboardEl.innerHTML = "";
+    setStatus("");
+    recordsEl.textContent = "No records loaded.";
+    answerEl.textContent = "{}";
+  }
+
+  function formPayload() {
+    const payload = {};
+    (state.capability.fields || []).forEach((name) => {
+      const el = document.getElementById("f_" + name);
+      if (!el) return;
+      const value = el.value;
+      const rule = (state.capability.constraints || {})[name] || {};
+      if (el.type === "checkbox") { payload[name] = el.checked; return; }
+      if (value === "") return;
+      if (rule.format === "date" || rule.format === "datetime" || rule.format === "email" ||
+          (rule.allowed_values && rule.allowed_values.length)) {
+        payload[name] = value;
+      } else if (el.type === "number") {
+        payload[name] = Number(value);
+      } else if (el.type === "checkbox") {
+        payload[name] = el.checked;
+      } else {
+        payload[name] = value;
+      }
+    });
+    return payload;
+  }
+
+  async function connect() {
+    state.token = tokenInput.value.trim();
+    localStorage.setItem("platform_token", state.token);
+    setStatus("Connecting…");
+    try {
+      const body = await api("/v1/capabilities");
+      state.capabilities = Array.isArray(body.items) ? body.items : [];
+      $("session").textContent = state.capabilities.length + " capabilities";
+      showAuthority(body);
+      renderCaps();
+      if (state.capabilities.length) selectCapability(state.capabilities[0]);
+      setStatus("Connected.");
+    } catch (err) {
+      setStatus(err.message, true);
+    }
+  }
+
+  async function saveRecord(event) {
+    event.preventDefault();
+    if (!state.capability) return;
+    const payload = formPayload();
+    $("save").disabled = true;
+    setStatus("Saving…");
+    try {
+      const body = await api("/v1/" + state.capability.capability_id, {
+        method: "POST", body: JSON.stringify(payload)
+      });
+      answerEl.textContent = JSON.stringify(body, null, 2);
+      showAuthority(body);
+      if (body.ok === false) {
+        setStatus(body.error || "Refused.", true);
+      } else {
+        setStatus("Stored record " + (body.id == null ? "" : "#" + body.id) + ".");
+        await loadRecords();
+      }
+    } catch (err) {
+      setStatus(err.message, true);
+    } finally {
+      $("save").disabled = false;
+    }
+  }
+
+  async function loadRecords() {
+    if (!state.capability) return;
+    setStatus("Loading records…");
+    try {
+      const body = await api("/v1/" + state.capability.capability_id + "?limit=50");
+      answerEl.textContent = JSON.stringify(body, null, 2);
+      showAuthority(body);
+      const rows = (body && Array.isArray(body.items)) ? body.items : [];
+      if (!rows.length) {
+        recordsEl.textContent = "No records for this tenant yet.";
+      } else {
+        const columns = Object.keys(rows[0]).filter((key) => key !== "tenant_id").slice(0, 7);
+        const head = "<tr>" + columns.map((key) => "<th>" + escapeHtml(key) + "</th>").join("") + "</tr>";
+        const bodyRows = rows.map((row) =>
+          "<tr>" + columns.map((key) => "<td>" + escapeHtml(row[key]) + "</td>").join("") + "</tr>"
+        ).join("");
+        recordsEl.innerHTML = "<table>" + head + bodyRows + "</table>";
+      }
+      setStatus("");
+    } catch (err) {
+      setStatus(err.message, true);
+    }
+  }
+
+  async function runDashboard() {
+    const cap = state.capabilities.find((item) => item.capability_id === "operational_dashboard");
+    if (!cap) { setStatus("The operations dashboard capability is not in this roster.", true); return; }
+    setStatus("Running the operations dashboard…");
+    try {
+      const payload = {};
+      (cap.fields || []).forEach((name) => {
+        const rule = (cap.constraints || {})[name] || {};
+        if (rule.required) {
+          if (rule.allowed_values && rule.allowed_values.length) payload[name] = rule.allowed_values[0];
+          else if (rule.format === "date") payload[name] = new Date().toISOString().slice(0, 10);
+          else payload[name] = "console";
+        }
+      });
+      const body = await api("/v1/operational_dashboard", {
+        method: "POST", body: JSON.stringify(payload)
+      });
+      answerEl.textContent = JSON.stringify(body, null, 2);
+      showAuthority(body);
+      const result = body.result || {};
+      const tiles = [
+        ["Collections open", result.collections_open],
+        ["Batches curing", result.batches_in_curing],
+        ["Orders open", result.orders_open],
+        ["Invoices unpaid", result.invoices_unpaid],
+        ["Quality failures", result.quality_failures],
+        ["Revenue total", result.revenue_total]
+      ];
+      dashboardEl.innerHTML = "<div class='metrics'>" + tiles.map(([k, v]) =>
+        "<div class='metric'><div class='n'>" + escapeHtml(v == null ? "—" : v) + "</div>" +
+        "<div class='k'>" + escapeHtml(k) + "</div></div>"
+      ).join("") + "</div>" +
+      (Array.isArray(result.attention) && result.attention.length
+        ? "<p class='hint'>Attention: " + escapeHtml(result.attention.join("; ")) + "</p>" : "");
+      if (body.ok === false) setStatus(body.error || "Dashboard refused.", true);
+      else setStatus("Dashboard rendered" + (body.id == null ? "" : " and stored as #" + body.id) + ".");
+    } catch (err) {
+      setStatus(err.message, true);
+    }
+  }
+
+  $("connect").addEventListener("click", connect);
+  $("refresh").addEventListener("click", connect);
+  $("form").addEventListener("submit", saveRecord);
+  $("loadRecords").addEventListener("click", loadRecords);
+  $("runDashboard").addEventListener("click", runDashboard);
+  if (state.token) connect();
+})();
+</script>
+</body>
+</html>

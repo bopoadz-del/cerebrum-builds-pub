@@ -1,0 +1,55 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "factory_commit": "4454b9f12df4a835f8128a1051b5bbe427aa199e",
+  "pins": [
+    {
+      "block_id": "analytics",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "auth",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "billing",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dashboard",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_canonical_model",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_coa_governance",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "geolocation_tracking",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "multi_tenant_rbac",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "task_listing",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "vendor_catalog",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "workflow",
+      "source": "dual_registry"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

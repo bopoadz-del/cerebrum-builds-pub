@@ -1,0 +1,47 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.internal_staff_access"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "internal_staff_access"
+      },
+      {
+        "type": "capability",
+        "value": "internal_staff_access"
+      }
+    ]
+  },
+  "agent_id": "product.hat.internal_staff_access",
+  "allowed_actions": [
+    "product.internal_staff_access"
+  ],
+  "block_ids": [
+    "auth",
+    "multi_tenant_rbac"
+  ],
+  "discipline": "internal_staff_access",
+  "display_name": "Composting Products from Coffee in Tunisia Internal Staff Access Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'internal_staff_access' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "internal_staff_access"
+  ]
+}

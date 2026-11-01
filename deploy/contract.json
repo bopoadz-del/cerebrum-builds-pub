@@ -1,0 +1,118 @@
+{
+  "schema": "cerebrum.deploy.v1",
+  "service": "coffee-compost-factory",
+  "product": "Composting Products from Coffee in Tunisia",
+  "image": {
+    "build_context": ".",
+    "dockerfile": "Dockerfile",
+    "tag": "coffee-compost-factory:latest",
+    "base": "python:3.12-slim",
+    "install": "python -m pip install --no-cache-dir -c constraints.txt -r requirements.txt",
+    "runtime_requirements": ["constraints.txt", "requirements.txt"],
+    "build_needs_no_dev_dependencies": [
+      "requirements-dev.txt",
+      "pytest",
+      "pip-audit",
+      "bandit",
+      "scripts/acceptance.py",
+      "scripts/release_gate.py"
+    ],
+    "non_root_user": "platform (uid 10001)",
+    "notes": "runtime requirements only; the grading harness runs inside the image, it does not build it"
+  },
+  "start": {
+    "command": ["sh", "/app/scripts/entrypoint.sh"],
+    "equivalent_command": "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}",
+    "procfile": "web: uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+  },
+  "migrations": {
+    "apply_on_boot": true,
+    "applied_by": [
+      "scripts/entrypoint.sh",
+      "the FastAPI lifespan in app/main.py (app.migrations.upgrade_head)"
+    ],
+    "command": "alembic upgrade head",
+    "on_failure": "refuses boot; /health stays 503",
+    "revisions": ["0001_baseline", "0002_lifecycle_audit", "0003_work_queue"]
+  },
+  "port": 8000,
+  "port_env": "PORT",
+  "port_env_default": 8000,
+  "health_path": "/health",
+  "health": {
+    "path": "/health",
+    "ok_status": 200,
+    "fail_status": 503,
+    "fail_closed": true,
+    "checks": ["process", "persistent_disk", "database", "migrations"]
+  },
+  "metrics_path": "/metrics",
+  "console_path": "/",
+  "console_file": "app/static/index.html",
+  "persistent_volume": {
+    "mount_path": "/data",
+    "env_var": "STORAGE_PATH",
+    "required": true,
+    "contents": [
+      "platform.db (+ -wal/-shm) when DATABASE_URL is unset",
+      "backups/ written by scripts/backup.sh"
+    ],
+    "ownership": "the image declares ENV STORAGE_PATH=/data and creates /data owned by uid 10001 before dropping to it"
+  },
+  "database": {
+    "backend_switch": "app/db.py reads DATABASE_URL; set means Postgres (psycopg v3), absent means SQLite under STORAGE_PATH",
+    "single_decider": "app/db.py resolved_url(), read by app/migrations.py and alembic/env.py"
+  },
+  "required_settings": ["PLATFORM_TOKEN", "PLATFORM_TAX_RATE", "STORAGE_PATH"],
+  "required_settings_notes": {
+    "PLATFORM_TOKEN": "no default: absent means every /v1 route answers 401. Tokens come from the deploy environment only.",
+    "PLATFORM_TAX_RATE": "the customer's Tunisian VAT rate as a decimal fraction (0.19 = 19%); read through app.money_settings at the point of use.",
+    "STORAGE_PATH": "/data in the container; absent or unwritable is 503."
+  },
+  "optional_settings": [
+    "DATABASE_URL",
+    "TENANT_TOKENS",
+    "TENANT_NAMES",
+    "APPROVED_PRINCIPALS",
+    "PLATFORM_COUNTRY",
+    "PLATFORM_CURRENCY",
+    "PLATFORM_RATE_COMPOST_YIELD",
+    "PICKUP_SHORTFALL_ALERT_PCT",
+    "COMPOST_CURING_TARGET_DAYS",
+    "COMPOST_MOISTURE_MIN_PCT",
+    "COMPOST_MOISTURE_MAX_PCT",
+    "COMPOST_TEMPERATURE_MAX_C",
+    "COMPOST_PH_MIN",
+    "COMPOST_PH_MAX",
+    "COMPOST_CN_MIN",
+    "COMPOST_CN_MAX",
+    "CATALOG_MIN_UNIT_PRICE",
+    "CATALOG_MAX_DISCOUNT_PCT",
+    "DASHBOARD_REFRESH_SECONDS",
+    "DASHBOARD_UNPAID_ALERT",
+    "PLATFORM_DASHBOARD_THEME",
+    "BACKUP_DIR",
+    "SENTRY_DSN",
+    "AUTH_FAILURE_MAX",
+    "AUTH_RATE_MAX",
+    "AUTH_RATE_WINDOW_S",
+    "APP_REVISION",
+    "APP_MARK"
+  ],
+  "customer_settings_to_set": {
+    "PLATFORM_TAX_RATE": "the customer's Tunisian VAT rate; 0.19 is the standard rate shipped as an example, not a hardcoded rule",
+    "PLATFORM_RATE_COMPOST_YIELD": "finished compost kg per kg of input; the factory's own process ratio",
+    "PICKUP_SHORTFALL_ALERT_PCT": "shortfall above which the collection team is alerted",
+    "COMPOST_*": "the curing and quality bands the production floor works to"
+  },
+  "connector_settings": {
+    "needed_only_by_the_capability_that_names_them": true,
+    "settings": {},
+    "note": "this blueprint declares no placeholder connectors; every capability runs end to end"
+  },
+  "settings_template": ".env.example",
+  "network_posture": "P1",
+  "network_notes": "no outbound HTTP at runtime, no block-store callback, no cloud LLM: the twelve blocks are vendored in vendor/ and dispatched in-process",
+  "backup": "scripts/backup.sh (pg_dump on DATABASE_URL, otherwise a SQLite .backup of $STORAGE_PATH/platform.db)",
+  "rollback": "scripts/rollback.sh <revision>"
+}

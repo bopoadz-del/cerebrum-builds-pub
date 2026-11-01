@@ -1,0 +1,92 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "blueprint_id": "product:product_blueprint.v1",
+  "factory": "CerebrumDev.ai",
+  "factory_commit": "4454b9f12df4a835f8128a1051b5bbe427aa199e",
+  "generated_at": "blueprint:ddc6449479b3b367b543c9afc85ab1ac13b769d8a291763cd42d6d419211dcaa",
+  "inputs_hash": "ddc6449479b3b367b543c9afc85ab1ac13b769d8a291763cd42d6d419211dcaa",
+  "kernel_version": "1.0.0",
+  "plan": {
+    "capabilities": [
+      {
+        "block_ids": [
+          "task_listing",
+          "geolocation_tracking",
+          "workflow"
+        ],
+        "capability_id": "collection_planning_tracking",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "workflow",
+          "task_listing",
+          "audit"
+        ],
+        "capability_id": "batch_production_tracking",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "vendor_catalog",
+          "workflow"
+        ],
+        "capability_id": "catalog_pricing_orders",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "billing",
+          "finance_canonical_model",
+          "finance_coa_governance"
+        ],
+        "capability_id": "invoicing_tunisian_vat",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "auth",
+          "multi_tenant_rbac"
+        ],
+        "capability_id": "internal_staff_access",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "dashboard",
+          "analytics"
+        ],
+        "capability_id": "operational_dashboard",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      }
+    ],
+    "dual_registered_blocks": [
+      "analytics",
+      "audit",
+      "auth",
+      "billing",
+      "dashboard",
+      "finance_canonical_model",
+      "finance_coa_governance",
+      "geolocation_tracking",
+      "multi_tenant_rbac",
+      "task_listing",
+      "vendor_catalog",
+      "workflow"
+    ],
+    "fail_closed": true,
+    "inventory_domain_gaps": [],
+    "product_id": "product",
+    "unsupported": [],
+    "vertical_scoped_out": []
+  },
+  "product_id": "product",
+  "schema": "factory_provenance.v1",
+  "writer_receipt": "sha256:5aa05a68af79e667be3d6f0462acabc19092056b90c90e691e104c23da777879"
+}

@@ -1,0 +1,19 @@
+# Runtime dependencies for the coffee-compost factory operations platform.
+#
+# RUNTIME ONLY. Everything here is imported by app/**, by a vendored block
+# that app/dispatch.py loads in-process, or by scripts/entrypoint.sh at boot.
+# The test suite and the security scanners live in requirements-dev.txt; the
+# image must never need a dev dependency to build.
+#
+#   pip install -c constraints.txt -r requirements.txt
+
+# --- the service -----------------------------------------------------------
+fastapi             # app/main.py, app/routes.py, app/observability.py
+uvicorn             # the ASGI server scripts/entrypoint.sh execs
+starlette           # app/observe.py imports starlette middleware directly
+pydantic            # request models and the vendored kernel contract models
+
+# --- persistence -----------------------------------------------------------
+sqlalchemy          # app/db.py / app/store.py: bound-parameter Core statements
+alembic             # the versioned schema applied at boot
+psycopg[binary]     # the driver DATABASE_URL is pinned to (psycopg v3)

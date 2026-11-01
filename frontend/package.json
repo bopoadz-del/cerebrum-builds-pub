@@ -1,0 +1,12 @@
+{
+  "name": "coffee-compost-console",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Operator console for the coffee-compost factory: discovers the roster from GET /v1/capabilities and drives the platform's own routes.",
+  "license": "UNLICENSED",
+  "//": "No JS toolchain runs at image build or run time. The console is a single self-contained page at frontend/dist/index.html; python3 build.py validates it and renders the copy the image serves at app/static/index.html. The TSX sources under src/ are the maintained source of that page and are kept in step with it by hand. `npm run build` runs the stdlib-only build script; no package is downloaded.",
+  "scripts": {
+    "build": "python3 build.py",
+    "check": "python3 build.py --check"
+  }
+}

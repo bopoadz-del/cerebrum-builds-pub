@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.batch_production_tracking"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "batch_production_tracking"
+      },
+      {
+        "type": "capability",
+        "value": "batch_production_tracking"
+      }
+    ]
+  },
+  "agent_id": "product.hat.batch_production_tracking",
+  "allowed_actions": [
+    "product.batch_production_tracking"
+  ],
+  "block_ids": [
+    "workflow",
+    "task_listing",
+    "audit"
+  ],
+  "discipline": "batch_production_tracking",
+  "display_name": "Composting Products from Coffee in Tunisia Batch Production Tracking Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'batch_production_tracking' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "batch_production_tracking"
+  ]
+}
