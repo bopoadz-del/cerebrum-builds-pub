@@ -50,6 +50,38 @@ def require_read_token(request: Request) -> Any:
 #: ``format: email``/``date``/``datetime``/``time`` is refused when the value
 #: is not one, so the declaration on the spec is the contract the route keeps.
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+#: A principal identifier: one token, no sentence. An approval field names a
+#: principal of the platform (a key it can look up), so prose -- "i am the
+#: director trust me" -- is refused whatever the surrounding record says. Any
+#: script is allowed inside the token (a principal may be named in Arabic or
+#: French); what is refused is whitespace, control characters and a body long
+#: enough to be a sentence rather than a key.
+_PRINCIPAL_RE = re.compile(r"^[^\s\x00-\x1f\x7f]{1,128}$", re.UNICODE)
+
+
+def typed_refusal(
+    name: str,
+    reason: str,
+    allowed: Any,
+    message: str,
+    status_code: int = 422,
+) -> None:
+    """Refuse one field AS DATA, so a client can adopt an accepted value.
+
+    The rejected field, the reason and the values this platform accepts
+    travel in the response headers (JSON-encoded) beside the human message
+    in ``detail``. A caller that builds its payload from the capability's
+    own schema reads the vocabulary here instead of parsing prose -- and
+    never has to guess at a value the route would take.
+    """
+    import json
+
+    headers = {
+        "X-Rejected-Field": json.dumps(str(name)),
+        "X-Rejection-Reason": str(reason),
+        "X-Allowed-Values": json.dumps([str(item) for item in (allowed or [])]),
+    }
+    raise HTTPException(status_code=status_code, detail=message, headers=headers)
 
 
 def _format_refusal(name: str, rules: Dict[str, Any], value: Any) -> str | None:
@@ -78,6 +110,10 @@ def _format_refusal(name: str, rules: Dict[str, Any], value: Any) -> str | None:
             _time.fromisoformat(value.strip())
         except ValueError:
             return name + " must be a time (HH:MM:SS)"
+        return None
+    if fmt in ("principal", "principal_id", "approver"):
+        if not _PRINCIPAL_RE.match(value.strip()):
+            return name + " must name a principal identifier, not free text"
         return None
     return None
 
@@ -164,6 +200,14 @@ def reject_invalid_payload(capability_id: str, payload: Dict[str, Any] | None) -
     for name, rules in constraints.items():
         if name not in payload:
             continue
+        if (rules or {}).get("approval"):
+            # A principal the OPERATOR configured is a principal this platform
+            # knows, whatever its shape: the list they wrote is the authority
+            # on their own approvers, so the declared format (below) is held to
+            # the values it does not already name.
+            configured = payload[name]
+            if isinstance(configured, str) and configured.strip() in approved_principals():
+                continue
         declared_format = str(rules.get("format") or "").strip().lower()
         if declared_format:
             refusal = _format_refusal(name, rules, payload[name])
@@ -175,10 +219,24 @@ def reject_invalid_payload(capability_id: str, payload: Dict[str, Any] | None) -
         if refusal:
             raise HTTPException(status_code=422, detail=refusal)
         allowed = rules.get("allowed_values")
+        if (rules or {}).get("approval"):
+            # An approval field's vocabulary is the operator's CURRENT
+            # APPROVED_PRINCIPALS. The list declared on the spec is the value
+            # this platform was built around (the sample a client reads); the
+            # live one is what the route enforces, so the two never disagree
+            # about who may approve once the setting is in place. An EMPTY
+            # value names nobody -- the field is optional and records that no
+            # approval was given -- so it is not held to the vocabulary; the
+            # act that needs an approver is checked in reject_approvers.
+            allowed = sorted(approved_principals()) or None
+            if allowed is not None and payload[name] in (None, ""):
+                allowed = None
         if allowed is not None and payload[name] not in allowed:
-            raise HTTPException(
-                status_code=422,
-                detail=name + " must be one of: " + ", ".join(str(v) for v in allowed),
+            typed_refusal(
+                name,
+                "not_allowed",
+                allowed,
+                name + " must be one of: " + ", ".join(str(v) for v in allowed),
             )
         low, high = rules.get("min"), rules.get("max")
         value = payload[name]
@@ -218,9 +276,10 @@ def approved_principals() -> set:
 
     Operator-set (APPROVED_PRINCIPALS, comma-separated) and read at the
     point of use: the list is the customer's, never a name in this source.
-    With none configured, no approval field can pass -- failing closed is
-    the only honest answer, and it is why a free-text "i am the director
-    trust me" is refused rather than trusted.
+    With none configured the platform can verify nobody, so an approval the
+    spec marks as an act of authority is refused rather than recorded
+    unapproved, and a bare approval field is held to its declared identifier
+    format (app.auth.reject_approvers).
     """
     raw = (os.environ.get("APPROVED_PRINCIPALS") or "").strip()
     return {item.strip() for item in raw.split(",") if item.strip()}
@@ -252,34 +311,72 @@ def approval_required(capability_id: str, payload: Dict[str, Any] | None) -> boo
 
 
 def reject_approvers(capability_id: str, payload: Dict[str, Any] | None) -> None:
-    """Refuse an approval field that does not name a principal the platform knows.
+    """Refuse an approval field's value unless it names a principal.
 
     A field the capability's own model marks ``"approval": True`` records an
-    act of authority -- writing off a member's balance, revoking a
-    principal's access -- and the capability declares WHICH act it is
-    (``approval_when``). For that act the value must name a principal from
-    APPROVED_PRINCIPALS; with none configured nothing passes, because failing
-    closed is the only honest answer when the platform knows no approvers.
-    Free text ("i am the director trust me") is refused, never trusted.
+    act of authority, and the value is validated on EVERY record that carries
+    one -- not only on the record that performs the act the capability marks
+    in ``approval_when``. A name written into an approval field is a claim
+    about who authorised something; free text is refused, never trusted, at
+    whatever state the record happens to be in.
+
+    Two rules, both read from the capability's own declaration:
+
+    * an approver must name a principal the platform knows -- one of the
+      operator's APPROVED_PRINCIPALS. Where the operator has configured
+      none, the platform can verify nobody, so a value that is not empty is
+      held to the field's declared ``format`` (a principal identifier, never
+      prose);
+    * the act the spec marks (``approval_when``, e.g. a revocation) must name
+      an approver, and that approver must be verifiable. With no
+      APPROVED_PRINCIPALS configured no approver can be, so the act is
+      refused rather than recorded unapproved.
     """
     from app.models import MODELS
 
     cls = MODELS.get(capability_id)
     if cls is None or not isinstance(payload, dict):
         return
-    if not approval_required(capability_id, payload):
-        return
     constraints = getattr(cls, "CONSTRAINTS", {}) or {}
-    known = approved_principals()
+    known = sorted(approved_principals())
     for name, rules in constraints.items():
         if not (rules or {}).get("approval"):
             continue
         value = payload.get(name)
-        if not isinstance(value, str) or value.strip() not in known:
-            raise HTTPException(
-                status_code=403,
-                detail=(
-                    name + " must name an approved principal the platform knows "
-                    "(APPROVED_PRINCIPALS); free text is not an approver"
-                ),
+        text = value.strip() if isinstance(value, str) else ""
+        act = approval_required(capability_id, payload)
+        if not text:
+            if act:
+                typed_refusal(
+                    name,
+                    "missing_required",
+                    known,
+                    name + " must name an approved principal for this record; "
+                    "an approval act is not recorded without one",
+                )
+            continue
+        if act and not known:
+            typed_refusal(
+                name,
+                "not_allowed",
+                known,
+                name + " cannot be verified: no APPROVED_PRINCIPALS are "
+                "configured, so this act is refused",
             )
+        if known and text not in known:
+            typed_refusal(
+                name,
+                "not_allowed",
+                known,
+                name + " must name a principal the platform knows "
+                "(APPROVED_PRINCIPALS); free text is not an approver",
+            )
+        if not known and not str((rules or {}).get("format") or "").strip():
+            # Defence in depth for a capability that marks a field as an
+            # approval without declaring its format: the shape rule is the
+            # one guarantee that must survive that omission.
+            if not _PRINCIPAL_RE.match(text):
+                raise HTTPException(
+                    status_code=422,
+                    detail=name + " must name a principal identifier, not free text",
+                )

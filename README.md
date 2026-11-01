@@ -70,7 +70,7 @@ tax rate**.
 | `DATABASE_URL` | no | Postgres instead of SQLite. One place decides: `app/db.py`. |
 | `TENANT_TOKENS` | no | `token:tenant_id` pairs, comma separated, for additional tenants. |
 | `TENANT_NAMES` | no | `tenant_id:Display name` pairs. |
-| `APPROVED_PRINCIPALS` | no | Comma-separated principals allowed as `approved_by` on a staff revocation. |
+| `APPROVED_PRINCIPALS` | no | Comma-separated principals allowed as `approved_by` on any staff record, and required for a revocation (an act of authority). With none configured, a recorded approver name is reported as unverified (`approved_by_verified: false`) and a revocation is refused rather than recorded unapproved; a free-text approver is never accepted. |
 | `PLATFORM_RATE_COMPOST_YIELD` | no | Finished compost kg per kg of input (default documented in `.env.example`). |
 | `PICKUP_SHORTFALL_ALERT_PCT` | no | Collection shortfall alert threshold. |
 | `COMPOST_*` | no | Curing target, moisture/pH/temperature/C:N quality bands. |

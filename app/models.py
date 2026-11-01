@@ -14,6 +14,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
+from app.auth import approved_principals
+
 ENVELOPE_STATUS = ["open", "in_progress", "closed"]
 SOURCE_TYPES = ["cafe", "restaurant", "hotel", "roastery", "office", "other"]
 PICKUP_PRIORITIES = ["normal", "high", "low"]
@@ -32,6 +34,15 @@ STAFF_ROLES = [
     "manager", "admin",
 ]
 ACCESS_STATES = ["invited", "active", "suspended", "revoked"]
+
+#: Who may be named in an approval field: the principals the operator
+#: configured (APPROVED_PRINCIPALS, comma-separated), read once at import with
+#: the rest of the settings. Declaring it on the spec is what lets a payload
+#: built from this platform's own schema name a principal it accepts. When the
+#: operator has configured none, the field keeps its identifier format and any
+#: act the spec marks as needing an approver is refused (app.auth), because an
+#: approval this platform cannot verify is not an approval.
+APPROVER_PRINCIPALS = sorted(approved_principals())
 
 
 class _Model:
@@ -273,6 +284,8 @@ class InternalStaffAccess(_Model):
         "access_state": {"allowed_values": ACCESS_STATES},
         "approved_by": {
             "approval": True,
+            "format": "principal_id",
+            **({"allowed_values": APPROVER_PRINCIPALS} if APPROVER_PRINCIPALS else {}),
             "approval_when": {"field": "access_state", "values": ["revoked"]},
         },
         "last_seen_at": {"format": "datetime"},

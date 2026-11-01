@@ -79,7 +79,7 @@ def test_every_capability_handle_returns_mapping():
     failures = []
     from app.actions import collection_planning_tracking
     try:
-        out = collection_planning_tracking.handle({})
+        out = collection_planning_tracking.handle({'reference': 'sample', 'status': 'open', 'source_name': 'sample', 'source_type': 'cafe', 'source_address': 'sample', 'pickup_lat': 1.0, 'pickup_lng': 1.0, 'pickup_date': '2026-09-03', 'planned_kg': 0, 'collected_kg': 0, 'moisture_pct': 1.0, 'crew': 'sample', 'vehicle_id': 'sample', 'priority': 'normal', 'delivered_on': '2026-09-03T10:00:00', 'notes': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -87,7 +87,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('collection_planning_tracking')
     from app.actions import batch_production_tracking
     try:
-        out = batch_production_tracking.handle({})
+        out = batch_production_tracking.handle({'reference': 'sample', 'status': 'open', 'batch_code': 'sample', 'input_material': 'coffee_grounds', 'input_kg': 1.0, 'stage': 'mixing', 'started_on': '2026-09-03', 'curing_days': 1, 'temperature_c': 1.0, 'moisture_pct': 1.0, 'ph': 3, 'c_n_ratio': 5, 'quality_result': 'pending', 'output_kg': 1.0, 'notes': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -95,7 +95,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('batch_production_tracking')
     from app.actions import catalog_pricing_orders
     try:
-        out = catalog_pricing_orders.handle({})
+        out = catalog_pricing_orders.handle({'reference': 'sample', 'status': 'open', 'order_number': 'sample', 'customer_name': 'sample', 'customer_type': 'retail', 'product_sku': 'sample', 'product_name': 'sample', 'price_list': 'retail', 'quantity': 1.0, 'unit_price': 1.0, 'discount_pct': 1.0, 'order_date': '2026-09-03', 'notes': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -103,7 +103,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('catalog_pricing_orders')
     from app.actions import invoicing_tunisian_vat
     try:
-        out = invoicing_tunisian_vat.handle({})
+        out = invoicing_tunisian_vat.handle({'reference': 'sample', 'status': 'open', 'invoice_number': 'sample', 'customer_name': 'sample', 'customer_tax_id': 'sample', 'supply_type': 'goods', 'quantity': 1.0, 'unit_price_ht': 1.0, 'vat_exempt': True, 'vat_rate': 1.0, 'invoice_date': '2026-09-03', 'due_date': '2026-09-03', 'payment_state': 'unpaid', 'notes': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -111,7 +111,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('invoicing_tunisian_vat')
     from app.actions import internal_staff_access
     try:
-        out = internal_staff_access.handle({})
+        out = internal_staff_access.handle({'reference': 'sample', 'status': 'open', 'principal_id': 'sample', 'principal_name': 'sample', 'principal_email': 'guest@example.com', 'role': 'collection_logistics', 'access_state': 'invited', 'approved_by': 'sample', 'team_id': 'sample', 'last_seen_at': '2026-09-03T10:00:00', 'notes': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -119,7 +119,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('internal_staff_access')
     from app.actions import operational_dashboard
     try:
-        out = operational_dashboard.handle({})
+        out = operational_dashboard.handle({'reference': 'sample', 'status': 'open', 'report_date': '2026-09-03', 'collections_open': 1, 'batches_in_curing': 1, 'orders_open': 1, 'invoices_unpaid': 1, 'revenue_total': 1.0, 'quality_failures': 1, 'notes': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -137,7 +137,7 @@ def test_every_capability_executes_end_to_end():
     import json as _json
     failures = []
     from app.actions import collection_planning_tracking
-    out = collection_planning_tracking.handle({})
+    out = collection_planning_tracking.handle({'reference': 'sample', 'status': 'open', 'source_name': 'sample', 'source_type': 'cafe', 'source_address': 'sample', 'pickup_lat': 1.0, 'pickup_lng': 1.0, 'pickup_date': '2026-09-03', 'planned_kg': 0, 'collected_kg': 0, 'moisture_pct': 1.0, 'crew': 'sample', 'vehicle_id': 'sample', 'priority': 'normal', 'delivered_on': '2026-09-03T10:00:00', 'notes': 'sample'})
     if not isinstance(out, dict):
         failures.append('collection_planning_tracking returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('collection_planning_tracking')
@@ -148,7 +148,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('collection_planning_tracking reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('collection_planning_tracking')
     from app.actions import batch_production_tracking
-    out = batch_production_tracking.handle({})
+    out = batch_production_tracking.handle({'reference': 'sample', 'status': 'open', 'batch_code': 'sample', 'input_material': 'coffee_grounds', 'input_kg': 1.0, 'stage': 'mixing', 'started_on': '2026-09-03', 'curing_days': 1, 'temperature_c': 1.0, 'moisture_pct': 1.0, 'ph': 3, 'c_n_ratio': 5, 'quality_result': 'pending', 'output_kg': 1.0, 'notes': 'sample'})
     if not isinstance(out, dict):
         failures.append('batch_production_tracking returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('batch_production_tracking')
@@ -159,7 +159,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('batch_production_tracking reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('batch_production_tracking')
     from app.actions import catalog_pricing_orders
-    out = catalog_pricing_orders.handle({})
+    out = catalog_pricing_orders.handle({'reference': 'sample', 'status': 'open', 'order_number': 'sample', 'customer_name': 'sample', 'customer_type': 'retail', 'product_sku': 'sample', 'product_name': 'sample', 'price_list': 'retail', 'quantity': 1.0, 'unit_price': 1.0, 'discount_pct': 1.0, 'order_date': '2026-09-03', 'notes': 'sample'})
     if not isinstance(out, dict):
         failures.append('catalog_pricing_orders returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('catalog_pricing_orders')
@@ -170,7 +170,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('catalog_pricing_orders reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('catalog_pricing_orders')
     from app.actions import invoicing_tunisian_vat
-    out = invoicing_tunisian_vat.handle({})
+    out = invoicing_tunisian_vat.handle({'reference': 'sample', 'status': 'open', 'invoice_number': 'sample', 'customer_name': 'sample', 'customer_tax_id': 'sample', 'supply_type': 'goods', 'quantity': 1.0, 'unit_price_ht': 1.0, 'vat_exempt': True, 'vat_rate': 1.0, 'invoice_date': '2026-09-03', 'due_date': '2026-09-03', 'payment_state': 'unpaid', 'notes': 'sample'})
     if not isinstance(out, dict):
         failures.append('invoicing_tunisian_vat returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('invoicing_tunisian_vat')
@@ -181,7 +181,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('invoicing_tunisian_vat reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('invoicing_tunisian_vat')
     from app.actions import internal_staff_access
-    out = internal_staff_access.handle({})
+    out = internal_staff_access.handle({'reference': 'sample', 'status': 'open', 'principal_id': 'sample', 'principal_name': 'sample', 'principal_email': 'guest@example.com', 'role': 'collection_logistics', 'access_state': 'invited', 'approved_by': 'sample', 'team_id': 'sample', 'last_seen_at': '2026-09-03T10:00:00', 'notes': 'sample'})
     if not isinstance(out, dict):
         failures.append('internal_staff_access returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('internal_staff_access')
@@ -192,7 +192,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('internal_staff_access reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('internal_staff_access')
     from app.actions import operational_dashboard
-    out = operational_dashboard.handle({})
+    out = operational_dashboard.handle({'reference': 'sample', 'status': 'open', 'report_date': '2026-09-03', 'collections_open': 1, 'batches_in_curing': 1, 'orders_open': 1, 'invoices_unpaid': 1, 'revenue_total': 1.0, 'quality_failures': 1, 'notes': 'sample'})
     if not isinstance(out, dict):
         failures.append('operational_dashboard returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('operational_dashboard')

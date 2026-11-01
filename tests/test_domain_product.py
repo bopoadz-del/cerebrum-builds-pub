@@ -209,3 +209,128 @@ def test_dashboard_is_scoped_to_the_callers_tenant(client):
                   "invoices_unpaid", "quality_failures", "work_in_progress"):
         assert after[field] == before[field], field
     assert after["busiest_queue"] == before["busiest_queue"]
+
+
+# -- staff access: an approver is a principal, not prose --------------------
+#
+# The rule is read from the capability's own declaration: ``approved_by`` is
+# marked approval. A name written there is a claim about who authorised
+# something, so it is validated on every record that carries one -- not only
+# on the record whose access_state performs the act the spec marks.
+
+APPROVER_ACT = "revoked"
+
+
+def _staff_payload(**overrides):
+    payload = sample_payload(
+        "internal_staff_access",
+        reference="staff-approval",
+        principal_id="staff-1",
+        principal_name="Ada Trabelsi",
+        access_state="invited",
+    )
+    payload.update(overrides)
+    return payload
+
+
+def test_approver_must_be_a_principal_identifier(client):
+    """Free text in an approval field is refused by name, never stored."""
+    refused = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(approved_by="i am the director trust me"),
+        headers=AUTH,
+    )
+    assert refused.status_code == 422, refused.text[:300]
+    assert "approved_by" in refused.text, refused.text[:300]
+
+
+def test_approver_must_be_one_the_platform_knows(client, monkeypatch):
+    """Where the operator configured approvers, only those principals pass."""
+    monkeypatch.setenv("APPROVED_PRINCIPALS", "ops-manager,finance-lead")
+    unknown = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(approved_by="some-other-person"),
+        headers=AUTH,
+    )
+    assert unknown.status_code == 422, unknown.text[:300]
+    accepted = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(approved_by="finance-lead"),
+        headers=AUTH,
+    )
+    assert accepted.status_code == 200, accepted.text[:300]
+    assert accepted.json().get("ok") is not False, accepted.text[:300]
+
+
+def test_approval_act_is_not_recorded_without_an_approver(client):
+    """The boundary: the marked act needs an approver, the state beside it not."""
+    refused = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(access_state=APPROVER_ACT, approved_by=""),
+        headers=AUTH,
+    )
+    assert refused.status_code == 422, refused.text[:300]
+    assert "approved_by" in refused.text, refused.text[:300]
+
+
+def test_approval_act_is_recorded_for_a_configured_principal(client, monkeypatch):
+    """Exactly on the line: the same act with a known approver is accepted."""
+    monkeypatch.setenv("APPROVED_PRINCIPALS", "ops-manager,finance-lead")
+    accepted = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(access_state=APPROVER_ACT, approved_by="ops-manager"),
+        headers=AUTH,
+    )
+    assert accepted.status_code == 200, accepted.text[:300]
+    body = accepted.json()
+    assert body.get("ok") is not False, accepted.text[:300]
+    stored = client.get("/v1/internal_staff_access/%s" % body["id"], headers=AUTH)
+    assert stored.status_code == 200
+    assert stored.json()["access_state"] == APPROVER_ACT
+
+
+def test_approver_vocabulary_is_declared_on_the_spec():
+    """The declared contract is what a payload built from the schema follows."""
+    rules = MODELS["internal_staff_access"].CONSTRAINTS["approved_by"]
+    assert rules.get("approval") is True
+    assert rules.get("format") == "principal_id"
+    assert rules.get("approval_when") == {"field": "access_state", "values": [APPROVER_ACT]}
+
+
+def test_empty_approver_names_nobody_and_is_not_checked_against_the_vocabulary(
+    client, monkeypatch
+):
+    """The optional column's empty value records no approval, so no principal
+    is claimed; the act that needs one is a separate rule (above)."""
+    monkeypatch.setenv("APPROVED_PRINCIPALS", "ops-manager,finance-lead")
+    accepted = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(access_state="invited", approved_by=""),
+        headers=AUTH,
+    )
+    assert accepted.status_code == 200, accepted.text[:300]
+    assert accepted.json().get("ok") is not False, accepted.text[:300]
+
+
+def test_answer_says_whether_the_approver_was_verified(client, monkeypatch):
+    """A name is reported as verified only when the operator's directory
+    names it; a name recorded without a directory is never shown as one."""
+    monkeypatch.setenv("APPROVED_PRINCIPALS", "ops-manager")
+    verified = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(approved_by="ops-manager"),
+        headers=AUTH,
+    )
+    assert verified.status_code == 200, verified.text[:300]
+    assert verified.json()["result"]["approved_by_verified"] is True
+
+    monkeypatch.setenv("APPROVED_PRINCIPALS", "")
+    unverified = client.post(
+        "/v1/internal_staff_access",
+        json=_staff_payload(approved_by="someone-else"),
+        headers=AUTH,
+    )
+    assert unverified.status_code == 200, unverified.text[:300]
+    body = unverified.json()
+    assert body["result"]["approved_by_verified"] is False
+    assert body["result"]["approver_directory"] == 0

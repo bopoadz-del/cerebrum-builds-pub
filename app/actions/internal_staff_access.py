@@ -30,6 +30,7 @@ from app.actions._common import (
     success,
     text_of,
 )
+from app.auth import approved_principals
 from app.block_inputs import default_block_action
 
 AUTHORED_BY = "codewhale exec"
@@ -72,6 +73,27 @@ def _permissions(record: Dict[str, Any]) -> List[str]:
     return list(ROLE_PERMISSIONS.get(role, []))
 
 
+def _approval(record: Dict[str, Any]) -> Dict[str, Any]:
+    """Who the record says authorised it, and whether this platform can check.
+
+    An approver name is only "verified" when the operator configured an
+    approver directory (APPROVED_PRINCIPALS) and the name is in it. A name
+    recorded while no directory is configured is reported as unverified --
+    never presented as an approval -- and the capability refuses the access
+    state that is an act of authority entirely in that deployment (the route
+    enforces it through app.auth.reject_approvers).
+    """
+    approved_by = text_of("approved_by", record.get("approved_by"))
+    name = approved_by.strip()
+    known = approved_principals()
+    verified = bool(name) and name in known
+    return {
+        "approved_by": approved_by,
+        "approved_by_verified": verified,
+        "approver_directory": len(known),
+    }
+
+
 def _inputs(record: Dict[str, Any], permissions: List[str]) -> Dict[str, Dict[str, Any]]:
     principal = text_of("principal_id", record.get("principal_id")) or "principal"
     credential = {
@@ -111,6 +133,7 @@ def handle(payload: Any) -> Dict[str, Any]:
         ),
         "approved_by": text_of("approved_by", record.get("approved_by")),
     }
+    decision.update(_approval(record))
 
     actions = dict(BLOCK_DEFAULT_ACTIONS)
     actions["multi_tenant_rbac"] = _RBAC_ACTION

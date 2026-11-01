@@ -13,8 +13,8 @@ from app.main import app
 from app.observe import JsonFormatter, REQUEST_ID_HEADER, strip_emoji
 from app.revision import MARK_BASELINE, REVISION_N
 
-ENTITY = ''
-SAMPLE = {}
+ENTITY = 'batch_production_tracking'
+SAMPLE = {'reference': 's10-row', 'status': 'open', 'batch_code': 's10-row', 'input_material': 'coffee_grounds', 'input_kg': 1.0, 'stage': 'mixing', 'started_on': 's10-row', 'curing_days': 1, 'temperature_c': 1.0, 'moisture_pct': 1.0, 'ph': 3, 'c_n_ratio': 5, 'quality_result': 'pending', 'output_kg': 1.0, 'notes': 's10-row'}
 TENANT = "test-tenant"
 
 

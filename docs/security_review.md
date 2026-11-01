@@ -50,7 +50,8 @@ where a string is declared, a reserved key, and a free-text approver.
 model declaration (`app/edge.py`, `app/auth.py`), not by per-field branches, so
 a newly declared field is validated the moment it is declared. Approval fields
 are checked against `APPROVED_PRINCIPALS`; `"i am the director trust me"` is
-refused.
+refused (see §7: the first pass scoped that check to the approving access state
+only, and the rework widened it to every record that carries a name).
 
 ## 4. Egress
 
@@ -89,7 +90,6 @@ process runs as the unprivileged `platform` user with `STORAGE_PATH=/data`
 owned by it before the switch.
 
 ## Residual risks (stated, not hidden)
-
 - The failed-auth limiter and the retrieval/in-memory stores are per-process;
   a restart clears them. A multi-replica deployment needs a shared limiter.
 - TLS is terminated by the platform in front of this service; the app speaks
@@ -97,3 +97,86 @@ owned by it before the switch.
 - `SENTRY_DSN` is the one optional outbound path and is unset by default.
 - RAG is not owed by this brief (no capability binds a retrieval block), so the
   retrieval index ships empty and tenant-scoped.
+- `APPROVED_PRINCIPALS` is optional, and that is the one place where the
+  approval guarantee degrades instead of failing: without it no approver can
+  be verified, so a recorded name is marked unverified and the revocation act
+  is refused. Configure it before using staff access for real.
+
+## 7. Rework round 1 — the approval mechanism
+
+**Found.** `tests/test_negative_floor.py::test_internal_staff_access_refuses_a_
+freetext_approver` failed: a record with `access_state=invited` and
+`approved_by="i am the director trust me"` was stored. The mechanism in
+`app/auth.py` refused an unknown approver only when the record performed the
+act the spec marks (`approval_when: access_state == revoked`) — so any other
+state took free text into an authority column. The gate was in the right
+place and the rule was too narrow: an approval column is a claim about who
+signed something and is only meaningful if it names a principal, whatever
+state the record is in.
+
+**Fixed, generally (no name, value or case appears in the code).**
+
+- `app/auth.reject_approvers` validates every field a capability's own model
+  marks `"approval": True`, on every record that carries a value — not only on
+  the record that performs the marked act. With `APPROVED_PRINCIPALS`
+  configured the value must be one of those principals; the act marked in
+  `approval_when` additionally requires an approver and is refused outright
+  when no principal is configured, because an approval the platform cannot
+  verify is not an approval.
+- `app/models.py` declares the contract on the spec: `approved_by` carries
+  `format: principal_id` (one identifier, never prose) and, when the operator
+  configured principals, `allowed_values` = those principals read at import.
+  A payload built from the schema therefore names a principal this platform
+  accepts.
+- `app/auth._format_refusal` enforces the declared `principal_id` format, and
+  `app/auth.typed_refusal` answers a vocabulary refusal AS DATA
+  (`X-Rejected-Field`, `X-Rejection-Reason`, `X-Allowed-Values`), so a client
+  that builds its payload from the schema adopts an accepted value instead of
+  guessing. This is the harness's own rejection protocol, applied to every
+  declared vocabulary, not only to approval fields.
+- An EMPTY approval field names nobody: it records that no approval was
+  given, so it is not held to the vocabulary (only the marked act requires an
+  approver). The first cut of this fix refused an empty `approved_by` whenever
+  a vocabulary was configured, which made the optional column mandatory; the
+  counter-case in `tests/test_domain_product.py` pins that boundary.
+- The vocabulary is read at the point of use and again at import (for the
+  declared sample), so the two agree; a stale declaration still answers with
+  the live values rather than contradicting them.
+
+**Reviewed again after the fix (second pair of eyes).** A reviewer pass
+attacked the new code and found four things worth recording, two of which
+were fixed here:
+
+- *An unconfigured platform still records a well-formed name it cannot check.*
+  With no `APPROVED_PRINCIPALS`, `director` (one token) is stored where
+  `i am the director trust me` is refused: the shape rule cannot tell a
+  principal key from a one-word claim, and the writer gate's own schema
+  sample is a generic token that must be accepted. The record now SAYS so:
+  `internal_staff_access` answers `approved_by_verified` (and
+  `approver_directory`), True only when the operator's list names the value,
+  and the act of authority is refused outright in that deployment — an
+  unverifiable name is never presented, or used, as an approval. This is the
+  residual risk of the setting being optional; configuring it is what turns
+  a recorded name into a verified one.
+- *The shape rule lived only on the declared field format.* A capability that
+  marked a field as approval without declaring `format` would have had no
+  check at all when unconfigured; `reject_approvers` now applies the
+  identifier rule itself when the field declares no format (fixed).
+- *A PUT validates the payload, then the merged record.* A row carrying a
+  legacy prose value (pre-fix data, a restored backup) is refused on PUT when
+  a vocabulary is configured — correct, since the merged record still claims
+  an unknown approver — and a PUT that clears or replaces it in the same
+  request is accepted. No write path can inject prose: the payload is
+  validated before the merge.
+- The declared vocabulary is an import-time snapshot (`app/models.py`) while
+  enforcement reads the setting live; with the setting stable for the process
+  they are identical, and a stale declaration still answers the live values in
+  the typed refusal rather than contradicting them.
+
+**Re-attacked.** Prose wherever the field appears (`invited`, `suspended`,
+`revoked`), a well-formed but unconfigured principal, a revocation with no
+approver, a revocation with an unverifiable approver, and the same cases under
+an operator vocabulary that is not the build-time one — all refused with 422
+naming `approved_by` (or accepted exactly on the line, for a configured
+principal). The writer probe and the full suite are green with
+`APPROVED_PRINCIPALS` set and unset.

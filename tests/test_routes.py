@@ -237,7 +237,7 @@ def test_every_capability_route_answers():
     """Code-phase: each capability POST answers HTTP 200 JSON.
     Store ok: False is allowed here — acceptance is the pilot test."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'source_name': 'sample', 'source_type': 'cafe', 'source_address': 'sample', 'pickup_lat': 1.0, 'pickup_lng': 1.0, 'pickup_date': '2026-09-03', 'planned_kg': 0, 'collected_kg': 0, 'moisture_pct': 1.0, 'crew': 'sample', 'vehicle_id': 'sample', 'priority': 'normal', 'delivered_on': '2026-09-03T10:00:00', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/collection_planning_tracking", payload, AUTH, 'collection_planning_tracking')
     if resp.status_code not in (200,):
         failures.append('collection_planning_tracking: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -263,7 +263,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('collection_planning_tracking list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'batch_code': 'sample', 'input_material': 'coffee_grounds', 'input_kg': 1.0, 'stage': 'mixing', 'started_on': '2026-09-03', 'curing_days': 1, 'temperature_c': 1.0, 'moisture_pct': 1.0, 'ph': 3, 'c_n_ratio': 5, 'quality_result': 'pending', 'output_kg': 1.0, 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/batch_production_tracking", payload, AUTH, 'batch_production_tracking')
     if resp.status_code not in (200,):
         failures.append('batch_production_tracking: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -289,7 +289,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('batch_production_tracking list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'order_number': 'sample', 'customer_name': 'sample', 'customer_type': 'retail', 'product_sku': 'sample', 'product_name': 'sample', 'price_list': 'retail', 'quantity': 1.0, 'unit_price': 1.0, 'discount_pct': 1.0, 'order_date': '2026-09-03', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/catalog_pricing_orders", payload, AUTH, 'catalog_pricing_orders')
     if resp.status_code not in (200,):
         failures.append('catalog_pricing_orders: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -315,7 +315,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('catalog_pricing_orders list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'invoice_number': 'sample', 'customer_name': 'sample', 'customer_tax_id': 'sample', 'supply_type': 'goods', 'quantity': 1.0, 'unit_price_ht': 1.0, 'vat_exempt': True, 'vat_rate': 1.0, 'invoice_date': '2026-09-03', 'due_date': '2026-09-03', 'payment_state': 'unpaid', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/invoicing_tunisian_vat", payload, AUTH, 'invoicing_tunisian_vat')
     if resp.status_code not in (200,):
         failures.append('invoicing_tunisian_vat: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -341,7 +341,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('invoicing_tunisian_vat list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'principal_id': 'sample', 'principal_name': 'sample', 'principal_email': 'guest@example.com', 'role': 'collection_logistics', 'access_state': 'invited', 'approved_by': 'sample', 'team_id': 'sample', 'last_seen_at': '2026-09-03T10:00:00', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/internal_staff_access", payload, AUTH, 'internal_staff_access')
     if resp.status_code not in (200,):
         failures.append('internal_staff_access: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -367,7 +367,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('internal_staff_access list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'report_date': '2026-09-03', 'collections_open': 1, 'batches_in_curing': 1, 'orders_open': 1, 'invoices_unpaid': 1, 'revenue_total': 1.0, 'quality_failures': 1, 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/operational_dashboard", payload, AUTH, 'operational_dashboard')
     if resp.status_code not in (200,):
         failures.append('operational_dashboard: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -401,7 +401,7 @@ def test_every_capability_route_accepts_payload():
     """Pilot: spec payload is accepted (ok is not False) and persisted.
     Not the factory code-phase gate."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'source_name': 'sample', 'source_type': 'cafe', 'source_address': 'sample', 'pickup_lat': 1.0, 'pickup_lng': 1.0, 'pickup_date': '2026-09-03', 'planned_kg': 0, 'collected_kg': 0, 'moisture_pct': 1.0, 'crew': 'sample', 'vehicle_id': 'sample', 'priority': 'normal', 'delivered_on': '2026-09-03T10:00:00', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/collection_planning_tracking", payload, AUTH, 'collection_planning_tracking')
     if resp.status_code not in (200,):
         failures.append('collection_planning_tracking: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -427,7 +427,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('collection_planning_tracking missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'batch_code': 'sample', 'input_material': 'coffee_grounds', 'input_kg': 1.0, 'stage': 'mixing', 'started_on': '2026-09-03', 'curing_days': 1, 'temperature_c': 1.0, 'moisture_pct': 1.0, 'ph': 3, 'c_n_ratio': 5, 'quality_result': 'pending', 'output_kg': 1.0, 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/batch_production_tracking", payload, AUTH, 'batch_production_tracking')
     if resp.status_code not in (200,):
         failures.append('batch_production_tracking: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -453,7 +453,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('batch_production_tracking missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'order_number': 'sample', 'customer_name': 'sample', 'customer_type': 'retail', 'product_sku': 'sample', 'product_name': 'sample', 'price_list': 'retail', 'quantity': 1.0, 'unit_price': 1.0, 'discount_pct': 1.0, 'order_date': '2026-09-03', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/catalog_pricing_orders", payload, AUTH, 'catalog_pricing_orders')
     if resp.status_code not in (200,):
         failures.append('catalog_pricing_orders: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -479,7 +479,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('catalog_pricing_orders missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'invoice_number': 'sample', 'customer_name': 'sample', 'customer_tax_id': 'sample', 'supply_type': 'goods', 'quantity': 1.0, 'unit_price_ht': 1.0, 'vat_exempt': True, 'vat_rate': 1.0, 'invoice_date': '2026-09-03', 'due_date': '2026-09-03', 'payment_state': 'unpaid', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/invoicing_tunisian_vat", payload, AUTH, 'invoicing_tunisian_vat')
     if resp.status_code not in (200,):
         failures.append('invoicing_tunisian_vat: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -505,7 +505,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('invoicing_tunisian_vat missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'principal_id': 'sample', 'principal_name': 'sample', 'principal_email': 'guest@example.com', 'role': 'collection_logistics', 'access_state': 'invited', 'approved_by': 'sample', 'team_id': 'sample', 'last_seen_at': '2026-09-03T10:00:00', 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/internal_staff_access", payload, AUTH, 'internal_staff_access')
     if resp.status_code not in (200,):
         failures.append('internal_staff_access: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -531,7 +531,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('internal_staff_access missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'report_date': '2026-09-03', 'collections_open': 1, 'batches_in_curing': 1, 'orders_open': 1, 'invoices_unpaid': 1, 'revenue_total': 1.0, 'quality_failures': 1, 'notes': 'sample'}
     resp, _corr = _post_accepting("/v1/operational_dashboard", payload, AUTH, 'operational_dashboard')
     if resp.status_code not in (200,):
         failures.append('operational_dashboard: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
