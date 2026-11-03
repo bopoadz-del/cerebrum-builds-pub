@@ -1,0 +1,51 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.claim_evidence_and_approvals"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "claim_evidence_and_approvals"
+      },
+      {
+        "type": "capability",
+        "value": "claim_evidence_and_approvals"
+      }
+    ]
+  },
+  "agent_id": "product.hat.claim_evidence_and_approvals",
+  "allowed_actions": [
+    "product.claim_evidence_and_approvals"
+  ],
+  "block_ids": [
+    "evidence_classifier",
+    "evidence_verifier",
+    "evidence_or_refuse",
+    "approval_rules",
+    "governance_gate",
+    "audit_chain"
+  ],
+  "discipline": "claim_evidence_and_approvals",
+  "display_name": "Harbourline Civil Works contracts administration Claim Evidence And Approvals Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'claim_evidence_and_approvals' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "claim_evidence_and_approvals"
+  ]
+}

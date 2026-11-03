@@ -1,0 +1,127 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "blueprint_id": "product:product_blueprint.v1",
+  "factory": "CerebrumDev.ai",
+  "factory_commit": "1ea5b14d8c7413f4c36689dd6a25962b2e07558f",
+  "generated_at": "blueprint:23dfde5be94b18f7098814e3521b17b564ad02ea5210d12e490c4dcd418990dd",
+  "inputs_hash": "23dfde5be94b18f7098814e3521b17b564ad02ea5210d12e490c4dcd418990dd",
+  "kernel_version": "1.0.0",
+  "plan": {
+    "capabilities": [
+      {
+        "block_ids": [
+          "finance_reconciliation",
+          "finance_reconciliation_workflow",
+          "validation",
+          "document_engine",
+          "workflow"
+        ],
+        "capability_id": "progress_claims",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "cpm_engine",
+          "formula_executor",
+          "analytics",
+          "dashboard"
+        ],
+        "capability_id": "delay_damages_tracking",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "construction_advisor",
+          "evidence_chain",
+          "validation",
+          "workflow"
+        ],
+        "capability_id": "qa_itp_records",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "document_engine",
+          "version_diff",
+          "ingestion_provenance",
+          "search",
+          "storage"
+        ],
+        "capability_id": "document_register",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "workflow",
+          "notification",
+          "dashboard"
+        ],
+        "capability_id": "performance_security_tracking",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "estate_maintenance",
+          "workflow",
+          "notification",
+          "audit"
+        ],
+        "capability_id": "defects_notification_period",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "evidence_classifier",
+          "evidence_verifier",
+          "evidence_or_refuse",
+          "approval_rules",
+          "governance_gate",
+          "audit_chain"
+        ],
+        "capability_id": "claim_evidence_and_approvals",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      }
+    ],
+    "dual_registered_blocks": [
+      "analytics",
+      "approval_rules",
+      "audit",
+      "audit_chain",
+      "construction_advisor",
+      "cpm_engine",
+      "dashboard",
+      "document_engine",
+      "estate_maintenance",
+      "evidence_chain",
+      "evidence_classifier",
+      "evidence_or_refuse",
+      "evidence_verifier",
+      "finance_reconciliation",
+      "finance_reconciliation_workflow",
+      "formula_executor",
+      "governance_gate",
+      "ingestion_provenance",
+      "notification",
+      "search",
+      "storage",
+      "validation",
+      "version_diff",
+      "workflow"
+    ],
+    "fail_closed": true,
+    "inventory_domain_gaps": [],
+    "product_id": "product",
+    "unsupported": [],
+    "vertical_scoped_out": []
+  },
+  "product_id": "product",
+  "schema": "factory_provenance.v1",
+  "writer_receipt": "sha256:a6326255fb2a3da6b255bd90bbb593bac1cab3610cc6c921fbc6af1842324c19"
+}

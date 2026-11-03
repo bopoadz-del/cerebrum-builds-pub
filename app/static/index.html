@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Harbourline Civil Works — Contracts Administration</title>
+  <style>
+    :root { --ink:#12202b; --muted:#5b6b78; --line:#d7dee4; --accent:#0a5c7a; --bad:#a3282f; --ok:#1c6b45; --bg:#f5f7f9; }
+    * { box-sizing: border-box; }
+    body { margin:0; font:15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--ink); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid var(--line); padding:16px 24px; display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+    header h1 { font-size:17px; margin:0 16px 0 0; }
+    header .sub { color:var(--muted); font-size:13px; }
+    main { padding:20px 24px 60px; max-width:1180px; margin:0 auto; display:grid; grid-template-columns: 320px 1fr; gap:20px; }
+    section { background:#fff; border:1px solid var(--line); border-radius:8px; padding:16px; }
+    h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 12px; }
+    label { display:block; font-size:12px; color:var(--muted); margin:8px 0 3px; }
+    input, select, textarea { width:100%; padding:7px 9px; border:1px solid var(--line); border-radius:5px; font:inherit; background:#fff; }
+    button { border:1px solid var(--accent); background:var(--accent); color:#fff; padding:8px 12px; border-radius:5px; font:inherit; cursor:pointer; }
+    button.ghost { background:#fff; color:var(--accent); }
+    button:disabled { opacity:.5; cursor:not-allowed; }
+    .row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+    .cap { display:block; width:100%; text-align:left; border:1px solid var(--line); background:#fff; color:var(--ink); margin-bottom:8px; }
+    .cap.active { border-color:var(--accent); box-shadow:inset 3px 0 0 var(--accent); }
+    .cap small { display:block; color:var(--muted); font-weight:400; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { color:var(--muted); font-weight:600; }
+    .badge { display:inline-block; border:1px solid var(--line); border-radius:999px; padding:1px 8px; font-size:11px; color:var(--muted); }
+    .authority { font-size:12px; color:var(--accent); }
+    pre { background:#0f1b23; color:#d7e3ea; padding:12px; border-radius:6px; overflow:auto; font-size:12px; max-height:280px; }
+    .err { color:var(--bad); } .ok { color:var(--ok); }
+    .muted { color:var(--muted); font-size:12px; }
+    #status { margin-left:auto; font-size:12px; }
+    @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Harbourline Civil Works — Contracts Administration</h1>
+  <span class="sub">Contract excerpt &amp; BOQ are the source of record</span>
+  <span id="status" class="muted"></span>
+</header>
+<main>
+  <div>
+    <section>
+      <h2>Access</h2>
+      <label for="token">Platform bearer token</label>
+      <input id="token" type="password" autocomplete="off" placeholder="set by the operator" />
+      <div class="row">
+        <button id="connect">Connect</button>
+        <button id="clear" class="ghost">Forget</button>
+      </div>
+      <p class="muted">The token is held in this browser tab only. Nothing is baked into the page.</p>
+    </section>
+    <section style="margin-top:16px">
+      <h2>Capabilities</h2>
+      <div id="caps" class="muted">Connect to load the register.</div>
+      <div class="row">
+        <button type="button" class="ghost" onclick="selectCapById('document_register')">Document register</button>
+        <button type="button" class="ghost" onclick="selectCapById('claim_evidence_and_approvals')">Claim evidence</button>
+      </div>
+    </section>
+  </div>
+
+  <div>
+    <section>
+      <h2 id="work-title">Select a capability</h2>
+      <p id="work-summary" class="muted"></p>
+      <form id="form" style="display:none">
+        <div id="fields"></div>
+        <div class="row">
+          <button type="submit">Create record</button>
+          <button type="button" id="refresh" class="ghost">Refresh register</button>
+          <button type="button" id="getone" class="ghost">Get by id</button>
+          <input id="byid" type="number" min="1" placeholder="record id" style="max-width:120px" />
+        </div>
+      </form>
+      <div id="notice"></div>
+    </section>
+    <section style="margin-top:16px">
+      <h2>Register</h2>
+      <table>
+        <thead><tr><th>id</th><th>reference</th><th>status</th><th>authority</th><th>updated</th></tr></thead>
+        <tbody id="rows"><tr><td colspan="5" class="muted">No capability selected.</td></tr></tbody>
+      </table>
+    </section>
+    <section style="margin-top:16px">
+      <h2>Answer</h2>
+      <div id="authority" class="authority"></div>
+      <pre id="out">{}</pre>
+    </section>
+  </div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let caps = [];
+let current = null;
+
+function token() { return sessionStorage.getItem("platform_token") || ""; }
+function headers() {
+  const h = { "Content-Type": "application/json" };
+  if (token()) h["Authorization"] = "Bearer " + token();
+  return h;
+}
+function status(msg, bad) {
+  const el = $("status");
+  el.textContent = msg || "";
+  el.className = bad ? "err" : "muted";
+}
+function notice(msg, bad) {
+  $("notice").innerHTML = msg ? '<p class="' + (bad ? "err" : "ok") + '">' + msg + "</p>" : "";
+}
+
+async function api(path, options) {
+  const resp = await fetch(path, Object.assign({ headers: headers() }, options || {}));
+  let body = null;
+  try { body = await resp.json(); } catch (e) { body = { error: "non-JSON response" }; }
+  if (!resp.ok && resp.status !== 503) {
+    const msg = (body && (body.error || body.detail)) || ("HTTP " + resp.status);
+    throw new Error(typeof msg === "string" ? msg : JSON.stringify(msg));
+  }
+  return { status: resp.status, body: body };
+}
+
+async function loadCaps() {
+  const { body } = await api("/v1/capabilities");
+  caps = body.items || [];
+  $("caps").innerHTML = "";
+  caps.forEach((cap) => {
+    const b = document.createElement("button");
+    b.className = "cap";
+    b.innerHTML = "<strong>" + cap.title + "</strong><small>" + cap.id + (cap.persists ? "" : " · connector declared: " + cap.placeholder) + "</small>";
+    b.onclick = () => selectCap(cap, b);
+    $("caps").appendChild(b);
+  });
+  const preferred = caps.find(c => c.id === "document_register") || caps.find(c => c.persists) || caps[0];
+  if (preferred) {
+    const b = Array.from(document.querySelectorAll(".cap")).find(x => x.textContent.includes(preferred.id));
+    selectCap(preferred, b);
+  }
+}
+
+function selectCapById(id) {
+  const cap = caps.find(c => c.id === id);
+  if (!cap) { notice("Connect first", true); return; }
+  const button = Array.from(document.querySelectorAll(".cap")).find(x => x.textContent.includes(id));
+  selectCap(cap, button);
+}
+
+function selectCap(cap, button) {
+  current = cap;
+  document.querySelectorAll(".cap").forEach(x => x.classList.remove("active"));
+  if (button) button.classList.add("active");
+  $("work-title").textContent = cap.title;
+  $("work-summary").textContent = cap.summary;
+  $("form").style.display = "block";
+  const box = $("fields");
+  box.innerHTML = "";
+  cap.fields.forEach((name) => {
+    const label = document.createElement("label");
+    label.textContent = name;
+    label.setAttribute("for", "f_" + name);
+    const input = document.createElement("input");
+    input.id = "f_" + name;
+    input.name = name;
+    if (name === "status") input.value = "open";
+    box.appendChild(label);
+    box.appendChild(input);
+  });
+  notice("");
+  refresh();
+}
+
+function recordFromForm() {
+  const rec = {};
+  if (!current) return rec;
+  current.fields.forEach((name) => {
+    const v = $("f_" + name).value.trim();
+    if (v !== "") rec[name] = v;
+  });
+  return rec;
+}
+
+async function createRecord(ev) {
+  ev.preventDefault();
+  if (!current) return;
+  notice("");
+  try {
+    const { status: code, body } = await api("/v1/" + current.id, { method: "POST", body: JSON.stringify(recordFromForm()) });
+    $("authority").textContent = "authority: " + (body.authority || "2:documents");
+    $("out").textContent = JSON.stringify(body, null, 2);
+    if (code === 503) { notice("Connector unavailable — set " + (body.settings || []).join(", "), true); return; }
+    if (body.ok === false) { notice(body.error || "refused", true); return; }
+    notice("Stored record " + body.id + " under tenant " + body.tenant_id);
+    await refresh();
+  } catch (e) { notice(e.message, true); }
+}
+
+async function refresh() {
+  if (!current) return;
+  try {
+    const { body } = await api("/v1/" + current.id);
+    $("authority").textContent = "authority: " + (body.authority || "2:documents");
+    const rows = body.items || [];
+    if (!rows.length) {
+      $("rows").innerHTML = '<tr><td colspan="5" class="muted">No records yet — create one above.</td></tr>';
+      return;
+    }
+    $("rows").innerHTML = rows.map(r =>
+      "<tr><td>" + r.id + "</td><td>" + (r.reference || "") + "</td><td><span class='badge'>" + (r.status || "") +
+      "</span></td><td>" + (body.authority || "") + "</td><td>" + (r.issued_date || r.inspection_date || r.taking_over_date || r.expiry_date || "") + "</td></tr>"
+    ).join("");
+  } catch (e) { notice(e.message, true); }
+}
+
+async function getOne() {
+  if (!current) return;
+  const id = $("byid").value;
+  if (!id) { notice("Enter a record id", true); return; }
+  try {
+    const { body } = await api("/v1/" + current.id + "/" + id);
+    $("authority").textContent = "authority: " + (body.authority || "2:documents");
+    $("out").textContent = JSON.stringify(body, null, 2);
+    notice("");
+  } catch (e) { notice(e.message, true); }
+}
+
+$("connect").onclick = async () => {
+  sessionStorage.setItem("platform_token", $("token").value.trim());
+  status("connecting…");
+  try { await loadCaps(); status("connected"); } catch (e) { status(e.message, true); }
+};
+$("clear").onclick = () => { sessionStorage.removeItem("platform_token"); $("token").value = ""; status("token forgotten"); };
+$("form").onsubmit = createRecord;
+$("refresh").onclick = refresh;
+$("getone").onclick = getOne;
+if (token()) { $("token").value = token(); loadCaps().then(() => status("connected")).catch(e => status(e.message, true)); }
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.defects_notification_period"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "defects_notification_period"
+      },
+      {
+        "type": "capability",
+        "value": "defects_notification_period"
+      }
+    ]
+  },
+  "agent_id": "product.hat.defects_notification_period",
+  "allowed_actions": [
+    "product.defects_notification_period"
+  ],
+  "block_ids": [
+    "estate_maintenance",
+    "workflow",
+    "notification",
+    "audit"
+  ],
+  "discipline": "defects_notification_period",
+  "display_name": "Harbourline Civil Works contracts administration Defects Notification Period Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'defects_notification_period' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "defects_notification_period"
+  ]
+}

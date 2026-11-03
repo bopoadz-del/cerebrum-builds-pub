@@ -1,0 +1,50 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.document_register"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "document_register"
+      },
+      {
+        "type": "capability",
+        "value": "document_register"
+      }
+    ]
+  },
+  "agent_id": "product.hat.document_register",
+  "allowed_actions": [
+    "product.document_register"
+  ],
+  "block_ids": [
+    "document_engine",
+    "version_diff",
+    "ingestion_provenance",
+    "search",
+    "storage"
+  ],
+  "discipline": "document_register",
+  "display_name": "Harbourline Civil Works contracts administration Document Register Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'document_register' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "document_register"
+  ]
+}

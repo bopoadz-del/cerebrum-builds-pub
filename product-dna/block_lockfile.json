@@ -1,0 +1,103 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "factory_commit": "1ea5b14d8c7413f4c36689dd6a25962b2e07558f",
+  "pins": [
+    {
+      "block_id": "analytics",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "approval_rules",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "construction_advisor",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "cpm_engine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dashboard",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "document_engine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "estate_maintenance",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_classifier",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_or_refuse",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_verifier",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_reconciliation",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_reconciliation_workflow",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "formula_executor",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "governance_gate",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "ingestion_provenance",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "notification",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "storage",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "validation",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "version_diff",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "workflow",
+      "source": "dual_registry"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

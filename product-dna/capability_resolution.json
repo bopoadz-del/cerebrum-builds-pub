@@ -1,0 +1,113 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "finance_reconciliation",
+        "finance_reconciliation_workflow",
+        "validation",
+        "document_engine",
+        "workflow"
+      ],
+      "capability_id": "progress_claims",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "analytics",
+        "dashboard"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "construction_advisor",
+        "evidence_chain",
+        "validation",
+        "workflow"
+      ],
+      "capability_id": "qa_itp_records",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version_diff",
+        "ingestion_provenance",
+        "search",
+        "storage"
+      ],
+      "capability_id": "document_register",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "notification",
+        "dashboard"
+      ],
+      "capability_id": "performance_security_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "estate_maintenance",
+        "workflow",
+        "notification",
+        "audit"
+      ],
+      "capability_id": "defects_notification_period",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "evidence_classifier",
+        "evidence_verifier",
+        "evidence_or_refuse",
+        "approval_rules",
+        "governance_gate",
+        "audit_chain"
+      ],
+      "capability_id": "claim_evidence_and_approvals",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "analytics",
+    "approval_rules",
+    "audit",
+    "audit_chain",
+    "construction_advisor",
+    "cpm_engine",
+    "dashboard",
+    "document_engine",
+    "estate_maintenance",
+    "evidence_chain",
+    "evidence_classifier",
+    "evidence_or_refuse",
+    "evidence_verifier",
+    "finance_reconciliation",
+    "finance_reconciliation_workflow",
+    "formula_executor",
+    "governance_gate",
+    "ingestion_provenance",
+    "notification",
+    "search",
+    "storage",
+    "validation",
+    "version_diff",
+    "workflow"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

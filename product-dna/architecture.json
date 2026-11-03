@@ -1,0 +1,93 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "finance_reconciliation",
+        "finance_reconciliation_workflow",
+        "validation",
+        "document_engine",
+        "workflow"
+      ],
+      "capability_id": "progress_claims",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "analytics",
+        "dashboard"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "construction_advisor",
+        "evidence_chain",
+        "validation",
+        "workflow"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version_diff",
+        "ingestion_provenance",
+        "search",
+        "storage"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "notification",
+        "dashboard"
+      ],
+      "capability_id": "performance_security_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "estate_maintenance",
+        "workflow",
+        "notification",
+        "audit"
+      ],
+      "capability_id": "defects_notification_period",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "evidence_classifier",
+        "evidence_verifier",
+        "evidence_or_refuse",
+        "approval_rules",
+        "governance_gate",
+        "audit_chain"
+      ],
+      "capability_id": "claim_evidence_and_approvals",
+      "strategy": "REUSE"
+    }
+  ],
+  "connectors": [
+    "project_accounting_ledger",
+    "primavera_p6_schedule",
+    "project_edms",
+    "bank_guarantee_and_surety_provider",
+    "defects_and_maintenance_system"
+  ],
+  "layers": [],
+  "product_id": "product",
+  "schema_version": "1.0.0",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}

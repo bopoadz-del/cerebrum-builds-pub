@@ -1,0 +1,133 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Harbourline Civil Works contracts administration
+vertical: product
+summary: A contracts-administration platform built for the Harbourline Civil Works
+  project, serving the project's contract administrator and commercial team. It treats
+  the uploaded contract excerpt and BOQ as the source of record, and administers progress
+  claims and interim payment certificates under Clause 14.3 (5% retention, released
+  50/50), tracks delay damages under Clause 8.7 (0.1% of the Accepted Contract Amount
+  per day, capped at 10%), records QA/ITP inspection and test records, and maintains
+  a co
+capabilities:
+- id: progress_claims
+  description: Prepares and certifies interim payment certificates against the BOQ
+    line items (Preliminaries P1-P5 and Earthworks E1-E5), applying the Clause 14.3
+    retention of 5% to each certificate and releasing 50% at Taking-Over and the remaining
+    50% at the end of the Defects Notification Period. Requires the A
+  block_ids:
+  - finance_reconciliation
+  - finance_reconciliation_workflow
+  - validation
+  - document_engine
+  - workflow
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - project_accounting_ledger
+- id: delay_damages_tracking
+  description: Computes time for completion against the Clause 8.2 730-day period
+    from the Commencement Date, accrues delay damages at 0.1% of the Accepted Contract
+    Amount per day under Clause 8.7, applies and enforces the 10% cap, and flags the
+    point at which the cap is reached. Cites document:73bb6fb4f55541d4ac9
+  block_ids:
+  - cpm_engine
+  - formula_executor
+  - analytics
+  - dashboard
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - primavera_p6_schedule
+- id: qa_itp_records
+  description: 'Captures inspection and test plan records per BOQ work section: inspection
+    lots, hold points, witness points, and test results, tied to the Earthworks and
+    Preliminaries items so that QA sign-off gates progress-claim certification. Connects
+    to the project EDMS for issued-for-construction drawings and'
+  block_ids:
+  - construction_advisor
+  - evidence_chain
+  - validation
+  - workflow
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - project_edms
+- id: document_register
+  description: Maintains the controlled document register for the project, including
+    the contract and BOQ as source-of-record documents, with revision tracking, provenance,
+    and retrieval so every claim and QA record cites a registered document revision.
+  block_ids:
+  - document_engine
+  - version_diff
+  - ingestion_provenance
+  - search
+  - storage
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: performance_security_tracking
+  description: Tracks the Clause 4.2 performance security at 10% of the Accepted Contract
+    Amount, records issue and expiry dates, and raises alerts ahead of expiry or on
+    a change in the Accepted Contract Amount. Connects to the surety or bank that
+    issues the guarantee.
+  block_ids:
+  - workflow
+  - notification
+  - dashboard
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - bank_guarantee_and_surety_provider
+- id: defects_notification_period
+  description: Opens the Clause 11.1 365-day Defects Notification Period at Taking-Over,
+    logs defect notifications and close-out evidence, and triggers the release of
+    the second 50% of retention at the end of the period. Connects to the defects
+    and maintenance system.
+  block_ids:
+  - estate_maintenance
+  - workflow
+  - notification
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - defects_and_maintenance_system
+- id: claim_evidence_and_approvals
+  description: Classifies and verifies the evidence attached to each claim and each
+    QA record, routes the certificate through the required approval chain, and fails
+    closed if mandatory evidence is missing. Enforces segregation of duties between
+    the preparer and the certifier.
+  block_ids:
+  - evidence_classifier
+  - evidence_verifier
+  - evidence_or_refuse
+  - approval_rules
+  - governance_gate
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors:
+- project_accounting_ledger
+- primavera_p6_schedule
+- project_edms
+- bank_guarantee_and_surety_provider
+- defects_and_maintenance_system
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null
