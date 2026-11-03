@@ -81,7 +81,7 @@ def test_every_capability_handle_returns_mapping():
     failures = []
     from app.actions import progress_claims
     try:
-        out = progress_claims.handle({})
+        out = progress_claims.handle({'reference': 'sample', 'status': 'open', 'ipc_number': 'sample', 'boq_item': 'sample', 'period': 'sample', 'gross_amount': 1.5, 'retention_amount': 1.5, 'net_certified': 1.5, 'currency': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -89,7 +89,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('progress_claims')
     from app.actions import delay_damages_tracking
     try:
-        out = delay_damages_tracking.handle({})
+        out = delay_damages_tracking.handle({'reference': 'sample', 'status': 'open', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'accepted_contract_amount': 1.5, 'delay_days': 'email', 'delay_damages': 1.5, 'cap_reached': True})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -97,7 +97,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('delay_damages_tracking')
     from app.actions import qa_itp_records
     try:
-        out = qa_itp_records.handle({})
+        out = qa_itp_records.handle({'reference': 'sample', 'status': 'open', 'boq_item': 'sample', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'sample', 'inspection_date': '2026-09-03'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -105,7 +105,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('qa_itp_records')
     from app.actions import document_register
     try:
-        out = document_register.handle({})
+        out = document_register.handle({'reference': 'sample', 'status': 'open', 'title': 'sample', 'revision': 'sample', 'document_type': 'contract', 'source_filename': 'sample', 'checksum': 'sample', 'issued_date': '2026-09-03'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -113,7 +113,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('document_register')
     from app.actions import performance_security_tracking
     try:
-        out = performance_security_tracking.handle({})
+        out = performance_security_tracking.handle({'reference': 'sample', 'status': 'open', 'instrument_number': 'sample', 'accepted_contract_amount': 1.5, 'security_amount': 1.5, 'expiry_date': '2026-09-03', 'issuer': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -121,7 +121,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('performance_security_tracking')
     from app.actions import defects_notification_period
     try:
-        out = defects_notification_period.handle({})
+        out = defects_notification_period.handle({'reference': 'sample', 'status': 'open', 'taking_over_date': '2026-09-03', 'defect_ref': 'sample', 'defect_description': 'sample', 'closeout_evidence': 'sample', 'retention_release_amount': 1.5})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -129,7 +129,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('defects_notification_period')
     from app.actions import claim_evidence_and_approvals
     try:
-        out = claim_evidence_and_approvals.handle({})
+        out = claim_evidence_and_approvals.handle({'reference': 'sample', 'status': 'open', 'claim_reference': 'sample', 'evidence_ref': 'sample', 'preparer_id': 'sample', 'certifier_id': 'sample', 'decision': 'sample', 'claim_amount': 1.5, 'retention_amount': 1.5, 'net_certified': 1.5})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -147,7 +147,7 @@ def test_every_capability_executes_end_to_end():
     import json as _json
     failures = []
     from app.actions import progress_claims
-    out = progress_claims.handle({})
+    out = progress_claims.handle({'reference': 'sample', 'status': 'open', 'ipc_number': 'sample', 'boq_item': 'sample', 'period': 'sample', 'gross_amount': 1.5, 'retention_amount': 1.5, 'net_certified': 1.5, 'currency': 'sample'})
     if not isinstance(out, dict):
         failures.append('progress_claims returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('progress_claims')
@@ -158,7 +158,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('progress_claims reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('progress_claims')
     from app.actions import delay_damages_tracking
-    out = delay_damages_tracking.handle({})
+    out = delay_damages_tracking.handle({'reference': 'sample', 'status': 'open', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'accepted_contract_amount': 1.5, 'delay_days': 'email', 'delay_damages': 1.5, 'cap_reached': True})
     if not isinstance(out, dict):
         failures.append('delay_damages_tracking returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('delay_damages_tracking')
@@ -169,7 +169,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('delay_damages_tracking reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('delay_damages_tracking')
     from app.actions import qa_itp_records
-    out = qa_itp_records.handle({})
+    out = qa_itp_records.handle({'reference': 'sample', 'status': 'open', 'boq_item': 'sample', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'sample', 'inspection_date': '2026-09-03'})
     if not isinstance(out, dict):
         failures.append('qa_itp_records returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('qa_itp_records')
@@ -180,7 +180,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('qa_itp_records reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('qa_itp_records')
     from app.actions import document_register
-    out = document_register.handle({})
+    out = document_register.handle({'reference': 'sample', 'status': 'open', 'title': 'sample', 'revision': 'sample', 'document_type': 'contract', 'source_filename': 'sample', 'checksum': 'sample', 'issued_date': '2026-09-03'})
     if not isinstance(out, dict):
         failures.append('document_register returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('document_register')
@@ -191,7 +191,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('document_register reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('document_register')
     from app.actions import performance_security_tracking
-    out = performance_security_tracking.handle({})
+    out = performance_security_tracking.handle({'reference': 'sample', 'status': 'open', 'instrument_number': 'sample', 'accepted_contract_amount': 1.5, 'security_amount': 1.5, 'expiry_date': '2026-09-03', 'issuer': 'sample'})
     if not isinstance(out, dict):
         failures.append('performance_security_tracking returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('performance_security_tracking')
@@ -202,7 +202,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('performance_security_tracking reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('performance_security_tracking')
     from app.actions import defects_notification_period
-    out = defects_notification_period.handle({})
+    out = defects_notification_period.handle({'reference': 'sample', 'status': 'open', 'taking_over_date': '2026-09-03', 'defect_ref': 'sample', 'defect_description': 'sample', 'closeout_evidence': 'sample', 'retention_release_amount': 1.5})
     if not isinstance(out, dict):
         failures.append('defects_notification_period returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('defects_notification_period')
@@ -213,7 +213,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('defects_notification_period reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('defects_notification_period')
     from app.actions import claim_evidence_and_approvals
-    out = claim_evidence_and_approvals.handle({})
+    out = claim_evidence_and_approvals.handle({'reference': 'sample', 'status': 'open', 'claim_reference': 'sample', 'evidence_ref': 'sample', 'preparer_id': 'sample', 'certifier_id': 'sample', 'decision': 'sample', 'claim_amount': 1.5, 'retention_amount': 1.5, 'net_certified': 1.5})
     if not isinstance(out, dict):
         failures.append('claim_evidence_and_approvals returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('claim_evidence_and_approvals')

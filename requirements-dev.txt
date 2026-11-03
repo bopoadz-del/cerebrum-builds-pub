@@ -1,0 +1,5 @@
+# Development and CI only. Never installed by the Dockerfile.
+pytest
+httpx
+pip-audit
+bandit

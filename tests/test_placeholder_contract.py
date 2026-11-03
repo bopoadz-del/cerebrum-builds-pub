@@ -183,7 +183,7 @@ def _record_capability_failure(capability_id):
 
 def test_defects_notification_period_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/defects_notification_period", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/defects_notification_period", {}, AUTH, 'defects_notification_period')
+    resp, _corr = _post_accepting("/v1/defects_notification_period", {'reference': 'sample', 'status': 'open', 'taking_over_date': '2026-09-03', 'defect_ref': 'sample', 'defect_description': 'sample', 'closeout_evidence': 'sample', 'retention_release_amount': 1.5}, AUTH, 'defects_notification_period')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False
@@ -197,7 +197,7 @@ def test_defects_notification_period_answers_the_declared_unavailable_refusal():
 
 def test_delay_damages_tracking_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/delay_damages_tracking", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/delay_damages_tracking", {}, AUTH, 'delay_damages_tracking')
+    resp, _corr = _post_accepting("/v1/delay_damages_tracking", {'reference': 'sample', 'status': 'open', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'accepted_contract_amount': 1.5, 'delay_days': 'email', 'delay_damages': 1.5, 'cap_reached': True}, AUTH, 'delay_damages_tracking')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False
@@ -211,7 +211,7 @@ def test_delay_damages_tracking_answers_the_declared_unavailable_refusal():
 
 def test_performance_security_tracking_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/performance_security_tracking", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/performance_security_tracking", {}, AUTH, 'performance_security_tracking')
+    resp, _corr = _post_accepting("/v1/performance_security_tracking", {'reference': 'sample', 'status': 'open', 'instrument_number': 'sample', 'accepted_contract_amount': 1.5, 'security_amount': 1.5, 'expiry_date': '2026-09-03', 'issuer': 'sample'}, AUTH, 'performance_security_tracking')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False
@@ -225,7 +225,7 @@ def test_performance_security_tracking_answers_the_declared_unavailable_refusal(
 
 def test_progress_claims_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/progress_claims", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/progress_claims", {}, AUTH, 'progress_claims')
+    resp, _corr = _post_accepting("/v1/progress_claims", {'reference': 'sample', 'status': 'open', 'ipc_number': 'sample', 'boq_item': 'sample', 'period': 'sample', 'gross_amount': 1.5, 'retention_amount': 1.5, 'net_certified': 1.5, 'currency': 'sample'}, AUTH, 'progress_claims')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False
@@ -239,7 +239,7 @@ def test_progress_claims_answers_the_declared_unavailable_refusal():
 
 def test_qa_itp_records_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/qa_itp_records", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/qa_itp_records", {}, AUTH, 'qa_itp_records')
+    resp, _corr = _post_accepting("/v1/qa_itp_records", {'reference': 'sample', 'status': 'open', 'boq_item': 'sample', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'sample', 'inspection_date': '2026-09-03'}, AUTH, 'qa_itp_records')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False

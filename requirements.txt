@@ -1,6 +1,8 @@
+# Runtime dependencies. Versions are pinned by the Factory-owned
+# constraints.txt: pip install -c constraints.txt -r requirements.txt
 fastapi
-uvicorn
-alembic
+uvicorn[standard]
 sqlalchemy
+alembic
 psycopg[binary]
 pydantic

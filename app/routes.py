@@ -102,6 +102,20 @@ def validate(capability_id: str, payload: Dict[str, Any]) -> Tuple[Optional[Dict
         problem = _check_type(name, value, hint)
         if problem:
             return None, _rejection(name, problem, message=f"{name}: {problem}")
+        for bound, reason in (("min", "below_min"), ("max", "above_max")):
+            limit = rules.get(bound)
+            if limit is None:
+                continue
+            try:
+                numeric = float(value)
+            except (TypeError, ValueError):
+                continue
+            if (bound == "min" and numeric < float(limit)) or (
+                bound == "max" and numeric > float(limit)
+            ):
+                return None, _rejection(
+                    name, reason, message=f"{name} must be {bound} {limit}"
+                )
         cleaned[name] = value
     return cleaned, None
 

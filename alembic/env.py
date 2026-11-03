@@ -1,41 +1,45 @@
+"""Alembic environment: the URL comes from app.db, never from this file."""
+
 from __future__ import annotations
 
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, pool
 
-from app.db import database_url
+from app import db
 
 config = context.config
-
 if config.config_file_name is not None:
-    try:
-        fileConfig(config.config_file_name)
-    except Exception:  # noqa: BLE001 -- logging config is not the migration
-        pass
+    fileConfig(config.config_file_name)
 
 target_metadata = None
 
 
 def run_migrations_offline() -> None:
     context.configure(
-        url=database_url(),
+        url=db.database_url(),
         target_metadata=target_metadata,
         literal_binds=True,
-        dialect_opts={"paramstyle": "named"},
+        render_as_batch=True,
     )
     with context.begin_transaction():
         context.run_migrations()
 
 
 def run_migrations_online() -> None:
-    engine = create_engine(database_url(), future=True)
-    with engine.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
-        with context.begin_transaction():
-            context.run_migrations()
-    engine.dispose()
+    connectable = create_engine(db.database_url(), poolclass=pool.NullPool, future=True)
+    try:
+        with connectable.connect() as connection:
+            context.configure(
+                connection=connection,
+                target_metadata=target_metadata,
+                render_as_batch=True,
+            )
+            with context.begin_transaction():
+                context.run_migrations()
+    finally:
+        connectable.dispose()
 
 
 if context.is_offline_mode():

@@ -1,10 +1,15 @@
-"""baseline: one table per capability entity, tenant-scoped
+"""Baseline schema: one table per capability entity.
 
 Revision ID: 0001_baseline
 Revises:
 Create Date: 2026-11-03
 
+The entity name IS the capability id (the stem of app/actions/<cap>.py,
+also models.<Class>.ENTITY and store.COLUMNS). Values are the declarable
+columns from the capability models; every table carries tenant_id because
+every read and write is tenant-scoped.
 """
+
 from __future__ import annotations
 
 from alembic import op
@@ -16,109 +21,92 @@ branch_labels = None
 depends_on = None
 
 
-def _base(name: str):
-    return [
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.Text(), nullable=False),
-    ]
+#: entity -> [(column, sqlalchemy type)]
+SCHEMA = {
+    "progress_claims": [
+        ("reference", sa.String(255)),
+        ("status", sa.String(32)),
+        ("ipc_number", sa.String(255)),
+        ("boq_item", sa.String(64)),
+        ("period", sa.String(32)),
+        ("gross_amount", sa.Float()),
+        ("retention_amount", sa.Float()),
+        ("net_certified", sa.Float()),
+        ("currency", sa.String(16)),
+    ],
+    "delay_damages_tracking": [
+        ("reference", sa.String(255)),
+        ("status", sa.String(32)),
+        ("commencement_date", sa.Date()),
+        ("completion_date", sa.Date()),
+        ("accepted_contract_amount", sa.Float()),
+        ("delay_days", sa.Integer()),
+        ("delay_damages", sa.Float()),
+        ("cap_reached", sa.Boolean()),
+    ],
+    "qa_itp_records": [
+        ("reference", sa.String(255)),
+        ("status", sa.String(32)),
+        ("boq_item", sa.String(64)),
+        ("inspection_lot", sa.String(255)),
+        ("hold_point", sa.String(255)),
+        ("witness_point", sa.String(255)),
+        ("test_result", sa.String(255)),
+        ("inspection_date", sa.Date()),
+    ],
+    "document_register": [
+        ("reference", sa.String(255)),
+        ("status", sa.String(32)),
+        ("title", sa.String(255)),
+        ("revision", sa.String(64)),
+        ("document_type", sa.String(64)),
+        ("source_filename", sa.String(255)),
+        ("checksum", sa.String(128)),
+        ("issued_date", sa.Date()),
+    ],
+    "performance_security_tracking": [
+        ("reference", sa.String(255)),
+        ("status", sa.String(32)),
+        ("instrument_number", sa.String(255)),
+        ("accepted_contract_amount", sa.Float()),
+        ("security_amount", sa.Float()),
+        ("expiry_date", sa.Date()),
+        ("issuer", sa.String(255)),
+    ],
+    "defects_notification_period": [
+        ("reference", sa.String(255)),
+        ("status", sa.String(32)),
+        ("taking_over_date", sa.Date()),
+        ("defect_ref", sa.String(255)),
+        ("defect_description", sa.Text()),
+        ("closeout_evidence", sa.Text()),
+        ("retention_release_amount", sa.Float()),
+    ],
+    "claim_evidence_and_approvals": [
+        ("reference", sa.String(255)),
+        ("status", sa.String(32)),
+        ("claim_reference", sa.String(255)),
+        ("evidence_ref", sa.String(255)),
+        ("preparer_id", sa.String(255)),
+        ("certifier_id", sa.String(255)),
+        ("decision", sa.String(64)),
+        ("claim_amount", sa.Float()),
+        ("retention_amount", sa.Float()),
+        ("net_certified", sa.Float()),
+    ],
+}
 
 
 def upgrade() -> None:
-    op.create_table(
-        "progress_claims",
-        *_base("progress_claims"),
-        sa.Column("reference", sa.Text()),
-        sa.Column("status", sa.Text(), nullable=False),
-        sa.Column("ipc_number", sa.Text()),
-        sa.Column("boq_item", sa.Text()),
-        sa.Column("period", sa.Text()),
-        sa.Column("gross_amount", sa.Float()),
-        sa.Column("retention_amount", sa.Float()),
-        sa.Column("net_certified", sa.Float()),
-        sa.Column("currency", sa.Text()),
-    )
-    op.create_table(
-        "delay_damages_tracking",
-        *_base("delay_damages_tracking"),
-        sa.Column("reference", sa.Text()),
-        sa.Column("status", sa.Text(), nullable=False),
-        sa.Column("commencement_date", sa.Text()),
-        sa.Column("completion_date", sa.Text()),
-        sa.Column("accepted_contract_amount", sa.Float()),
-        sa.Column("delay_days", sa.Integer()),
-        sa.Column("delay_damages", sa.Float()),
-        sa.Column("cap_reached", sa.Integer()),
-    )
-    op.create_table(
-        "qa_itp_records",
-        *_base("qa_itp_records"),
-        sa.Column("reference", sa.Text()),
-        sa.Column("status", sa.Text(), nullable=False),
-        sa.Column("boq_item", sa.Text()),
-        sa.Column("inspection_lot", sa.Text()),
-        sa.Column("hold_point", sa.Text()),
-        sa.Column("witness_point", sa.Text()),
-        sa.Column("test_result", sa.Text()),
-        sa.Column("inspection_date", sa.Text()),
-    )
-    op.create_table(
-        "document_register",
-        *_base("document_register"),
-        sa.Column("reference", sa.Text()),
-        sa.Column("status", sa.Text(), nullable=False),
-        sa.Column("title", sa.Text()),
-        sa.Column("revision", sa.Text()),
-        sa.Column("document_type", sa.Text()),
-        sa.Column("source_filename", sa.Text()),
-        sa.Column("checksum", sa.Text()),
-        sa.Column("issued_date", sa.Text()),
-    )
-    op.create_table(
-        "performance_security_tracking",
-        *_base("performance_security_tracking"),
-        sa.Column("reference", sa.Text()),
-        sa.Column("status", sa.Text(), nullable=False),
-        sa.Column("instrument_number", sa.Text()),
-        sa.Column("accepted_contract_amount", sa.Float()),
-        sa.Column("security_amount", sa.Float()),
-        sa.Column("expiry_date", sa.Text()),
-        sa.Column("issuer", sa.Text()),
-    )
-    op.create_table(
-        "defects_notification_period",
-        *_base("defects_notification_period"),
-        sa.Column("reference", sa.Text()),
-        sa.Column("status", sa.Text(), nullable=False),
-        sa.Column("taking_over_date", sa.Text()),
-        sa.Column("defect_ref", sa.Text()),
-        sa.Column("defect_description", sa.Text()),
-        sa.Column("closeout_evidence", sa.Text()),
-        sa.Column("retention_release_amount", sa.Float()),
-    )
-    op.create_table(
-        "claim_evidence_and_approvals",
-        *_base("claim_evidence_and_approvals"),
-        sa.Column("reference", sa.Text()),
-        sa.Column("status", sa.Text(), nullable=False),
-        sa.Column("claim_reference", sa.Text()),
-        sa.Column("evidence_ref", sa.Text()),
-        sa.Column("preparer_id", sa.Text()),
-        sa.Column("certifier_id", sa.Text()),
-        sa.Column("decision", sa.Text()),
-        sa.Column("claim_amount", sa.Float()),
-        sa.Column("retention_amount", sa.Float()),
-        sa.Column("net_certified", sa.Float()),
-    )
+    for entity, columns in SCHEMA.items():
+        op.create_table(
+            entity,
+            sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+            sa.Column("tenant_id", sa.String(64), nullable=False, index=True),
+            *(sa.Column(name, kind, nullable=True) for name, kind in columns),
+        )
 
 
 def downgrade() -> None:
-    for table in (
-        "claim_evidence_and_approvals",
-        "defects_notification_period",
-        "performance_security_tracking",
-        "document_register",
-        "qa_itp_records",
-        "delay_damages_tracking",
-        "progress_claims",
-    ):
-        op.drop_table(table)
+    for entity in reversed(list(SCHEMA)):
+        op.drop_table(entity)

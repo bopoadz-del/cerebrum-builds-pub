@@ -1,0 +1,59 @@
+{
+  "schema": "deploy.contract.v1",
+  "product": {
+    "product_id": "product",
+    "name": "Harbourline Civil Works contracts administration",
+    "version": "1.0.0"
+  },
+  "service": {
+    "command": ["/app/scripts/entrypoint.sh"],
+    "port_env": "PORT",
+    "port_default": 8000,
+    "health_path": "/health",
+    "metrics_path": "/metrics",
+    "static_index": "/",
+    "migrations": "alembic upgrade head at entrypoint and FastAPI lifespan"
+  },
+  "storage": {
+    "root_env": "STORAGE_PATH",
+    "default": "/app/data",
+    "single_root": true,
+    "database": "DATABASE_URL when set (Postgres), else ${STORAGE_PATH}/platform.db",
+    "backups": "${BACKUP_DIR:-${STORAGE_PATH}/backups}",
+    "volume_mount": "/app/data"
+  },
+  "required_env": [
+    "PLATFORM_TOKEN",
+    "PLATFORM_CURRENCY",
+    "PLATFORM_COUNTRY",
+    "APPROVED_PRINCIPALS",
+    "STORAGE_PATH"
+  ],
+  "optional_env": [
+    "TENANT_TOKENS",
+    "PLATFORM_TAX_RATE",
+    "PLATFORM_RATE_RETENTION_PCT",
+    "PLATFORM_RATE_DELAY_DAMAGES_PCT_PER_DAY",
+    "PLATFORM_RATE_DELAY_DAMAGES_CAP_PCT",
+    "PLATFORM_RATE_PERFORMANCE_SECURITY_PCT",
+    "DATABASE_URL",
+    "BACKUP_DIR",
+    "SENTRY_DSN",
+    "APP_REVISION",
+    "APP_MARK"
+  ],
+  "placeholder_connectors": {
+    "progress_claims": "PROJECT_ACCOUNTING_LEDGER_CREDENTIALS",
+    "delay_damages_tracking": "PRIMAVERA_P6_SCHEDULE_CREDENTIALS",
+    "qa_itp_records": "PROJECT_EDMS_CREDENTIALS",
+    "performance_security_tracking": "BANK_GUARANTEE_AND_SURETY_PROVIDER_CREDENTIALS",
+    "defects_notification_period": "DEFECTS_AND_MAINTENANCE_SYSTEM_CREDENTIALS"
+  },
+  "render_ready": {
+    "dockerfile": "Dockerfile",
+    "health_check_path": "/health",
+    "persistent_disk": "/app/data",
+    "replicas": 0,
+    "note": "render-ready is packaging only; a live Render deploy and Store Docker acceptance stay owner-gated."
+  }
+}

@@ -13,8 +13,8 @@ from app.main import app
 from app.observe import JsonFormatter, REQUEST_ID_HEADER, strip_emoji
 from app.revision import MARK_BASELINE, REVISION_N
 
-ENTITY = ''
-SAMPLE = {}
+ENTITY = 'claim_evidence_and_approvals'
+SAMPLE = {'reference': 's10-row', 'status': 'open', 'claim_reference': 's10-row', 'evidence_ref': 's10-row', 'preparer_id': 's10-row', 'certifier_id': 's10-row', 'decision': 's10-row', 'claim_amount': 1.5, 'retention_amount': 1.5, 'net_certified': 1.5}
 TENANT = "test-tenant"
 
 

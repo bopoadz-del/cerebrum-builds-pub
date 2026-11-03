@@ -15,9 +15,37 @@ from typing import Any, Dict, List
 
 STATUS_VALUES = ["open", "in_progress", "closed"]
 
+class RecordModel:
+    """Shared envelope: from_dict/to_dict for every capability model.
+
+    ``id`` is None until the store assigns it; to_dict() always exposes it
+    because a caller reads the stored record's identifier back from here.
+    """
+
+    id = None
+    ENTITY = ""
+    FIELDS: List[str] = []
+    MONEY_FIELDS: List[str] = []
+    QUANTITY_FIELDS: List[str] = []
+    CONSTRAINTS: Dict[str, Dict[str, Any]] = {}
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]):
+        instance = cls()
+        for key, value in dict(data or {}).items():
+            if key == "id" or key in cls.FIELDS:
+                setattr(instance, key, value)
+        return instance
+
+    def to_dict(self) -> Dict[str, Any]:
+        body = {name: getattr(self, name, None) for name in self.FIELDS}
+        body["id"] = getattr(self, "id", None)
+        return body
+
+
 
 @dataclass
-class ProgressClaim:
+class ProgressClaim(RecordModel):
     reference: str = "sample"
     status: str = "open"
     ipc_number: str = "sample"
@@ -40,7 +68,7 @@ class ProgressClaim:
 
 
 @dataclass
-class DelayDamagesTracking:
+class DelayDamagesTracking(RecordModel):
     reference: str = "sample"
     status: str = "open"
     commencement_date: date = date(2026, 9, 3)
@@ -63,7 +91,7 @@ class DelayDamagesTracking:
 
 
 @dataclass
-class QaItpRecord:
+class QaItpRecord(RecordModel):
     reference: str = "sample"
     status: str = "open"
     boq_item: str = "sample"
@@ -85,7 +113,7 @@ class QaItpRecord:
 
 
 @dataclass
-class DocumentRegister:
+class DocumentRegister(RecordModel):
     reference: str = "sample"
     status: str = "open"
     title: str = "sample"
@@ -108,7 +136,7 @@ class DocumentRegister:
 
 
 @dataclass
-class PerformanceSecurityTracking:
+class PerformanceSecurityTracking(RecordModel):
     reference: str = "sample"
     status: str = "open"
     instrument_number: str = "sample"
@@ -129,7 +157,7 @@ class PerformanceSecurityTracking:
 
 
 @dataclass
-class DefectsNotificationPeriod:
+class DefectsNotificationPeriod(RecordModel):
     reference: str = "sample"
     status: str = "open"
     taking_over_date: date = date(2026, 9, 3)
@@ -150,7 +178,7 @@ class DefectsNotificationPeriod:
 
 
 @dataclass
-class ClaimEvidenceAndApprovals:
+class ClaimEvidenceAndApprovals(RecordModel):
     reference: str = "sample"
     status: str = "open"
     claim_reference: str = "sample"
