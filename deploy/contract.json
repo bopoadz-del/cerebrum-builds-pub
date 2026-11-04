@@ -1,0 +1,99 @@
+{
+  "schema_version": "deploy.contract.v1",
+  "product": {
+    "id": "product",
+    "name": "Cerebrum Executive Programs",
+    "revision_mark": {
+      "baseline": "rev-n",
+      "changed": "rev-n-plus-1"
+    }
+  },
+  "image": {
+    "dockerfile": "Dockerfile",
+    "workdir": "/app",
+    "command": "sh scripts/entrypoint.sh",
+    "entrypoint": "scripts/entrypoint.sh",
+    "runtime_requirements": "requirements.txt",
+    "constraints": "constraints.txt",
+    "build_context_includes": [
+      "app/",
+      "alembic/",
+      "alembic.ini",
+      "docs/",
+      "frontend/",
+      "kits/",
+      "scripts/",
+      "vendor/",
+      "blocks.lock.json"
+    ],
+    "non_root_user": "appuser",
+    "port": 8000
+  },
+  "health": {
+    "path": "/health",
+    "checks": [
+      "process",
+      "persistent_disk",
+      "database",
+      "migrations"
+    ],
+    "fail_closed": true,
+    "ok_status": 200,
+    "unready_status": 503,
+    "unconditional_ok_is": "F1"
+  },
+  "storage": {
+    "env": "STORAGE_PATH",
+    "mount": "/app/data",
+    "database": "platform.db",
+    "backup_dir": "$STORAGE_PATH/backups",
+    "backup_retention": 14,
+    "volume_gb": 1,
+    "sqlite_on_mounted_disk": true,
+    "journal_mode": "WAL",
+    "synchronous": "NORMAL",
+    "writers": 1,
+    "busy_timeout_ms": 30000
+  },
+  "database": {
+    "default_backend": "sqlite",
+    "env": "DATABASE_URL",
+    "postgres": "postgresql+psycopg://\u2026 (operator supplied)",
+    "migrations": {
+      "tool": "alembic",
+      "applied_at": "deploy entrypoint + FastAPI lifespan",
+      "revisions": [
+        "0001_baseline",
+        "0002_lifecycle_audit"
+      ]
+    }
+  },
+  "env": {
+    "required": [
+      "PLATFORM_TOKEN",
+      "STORAGE_PATH"
+    ],
+    "optional": [
+      "TENANT_TOKENS",
+      "APPROVED_PRINCIPALS",
+      "DATABASE_URL",
+      "EMAIL_DELIVERY_CREDENTIALS",
+      "BACKUP_DIR",
+      "APP_REVISION",
+      "APP_MARK",
+      "PORT"
+    ],
+    "template": ".env.example"
+  },
+  "capacity": {
+    "replicas": 0,
+    "ha": false,
+    "rollback_retains_disk": true
+  },
+  "rollback": {
+    "script": "scripts/rollback.sh",
+    "render_equivalent": "Dashboard rollback to the previous deploy; same disk",
+    "drill": "tests/test_deploy.py performs rev-n -> rev-n-plus-1 -> rev-n with the prior row intact"
+  },
+  "spof": "Single-instance Render persistent disk: one writer, no replica, no multi-AZ handoff. Same-disk backups do not survive disk loss."
+}

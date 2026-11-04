@@ -30,10 +30,10 @@ Docker:
 
 ```sh
 docker build -t cerebrum-executive .
-docker run -p 8000:8000 -e PLATFORM_TOKEN=... -v cerebrum-data:/data cerebrum-executive
+docker run -p 8000:8000 -e PLATFORM_TOKEN=... -v cerebrum-data:/app/data cerebrum-executive
 ```
 
-The image declares `STORAGE_PATH=/data` and creates it owned by the service
+The image declares `STORAGE_PATH=/app/data` and creates it owned by the service
 user before switching to it, so a fresh volume starts writable without root.
 
 ## Settings the operator supplies

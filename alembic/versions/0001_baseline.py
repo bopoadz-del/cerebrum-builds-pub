@@ -1,208 +1,91 @@
-"""The baseline schema: one table per capability entity plus the kernel tables.
+"""baseline schema: one table per capability entity + the kernel's own tables
 
-The entity name IS the capability id -- the stem of its handler module -- so
-``store.save("track_management", ...)`` finds ``track_management``. Every row
-carries a ``tenant_id``: isolation is structural, not a filter a caller can skip."""
+Revision ID: 0001_baseline
+Revises:
+Create Date: 2026-09-04
 
+Every entity the product can save a record to has one literal
+``op.create_table("<entity>")`` here -- an entity's name IS its capability id,
+which is also the stem of its handler module and the key its route saves under.
+The column NAMES come from the same declarations the store issues its
+statements against (``app.models.MODELS`` and ``app.store.INTERNAL_COLUMNS``),
+so a route, a handler's ENTITY and its migrated table cannot drift apart. The
+domain columns are TEXT because the store encodes every domain scalar (numbers
+and booleans included) as a bound JSON parameter; the platform columns (id,
+tenant_id, timestamps) are the only typed ones.
+
+``lifecycle_audit`` is deliberately NOT here: revision 0002 adds it so the
+v1 -> v2 transition in the data-lifecycle drill has real work to apply.
+"""
 
 from __future__ import annotations
 
-from alembic import op
+from typing import List
+
 import sqlalchemy as sa
+from alembic import op
+
+from app.models import MODELS
+from app.store import INTERNAL_COLUMNS
 
 revision = "0001_baseline"
 down_revision = None
 branch_labels = None
 depends_on = None
 
+PLATFORM_COLUMNS = ("id", "tenant_id", "created_at", "updated_at")
+
+
+def _columns(fields: List[str]) -> List[sa.Column]:
+    """Platform columns first, then one TEXT column per domain field."""
+    columns = [
+        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column("tenant_id", sa.String(length=120), nullable=False),
+        sa.Column("created_at", sa.String(length=40), nullable=True),
+        sa.Column("updated_at", sa.String(length=40), nullable=True),
+    ]
+    for name in fields:
+        if name in PLATFORM_COLUMNS:
+            continue
+        columns.append(sa.Column(name, sa.Text(), nullable=True))
+    return columns
+
+
+def _table(entity: str, fields: List[str]) -> None:
+    op.create_table(entity, *_columns(fields), sa.Index("ix_" + entity + "_tenant_id", "tenant_id"))
+
 
 def upgrade() -> None:
-    op.create_table(
-        "track_management",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("track_key", sa.Text()),
-        sa.Column("title", sa.Text()),
-        sa.Column("track_version", sa.Integer()),
-        sa.Column("weeks", sa.Integer()),
-        sa.Column("yaml_text", sa.Text()),
-        sa.Column("previous_yaml", sa.Text()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_track_management_tenant_id", "track_management", ["tenant_id"])
-    op.create_table(
-        "enrolment_and_scheduling",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("learner_email", sa.Text()),
-        sa.Column("track_key", sa.Text()),
-        sa.Column("start_date", sa.Text()),
-        sa.Column("timezone", sa.Text()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_enrolment_and_scheduling_tenant_id", "enrolment_and_scheduling", ["tenant_id"])
-    op.create_table(
-        "ai_faculty_sessions",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("session_kind", sa.Text()),
-        sa.Column("kernel_mode", sa.Text()),
-        sa.Column("week", sa.Text()),
-        sa.Column("learner_question", sa.Text()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_ai_faculty_sessions_tenant_id", "ai_faculty_sessions", ["tenant_id"])
-    op.create_table(
-        "memo_grading",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("learner_id", sa.Text()),
-        sa.Column("memo_text", sa.Text()),
-        sa.Column("rubric_version", sa.Text()),
-        sa.Column("word_count", sa.Integer()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_memo_grading_tenant_id", "memo_grading", ["tenant_id"])
-    op.create_table(
-        "gradebook_and_transcript",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("learner_id", sa.Text()),
-        sa.Column("memos_score", sa.Text()),
-        sa.Column("defenses_score", sa.Text()),
-        sa.Column("capstone_score", sa.Text()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_gradebook_and_transcript_tenant_id", "gradebook_and_transcript", ["tenant_id"])
-    op.create_table(
-        "defenses_and_capstone",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("learner_id", sa.Text()),
-        sa.Column("defense_date", sa.Text()),
-        sa.Column("capstone_title", sa.Text()),
-        sa.Column("reviewer_email", sa.Text()),
-        sa.Column("verdict_count", sa.Integer()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_defenses_and_capstone_tenant_id", "defenses_and_capstone", ["tenant_id"])
-    op.create_table(
-        "library_surfaces",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("track_key", sa.Text()),
-        sa.Column("week", sa.Text()),
-        sa.Column("session_kind", sa.Text()),
-        sa.Column("query", sa.Text()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_library_surfaces_tenant_id", "library_surfaces", ["tenant_id"])
-    op.create_table(
-        "command_center_and_chat",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("reference", sa.Text()),
-        sa.Column("stage", sa.Text()),
-        sa.Column("message", sa.Text()),
-        sa.Column("status", sa.Text()),
-    )
-    op.create_index("ix_command_center_and_chat_tenant_id", "command_center_and_chat", ["tenant_id"])
-    op.create_table(
-        "work_queue",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("capability_id", sa.Text()),
-        sa.Column("payload", sa.Text()),
-        sa.Column("status", sa.Text()),
-        sa.Column("attempts", sa.Integer()),
-        sa.Column("result", sa.Text()),
-        sa.Column("idempotency_key", sa.Text()),
-    )
-    op.create_index("ix_work_queue_tenant_id", "work_queue", ["tenant_id"])
-    op.create_table(
-        "idempotency",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("idempotency_key", sa.Text()),
-        sa.Column("entity", sa.Text()),
-        sa.Column("record_id", sa.Integer()),
-    )
-    op.create_index("ix_idempotency_tenant_id", "idempotency", ["tenant_id"])
-    op.create_table(
-        "rag_documents",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("source", sa.Text()),
-        sa.Column("title", sa.Text()),
-        sa.Column("text", sa.Text()),
-        sa.Column("authority", sa.Text()),
-        sa.Column("chunk_count", sa.Integer()),
-    )
-    op.create_index("ix_rag_documents_tenant_id", "rag_documents", ["tenant_id"])
-    op.create_table(
-        "rag_chunks",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("document_id", sa.Integer()),
-        sa.Column("ordinal", sa.Integer()),
-        sa.Column("text", sa.Text()),
-    )
-    op.create_index("ix_rag_chunks_tenant_id", "rag_chunks", ["tenant_id"])
+    _table("track_management", list(MODELS["track_management"].FIELDS))
+    _table("enrolment_and_scheduling", list(MODELS["enrolment_and_scheduling"].FIELDS))
+    _table("ai_faculty_sessions", list(MODELS["ai_faculty_sessions"].FIELDS))
+    _table("memo_grading", list(MODELS["memo_grading"].FIELDS))
+    _table("gradebook_and_transcript", list(MODELS["gradebook_and_transcript"].FIELDS))
+    _table("defenses_and_capstone", list(MODELS["defenses_and_capstone"].FIELDS))
+    _table("library_surfaces", list(MODELS["library_surfaces"].FIELDS))
+    _table("command_center_and_chat", list(MODELS["command_center_and_chat"].FIELDS))
+    # The kernel's own tables: its work queue, its idempotency ledger, and the
+    # retrieval corpus. They are not capabilities, but they are persisted
+    # through the same store and so are migrated here, with 0001.
+    _table("work_queue", list(INTERNAL_COLUMNS["work_queue"]))
+    _table("idempotency", list(INTERNAL_COLUMNS["idempotency"]))
+    _table("rag_documents", list(INTERNAL_COLUMNS["rag_documents"]))
+    _table("rag_chunks", list(INTERNAL_COLUMNS["rag_chunks"]))
 
 
 def downgrade() -> None:
-    op.drop_index("ix_rag_chunks_tenant_id", table_name="rag_chunks")
-    op.drop_table("rag_chunks")
-    op.drop_index("ix_rag_documents_tenant_id", table_name="rag_documents")
-    op.drop_table("rag_documents")
-    op.drop_index("ix_idempotency_tenant_id", table_name="idempotency")
-    op.drop_table("idempotency")
-    op.drop_index("ix_work_queue_tenant_id", table_name="work_queue")
-    op.drop_table("work_queue")
-    op.drop_index("ix_command_center_and_chat_tenant_id", table_name="command_center_and_chat")
-    op.drop_table("command_center_and_chat")
-    op.drop_index("ix_library_surfaces_tenant_id", table_name="library_surfaces")
-    op.drop_table("library_surfaces")
-    op.drop_index("ix_defenses_and_capstone_tenant_id", table_name="defenses_and_capstone")
-    op.drop_table("defenses_and_capstone")
-    op.drop_index("ix_gradebook_and_transcript_tenant_id", table_name="gradebook_and_transcript")
-    op.drop_table("gradebook_and_transcript")
-    op.drop_index("ix_memo_grading_tenant_id", table_name="memo_grading")
-    op.drop_table("memo_grading")
-    op.drop_index("ix_ai_faculty_sessions_tenant_id", table_name="ai_faculty_sessions")
-    op.drop_table("ai_faculty_sessions")
-    op.drop_index("ix_enrolment_and_scheduling_tenant_id", table_name="enrolment_and_scheduling")
-    op.drop_table("enrolment_and_scheduling")
-    op.drop_index("ix_track_management_tenant_id", table_name="track_management")
-    op.drop_table("track_management")
+    for entity in (
+        "rag_chunks",
+        "rag_documents",
+        "idempotency",
+        "work_queue",
+        "command_center_and_chat",
+        "library_surfaces",
+        "defenses_and_capstone",
+        "gradebook_and_transcript",
+        "memo_grading",
+        "ai_faculty_sessions",
+        "enrolment_and_scheduling",
+        "track_management",
+    ):
+        op.drop_table(entity)

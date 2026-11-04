@@ -1,36 +1,41 @@
-"""The lifecycle audit table (v1 -> v2), revises the baseline.
+"""lifecycle audit trail
 
-The data-lifecycle drill upgrades a populated v1 database to this revision,
-asserts the rows survived, and downgrades back to v1 -- so the revision is a
-real transition, not a stamp.
+Revision ID: 0002_lifecycle_audit
+Revises: 0001_baseline
+Create Date: 2026-09-04
+
+Adds the append-only lifecycle audit table the data-lifecycle drill upgrades
+to over a populated v1 database. Downgrade removes exactly that table and
+leaves v1 rows untouched.
 """
 
 from __future__ import annotations
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
+
+from app.store import INTERNAL_COLUMNS
 
 revision = "0002_lifecycle_audit"
 down_revision = "0001_baseline"
 branch_labels = None
 depends_on = None
 
+ENTITY = "lifecycle_audit"
+
 
 def upgrade() -> None:
+    fields = list(INTERNAL_COLUMNS[ENTITY])
     op.create_table(
-        "lifecycle_audit",
+        ENTITY,
         sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
         sa.Column("tenant_id", sa.String(length=120), nullable=False),
-        sa.Column("created_at", sa.String(length=40)),
-        sa.Column("updated_at", sa.String(length=40)),
-        sa.Column("entity", sa.Text()),
-        sa.Column("record_id", sa.Integer()),
-        sa.Column("action", sa.Text()),
-        sa.Column("detail", sa.Text()),
+        sa.Column("created_at", sa.String(length=40), nullable=True),
+        sa.Column("updated_at", sa.String(length=40), nullable=True),
+        *[sa.Column(name, sa.Text(), nullable=True) for name in fields],
+        sa.Index("ix_" + ENTITY + "_tenant_id", "tenant_id"),
     )
-    op.create_index("ix_lifecycle_audit_tenant_id", "lifecycle_audit", ["tenant_id"])
 
 
 def downgrade() -> None:
-    op.drop_index("ix_lifecycle_audit_tenant_id", table_name="lifecycle_audit")
-    op.drop_table("lifecycle_audit")
+    op.drop_table(ENTITY)
