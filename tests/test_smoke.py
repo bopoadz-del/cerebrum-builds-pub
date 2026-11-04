@@ -34,7 +34,7 @@ def test_dispatch_runs_offline():
     from app.dispatch import execute, load_block
     for block_id in ['aesthetic_kit', 'agent_swarm', 'analytics', 'answer_quality_scorer', 'approval_rules', 'audit', 'audit_chain', 'cpm_engine', 'dashboard', 'email', 'evidence_chain', 'evidence_verifier', 'formula_executor', 'knowledge', 'memory', 'notification', 'pdf', 'reference_corpus', 'search', 'spec_analyzer', 'sub_agent_runtime', 'team', 'transaction_state_machine', 'validation', 'validation_pipeline_fork', 'vector_search', 'voice', 'workbench', 'workflow']:
         load_block(block_id)
-    actions = {}
+    actions = {'agent_swarm': 'execute', 'analytics': 'track_event', 'audit': 'log', 'dashboard': 'render', 'email': 'send', 'evidence_verifier': 'store', 'knowledge': 'ask', 'memory': 'get', 'notification': 'send', 'team': 'create_team', 'validation': 'validate_pipeline', 'workbench': 'run', 'workflow': 'run'}
     for block_id in ['aesthetic_kit', 'agent_swarm', 'analytics', 'answer_quality_scorer', 'approval_rules', 'audit', 'audit_chain', 'cpm_engine', 'dashboard', 'email', 'evidence_chain', 'evidence_verifier', 'formula_executor', 'knowledge', 'memory', 'notification', 'pdf', 'reference_corpus', 'search', 'spec_analyzer', 'sub_agent_runtime', 'team', 'transaction_state_machine', 'validation', 'validation_pipeline_fork', 'vector_search', 'voice', 'workbench', 'workflow']:
         try:
             result = execute(block_id, {}, action=actions.get(block_id))
