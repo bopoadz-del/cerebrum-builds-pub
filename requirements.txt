@@ -1,0 +1,10 @@
+# Runtime dependencies only. The framework versions are pinned by
+# constraints.txt (COPY it alongside this file and install with
+# `pip install -c constraints.txt -r requirements.txt`).
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+alembic
+psycopg[binary]
+openpyxl

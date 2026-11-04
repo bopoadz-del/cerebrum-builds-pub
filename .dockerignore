@@ -1,0 +1,24 @@
+# Never excluded: vendor/ and kits/ carry the sealed block slice the app loads
+# at start-up (a locked block absent from its path is a boot error).
+.git
+.gitignore
+.codewhale
+.env
+.env.*
+!.env.example
+__pycache__
+*.py[cod]
+*.egg-info
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.venv
+venv
+data
+backups
+*.db
+*.db-wal
+*.db-shm
+tests
+frontend/node_modules
+node_modules

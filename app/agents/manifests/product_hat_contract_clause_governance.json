@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.contract_clause_governance"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "contract_clause_governance"
+      },
+      {
+        "type": "capability",
+        "value": "contract_clause_governance"
+      }
+    ]
+  },
+  "agent_id": "product.hat.contract_clause_governance",
+  "allowed_actions": [
+    "product.contract_clause_governance"
+  ],
+  "block_ids": [
+    "knowledge",
+    "regulatory_chunker",
+    "evidence_or_refuse",
+    "governance_gate"
+  ],
+  "discipline": "contract_clause_governance",
+  "display_name": "Harbourline Civil Works Contracts Administration Contract Clause Governance Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'contract_clause_governance' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "contract_clause_governance"
+  ]
+}

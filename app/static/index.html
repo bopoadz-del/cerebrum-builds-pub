@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Harbourline Civil Works - Contracts Administration</title>
+<style>
+  :root {
+    --ink: #16202a;
+    --muted: #5b6b7a;
+    --line: #d7dee5;
+    --surface: #ffffff;
+    --canvas: #f3f5f8;
+    --accent: #1c5d8c;
+    --accent-ink: #ffffff;
+    --warn: #a4511f;
+    --ok: #1f6b47;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font: 14px/1.45 "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: var(--ink); background: var(--canvas);
+  }
+  header {
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    padding: 16px 24px; display: flex; flex-wrap: wrap; gap: 12px;
+    align-items: center; justify-content: space-between;
+  }
+  header h1 { font-size: 17px; margin: 0; letter-spacing: .01em; }
+  header .sub { color: var(--muted); font-size: 12px; }
+  main { padding: 20px 24px 48px; display: grid; gap: 18px; max-width: 1280px; margin: 0 auto; }
+  section {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+    padding: 16px 18px;
+  }
+  section h2 { font-size: 14px; margin: 0 0 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+  input, select, button, textarea {
+    font: inherit; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--surface); color: var(--ink);
+  }
+  textarea { min-height: 64px; width: 100%; }
+  button { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); cursor: pointer; }
+  button.ghost { background: var(--surface); color: var(--accent); }
+  button:disabled { opacity: .55; cursor: not-allowed; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px;
+    border: 1px solid var(--line); color: var(--muted); background: var(--canvas);
+  }
+  .badge.ok { color: var(--ok); border-color: #b7d9c8; background: #eef8f2; }
+  .badge.warn { color: var(--warn); border-color: #e6cdb8; background: #fbf1e8; }
+  pre { margin: 0; padding: 10px; background: #0f1a24; color: #dfe9f2; border-radius: 6px; overflow: auto; max-height: 340px; font-size: 12px; }
+  .muted { color: var(--muted); }
+  .authority { font-size: 12px; }
+  .field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .status { font-size: 12px; color: var(--muted); min-height: 16px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Harbourline Civil Works &mdash; Contracts Administration</h1>
+    <div class="sub">Progress claims, delay damages, QA/ITP records and the controlled document register. The uploaded contract excerpt and BOQ are the source of record.</div>
+  </div>
+  <div class="row">
+    <label>Platform token
+      <input id="token" type="password" autocomplete="off" placeholder="bearer token" size="26" />
+    </label>
+    <button id="connect" class="ghost">Connect</button>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2>Contract terms and formula sources</h2>
+    <div class="row" style="margin-bottom:10px">
+      <button id="load-terms" class="ghost">Load terms</button>
+      <button id="load-formulas" class="ghost">Load formulas</button>
+      <span id="terms-status" class="status"></span>
+    </div>
+    <div class="grid2">
+      <div><table id="terms-table"><thead><tr><th>Clause</th><th>Term</th><th>Value</th></tr></thead><tbody></tbody></table></div>
+      <div><table id="formula-table"><thead><tr><th>Definition</th><th>Address</th><th>Tier</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Capability console</h2>
+    <div class="row" style="margin-bottom:10px">
+      <label>Capability
+        <select id="capability"></select>
+      </label>
+      <button id="load-contract" class="ghost">Load fields</button>
+      <button id="list-records" class="ghost">List records</button>
+    </div>
+    <div id="fields" class="field-grid"></div>
+    <div class="row">
+      <button id="submit-record">Submit record</button>
+      <span id="submit-status" class="status"></span>
+    </div>
+    <div id="result" style="margin-top:12px"></div>
+    <div id="records" style="margin-top:12px"></div>
+  </section>
+
+  <section>
+    <h2>Ask the source documents</h2>
+    <div class="row" style="margin-bottom:10px">
+      <label style="flex:1 1 420px">Question
+        <input id="query" placeholder="e.g. retention held on a certificate" />
+      </label>
+      <button id="ask">Ask</button>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+      <label style="flex:1 1 520px">Add a source document (text)
+        <textarea id="ingest-text" placeholder="Paste the clause or procedure text the tenant supplies"></textarea>
+      </label>
+      <label>Source name
+        <input id="ingest-source" placeholder="contract-clause-14.3" />
+      </label>
+      <button id="ingest" class="ghost">Ingest</button>
+    </div>
+    <div id="answer" class="muted">No question asked yet. An answer without retrieved evidence is refused, never guessed.</div>
+  </section>
+
+  <section>
+    <h2>Portfolio</h2>
+    <div class="row" style="margin-bottom:10px">
+      <button id="load-summary" class="ghost">Refresh summary</button>
+      <span id="summary-status" class="status"></span>
+    </div>
+    <div id="summary" class="muted">Not loaded.</div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var state = { token: sessionStorage.getItem("platformToken") || "", contract: null };
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  function token() { return $("token").value.trim() || state.token; }
+
+  function headers(extra) {
+    var out = Object.assign({ "Content-Type": "application/json" }, extra || {});
+    var value = token();
+    if (value) { out.Authorization = "Bearer " + value; }
+    return out;
+  }
+
+  function el(tag, attrs, children) {
+    var node = document.createElement(tag);
+    if (attrs) { Object.keys(attrs).forEach(function (key) { node.setAttribute(key, attrs[key]); }); }
+    (children || []).forEach(function (child) {
+      node.appendChild(typeof child === "string" ? document.createTextNode(child) : child);
+    });
+    return node;
+  }
+
+  function badge(text, kind) {
+    return el("span", { "class": "badge" + (kind ? " " + kind : "") }, [String(text)]);
+  }
+
+  function authorityBadge(authority) {
+    if (!authority) { return badge("unlabelled"); }
+    var name = authority.label || authority.name || "unknown";
+    var layer = authority.layer === undefined ? "?" : authority.layer;
+    return badge("authority: " + name + " (layer " + layer + ")", name === "formulas" ? "ok" : "");
+  }
+
+  function call(method, path, body) {
+    var options = { method: method, headers: headers() };
+    if (body !== undefined) { options.body = JSON.stringify(body); }
+    return fetch(path, options).then(function (resp) {
+      return resp.text().then(function (text) {
+        var data = null;
+        try { data = text ? JSON.parse(text) : null; } catch (err) { data = { raw: text }; }
+        return { status: resp.status, data: data };
+      });
+    });
+  }
+
+  function show(node, title, payload) {
+    node.innerHTML = "";
+    node.appendChild(el("div", { "class": "status" }, [title]));
+    node.appendChild(el("pre", null, [JSON.stringify(payload, null, 2)]));
+  }
+
+  function loadTerms() {
+    call("GET", "/v1/terms").then(function (res) {
+      var body = $("terms-table").querySelector("tbody");
+      body.innerHTML = "";
+      if (!res.data || !res.data.terms) {
+        $("terms-status").textContent = "terms unavailable: HTTP " + res.status;
+        return;
+      }
+      res.data.terms.forEach(function (row) {
+        body.appendChild(el("tr", null, [el("td", null, [String(row.clause)]), el("td", null, [row.name]), el("td", null, [String(row.value)])]));
+      });
+      $("terms-status").textContent = "source: " + (res.data.source || "contract excerpt");
+    });
+  }
+
+  function loadFormulas() {
+    call("GET", "/v1/formulas").then(function (res) {
+      var body = $("formula-table").querySelector("tbody");
+      body.innerHTML = "";
+      if (!res.data || !res.data.definitions) {
+        $("terms-status").textContent = "formulas unavailable: HTTP " + res.status;
+        return;
+      }
+      res.data.definitions.forEach(function (row) {
+        body.appendChild(el("tr", null, [
+          el("td", null, [row.id]),
+          el("td", null, [row.address || ""]),
+          el("td", null, [row.tier || ""])
+        ]));
+      });
+    });
+  }
+
+  function capabilityIds() {
+    return Array.prototype.map.call($("capability").options, function (option) { return option.value; });
+  }
+
+  function loadCapabilities() {
+    call("GET", "/v1/capabilities").then(function (res) {
+      var select = $("capability");
+      select.innerHTML = "";
+      var items = (res.data && res.data.items) || [];
+      items.forEach(function (item) {
+        select.appendChild(el("option", { value: item.id }, [item.id.replace(/_/g, " ")]));
+      });
+      if (items.length) { loadContract(); }
+    });
+  }
+
+  function loadContract() {
+    var id = $("capability").value;
+    if (!id) { return; }
+    call("GET", "/v1/capabilities.json").then(function (res) {
+      var items = (res.data && res.data.items) || [];
+      var match = items.filter(function (item) { return item.id === id; })[0];
+      state.contract = match || null;
+      var host = $("fields");
+      host.innerHTML = "";
+      if (!match) { host.appendChild(el("div", { "class": "muted" }, ["contract unavailable"])); return; }
+      match.fields.forEach(function (field) {
+        var input;
+        if (field.allowed_values) {
+          input = el("select", { "data-field": field.name });
+          field.allowed_values.forEach(function (value) {
+            input.appendChild(el("option", { value: value }, [String(value)]));
+          });
+        } else {
+          input = el("input", { "data-field": field.name, placeholder: field.type });
+          if (field.type === "date" || field.name.indexOf("date") >= 0) { input.setAttribute("placeholder", "2026-09-03"); }
+        }
+        var label = el("label", null, [field.name + (field.required ? " *" : ""), input]);
+        host.appendChild(label);
+      });
+    });
+  }
+
+  function payloadFromForm() {
+    var payload = {};
+    Array.prototype.forEach.call($("fields").querySelectorAll("[data-field]"), function (input) {
+      var value = input.value;
+      if (value === "") { return; }
+      var match = (state.contract ? state.contract.fields : []).filter(function (f) { return f.name === input.getAttribute("data-field"); })[0];
+      var type = match ? match.type : "str";
+      payload[input.getAttribute("data-field")] = (type === "int" || type === "float") ? Number(value) : value;
+    });
+    return payload;
+  }
+
+  function renderOutcome(res) {
+    var host = $("result");
+    host.innerHTML = "";
+    var data = res.data || {};
+    var header = el("div", { "class": "row" }, [
+      badge("HTTP " + res.status, res.status === 200 && data.ok !== false ? "ok" : "warn"),
+      badge(data.ok === false ? "refused" : "accepted", data.ok === false ? "warn" : "ok"),
+      authorityBadge(data.authority)
+    ]);
+    host.appendChild(header);
+    if (data.ok === false) {
+      host.appendChild(el("p", { "class": "muted" }, [String(data.error || "refused")]));
+      return;
+    }
+    var computed = data.computed || {};
+    var table = el("table", null, [el("thead", null, [el("tr", null, [el("th", null, ["Computed"]), el("th", null, ["Value"])])])]);
+    var body = el("tbody");
+    Object.keys(computed).forEach(function (key) {
+      var value = computed[key];
+      body.appendChild(el("tr", null, [el("td", null, [key]), el("td", null, [typeof value === "object" ? JSON.stringify(value) : String(value)])]));
+    });
+    table.appendChild(body);
+    host.appendChild(table);
+    host.appendChild(el("details", null, [
+      el("summary", null, ["Blocks reached"]),
+      el("pre", null, [JSON.stringify(data.blocks || {}, null, 2)])
+    ]));
+  }
+
+  function submitRecord() {
+    var id = $("capability").value;
+    var payload = payloadFromForm();
+    $("submit-status").textContent = "submitting " + id;
+    call("POST", "/v1/" + id, payload).then(function (res) {
+      $("submit-status").textContent = "POST /v1/" + id + " returned HTTP " + res.status;
+      renderOutcome(res);
+      listRecords();
+    });
+  }
+
+  function listRecords() {
+    var id = $("capability").value;
+    call("GET", "/v1/" + id).then(function (res) {
+      var host = $("records");
+      host.innerHTML = "";
+      var rows = (res.data && (res.data.items || res.data.records)) || [];
+      if (!rows.length) { host.appendChild(el("div", { "class": "muted" }, ["No records stored for this tenant yet."])); return; }
+      var table = el("table", null, [
+        el("thead", null, [el("tr", null, [el("th", null, ["id"]), el("th", null, ["reference"]), el("th", null, ["status"]), el("th", null, ["stored"])])])
+      ]);
+      var body = el("tbody");
+      rows.slice(-10).reverse().forEach(function (row) {
+        body.appendChild(el("tr", null, [
+          el("td", null, [String(row.id)]),
+          el("td", null, [String(row.reference || "")]),
+          el("td", null, [String(row.status || "")]),
+          el("td", null, [String(row.created_at || "")])
+        ]));
+      });
+      table.appendChild(body);
+      host.appendChild(el("div", { "class": "status" }, [rows.length + " record(s); latest first"]));
+      host.appendChild(table);
+    });
+  }
+
+  function ask() {
+    var query = $("query").value.trim();
+    if (!query) { return; }
+    var host = $("answer");
+    host.textContent = "searching the tenant corpus";
+    call("POST", "/v1/rag/query", { query: query }).then(function (res) {
+      var data = res.data || {};
+      host.innerHTML = "";
+      host.appendChild(el("div", { "class": "row" }, [
+        badge("HTTP " + res.status, res.status === 200 ? "ok" : "warn"),
+        badge(data.refused ? "refused" : "answered", data.refused ? "warn" : "ok"),
+        authorityBadge(data.authority)
+      ]));
+      if (data.refused) {
+        host.appendChild(el("p", null, ["No document in this tenant's corpus covers that question, so the platform refuses rather than answering from memory."]));
+      } else {
+        host.appendChild(el("p", null, [String(data.answer || "")]));
+      }
+      var citations = data.citations || [];
+      if (citations.length) {
+        var list = el("ul");
+        citations.forEach(function (citation) {
+          list.appendChild(el("li", null, [String(citation.source || "source") + " #" + String(citation.chunk_id)]));
+        });
+        host.appendChild(list);
+      }
+    });
+  }
+
+  function ingest() {
+    var text = $("ingest-text").value.trim();
+    if (!text) { return; }
+    call("POST", "/v1/rag/ingest", { text: text, source: $("ingest-source").value.trim() || "upload" }).then(function (res) {
+      var data = res.data || {};
+      $("answer").textContent = data.ok ? ("ingested " + data.chunks + " chunk(s) from " + data.source) : ("ingest refused: " + (data.detail || data.error || res.status));
+    });
+  }
+
+  function loadSummary() {
+    call("GET", "/v1/summary").then(function (res) {
+      var data = res.data || {};
+      var host = $("summary");
+      host.innerHTML = "";
+      $("summary-status").textContent = "HTTP " + res.status;
+      if (!data.counts) { host.textContent = "summary unavailable"; return; }
+      var table = el("table", null, [el("thead", null, [el("tr", null, [el("th", null, ["Capability"]), el("th", null, ["Records"])])])]);
+      var body = el("tbody");
+      Object.keys(data.counts).forEach(function (key) {
+        body.appendChild(el("tr", null, [el("td", null, [key]), el("td", null, [String(data.counts[key])])]));
+      });
+      table.appendChild(body);
+      host.appendChild(table);
+      host.appendChild(el("div", { "class": "row", style: "margin-top:8px" }, [authorityBadge(data.authority)]));
+    });
+  }
+
+  $("connect").addEventListener("click", function () {
+    state.token = $("token").value.trim();
+    sessionStorage.setItem("platformToken", state.token);
+    loadCapabilities();
+    loadTerms();
+    loadFormulas();
+    loadSummary();
+  });
+  $("capability").addEventListener("change", loadContract);
+  $("load-contract").addEventListener("click", loadContract);
+  $("list-records").addEventListener("click", listRecords);
+  $("submit-record").addEventListener("click", submitRecord);
+  $("load-terms").addEventListener("click", loadTerms);
+  $("load-formulas").addEventListener("click", loadFormulas);
+  $("ask").addEventListener("click", ask);
+  $("ingest").addEventListener("click", ingest);
+  $("load-summary").addEventListener("click", loadSummary);
+
+  if (state.token) {
+    $("token").value = state.token;
+    loadCapabilities();
+    loadTerms();
+    loadFormulas();
+    loadSummary();
+  } else {
+    loadCapabilities();
+  }
+})();
+</script>
+</body>
+</html>

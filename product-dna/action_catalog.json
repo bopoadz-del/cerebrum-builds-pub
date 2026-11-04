@@ -1,0 +1,75 @@
+{
+  "actions": [
+    {
+      "block_ids": [
+        "document_engine",
+        "version",
+        "version_diff",
+        "storage",
+        "audit_chain"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "formula_executor",
+        "finance_reconciliation",
+        "approval_rules",
+        "pdf"
+      ],
+      "capability_id": "progress_claims",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "finance_planning",
+        "audit"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "evidence_chain",
+        "validation",
+        "workflow"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "knowledge",
+        "regulatory_chunker",
+        "evidence_or_refuse",
+        "governance_gate"
+      ],
+      "capability_id": "contract_clause_governance",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_canonical_model",
+        "transaction_state_machine",
+        "audit_chain"
+      ],
+      "capability_id": "payment_security_and_retention_ledger",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "portfolio_rollup"
+      ],
+      "capability_id": "claims_analytics_dashboard",
+      "strategy": "REUSE"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

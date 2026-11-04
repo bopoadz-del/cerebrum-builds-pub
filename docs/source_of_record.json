@@ -1,0 +1,10 @@
+{
+  "schema": "source_of_record.v1",
+  "documents": [
+    "document:402ecf72034f4692898b07cd2079bed2_harbourline_boq.xlsx",
+    "document:a2e79e3d662b42f1b56d5faafd651ffe_harbourline_contract.pdf"
+  ],
+  "currency": "SAR",
+  "currency_source": "document:402ecf72034f4692898b07cd2079bed2_harbourline_boq.xlsx prices every BOQ line in a 'Rate (SAR)' column; document:a2e79e3d662b42f1b56d5faafd651ffe_harbourline_contract.pdf states the Accepted Contract Amount in the same currency",
+  "note": "The declared currency of the contract this platform administers. It is read as data, never as a value in code. PLATFORM_CURRENCY (deploy environment) and docs/declared_locale.json take precedence; this record is the contract's own declaration and is used only when neither is set."
+}
