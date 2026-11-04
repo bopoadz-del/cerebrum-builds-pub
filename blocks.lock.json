@@ -1,0 +1,671 @@
+{
+  "blocks": {
+    "aesthetic_kit": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/aesthetic_kit",
+      "source": "cerebrum-blocks"
+    },
+    "agent_swarm": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/agent_swarm",
+      "source": "cerebrum-blocks"
+    },
+    "analytics": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/analytics",
+      "source": "cerebrum-blocks"
+    },
+    "answer_quality_scorer": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/answer_quality_scorer",
+      "source": "cerebrum-blocks"
+    },
+    "approval_rules": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/approval_rules",
+      "source": "cerebrum-blocks"
+    },
+    "audit": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/audit",
+      "source": "cerebrum-blocks"
+    },
+    "audit_chain": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 1,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/audit_chain",
+      "source": "cerebrum-blocks"
+    },
+    "cpm_engine": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/cpm_engine",
+      "source": "cerebrum-blocks"
+    },
+    "dashboard": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/dashboard",
+      "source": "cerebrum-blocks"
+    },
+    "email": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/email",
+      "source": "cerebrum-blocks"
+    },
+    "evidence_chain": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/evidence_chain",
+      "source": "cerebrum-blocks"
+    },
+    "evidence_verifier": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 1,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/evidence_verifier",
+      "source": "cerebrum-blocks"
+    },
+    "formula_executor": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/formula_executor",
+      "source": "cerebrum-blocks"
+    },
+    "knowledge": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/knowledge",
+      "source": "cerebrum-blocks"
+    },
+    "memory": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/memory",
+      "source": "cerebrum-blocks"
+    },
+    "notification": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/notification",
+      "source": "cerebrum-blocks"
+    },
+    "pdf": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/pdf",
+      "source": "cerebrum-blocks"
+    },
+    "reference_corpus": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/reference_corpus",
+      "source": "cerebrum-blocks"
+    },
+    "search": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/search",
+      "source": "cerebrum-blocks"
+    },
+    "spec_analyzer": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/spec_analyzer",
+      "source": "cerebrum-blocks"
+    },
+    "sub_agent_runtime": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/sub_agent_runtime",
+      "source": "cerebrum-blocks"
+    },
+    "team": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/team",
+      "source": "cerebrum-blocks"
+    },
+    "transaction_state_machine": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/transaction_state_machine",
+      "source": "cerebrum-blocks"
+    },
+    "validation": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/validation",
+      "source": "cerebrum-blocks"
+    },
+    "validation_pipeline_fork": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/validation_pipeline_fork",
+      "source": "cerebrum-blocks"
+    },
+    "vector_search": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/vector_search",
+      "source": "cerebrum-blocks"
+    },
+    "voice": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/voice",
+      "source": "cerebrum-blocks"
+    },
+    "workbench": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/workbench",
+      "source": "cerebrum-blocks"
+    },
+    "workflow": {
+      "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "no publisher registry in the source tree",
+        "signature_verified": null,
+        "signed_unverified": true,
+        "verified": true
+      },
+      "path": "vendor/blocks/workflow",
+      "source": "cerebrum-blocks"
+    }
+  },
+  "kits": {
+    "platform": {
+      "blocks": [
+        "aesthetic_kit",
+        "agent_swarm",
+        "analytics",
+        "answer_quality_scorer",
+        "approval_rules",
+        "audit",
+        "audit_chain",
+        "cpm_engine",
+        "dashboard",
+        "email",
+        "evidence_chain",
+        "formula_executor",
+        "knowledge",
+        "memory",
+        "notification",
+        "pdf",
+        "reference_corpus",
+        "search",
+        "spec_analyzer",
+        "sub_agent_runtime",
+        "team",
+        "transaction_state_machine",
+        "validation",
+        "validation_pipeline_fork",
+        "vector_search",
+        "voice",
+        "workbench",
+        "workflow"
+      ],
+      "files_copied": 0,
+      "path": "kits/platform",
+      "source": "synthesized-from-factory-shelf"
+    },
+    "private_estate_operations": {
+      "blocks": [
+        "evidence_verifier"
+      ],
+      "files_copied": 57,
+      "path": "kits/private_estate_operations",
+      "source": "cerebrum-blocks"
+    }
+  },
+  "runtime": {
+    "commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+    "files": [
+      "vendor/cerebrum/__init__.py",
+      "vendor/cerebrum/blocks/__init__.py",
+      "vendor/cerebrum/blocks/aesthetic_kit.py",
+      "vendor/cerebrum/blocks/agent_swarm.py",
+      "vendor/cerebrum/blocks/analytics.py",
+      "vendor/cerebrum/blocks/answer_quality_scorer.py",
+      "vendor/cerebrum/blocks/approval_rules.py",
+      "vendor/cerebrum/blocks/audit.py",
+      "vendor/cerebrum/blocks/audit_chain.py",
+      "vendor/cerebrum/blocks/cpm_engine.py",
+      "vendor/cerebrum/blocks/dashboard.py",
+      "vendor/cerebrum/blocks/email.py",
+      "vendor/cerebrum/blocks/evidence_chain.py",
+      "vendor/cerebrum/blocks/evidence_verifier.py",
+      "vendor/cerebrum/blocks/formula_executor.py",
+      "vendor/cerebrum/blocks/kit_block.py",
+      "vendor/cerebrum/blocks/kit_engine/__init__.py",
+      "vendor/cerebrum/blocks/kit_engine/engine.py",
+      "vendor/cerebrum/blocks/kit_engine/figure.py",
+      "vendor/cerebrum/blocks/kit_engine/interview.py",
+      "vendor/cerebrum/blocks/kit_engine/invariants.py",
+      "vendor/cerebrum/blocks/kit_engine/manifest.py",
+      "vendor/cerebrum/blocks/knowledge.py",
+      "vendor/cerebrum/blocks/marker.py",
+      "vendor/cerebrum/blocks/memory.py",
+      "vendor/cerebrum/blocks/notification.py",
+      "vendor/cerebrum/blocks/pdf.py",
+      "vendor/cerebrum/blocks/rag_tenant_isolation.py",
+      "vendor/cerebrum/blocks/reference_corpus.py",
+      "vendor/cerebrum/blocks/search.py",
+      "vendor/cerebrum/blocks/spec_analyzer.py",
+      "vendor/cerebrum/blocks/sub_agent_runtime.py",
+      "vendor/cerebrum/blocks/team.py",
+      "vendor/cerebrum/blocks/transaction_state_machine.py",
+      "vendor/cerebrum/blocks/validation.py",
+      "vendor/cerebrum/blocks/validation_pipeline_fork.py",
+      "vendor/cerebrum/blocks/vector_search.py",
+      "vendor/cerebrum/blocks/voice.py",
+      "vendor/cerebrum/blocks/workbench.py",
+      "vendor/cerebrum/blocks/workflow.py",
+      "vendor/cerebrum/core/__init__.py",
+      "vendor/cerebrum/core/activation.py",
+      "vendor/cerebrum/core/answer_contract.py",
+      "vendor/cerebrum/core/block_result.py",
+      "vendor/cerebrum/core/construction_constants.py",
+      "vendor/cerebrum/core/file_crypto.py",
+      "vendor/cerebrum/core/http_errors.py",
+      "vendor/cerebrum/core/input_adapter.py",
+      "vendor/cerebrum/core/llm_config.py",
+      "vendor/cerebrum/core/mcp_registry.py",
+      "vendor/cerebrum/core/metric_utils.py",
+      "vendor/cerebrum/core/schema_registry.py",
+      "vendor/cerebrum/core/typed_block.py",
+      "vendor/cerebrum/core/universal_base.py",
+      "vendor/cerebrum/core/url_guard.py"
+    ],
+    "for_blocks": [
+      "aesthetic_kit",
+      "agent_swarm",
+      "analytics",
+      "answer_quality_scorer",
+      "approval_rules",
+      "audit",
+      "audit_chain",
+      "cpm_engine",
+      "dashboard",
+      "email",
+      "evidence_chain",
+      "evidence_verifier",
+      "formula_executor",
+      "knowledge",
+      "memory",
+      "notification",
+      "pdf",
+      "reference_corpus",
+      "search",
+      "spec_analyzer",
+      "sub_agent_runtime",
+      "team",
+      "transaction_state_machine",
+      "validation",
+      "validation_pipeline_fork",
+      "vector_search",
+      "voice",
+      "workbench",
+      "workflow"
+    ],
+    "lazy_foreign_imports": [
+      "vendor/cerebrum/blocks/agent_swarm.py: app.dependencies",
+      "vendor/cerebrum/blocks/cpm_engine.py: app.lib.pm_computations",
+      "vendor/cerebrum/blocks/cpm_engine.py: app.schemas.cpm",
+      "vendor/cerebrum/blocks/notification.py: app.dependencies"
+    ],
+    "path": "vendor/cerebrum",
+    "source": "cerebrum-blocks"
+  },
+  "schema": "blocks.lock.v1"
+}
