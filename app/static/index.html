@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cerebrum Executive Programs -- Operator Console</title>
+<style>
+  :root { --surface:#0f172a; --panel:#111c33; --line:#1f3557; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --ok:#34d399; --bad:#f87171; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background:var(--surface); color:var(--text); }
+  header { display:flex; gap:16px; align-items:center; padding:16px 24px; border-bottom:1px solid var(--line); background:var(--panel); flex-wrap:wrap; }
+  h1 { font-size:18px; margin:0; letter-spacing:.2px; }
+  .tag { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); border:1px solid var(--line); padding:3px 8px; border-radius:999px; }
+  main { display:grid; grid-template-columns: 300px 1fr; gap:20px; padding:20px 24px; }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0 0 12px; }
+  ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  li button { width:100%; text-align:left; background:transparent; border:1px solid transparent; color:var(--text); padding:8px 10px; border-radius:8px; cursor:pointer; font-size:13px; }
+  li button:hover, li button.active { border-color:var(--accent); background:#0b2740; }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  input, textarea, select { width:100%; background:#0b1220; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:13px; }
+  input[type=checkbox] { width:auto; }
+  button.primary { margin-top:14px; background:var(--accent); color:#062033; font-weight:600; border:0; border-radius:8px; padding:10px 14px; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:8px 12px; cursor:pointer; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  pre { background:#0b1220; border:1px solid var(--line); border-radius:10px; padding:12px; overflow:auto; max-height:420px; font-size:12px; }
+  .label { font-size:12px; color:var(--ok); }
+  .err { color:var(--bad); }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width: 1100px) { .grid2 { grid-template-columns:1fr; } }
+  .hint { color:var(--muted); font-size:12px; line-height:1.5; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cerebrum Executive Programs</h1>
+  <span class="tag" id="kernel">operator console</span>
+  <span class="tag" id="authority-tag">authority: layer 3 formulas</span>
+  <div class="row" style="margin-left:auto">
+    <input id="token" type="password" placeholder="platform token (PLATFORM_TOKEN)" style="width:260px" />
+    <button class="ghost" id="connect">Connect</button>
+    <span class="hint" id="status">not connected</span>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2>Capabilities</h2>
+    <ul id="caps"><li class="hint">Connect with a token to load the roster.</li></ul>
+    <h2 style="margin-top:18px">Term stages</h2>
+    <ul id="stages">
+      <li><button data-stage="enrol">1. Enrol</button></li>
+      <li><button data-stage="today">2. Today</button></li>
+      <li><button data-stage="session">3. Session</button></li>
+      <li><button data-stage="submit">4. Submit</button></li>
+      <li><button data-stage="gradebook">5. Gradebook</button></li>
+    </ul>
+  </section>
+
+  <div class="grid2">
+    <section>
+      <h2 id="form-title">Run a capability</h2>
+      <div id="form" class="hint">Pick a capability on the left.</div>
+      <button class="primary" id="run">Run</button>
+      <p class="hint" id="run-status"></p>
+    </section>
+    <section>
+      <h2>Answer</h2>
+      <p class="label" id="answer-authority"></p>
+      <pre id="output">{}</pre>
+    </section>
+  </div>
+
+  <section style="grid-column: 1 / -1;">
+    <h2>Records (tenant-scoped)</h2>
+    <div class="row"><button class="ghost" id="refresh">Refresh list</button><span class="hint" id="record-count"></span></div>
+    <pre id="records">[]</pre>
+  </section>
+</main>
+
+<script>
+const state = { token: "", capabilities: [], current: null, stages: {} };
+
+const el = (id) => document.getElementById(id);
+const headers = () => ({ "Content-Type": "application/json", "Authorization": "Bearer " + state.token });
+
+async function api(path, options = {}) {
+  const resp = await fetch(path, { ...options, headers: headers() });
+  let body = null;
+  try { body = await resp.json(); } catch (e) { body = { ok: false, error: "non-JSON answer" }; }
+  return { status: resp.status, body };
+}
+
+function showAnswer(resp) {
+  const body = resp.body || {};
+  const authority = body.authority || (body.result && body.result.authority) || (body.record && body.record.status) || "";
+  el("answer-authority").textContent = authority ? ("authority: " + String(authority).replace(/^layer \\d+ /, "")) : "";
+  el("output").textContent = JSON.stringify({ status: resp.status, ...body }, null, 2);
+  if (authority) el("authority-tag").textContent = "authority: " + String(authority).replace(/^layer \\d+ /, "");
+}
+
+function fieldInput(field) {
+  const wrap = document.createElement("div");
+  const label = document.createElement("label");
+  label.textContent = field.name + (field.required ? " *" : "");
+  wrap.appendChild(label);
+  let input;
+  if (field.allowed_values && field.allowed_values.length) {
+    input = document.createElement("select");
+    for (const value of field.allowed_values) {
+      const option = document.createElement("option");
+      option.value = value; option.textContent = value;
+      input.appendChild(option);
+    }
+  } else if (field.type === "int" || field.type === "float") {
+    input = document.createElement("input"); input.type = "number"; input.step = field.type === "int" ? "1" : "any";
+    input.min = field.min !== undefined ? field.min : 0;
+    if (field.max !== undefined) input.max = field.max;
+    input.value = field.min !== undefined ? field.min : 1;
+  } else if (field.type === "bool") {
+    input = document.createElement("input"); input.type = "checkbox";
+  } else if (field.name.includes("memo") || field.name.includes("message") || field.name.includes("question") || field.name.includes("yaml")) {
+    input = document.createElement("textarea"); input.rows = 4;
+  } else {
+    input = document.createElement("input"); input.type = "text";
+  }
+  input.dataset.field = field.name;
+  input.dataset.kind = field.type || "str";
+  wrap.appendChild(input);
+  return wrap;
+}
+
+function renderForm(capability) {
+  state.current = capability;
+  el("form-title").textContent = "Run " + capability.title;
+  const form = el("form");
+  form.innerHTML = "";
+  if (!capability.servable) {
+    const note = document.createElement("p");
+    note.className = "hint err";
+    note.textContent = "Declared placeholder connector(s): " + (capability.placeholder_connectors || []).join(", ") +
+      " -- this route answers the typed 503 until the operator wires the transport.";
+    form.appendChild(note);
+  }
+  for (const field of capability.fields || []) form.appendChild(fieldInput(field));
+}
+
+function payloadFromForm() {
+  const out = {};
+  for (const input of el("form").querySelectorAll("[data-field]")) {
+    const name = input.dataset.field;
+    if (input.dataset.kind === "int") { if (input.value !== "") out[name] = parseInt(input.value, 10); }
+    else if (input.dataset.kind === "float") { if (input.value !== "") out[name] = parseFloat(input.value); }
+    else if (input.dataset.kind === "bool") { out[name] = input.checked; }
+    else if (input.value !== "") out[name] = input.value;
+  }
+  if (!out.reference) out.reference = "console-" + Date.now();
+  return out;
+}
+
+async function loadCapabilities() {
+  const resp = await api("/v1/capabilities");
+  if (resp.status !== 200) { el("caps").innerHTML = '<li class="hint err">' + (resp.body.error || "failed") + "</li>"; return; }
+  state.capabilities = resp.body.items || [];
+  el("caps").innerHTML = "";
+  for (const cap of state.capabilities) {
+    const li = document.createElement("li");
+    const button = document.createElement("button");
+    button.textContent = cap.title + (cap.servable ? "" : "  (placeholder)");
+    button.onclick = () => { renderForm(cap); refreshRecords(cap.id); };
+    li.appendChild(button);
+    el("caps").appendChild(li);
+  }
+  el("status").textContent = "connected -- " + state.capabilities.length + " capabilities";
+}
+
+async function refreshRecords(capabilityId) {
+  if (!capabilityId) return;
+  const resp = await api("/v1/" + capabilityId);
+  el("records").textContent = JSON.stringify(resp.body, null, 2);
+  el("record-count").textContent = (resp.body.items || []).length + " visible to this tenant";
+}
+
+async function run() {
+  if (!state.current) { el("run-status").textContent = "pick a capability first"; return; }
+  el("run-status").textContent = "running " + state.current.id + "...";
+  const resp = await api("/v1/" + state.current.id, { method: "POST", body: JSON.stringify(payloadFromForm()) });
+  showAnswer(resp);
+  el("run-status").textContent = resp.status === 200 && resp.body.ok ? "accepted" : "refused (" + resp.status + ")";
+  refreshRecords(state.current.id);
+}
+
+function stageAction(stage) {
+  const target = state.capabilities.find((cap) => (cap.stages || []).includes(stage)) || null;
+  const map = { enrol: "enrolment_and_scheduling", today: "enrolment_and_scheduling", session: "ai_faculty_sessions", submit: "memo_grading", gradebook: "gradebook_and_transcript" };
+  const cap = state.capabilities.find((item) => item.id === map[stage]);
+  if (cap) { renderForm(cap); el("run-status").textContent = "stage " + stage + ": fill the form and run"; }
+}
+
+el("connect").onclick = async () => { state.token = el("token").value.trim(); await loadCapabilities(); };
+el("run").onclick = run;
+el("refresh").onclick = () => refreshRecords(state.current && state.current.id);
+for (const button of document.querySelectorAll("#stages button")) button.onclick = () => stageAction(button.dataset.stage);
+
+if (state.token) loadCapabilities();
+</script>
+</body>
+</html>

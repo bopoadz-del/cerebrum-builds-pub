@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.library_surfaces"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "library_surfaces"
+      },
+      {
+        "type": "capability",
+        "value": "library_surfaces"
+      }
+    ]
+  },
+  "agent_id": "product.hat.library_surfaces",
+  "allowed_actions": [
+    "product.library_surfaces"
+  ],
+  "block_ids": [
+    "reference_corpus",
+    "search",
+    "knowledge",
+    "vector_search"
+  ],
+  "discipline": "library_surfaces",
+  "display_name": "Cerebrum Executive Programs Library Surfaces Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'library_surfaces' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "library_surfaces"
+  ]
+}

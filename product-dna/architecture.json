@@ -1,0 +1,103 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "validation",
+        "validation_pipeline_fork",
+        "spec_analyzer",
+        "workflow",
+        "workbench",
+        "audit"
+      ],
+      "capability_id": "track_management",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "cpm_engine",
+        "team",
+        "notification",
+        "email",
+        "transaction_state_machine"
+      ],
+      "capability_id": "enrolment_and_scheduling",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "agent_swarm",
+        "sub_agent_runtime",
+        "knowledge",
+        "memory",
+        "audit_chain"
+      ],
+      "capability_id": "ai_faculty_sessions",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "evidence_chain",
+        "evidence_verifier",
+        "answer_quality_scorer",
+        "audit_chain",
+        "validation"
+      ],
+      "capability_id": "memo_grading",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "analytics",
+        "dashboard",
+        "pdf",
+        "audit"
+      ],
+      "capability_id": "gradebook_and_transcript",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "approval_rules",
+        "email",
+        "notification",
+        "transaction_state_machine"
+      ],
+      "capability_id": "defenses_and_capstone",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "reference_corpus",
+        "search",
+        "knowledge",
+        "vector_search"
+      ],
+      "capability_id": "library_surfaces",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "voice",
+        "aesthetic_kit"
+      ],
+      "capability_id": "command_center_and_chat",
+      "strategy": "REUSE"
+    }
+  ],
+  "connectors": [
+    "email_delivery"
+  ],
+  "layers": [],
+  "product_id": "product",
+  "schema_version": "1.0.0",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}

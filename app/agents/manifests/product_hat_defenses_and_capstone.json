@@ -1,0 +1,50 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.defenses_and_capstone"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "defenses_and_capstone"
+      },
+      {
+        "type": "capability",
+        "value": "defenses_and_capstone"
+      }
+    ]
+  },
+  "agent_id": "product.hat.defenses_and_capstone",
+  "allowed_actions": [
+    "product.defenses_and_capstone"
+  ],
+  "block_ids": [
+    "workflow",
+    "approval_rules",
+    "email",
+    "notification",
+    "transaction_state_machine"
+  ],
+  "discipline": "defenses_and_capstone",
+  "display_name": "Cerebrum Executive Programs Defenses And Capstone Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'defenses_and_capstone' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "defenses_and_capstone"
+  ]
+}

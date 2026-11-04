@@ -1,0 +1,5 @@
+{"id": "product:memo_criterion_total_v1", "label": "Memo criterion total (five criteria, 0-20 each)", "source": "improvised, no Store coverage; brief: memo_grading -- five criterion scores 0-20, banded total"}
+{"id": "product:weighted_average_v1", "label": "Programme weighted average (memos 60, defenses 20, capstone 20)", "source": "improvised, no Store coverage; brief: gradebook_and_transcript -- weighted 60/20/20"}
+{"id": "product:graduation_average_v1", "label": "Graduation headroom: weighted average above the mastery floor", "source": "improvised, no Store coverage; brief: defenses_and_capstone -- graduation requires average >= 80"}
+{"id": "product:resit_deadline_days_v1", "label": "Re-sit window after a failed term defense", "source": "improvised, no Store coverage; brief: defenses_and_capstone -- re-sit scheduled within 7 days on fail"}
+{"id": "product:session_minutes_total_v1", "label": "Contact minutes in a 16-week track from the fixed session template", "source": "improvised, no Store coverage; brief: enrolment_and_scheduling -- 16 weeks x 6 sessions from the fixed template"}

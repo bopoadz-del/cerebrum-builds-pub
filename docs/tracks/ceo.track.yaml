@@ -1,0 +1,81 @@
+schema: track.v1
+track_key: ceo
+title: Chief Executive Officer Executive Track
+weeks: 16
+source: seed/ceo
+session_template:
+  - {kind: framework, weekday: 0, minutes: 90}
+  - {kind: case_prep, weekday: 1, minutes: 60}
+  - {kind: case_class, weekday: 2, minutes: 120}
+  - {kind: lab, weekday: 4, minutes: 90}
+  - {kind: lab, weekday: 5, minutes: 90}
+  - {kind: exam, weekday: 6, minutes: 60}
+rubric:
+  version: rubric.v1
+  criteria: [thesis, evidence, analysis, counterargument, recommendation]
+  weights: {memos: 60, defenses: 20, capstone: 20}
+weeks_detail:
+  - week: 1
+    theme: "Strategy as choice"
+    case: "A conglomerate with five strategies and no trade-offs"
+    readings: ["Porter, What is Strategy?", "Martin, Playing to Win, ch. 2"]
+  - week: 2
+    theme: "Competitive advantage and its decay"
+    case: "The incumbent that owned distribution"
+    readings: ["Christensen, The Innovator's Dilemma, ch. 1"]
+  - week: 3
+    theme: "Capital allocation"
+    case: "Buybacks against a stalled core"
+    readings: ["Thorndike, The Outsiders, ch. 2"]
+  - week: 4
+    theme: "Growth economics"
+    case: "Unit economics that never converged"
+    readings: ["Damodaran, The Little Book of Valuation, ch. 5"]
+  - week: 5
+    theme: "M&A discipline"
+    case: "The synergy spreadsheets nobody reconciled"
+    readings: ["Harding & Rovit, Mastering the Merger, ch. 3"]
+  - week: 6
+    theme: "Capital structure and risk"
+    case: "Refinancing into a rate rise"
+    readings: ["Brealey, Myers & Allen, Principles of Corporate Finance, ch. 18"]
+  - week: 7
+    theme: "Boards and governance"
+    case: "A board that learnt too late"
+    readings: ["Lorsch & MacIver, Pawns or Potentates, ch. 4"]
+  - week: 8
+    theme: "Leading through narrative"
+    case: "The strategy deck that changed nothing"
+    readings: ["Rumelt, Good Strategy Bad Strategy, ch. 5"]
+  - week: 9
+    theme: "Talent and succession"
+    case: "A CEO bench with one name on it"
+    readings: ["Charan, Drotter & Noel, The Leadership Pipeline, ch. 2"]
+  - week: 10
+    theme: "Culture as an operating system"
+    case: "Values posted on a wall, decisions made elsewhere"
+    readings: ["Schein, Organizational Culture and Leadership, ch. 3"]
+  - week: 11
+    theme: "Digital and AI strategy"
+    case: "An AI programme with no decision attached"
+    readings: ["Iansiti & Lakhani, Competing in the Age of AI, ch. 4"]
+  - week: 12
+    theme: "Regulatory and stakeholder strategy"
+    case: "A licence to operate withdrawn"
+    readings: ["Freeman, Strategic Management: A Stakeholder Approach, ch. 2"]
+  - week: 13
+    theme: "Crisis leadership"
+    case: "Forty-eight hours to a public recall"
+    readings: ["Augustine, Managing the Crisis You Tried to Prevent"]
+  - week: 14
+    theme: "Portfolio and divestment"
+    case: "The business that should have been sold in year one"
+    readings: ["Thorndike, The Outsiders, ch. 5"]
+  - week: 15
+    theme: "The first hundred days"
+    case: "A new CEO inherits a plan they did not write"
+    readings: ["Watkins, The First 90 Days, ch. 3"]
+  - week: 16
+    theme: "Capstone defence: the investment case"
+    case: "Defending a five-year investment case to invited reviewers"
+    readings: ["Review the term's memos against your own case"]

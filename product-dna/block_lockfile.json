@@ -1,0 +1,123 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "factory_commit": "bb579cebd08f471ecd9340e7f922b6dc9132e395",
+  "pins": [
+    {
+      "block_id": "aesthetic_kit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "agent_swarm",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "analytics",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "answer_quality_scorer",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "approval_rules",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "cpm_engine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dashboard",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "email",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_verifier",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "formula_executor",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "knowledge",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "memory",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "notification",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "pdf",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "reference_corpus",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "spec_analyzer",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "sub_agent_runtime",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "team",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "transaction_state_machine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "validation",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "validation_pipeline_fork",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "vector_search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "voice",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "workbench",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "workflow",
+      "source": "dual_registry"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

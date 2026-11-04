@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.command_center_and_chat"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "command_center_and_chat"
+      },
+      {
+        "type": "capability",
+        "value": "command_center_and_chat"
+      }
+    ]
+  },
+  "agent_id": "product.hat.command_center_and_chat",
+  "allowed_actions": [
+    "product.command_center_and_chat"
+  ],
+  "block_ids": [
+    "dashboard",
+    "voice",
+    "aesthetic_kit"
+  ],
+  "discipline": "command_center_and_chat",
+  "display_name": "Cerebrum Executive Programs Command Center And Chat Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'command_center_and_chat' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "command_center_and_chat"
+  ]
+}

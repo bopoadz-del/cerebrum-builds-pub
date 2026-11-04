@@ -1,0 +1,133 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "validation",
+        "validation_pipeline_fork",
+        "spec_analyzer",
+        "workflow",
+        "workbench",
+        "audit"
+      ],
+      "capability_id": "track_management",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "cpm_engine",
+        "team",
+        "notification",
+        "email",
+        "transaction_state_machine"
+      ],
+      "capability_id": "enrolment_and_scheduling",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "agent_swarm",
+        "sub_agent_runtime",
+        "knowledge",
+        "memory",
+        "audit_chain"
+      ],
+      "capability_id": "ai_faculty_sessions",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "evidence_chain",
+        "evidence_verifier",
+        "answer_quality_scorer",
+        "audit_chain",
+        "validation"
+      ],
+      "capability_id": "memo_grading",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "analytics",
+        "dashboard",
+        "pdf",
+        "audit"
+      ],
+      "capability_id": "gradebook_and_transcript",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "approval_rules",
+        "email",
+        "notification",
+        "transaction_state_machine"
+      ],
+      "capability_id": "defenses_and_capstone",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "reference_corpus",
+        "search",
+        "knowledge",
+        "vector_search"
+      ],
+      "capability_id": "library_surfaces",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "voice",
+        "aesthetic_kit"
+      ],
+      "capability_id": "command_center_and_chat",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "aesthetic_kit",
+    "agent_swarm",
+    "analytics",
+    "answer_quality_scorer",
+    "approval_rules",
+    "audit",
+    "audit_chain",
+    "cpm_engine",
+    "dashboard",
+    "email",
+    "evidence_chain",
+    "evidence_verifier",
+    "formula_executor",
+    "knowledge",
+    "memory",
+    "notification",
+    "pdf",
+    "reference_corpus",
+    "search",
+    "spec_analyzer",
+    "sub_agent_runtime",
+    "team",
+    "transaction_state_machine",
+    "validation",
+    "validation_pipeline_fork",
+    "vector_search",
+    "voice",
+    "workbench",
+    "workflow"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

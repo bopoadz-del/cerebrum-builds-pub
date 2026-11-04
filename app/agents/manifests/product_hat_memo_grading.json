@@ -1,0 +1,51 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.memo_grading"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "memo_grading"
+      },
+      {
+        "type": "capability",
+        "value": "memo_grading"
+      }
+    ]
+  },
+  "agent_id": "product.hat.memo_grading",
+  "allowed_actions": [
+    "product.memo_grading"
+  ],
+  "block_ids": [
+    "formula_executor",
+    "evidence_chain",
+    "evidence_verifier",
+    "answer_quality_scorer",
+    "audit_chain",
+    "validation"
+  ],
+  "discipline": "memo_grading",
+  "display_name": "Cerebrum Executive Programs Memo Grading Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'memo_grading' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "memo_grading"
+  ]
+}

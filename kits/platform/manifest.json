@@ -1,4 +1,8 @@
 {
+  "id": "platform",
+  "name": "Platform",
+  "source": "brief-compiler",
+  "store_pin": "4e8324486a839957498462f2fb8b01276b879714",
   "blocks": [
     "aesthetic_kit",
     "agent_swarm",
@@ -11,6 +15,7 @@
     "dashboard",
     "email",
     "evidence_chain",
+    "evidence_verifier",
     "formula_executor",
     "knowledge",
     "memory",
@@ -29,8 +34,6 @@
     "workbench",
     "workflow"
   ],
-  "id": "platform",
-  "name": "Platform",
   "product_blocks": [
     "aesthetic_kit",
     "agent_swarm",
@@ -43,6 +46,7 @@
     "dashboard",
     "email",
     "evidence_chain",
+    "evidence_verifier",
     "formula_executor",
     "knowledge",
     "memory",
@@ -61,7 +65,6 @@
     "workbench",
     "workflow"
   ],
-  "source": "synthesized-from-factory-shelf",
   "vendored_blocks": {
     "aesthetic_kit": "vendor/blocks/aesthetic_kit",
     "agent_swarm": "vendor/blocks/agent_swarm",
@@ -74,6 +77,7 @@
     "dashboard": "vendor/blocks/dashboard",
     "email": "vendor/blocks/email",
     "evidence_chain": "vendor/blocks/evidence_chain",
+    "evidence_verifier": "vendor/blocks/evidence_verifier",
     "formula_executor": "vendor/blocks/formula_executor",
     "knowledge": "vendor/blocks/knowledge",
     "memory": "vendor/blocks/memory",
@@ -91,6 +95,5 @@
     "voice": "vendor/blocks/voice",
     "workbench": "vendor/blocks/workbench",
     "workflow": "vendor/blocks/workflow"
-  },
-  "version": "1.0.0"
+  }
 }

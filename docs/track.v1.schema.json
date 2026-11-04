@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "track.v1",
+  "title": "Cerebrum executive track file (track.v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "track_key", "title", "weeks", "session_template", "weeks_detail"],
+  "properties": {
+    "schema": {"type": "string", "enum": ["track.v1"]},
+    "track_key": {"type": "string", "minLength": 1, "maxLength": 80, "pattern": "^[a-z0-9][a-z0-9_-]*$"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 200},
+    "weeks": {"type": "integer", "minimum": 1, "maximum": 52},
+    "session_template": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "weekday", "minutes"],
+        "properties": {
+          "kind": {"type": "string", "enum": ["framework", "case_prep", "case_class", "lab", "exam"]},
+          "weekday": {"type": "integer", "minimum": 0, "maximum": 6},
+          "minutes": {"type": "integer", "minimum": 15, "maximum": 480}
+        }
+      }
+    },
+    "weeks_detail": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["week", "theme"],
+        "properties": {
+          "week": {"type": "integer", "minimum": 1, "maximum": 52},
+          "theme": {"type": "string", "minLength": 1, "maxLength": 240},
+          "case": {"type": "string", "maxLength": 240},
+          "readings": {"type": "array", "items": {"type": "string", "maxLength": 240}}
+        }
+      }
+    },
+    "rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {"type": "string"},
+        "criteria": {"type": "array", "items": {"type": "string"}},
+        "weights": {"type": "object"}
+      }
+    },
+    "source": {"type": "string", "maxLength": 120}
+  }
+}

@@ -1,0 +1,138 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Cerebrum Executive Programs
+vertical: product
+summary: A data-driven executive-education platform that runs 16-week executive tracks
+  (COO, CEO, and any other track) entirely from YAML track files validated at startup
+  against a shipped JSON Schema. Operators administer tracks, enrol learners, and
+  manage track versions; learners follow a fixed weekly session template with AI faculty
+  chat in six kernel modes, submit memos graded by a separate AI grader against the
+  rubric, complete term defenses and a capstone with invited reviewers, and graduate
+  on wei
+capabilities:
+- id: track_management
+  description: Upload, edit, validate and version track YAML against the shipped track.v1
+    JSON Schema, refusing invalid files with the offending field path; show a week-level
+    diff between versions and pin a track version per enrolment so existing learners
+    keep their track. Ships with seed COO and CEO tracks (16 we
+  block_ids:
+  - validation
+  - validation_pipeline_fork
+  - spec_analyzer
+  - workflow
+  - workbench
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: enrolment_and_scheduling
+  description: Enrol a learner on a track with a start_date and timezone; generate
+    16 weeks × 6 sessions from the fixed template (framework 0/90, case_prep 1/60,
+    case_class 2/120, lab 4/90, lab 5/90, exam 6/60) plus the week-1 reading email,
+    and keep the live schedule visible as today/upcoming.
+  block_ids:
+  - workflow
+  - cpm_engine
+  - team
+  - notification
+  - email
+  - transaction_state_machine
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - email_delivery
+- id: ai_faculty_sessions
+  description: Per scheduled session, run an AI faculty chat in one of six kernel
+    modes (lecture, brief, socratic, sparring, oral_quiz, examiner) mapped from session
+    kind; store the transcript and one audit row per session; sparring mode refuses
+    to draft the learner's deliverable and responds with questions instea
+  block_ids:
+  - agent_swarm
+  - sub_agent_runtime
+  - knowledge
+  - memory
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: memo_grading
+  description: A separate AI grader that never sees the faculty transcript scores
+    a submitted memo against the rubric via formula_executor, producing five criterion
+    scores 0–20, a banded total, one verdict line per criterion, and stored provenance
+    (kernel block version, rubric version, run id); scores under 70 tri
+  block_ids:
+  - formula_executor
+  - evidence_chain
+  - evidence_verifier
+  - answer_quality_scorer
+  - audit_chain
+  - validation
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: gradebook_and_transcript
+  description: Compute the weighted average live (memos 60, defenses 20, capstone
+    20), and issue a transcript PDF containing every grade.
+  block_ids:
+  - analytics
+  - dashboard
+  - pdf
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: defenses_and_capstone
+  description: Term defense on the term's last day (pass/fail; re-sit scheduled within
+    7 days on fail); capstone uploaded, two reviewers invited by email, three verdicts
+    collected, and an acceptance rule applied. Graduation requires average ≥ 80, four
+    passes and an accepted capstone.
+  block_ids:
+  - workflow
+  - approval_rules
+  - email
+  - notification
+  - transaction_state_machine
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - email_delivery
+- id: library_surfaces
+  description: Reading and case library surfaces per week, showing each week's readings
+    and public sources, with case outcomes revealed only in the case_class session.
+  block_ids:
+  - reference_corpus
+  - search
+  - knowledge
+  - vector_search
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: command_center_and_chat
+  description: Operator command center and operational chat covering enrol → today
+    → session → submit → gradebook at desktop and phone width.
+  block_ids:
+  - dashboard
+  - voice
+  - aesthetic_kit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors:
+- email_delivery
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null
