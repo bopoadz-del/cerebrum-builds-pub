@@ -8,3 +8,30 @@ pydantic==2.14.1
 jsonschema==4.26.0
 pyyaml==6.0.3
 psycopg[binary]==3.3.6
+# --- BEGIN factory block: stamped by the Factory, edits here are replaced ---
+# Packages this tree needs and did not declare: vendored block
+# imports, and framework features FastAPI does not declare.
+starlette==1.7.0
+python-multipart>=0.0.9
+Pillow  # action: PIL in pdf.py
+Pint  # action: pint in formula_executor.py, validation_pipeline_fork.py
+PyMuPDF  # action: fitz in marker.py, pdf.py, spec_analyzer.py
+SpeechRecognition  # action: speech_recognition in voice.py
+aiohttp  # action: aiohttp in email.py
+aiosmtplib  # action: aiosmtplib in notification.py
+boto3  # action: boto3 in email.py
+botocore  # action: botocore in email.py
+cryptography  # module: cryptography in file_crypto.py
+ddgs  # action: ddgs in search.py
+gTTS  # action: gtts in voice.py
+httpx  # module: httpx in agent_swarm.py, formula_executor.py, knowledge.py
+numpy  # module: numpy in formula_executor.py, vector_search.py
+openpyxl  # action: openpyxl in pdf.py
+pdfplumber  # action: pdfplumber in pdf.py
+pypdf  # action: pypdf in pdf.py
+pypdfium2  # action: pypdfium2 in marker.py
+pytesseract  # action: pytesseract in pdf.py
+python-docx  # action: docx in pdf.py
+scikit-learn  # module: sklearn in vector_search.py
+sympy  # action: sympy in formula_executor.py
+# --- END factory block ---
