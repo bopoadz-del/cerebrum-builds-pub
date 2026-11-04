@@ -1,0 +1,144 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "validation",
+        "validation_pipeline_fork",
+        "spec_analyzer",
+        "workflow",
+        "workbench",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Upload, edit, validate and version track YAML against the shipped track.v1 JSON Schema, refusing invalid files with the offending field path; show a week-level diff between versions and pin a track version per enrolment so existing learners keep their track. Ships with seed COO and CEO tracks (16 we",
+      "id": "track_management",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "cpm_engine",
+        "team",
+        "notification",
+        "email",
+        "transaction_state_machine"
+      ],
+      "connectors": [
+        "email_delivery"
+      ],
+      "description": "Enrol a learner on a track with a start_date and timezone; generate 16 weeks \u00d7 6 sessions from the fixed template (framework 0/90, case_prep 1/60, case_class 2/120, lab 4/90, lab 5/90, exam 6/60) plus the week-1 reading email, and keep the live schedule visible as today/upcoming.",
+      "id": "enrolment_and_scheduling",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "agent_swarm",
+        "sub_agent_runtime",
+        "knowledge",
+        "memory",
+        "audit_chain"
+      ],
+      "connectors": [],
+      "description": "Per scheduled session, run an AI faculty chat in one of six kernel modes (lecture, brief, socratic, sparring, oral_quiz, examiner) mapped from session kind; store the transcript and one audit row per session; sparring mode refuses to draft the learner's deliverable and responds with questions instea",
+      "id": "ai_faculty_sessions",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "evidence_chain",
+        "evidence_verifier",
+        "answer_quality_scorer",
+        "audit_chain",
+        "validation"
+      ],
+      "connectors": [],
+      "description": "A separate AI grader that never sees the faculty transcript scores a submitted memo against the rubric via formula_executor, producing five criterion scores 0\u201320, a banded total, one verdict line per criterion, and stored provenance (kernel block version, rubric version, run id); scores under 70 tri",
+      "id": "memo_grading",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "analytics",
+        "dashboard",
+        "pdf",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Compute the weighted average live (memos 60, defenses 20, capstone 20), and issue a transcript PDF containing every grade.",
+      "id": "gradebook_and_transcript",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "approval_rules",
+        "email",
+        "notification",
+        "transaction_state_machine"
+      ],
+      "connectors": [
+        "email_delivery"
+      ],
+      "description": "Term defense on the term's last day (pass/fail; re-sit scheduled within 7 days on fail); capstone uploaded, two reviewers invited by email, three verdicts collected, and an acceptance rule applied. Graduation requires average \u2265 80, four passes and an accepted capstone.",
+      "id": "defenses_and_capstone",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "reference_corpus",
+        "search",
+        "knowledge",
+        "vector_search"
+      ],
+      "connectors": [],
+      "description": "Reading and case library surfaces per week, showing each week's readings and public sources, with case outcomes revealed only in the case_class session.",
+      "id": "library_surfaces",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "voice",
+        "aesthetic_kit"
+      ],
+      "connectors": [],
+      "description": "Operator command center and operational chat covering enrol \u2192 today \u2192 session \u2192 submit \u2192 gradebook at desktop and phone width.",
+      "id": "command_center_and_chat",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "email_delivery"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 8,
+  "product_id": "product",
+  "product_name": "Cerebrum Executive Programs",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A data-driven executive-education platform that runs 16-week executive tracks (COO, CEO, and any other track) entirely from YAML track files validated at startup against a shipped JSON Schema. Operators administer tracks, enrol learners, and manage track versions; learners follow a fixed weekly session template with AI faculty chat in six kernel modes, submit memos graded by a separate AI grader against the rubric, complete term defenses and a capstone with invited reviewers, and graduate on wei",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
