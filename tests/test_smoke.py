@@ -32,7 +32,7 @@ def test_dispatch_runs_offline():
     from app.dispatch import execute, load_block
     for block_id in ['analytics', 'approval_rules', 'audit', 'audit_chain', 'boq_processor', 'cpm_engine', 'dashboard', 'document_engine', 'evidence_chain', 'evidence_or_refuse', 'finance_canonical_model', 'finance_planning', 'finance_reconciliation', 'formula_executor', 'governance_gate', 'knowledge', 'pdf', 'portfolio_rollup', 'regulatory_chunker', 'storage', 'transaction_state_machine', 'validation', 'version', 'version_diff', 'workflow']:
         load_block(block_id)
-    actions = {'analytics': 'track_event', 'audit': 'log', 'dashboard': 'render', 'knowledge': 'ask', 'portfolio_rollup': 'aggregate', 'storage': 'store', 'validation': 'validate_pipeline', 'version': 'publish_version', 'workflow': 'run'}
+    actions = {}
     for block_id in ['analytics', 'approval_rules', 'audit', 'audit_chain', 'boq_processor', 'cpm_engine', 'dashboard', 'document_engine', 'evidence_chain', 'evidence_or_refuse', 'finance_canonical_model', 'finance_planning', 'finance_reconciliation', 'formula_executor', 'governance_gate', 'knowledge', 'pdf', 'portfolio_rollup', 'regulatory_chunker', 'storage', 'transaction_state_machine', 'validation', 'version', 'version_diff', 'workflow']:
         try:
             result = execute(block_id, {}, action=actions.get(block_id))

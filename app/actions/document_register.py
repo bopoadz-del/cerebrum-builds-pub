@@ -67,7 +67,9 @@ def handle(payload: Optional[Dict[str, Any]] = None, tenant_id: str = "") -> Dic
     blocks["audit_chain"] = {"evidence_id": chain_record.get("id")}
 
     digest = _digest(record)
-    retired = bool(supersedes) and approval_state != "superseded"
+    # A revision retires its predecessor only once it is itself approved: a
+    # drawing issued for review leaves the current revision in force.
+    retired = bool(supersedes) and approval_state == "approved"
     stored = {
         "reference": reference,
         "status": str(record.get("status") or "open"),

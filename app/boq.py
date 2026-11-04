@@ -44,7 +44,10 @@ def parse_rows(text: str) -> List[Dict[str, Any]]:
     if not body:
         return []
     sample = body.splitlines()[0]
-    delimiter = "\t" if "\t" in sample else ","
+    # The uploaded bill opens with section headings ("# Preliminaries"), so
+    # the first line is not a reliable delimiter sample; a tab anywhere in
+    # the extract marks it tab-separated.
+    delimiter = "\t" if "\t" in body else ("," if "," in sample else "\t")
     rows: List[Dict[str, Any]] = []
     for cells in csv.reader(io.StringIO(body), delimiter=delimiter):
         cells = [_clean(cell) for cell in cells]

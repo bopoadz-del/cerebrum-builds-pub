@@ -83,6 +83,16 @@ class ModelBase:
                 clean[name] = number
             elif kind == "bool":
                 clean[name] = bool(value)
+            elif kind == "date":
+                try:
+                    date.fromisoformat(str(value))
+                except ValueError:
+                    return {}, {
+                        "rejected_field": name,
+                        "rejection_reason": "wrong_type",
+                        "detail": "%s must be an ISO date (YYYY-MM-DD)" % name,
+                    }
+                clean[name] = str(value)
             else:
                 clean[name] = str(value)
             allowed = rules.get("allowed_values")
@@ -379,12 +389,12 @@ class ClaimsAnalyticsDashboard(ModelBase):
     ENTITY = "claims_analytics_dashboard"
     FIELDS = [
         "reference", "status", "period", "claims_count", "certified_total",
-        "retention_total", "earned_value", "delay_days",
+        "retention_total", "earned_value", "delay_days", "boq_source_text",
     ]
     TYPES = {
         "reference": "str", "status": "str", "period": "str", "claims_count": "int",
         "certified_total": "float", "retention_total": "float",
-        "earned_value": "float", "delay_days": "int",
+        "earned_value": "float", "delay_days": "int", "boq_source_text": "str",
     }
     CONSTRAINTS = {
         "reference": {"required": True},
@@ -395,6 +405,7 @@ class ClaimsAnalyticsDashboard(ModelBase):
         "retention_total": {"min": 0, "default": 0.0},
         "earned_value": {"min": 0, "default": 0.0},
         "delay_days": {"min": 0, "default": 0},
+        "boq_source_text": {"default": ""},
     }
     reference: str = ""
     status: str = "open"
@@ -404,6 +415,7 @@ class ClaimsAnalyticsDashboard(ModelBase):
     retention_total: float = 0.0
     earned_value: float = 0.0
     delay_days: int = 0
+    boq_source_text: str = ""
     id: Optional[int] = None
     tenant_id: Optional[str] = None
 
