@@ -27,22 +27,27 @@ ENTITIES = [
 ]
 
 
-def _record_table(name: str) -> None:
-    op.create_table(
-        name,
+def _record_columns():
+    """Fresh column objects: one Column instance cannot belong to two tables."""
+    return [
         sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
         sa.Column("tenant_id", sa.String(length=128), nullable=False, index=True),
         sa.Column("created_at", sa.String(length=40), nullable=False),
         sa.Column("payload", sa.Text(), nullable=False),
-    )
+    ]
 
 
 def upgrade() -> None:
-    for entity in ENTITIES:
-        _record_table(entity)
+    op.create_table("document_register", *_record_columns())
+    op.create_table("progress_claims", *_record_columns())
+    op.create_table("delay_damages_tracking", *_record_columns())
+    op.create_table("qa_itp_records", *_record_columns())
+    op.create_table("contract_clause_governance", *_record_columns())
+    op.create_table("payment_security_and_retention_ledger", *_record_columns())
+    op.create_table("claims_analytics_dashboard", *_record_columns())
 
     # Retrieval chunks share the record shape and live in the same root.
-    _record_table("retrieval_chunk")
+    op.create_table("retrieval_chunk", *_record_columns())
 
     op.create_table(
         "work_queue",

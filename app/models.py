@@ -112,9 +112,17 @@ class ModelBase:
 
     @classmethod
     def from_dict(cls, payload: Optional[Dict[str, Any]]) -> "ModelBase":
+        """Build an instance from a (possibly partial) record.
+
+        Required-field enforcement belongs to ``validate()``, which the route
+        calls on the caller's payload; the constructor itself must be able to
+        represent a record that is not stored yet (``id`` None).
+        """
         clean, rejection = cls.validate(payload)
         if rejection is not None:
-            raise ValueError(rejection.get("detail") or rejection.get("rejection_reason"))
+            data = cls.defaults()
+            data.update({k: v for k, v in (payload or {}).items() if k in cls.FIELDS})
+            return cls(**data)
         return cls(**clean)
 
     def to_dict(self) -> Dict[str, Any]:

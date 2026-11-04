@@ -70,11 +70,12 @@ defects:
   end-to-end route tests — the handler reaches its first locked block, which
   cannot load, and correctly answers `ok:false` instead of persisting.
 
-Measured in this checkout: 33 of the 36 code-phase tests pass, and the three
-above are the only failures. Measured against a rehearsal tree carrying the
-same sealed slice: 36 passed (code phase), `pytest -m pilot` 3 passed,
-`scripts/factory_checks.py` exit 0, `scripts/release_gate.py` VERDICT: PASS,
-and `scripts/acceptance.py --self-check` 22/23 with `cross_tenant_404` the only
+Measured in this checkout: 59 passed / 9 skipped / 3 failed (code phase), and
+the three failures above are the only ones. Measured against a rehearsal tree
+carrying the same sealed slice: 69 passed / 2 skipped (code phase),
+`pytest -m pilot` 3 passed, `scripts/factory_checks.py` exit 0,
+`scripts/release_gate.py` VERDICT: PASS, and
+`scripts/acceptance.py --self-check` 22/23 with `cross_tenant_404` the only
 FAIL — the harness-token defect above.
 
 The same absence explains the F1/F11 lines `scripts/factory_checks.py` prints
@@ -83,6 +84,21 @@ invoked. With the sealed slice present the handlers run to completion.
 
 ## Closed in this pass
 
+- The staged checkout arrived without the versioned schema substrate: it was
+  rewritten as real DDL (`alembic.ini`, `alembic/env.py`, `0001_baseline` with
+  the seven entity tables plus `work_queue`, `idempotency` and
+  `retrieval_chunk`, and `0002_lifecycle_audit`), and the factory-stamped
+  `Dockerfile`, `requirements.txt`, `.env.example`, `.dockerignore` and `README`
+  were restored from the merged product tree so the runtime dependency pins the
+  vendored blocks need are not dropped. `python -m pytest -m "not pilot"` runs
+  again; a fresh `upgrade_head()` reaches `0002_lifecycle_audit` and
+  `downgrade("0001_baseline")` preserves populated rows.
+- `ModelBase.from_dict({})` raised `ValueError: reference is required`, so a
+  model could not represent a record that is not stored yet (the id-None case
+  `tests/test_models.py` exercises). The constructor now fills declared defaults
+  for a partial record; required-field and vocabulary enforcement stays on
+  `validate()`, which the route calls on the caller's payload, so no rejection
+  was weakened.
 - `payment_security_and_retention_ledger` refused a payload built from its own
   schema (`finance_canonical_model failed: ValueError: no currency declared for
   the finance ledger`): the deploy setting and the declared locale are both
