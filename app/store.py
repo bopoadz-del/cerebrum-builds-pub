@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import os
 import threading
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
@@ -63,6 +64,27 @@ COLUMNS.update({name: list(cols) for name, cols in INTERNAL_COLUMNS.items()})
 _META = MetaData()
 _TABLES: Dict[str, Table] = {}
 _TABLE_LOCK = threading.Lock()
+#: SQLite admits ONE writer at a time. Letting N request threads race for the
+#: file's write lock means N-1 of them hold a pooled connection while they
+#: wait, and once N exceeds the pool every waiting thread is also holding the
+#: connection the writer would need to finish: the writes time out and the
+#: pool reports a checkout timeout. The platform serialises the write
+#: transaction itself on SQLite (docs/data_lifecycle.json declares writers: 1),
+#: so a waiting writer holds no connection; Postgres keeps real concurrency.
+_WRITE_LOCK = threading.Lock()
+
+
+@contextmanager
+def _write_transaction():
+    """Hold the platform's single-writer seat for a SQLite write.
+
+    Postgres is left alone: its MVCC writers do not contend for one file lock.
+    """
+    if db.backend_name() == "sqlite":
+        with _WRITE_LOCK:
+            yield
+    else:
+        yield
 
 
 def storage_root() -> Path:
@@ -168,10 +190,20 @@ def save(entity: str, record: Dict[str, Any], tenant_id: Optional[str] = None) -
     values["tenant_id"] = tenant
     values["created_at"] = _now()
     engine = db.engine()
-    with engine.begin() as conn:
+    with _write_transaction(), engine.begin() as conn:
         result = conn.execute(table.insert().values(**values))
         new_id = result.inserted_primary_key[0]
-    stored = get(entity, int(new_id), tenant_id=tenant)
+        # Read the stored row back on the SAME connection. A read-back on a
+        # second pooled connection turns every save into a hold-and-wait:
+        # N concurrent saves each pin one connection while queueing for
+        # another, and once N exceeds the pool the writes that wait on the
+        # pool never release the ones the pool is waiting for. The row is
+        # read inside the write's own transaction, so a saved record is
+        # visible to the caller that saved it and to nobody else first.
+        written = conn.execute(
+            _select(table).where(table.c.id == new_id).where(table.c.tenant_id == tenant)
+        ).first()
+    stored = _row(entity, written) if written is not None else None
     if stored is None:
         raise RuntimeError(f"{entity} save did not read back")
     return stored
@@ -211,14 +243,17 @@ def update(entity: str, record_id: Any, record: Dict[str, Any], tenant_id: Optio
     values = _values(entity, record)
     values["updated_at"] = _now()
     engine = db.engine()
-    with engine.begin() as conn:
+    with _write_transaction(), engine.begin() as conn:
         conn.execute(
             _update(table)
             .where(table.c.id == key)
             .where(table.c.tenant_id == tenant)
             .values(**values)
         )
-    return get(entity, key, tenant_id=tenant)
+        written = conn.execute(
+            _select(table).where(table.c.id == key).where(table.c.tenant_id == tenant)
+        ).first()
+    return _row(entity, written) if written is not None else None
 
 
 def delete(entity: str, record_id: Any, tenant_id: Optional[str] = None) -> bool:
@@ -229,7 +264,7 @@ def delete(entity: str, record_id: Any, tenant_id: Optional[str] = None) -> bool
     except (TypeError, ValueError):
         return False
     engine = db.engine()
-    with engine.begin() as conn:
+    with _write_transaction(), engine.begin() as conn:
         result = conn.execute(
             _delete(table).where(table.c.id == key).where(table.c.tenant_id == tenant)
         )

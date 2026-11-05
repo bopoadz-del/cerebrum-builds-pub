@@ -50,6 +50,7 @@ export default function App() {
   const [values, setValues] = useState<Record<string, string>>({});
   const [rows, setRows] = useState<RecordRow[]>([]);
   const [response, setResponse] = useState<string>("{}");
+  const [authority, setAuthority] = useState<string>("layer 1 certified");
   const [busy, setBusy] = useState(false);
 
   const capability = useMemo(
@@ -63,6 +64,9 @@ export default function App() {
       const resp = await fetch(path, { ...init, headers: authHeaders(token) });
       const body = await resp.json().catch(() => ({ ok: false, error: "non-JSON response" }));
       setResponse(JSON.stringify({ status: resp.status, body }, null, 2));
+      // Every answer is labelled with the precedence layer that produced it;
+      // an unlabelled answer is shown as such rather than silently trusted.
+      setAuthority(typeof body?.authority === "string" && body.authority ? body.authority : "unlabelled");
       return { status: resp.status, body };
     } finally {
       setBusy(false);
@@ -199,6 +203,7 @@ export default function App() {
                 <th className="border-b border-slate-200 py-2">id</th>
                 <th className="border-b border-slate-200 py-2">reference</th>
                 <th className="border-b border-slate-200 py-2">status</th>
+                <th className="border-b border-slate-200 py-2">authority</th>
               </tr>
             </thead>
             <tbody>
@@ -207,11 +212,17 @@ export default function App() {
                   <td className="border-b border-slate-100 py-2">{String(row.id ?? "")}</td>
                   <td className="border-b border-slate-100 py-2">{String(row.reference ?? "")}</td>
                   <td className="border-b border-slate-100 py-2">{String(row.status ?? "")}</td>
+                  <td className="border-b border-slate-100 py-2">{String(row.authority ?? authority)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <h2 className="mb-2 mt-6 text-xs font-semibold uppercase tracking-wide text-slate-500">Last response</h2>
+          <div className="mb-2 mt-6 flex items-center justify-between">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">Last response</h2>
+            <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs text-slate-700" data-testid="authority">
+              {authority}
+            </span>
+          </div>
           <pre className="max-h-72 overflow-auto rounded bg-slate-900 p-3 text-xs text-slate-100">{response}</pre>
         </section>
       </main>

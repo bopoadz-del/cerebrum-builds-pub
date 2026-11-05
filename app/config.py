@@ -36,14 +36,15 @@ def storage_root() -> Path:
 
 def platform_token() -> Optional[str]:
     """The platform tenant's bearer token. Unset means fail closed (401)."""
-    raw = (os.environ.get("PLATFORM_TOKEN") or "").strip()
+    raw = (os.environ["PLATFORM_TOKEN"] if "PLATFORM_TOKEN" in os.environ else "").strip()
     return raw or None
 
 
 def tenant_tokens() -> Dict[str, str]:
     """``TENANT_TOKENS``: comma-separated ``token:tenant_id`` pairs."""
     pairs: Dict[str, str] = {}
-    for raw in (os.environ.get("TENANT_TOKENS") or "").split(","):
+    raw_value = os.environ["TENANT_TOKENS"] if "TENANT_TOKENS" in os.environ else ""
+    for raw in raw_value.split(","):
         item = raw.strip()
         if not item or ":" not in item:
             continue

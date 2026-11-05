@@ -23,14 +23,22 @@
       "kits/",
       "scripts/",
       "vendor/",
-      "blocks.lock.json"
+      "blocks.lock.json",
+      "deploy/",
+      "frontend/",
+      ".env.example"
     ],
     "non_root_user": "appuser",
     "port": 8000
   },
   "health": {
     "path": "/health",
-    "checks": ["process", "persistent_disk", "database", "migrations"],
+    "checks": [
+      "process",
+      "persistent_disk",
+      "database",
+      "migrations"
+    ],
     "fail_closed": true,
     "ok_status": 200,
     "unready_status": 503,
@@ -60,41 +68,97 @@
     {
       "id": "contract_source_of_record",
       "entity": "contract_source_of_record",
-      "blocks": ["document_engine", "ocr", "pdf", "storage", "knowledge", "ingestion_provenance"]
+      "blocks": [
+        "document_engine",
+        "ocr",
+        "pdf",
+        "storage",
+        "knowledge",
+        "ingestion_provenance"
+      ]
     },
     {
       "id": "progress_claims",
       "entity": "progress_claims",
-      "blocks": ["finance_reconciliation", "finance_canonical_model", "boq_processor", "validation", "approval_rules", "transaction_state_machine", "audit"]
+      "blocks": [
+        "finance_reconciliation",
+        "finance_canonical_model",
+        "boq_processor",
+        "validation",
+        "approval_rules",
+        "transaction_state_machine",
+        "audit"
+      ]
     },
     {
       "id": "time_and_delay_damages",
       "entity": "time_and_delay_damages",
-      "blocks": ["cpm_engine", "formula_executor", "finance_planning", "notification", "dashboard", "audit"]
+      "blocks": [
+        "cpm_engine",
+        "formula_executor",
+        "finance_planning",
+        "notification",
+        "dashboard",
+        "audit"
+      ]
     },
     {
       "id": "qa_itp_records",
       "entity": "qa_itp_records",
-      "blocks": ["workbench", "workflow", "capture", "evidence_chain", "review", "audit_chain"]
+      "blocks": [
+        "workbench",
+        "workflow",
+        "capture",
+        "evidence_chain",
+        "review",
+        "audit_chain"
+      ]
     },
     {
       "id": "document_register",
       "entity": "document_register",
-      "blocks": ["document_engine", "version", "version_diff", "search", "file_hasher", "audit"]
+      "blocks": [
+        "document_engine",
+        "version",
+        "version_diff",
+        "search",
+        "file_hasher",
+        "audit"
+      ]
     },
     {
       "id": "role_based_access_and_audit",
       "entity": "role_based_access_and_audit",
-      "blocks": ["auth", "multi_tenant_rbac", "audit_fail_closed", "governance_gate"]
+      "blocks": [
+        "auth",
+        "multi_tenant_rbac",
+        "audit_fail_closed",
+        "governance_gate"
+      ]
     }
   ],
   "source_of_record": {
     "contract": "document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf",
     "boq": "document:9eef45a732d042dfb83157ec67068a75_harbourline_boq.xlsx",
-    "clauses": ["4.2", "8.2", "8.7", "11.1", "14.3"]
+    "clauses": [
+      "4.2",
+      "8.2",
+      "8.7",
+      "11.1",
+      "14.3"
+    ]
   },
   "settings": {
-    "required": ["PLATFORM_TOKEN"],
-    "optional": ["TENANT_TOKENS", "APPROVED_PRINCIPALS", "DATABASE_URL", "BACKUP_DIR", "FASTAPI_SYNC_THREADPOOL"]
+    "required": [
+      "PLATFORM_TOKEN"
+    ],
+    "optional": [
+      "STORAGE_PATH",
+      "TENANT_TOKENS",
+      "APPROVED_PRINCIPALS",
+      "DATABASE_URL",
+      "BACKUP_DIR",
+      "FASTAPI_SYNC_THREADPOOL"
+    ]
   }
 }

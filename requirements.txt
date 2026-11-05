@@ -1,34 +1,29 @@
-# Runtime dependencies only. Install against the Factory's constraints:
+# Runtime dependencies only. Install against the Factory's pins:
 #   pip install -c constraints.txt -r requirements.txt
 fastapi==0.143.2
 uvicorn==0.54.0
 sqlalchemy==2.1.6
 alembic==1.20.0
 pydantic==2.14.1
-python-multipart>=0.0.9
-jsonschema
-pyyaml
-openpyxl
-pypdf
-python-docx
-pandas
-Pillow
-cryptography
-httpx
 psycopg[binary]==3.3.6
-pymupdf
-# --- BEGIN factory block: stamped by the Factory, edits here are replaced ---
-# Packages this tree needs and did not declare: vendored block
-# imports, and framework features FastAPI does not declare.
-starlette==1.7.0
-Pint  # action: pint in formula_executor.py
-aiofiles  # module: aiofiles in storage.py
-aiosmtplib  # action: aiosmtplib in notification.py
-ddgs  # action: ddgs in search.py
-numpy  # module: numpy in formula_executor.py, image_quality.py, redline.py
-packaging  # module: packaging in version.py
-pdfplumber  # action: pdfplumber in boq_processor.py, pdf.py, pdf_parser.py
-pypdfium2  # action: pypdfium2 in marker.py
-pytesseract  # action: pytesseract in ocr.py, pdf.py
-sympy  # action: sympy in formula_executor.py
-# --- END factory block ---
+python-multipart>=0.0.9
+
+# Libraries the bound Store blocks import. A declared block whose engine is
+# absent reports itself unavailable rather than silently succeeding, but the
+# product ships them so every bound capability can do its work in the image.
+openpyxl>=3.1.2
+pandas
+numpy
+Pillow
+PyMuPDF
+pdfplumber
+pypdf
+pytesseract
+Pint
+sympy
+httpx
+aiofiles
+aiosmtplib
+ddgs
+python-docx
+packaging

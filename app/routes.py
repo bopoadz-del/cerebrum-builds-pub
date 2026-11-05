@@ -18,7 +18,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, HTTPException, Request, status
 from fastapi.responses import JSONResponse
 
-from app import config, dispatch, jobs, placeholders, security, store
+from app import authority, config, dispatch, jobs, placeholders, security, store
 from app.models import MODELS
 from app.validation import validate_payload
 
@@ -31,6 +31,19 @@ ROUTER = APIRouter(prefix="/v1", tags=["capabilities"])
 #: capability -> the entity its route saves to. The entity IS the capability id
 #: (the stem of its handler module), declared here so a reader never guesses.
 ROUTE_ENTITIES: Dict[str, str] = {cap: cls.ENTITY for cap, cls in MODELS.items()}
+
+#: capability -> the precedence layer its answer is labelled with. Source of
+#: record and register answers cite the uploaded documents; claim, delay and
+#: QA answers are computed from the cited clauses; access decisions are
+#: certified policy. The label travels on every answer, not only on create.
+ROUTE_AUTHORITY: Dict[str, str] = {
+    "contract_source_of_record": authority.label(2),
+    "document_register": authority.label(2),
+    "progress_claims": authority.label(3),
+    "time_and_delay_damages": authority.label(3),
+    "qa_itp_records": authority.label(3),
+    "role_based_access_and_audit": authority.label(1),
+}
 
 
 def _field_specs(capability_id: str) -> List[Dict[str, Any]]:
@@ -112,7 +125,7 @@ def _create(capability_id: str, payload: Dict[str, Any], principal) -> JSONRespo
         "stored": stored,
         "record": stored,
         "result": result.get("result"),
-        "authority": result.get("authority") or "layer 3 formulas",
+        "authority": result.get("authority") or ROUTE_AUTHORITY.get(capability_id) or authority.label(3),
         "tenant_id": principal.tenant_id,
     }
     if result.get("result", {}).get("blocks_unavailable"):
@@ -139,6 +152,7 @@ def list_capability_records(capability_id: str, request: Request):
         "entity": model.ENTITY,
         "items": items,
         "total": len(items),
+        "authority": ROUTE_AUTHORITY.get(capability_id) or authority.label(3),
     }
 
 
@@ -151,7 +165,12 @@ def read_capability_record(capability_id: str, item_id: str, request: Request):
     record = store.get(model.ENTITY, item_id, tenant_id=principal.tenant_id)
     if record is None:
         raise security.not_found("record")
-    return {"ok": True, "capability_id": capability_id, "record": record}
+    return {
+        "ok": True,
+        "capability_id": capability_id,
+        "record": record,
+        "authority": ROUTE_AUTHORITY.get(capability_id) or authority.label(3),
+    }
 
 
 @ROUTER.put("/{capability_id}/{item_id}")
@@ -171,7 +190,13 @@ def update_capability_record(capability_id: str, item_id: str, payload: Dict[str
     updated = store.update(model.ENTITY, item_id, values, tenant_id=principal.tenant_id)
     if updated is None:
         raise security.not_found("record")
-    return {"ok": True, "capability_id": capability_id, "id": updated.get("id"), "record": updated}
+    return {
+        "ok": True,
+        "capability_id": capability_id,
+        "id": updated.get("id"),
+        "record": updated,
+        "authority": ROUTE_AUTHORITY.get(capability_id) or authority.label(3),
+    }
 
 
 @ROUTER.delete("/{capability_id}/{item_id}")
@@ -185,7 +210,13 @@ def delete_capability_record(capability_id: str, item_id: str, request: Request)
         raise security.not_found("record")
     if not store.delete(model.ENTITY, item_id, tenant_id=principal.tenant_id):
         raise security.not_found("record")
-    return {"ok": True, "capability_id": capability_id, "deleted": True, "id": record.get("id")}
+    return {
+        "ok": True,
+        "capability_id": capability_id,
+        "deleted": True,
+        "id": record.get("id"),
+        "authority": ROUTE_AUTHORITY.get(capability_id) or authority.label(3),
+    }
 
 
 # --- kernel surfaces -------------------------------------------------------
@@ -244,6 +275,7 @@ def capability_roster(request: Request):
         entry["placeholder_connectors"] = placeholders.connectors_for(item["id"])
         entry["servable"] = not bool(placeholders.missing_connectors(item["id"]))
         entry["fields"] = _field_specs(item["id"])
+        entry["authority"] = ROUTE_AUTHORITY.get(item["id"]) or authority.label(3)
         items.append(entry)
     return {"ok": True, "items": items, "total": len(items)}
 

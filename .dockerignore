@@ -1,6 +1,5 @@
-# Build context for the product image. The sealed vendor/ and kits/ trees are
-# part of the product and MUST stay in the context: the runtime loads every
-# locked block from vendor/blocks/<id>/block.py.
+# Build context hygiene. vendor/ and kits/ are sealed product-tree assets and
+# must never appear here: the image loads every locked block from vendor/.
 .git
 .github
 __pycache__
@@ -8,13 +7,9 @@ __pycache__
 .pytest_cache
 .mypy_cache
 .ruff_cache
-.venv
-venv
 data
 *.db
-*.db-wal
-*.db-shm
-backups
-.acceptance-missing-disk
-
-.codewhale
+*.sqlite
+docs/writer_progress.log
+docs/writer_progress.jsonl
+.env

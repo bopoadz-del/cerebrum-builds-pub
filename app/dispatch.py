@@ -73,6 +73,7 @@ PRODUCT_DEFAULT_ACTIONS: Dict[str, str] = {
     "audit_chain": "record_evidence",
     "audit_fail_closed": "principal",
     "auth": "validate",
+    "capture": "capture",
     "cpm_engine": "compute",
     "dashboard": "render",
     "evidence_chain": "record",
@@ -430,7 +431,7 @@ def default_action(block_id: str) -> Optional[str]:
         return BLOCK_DEFAULT_ACTIONS[block_id]
     try:
         load_block(block_id)
-    except BlockUnavailable:
+    except Exception:  # noqa: BLE001 - an absent/broken block declares nothing
         return None
     return BLOCK_DEFAULT_ACTIONS.get(block_id)
 

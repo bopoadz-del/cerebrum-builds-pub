@@ -30,7 +30,7 @@ def test_dispatch_runs_offline():
     from app.dispatch import execute, load_block
     for block_id in ['approval_rules', 'audit', 'audit_chain', 'audit_fail_closed', 'auth', 'boq_processor', 'capture', 'cpm_engine', 'dashboard', 'document_engine', 'evidence_chain', 'file_hasher', 'finance_canonical_model', 'finance_planning', 'finance_reconciliation', 'formula_executor', 'governance_gate', 'ingestion_provenance', 'knowledge', 'multi_tenant_rbac', 'notification', 'ocr', 'pdf', 'review', 'search', 'storage', 'transaction_state_machine', 'validation', 'version', 'version_diff', 'workbench', 'workflow']:
         load_block(block_id)
-    actions = {'audit': 'log', 'auth': 'validate', 'dashboard': 'render', 'knowledge': 'ask', 'notification': 'send', 'review': 'approve', 'storage': 'store', 'validation': 'validate_pipeline', 'version': 'publish_version', 'workbench': 'run', 'workflow': 'run'}
+    actions = {}
     for block_id in ['approval_rules', 'audit', 'audit_chain', 'audit_fail_closed', 'auth', 'boq_processor', 'capture', 'cpm_engine', 'dashboard', 'document_engine', 'evidence_chain', 'file_hasher', 'finance_canonical_model', 'finance_planning', 'finance_reconciliation', 'formula_executor', 'governance_gate', 'ingestion_provenance', 'knowledge', 'multi_tenant_rbac', 'notification', 'ocr', 'pdf', 'review', 'search', 'storage', 'transaction_state_machine', 'validation', 'version', 'version_diff', 'workbench', 'workflow']:
         try:
             result = execute(block_id, {}, action=actions.get(block_id))
