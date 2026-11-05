@@ -25,6 +25,14 @@ SQLITE_BUSY_TIMEOUT_MS = 30000
 #: so the pool size is a concurrency budget, not a deadlock risk.
 POOL_SIZE = 5
 MAX_OVERFLOW = 10
+#: SQLite admits one writer at a time. Several pooled connections racing for
+#: that single writer make every commit bounce through the busy handler (and
+#: on a network or overlay filesystem each retry is expensive), which starves
+#: the pool under concurrent creates. One SQLite connection, serialised by the
+#: pool, keeps the same concurrency guarantee without the busy-handler storm;
+#: WAL still gives the file crash safety. Postgres keeps its larger pool.
+SQLITE_POOL_SIZE = 1
+SQLITE_MAX_OVERFLOW = 0
 
 _LOCK = threading.RLock()
 _ENGINE: Engine | None = None
@@ -78,16 +86,19 @@ def resolved_url() -> str:
 def _build(url: str) -> Engine:
     kwargs: dict[str, Any] = {
         "pool_pre_ping": True,
-        "pool_size": POOL_SIZE,
-        "max_overflow": MAX_OVERFLOW,
         "pool_timeout": 60,
         "future": True,
     }
     if url.startswith("sqlite"):
+        kwargs["pool_size"] = SQLITE_POOL_SIZE
+        kwargs["max_overflow"] = SQLITE_MAX_OVERFLOW
         kwargs["connect_args"] = {
             "timeout": SQLITE_BUSY_TIMEOUT_MS / 1000.0,
             "check_same_thread": False,
         }
+    else:
+        kwargs["pool_size"] = POOL_SIZE
+        kwargs["max_overflow"] = MAX_OVERFLOW
     return create_engine(url, **kwargs)
 
 

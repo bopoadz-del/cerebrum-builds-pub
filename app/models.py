@@ -124,7 +124,11 @@ class ProgressClaim(Model):
         "measured_quantity": {"type": "float", "min": 0},
         "unit_rate": {"type": "float", "min": 0},
         "accepted_contract_amount": {"type": "float", "min": 0},
-        "approval_decision": {"type": "str", "allowed_values": ["none", "certify", "reject"]},
+        "approval_decision": {
+            "type": "str",
+            "allowed_values": ["none", "certify", "reject"],
+            "authority_decision": True,
+        },
         "approved_by": {"type": "str", "approval": True},
         "certificate_note": {"type": "str"},
     }
@@ -302,7 +306,11 @@ class RetentionDefectsRelease(Model):
             "type": "str",
             "allowed_values": ["taking_over", "defects_end", "final"],
         },
-        "approval_decision": {"type": "str", "allowed_values": ["none", "release", "hold"]},
+        "approval_decision": {
+            "type": "str",
+            "allowed_values": ["none", "release", "hold"],
+            "authority_decision": True,
+        },
         "approved_by": {"type": "str", "approval": True},
         "performance_security_amount": {"type": "float", "min": 0},
     }

@@ -13,8 +13,8 @@ from app.main import app
 from app.observe import JsonFormatter, REQUEST_ID_HEADER, strip_emoji
 from app.revision import MARK_BASELINE, REVISION_N
 
-ENTITY = ''
-SAMPLE = {}
+ENTITY = 'contract_verification_gate'
+SAMPLE = {'reference': 's10-row', 'status': 'open', 'subject_type': 'claim', 'subject_reference': 's10-row', 'clause_ref': '8.2', 'boq_item_code': 'P1', 'evidence': 's10-row', 'decision': 'verify'}
 TENANT = "test-tenant"
 
 

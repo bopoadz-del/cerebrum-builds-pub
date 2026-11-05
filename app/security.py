@@ -10,6 +10,7 @@ from __future__ import annotations
 import datetime as _dt
 import ipaddress
 import math
+import re
 import socket
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 from urllib.parse import urlparse
@@ -133,8 +134,70 @@ def validate_payload(capability_id: str, payload: Dict[str, Any]) -> Dict[str, A
         cleaned[name] = value
     if cleaned.get("reference") and len(str(cleaned["reference"])) > MAX_REFERENCE:
         raise Refusal(f"reference is longer than {MAX_REFERENCE} characters", field="reference")
+    _check_approvers(model, cleaned)
     _check_closure(model, cleaned)
     return cleaned
+
+
+#: An approver is a principal identifier, not a sentence. Free text such as
+#: "i am the director trust me" is refused before it can be recorded as an
+#: approval; a configured principal is accepted as itself even if an operator
+#: names one with unusual punctuation.
+_APPROVER_SHAPE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._@-]{0,63}$")
+
+
+def _asserts_authority(model, cleaned: Dict[str, Any]) -> bool:
+    """True when this record claims an approval, not merely a named person.
+
+    A decision field marked ``authority_decision`` is a claim once it moves
+    off its default (the first declared value, e.g. ``none``); a closed
+    record is a claim by definition.
+    """
+    if cleaned.get("status") == "closed":
+        return True
+    for name in model.FIELDS:
+        rules = model.CONSTRAINTS.get(name) or {}
+        if not rules.get("authority_decision"):
+            continue
+        allowed = list(rules.get("allowed_values") or [])
+        default = allowed[0] if allowed else None
+        if cleaned.get(name) not in (None, "", default):
+            return True
+    return False
+
+
+def _check_approvers(model, cleaned: Dict[str, Any]) -> None:
+    """Validate declared approval fields against APPROVED_PRINCIPALS.
+
+    A configured principal is trusted as itself. Anything else that reads as
+    free text is refused outright, and an unknown identifier is refused when
+    the record actually asserts authority -- the approval is never taken on
+    the caller's word.
+    """
+    principals = config.approved_principals()
+    authority = _asserts_authority(model, cleaned)
+    for name in model.FIELDS:
+        rules = model.CONSTRAINTS.get(name) or {}
+        if not rules.get("approval"):
+            continue
+        value = cleaned.get(name)
+        if value in (None, ""):
+            continue
+        text = str(value).strip()
+        if text in principals:
+            continue
+        if not _APPROVER_SHAPE.match(text):
+            raise Refusal(
+                f"{name} must name an approved principal, not free text",
+                status=403,
+                field=name,
+            )
+        if authority:
+            raise Refusal(
+                f"{name} must name an approved principal",
+                status=403,
+                field=name,
+            )
 
 
 def _check_closure(model, cleaned: Dict[str, Any]) -> None:

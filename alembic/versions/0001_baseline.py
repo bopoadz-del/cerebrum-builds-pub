@@ -1,159 +1,132 @@
-"""Baseline schema for the Harbourline contracts-administration platform.
+"""Baseline schema: one table per capability plus the platform work queue.
 
-One op.create_table per entity. The entity name IS the capability id, so
-store.save("progress_claims", ...) writes the table this revision creates.
+The columns are the declared contract: capability fields exactly as
+app.models declares them, the tenant scope every row carries, and the
+timestamps the store writes. No create_all() exists anywhere -- this
+revision is the only place these tables are born.
+
+Revision ID: 0001_baseline
+Revises:
 """
-
 from __future__ import annotations
 
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
 
 revision = "0001_baseline"
 down_revision = None
 branch_labels = None
 depends_on = None
 
-_TS = sa.String(length=64)
 
-
-def _stamp_columns() -> list:
+def _envelope_columns():
     return [
-        sa.Column("created_at", _TS, nullable=True),
-        sa.Column("updated_at", _TS, nullable=True),
+        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column("tenant_id", sa.String(), nullable=False),
+        sa.Column("created_at", sa.String(), nullable=True),
+        sa.Column("updated_at", sa.String(), nullable=True),
     ]
 
 
-def _tenant() -> sa.Column:
-    return sa.Column("tenant_id", sa.String(length=64), nullable=False)
+TABLES = {
+    "progress_claims": [
+        ("reference", sa.String()),
+        ("status", sa.String()),
+        ("claim_number", sa.String()),
+        ("claim_period", sa.String()),
+        ("boq_item_code", sa.String()),
+        ("measured_quantity", sa.Float()),
+        ("unit_rate", sa.Float()),
+        ("accepted_contract_amount", sa.Float()),
+        ("approval_decision", sa.String()),
+        ("approved_by", sa.String()),
+        ("certificate_note", sa.String()),
+    ],
+    "delay_damages_tracking": [
+        ("reference", sa.String()),
+        ("status", sa.String()),
+        ("assessment_number", sa.String()),
+        ("commencement_date", sa.String()),
+        ("completion_date", sa.String()),
+        ("days_of_delay", sa.Integer()),
+        ("accepted_contract_amount", sa.Float()),
+        ("notice_served", sa.Boolean()),
+        ("assessment_note", sa.String()),
+    ],
+    "qa_itp_records": [
+        ("reference", sa.String()),
+        ("status", sa.String()),
+        ("itp_number", sa.String()),
+        ("boq_item_code", sa.String()),
+        ("inspection_type", sa.String()),
+        ("hold_point", sa.Boolean()),
+        ("inspection_date", sa.String()),
+        ("result", sa.String()),
+        ("signed_off_by", sa.String()),
+        ("remarks", sa.String()),
+    ],
+    "document_register": [
+        ("reference", sa.String()),
+        ("status", sa.String()),
+        ("document_number", sa.String()),
+        ("title", sa.String()),
+        ("document_type", sa.String()),
+        ("revision", sa.String()),
+        ("source_document", sa.String()),
+        ("checksum", sa.String()),
+        ("issued_date", sa.String()),
+        ("supersedes", sa.String()),
+    ],
+    "retention_defects_release": [
+        ("reference", sa.String()),
+        ("status", sa.String()),
+        ("certificate_reference", sa.String()),
+        ("gross_certified_amount", sa.Float()),
+        ("taking_over_date", sa.String()),
+        ("defects_notification_end_date", sa.String()),
+        ("release_stage", sa.String()),
+        ("approval_decision", sa.String()),
+        ("approved_by", sa.String()),
+        ("performance_security_amount", sa.Float()),
+    ],
+    "contract_verification_gate": [
+        ("reference", sa.String()),
+        ("status", sa.String()),
+        ("subject_type", sa.String()),
+        ("subject_reference", sa.String()),
+        ("clause_ref", sa.String()),
+        ("boq_item_code", sa.String()),
+        ("evidence", sa.String()),
+        ("decision", sa.String()),
+    ],
+    "work_queue": [
+        ("capability_id", sa.String()),
+        ("payload", sa.String()),
+        ("status", sa.String()),
+        ("idempotency_key", sa.String()),
+        ("result", sa.String()),
+    ],
+    "idempotency": [
+        ("key", sa.String()),
+        ("entity", sa.String()),
+        ("record_id", sa.Integer()),
+    ],
+}
 
 
 def upgrade() -> None:
-    op.create_table(
-        "progress_claims",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("reference", sa.String(length=255), nullable=True),
-        sa.Column("status", sa.String(length=32), nullable=True),
-        sa.Column("claim_number", sa.String(length=120), nullable=True),
-        sa.Column("claim_period", sa.String(length=64), nullable=True),
-        sa.Column("boq_item_code", sa.String(length=16), nullable=True),
-        sa.Column("measured_quantity", sa.Float(), nullable=True),
-        sa.Column("unit_rate", sa.Float(), nullable=True),
-        sa.Column("accepted_contract_amount", sa.Float(), nullable=True),
-        sa.Column("approval_decision", sa.String(length=32), nullable=True),
-        sa.Column("approved_by", sa.String(length=120), nullable=True),
-        sa.Column("certificate_note", sa.Text(), nullable=True),
-        *_stamp_columns(),
-    )
-    op.create_table(
-        "delay_damages_tracking",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("reference", sa.String(length=255), nullable=True),
-        sa.Column("status", sa.String(length=32), nullable=True),
-        sa.Column("assessment_number", sa.String(length=120), nullable=True),
-        sa.Column("commencement_date", sa.String(length=32), nullable=True),
-        sa.Column("completion_date", sa.String(length=32), nullable=True),
-        sa.Column("days_of_delay", sa.Integer(), nullable=True),
-        sa.Column("accepted_contract_amount", sa.Float(), nullable=True),
-        sa.Column("notice_served", sa.Boolean(), nullable=True),
-        sa.Column("assessment_note", sa.Text(), nullable=True),
-        *_stamp_columns(),
-    )
-    op.create_table(
-        "qa_itp_records",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("reference", sa.String(length=255), nullable=True),
-        sa.Column("status", sa.String(length=32), nullable=True),
-        sa.Column("itp_number", sa.String(length=120), nullable=True),
-        sa.Column("boq_item_code", sa.String(length=16), nullable=True),
-        sa.Column("inspection_type", sa.String(length=32), nullable=True),
-        sa.Column("hold_point", sa.Boolean(), nullable=True),
-        sa.Column("inspection_date", sa.String(length=32), nullable=True),
-        sa.Column("result", sa.String(length=32), nullable=True),
-        sa.Column("signed_off_by", sa.String(length=120), nullable=True),
-        sa.Column("remarks", sa.Text(), nullable=True),
-        *_stamp_columns(),
-    )
-    op.create_table(
-        "document_register",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("reference", sa.String(length=255), nullable=True),
-        sa.Column("status", sa.String(length=32), nullable=True),
-        sa.Column("document_number", sa.String(length=120), nullable=True),
-        sa.Column("title", sa.String(length=255), nullable=True),
-        sa.Column("document_type", sa.String(length=32), nullable=True),
-        sa.Column("revision", sa.String(length=32), nullable=True),
-        sa.Column("source_document", sa.String(length=255), nullable=True),
-        sa.Column("checksum", sa.String(length=128), nullable=True),
-        sa.Column("issued_date", sa.String(length=32), nullable=True),
-        sa.Column("supersedes", sa.String(length=120), nullable=True),
-        *_stamp_columns(),
-    )
-    op.create_table(
-        "retention_defects_release",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("reference", sa.String(length=255), nullable=True),
-        sa.Column("status", sa.String(length=32), nullable=True),
-        sa.Column("certificate_reference", sa.String(length=120), nullable=True),
-        sa.Column("gross_certified_amount", sa.Float(), nullable=True),
-        sa.Column("taking_over_date", sa.String(length=32), nullable=True),
-        sa.Column("defects_notification_end_date", sa.String(length=32), nullable=True),
-        sa.Column("release_stage", sa.String(length=32), nullable=True),
-        sa.Column("approval_decision", sa.String(length=32), nullable=True),
-        sa.Column("approved_by", sa.String(length=120), nullable=True),
-        sa.Column("performance_security_amount", sa.Float(), nullable=True),
-        *_stamp_columns(),
-    )
-    op.create_table(
-        "contract_verification_gate",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("reference", sa.String(length=255), nullable=True),
-        sa.Column("status", sa.String(length=32), nullable=True),
-        sa.Column("subject_type", sa.String(length=32), nullable=True),
-        sa.Column("subject_reference", sa.String(length=120), nullable=True),
-        sa.Column("clause_ref", sa.String(length=16), nullable=True),
-        sa.Column("boq_item_code", sa.String(length=16), nullable=True),
-        sa.Column("evidence", sa.Text(), nullable=True),
-        sa.Column("decision", sa.String(length=32), nullable=True),
-        *_stamp_columns(),
-    )
-    op.create_table(
-        "work_queue",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("capability_id", sa.String(length=64), nullable=True),
-        sa.Column("payload", sa.Text(), nullable=True),
-        sa.Column("status", sa.String(length=32), nullable=True),
-        sa.Column("idempotency_key", sa.String(length=120), nullable=True),
-        sa.Column("result", sa.Text(), nullable=True),
-        *_stamp_columns(),
-    )
-    op.create_table(
-        "idempotency",
-        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
-        _tenant(),
-        sa.Column("key", sa.String(length=120), nullable=True),
-        sa.Column("entity", sa.String(length=64), nullable=True),
-        sa.Column("record_id", sa.Integer(), nullable=True),
-        *_stamp_columns(),
-    )
+    for table_name, fields in TABLES.items():
+        op.create_table(
+            table_name,
+            *_envelope_columns(),
+            *[sa.Column(name, kind, nullable=True) for name, kind in fields],
+        )
+        op.create_index(
+            f"ix_{table_name}_tenant", table_name, ["tenant_id"], unique=False
+        )
 
 
 def downgrade() -> None:
-    for table in (
-        "idempotency",
-        "work_queue",
-        "contract_verification_gate",
-        "retention_defects_release",
-        "document_register",
-        "qa_itp_records",
-        "delay_damages_tracking",
-        "progress_claims",
-    ):
-        op.drop_table(table)
+    for table_name in reversed(list(TABLES)):
+        op.drop_index(f"ix_{table_name}_tenant", table_name=table_name)
+        op.drop_table(table_name)

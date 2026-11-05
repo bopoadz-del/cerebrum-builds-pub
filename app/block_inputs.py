@@ -16,12 +16,12 @@ from typing import Any, Dict, Optional
 
 #: block id -> the action the block itself defaults to, read from the block.
 BLOCK_DEFAULT_ACTIONS: Dict[str, Optional[str]] = {
-    "approval_rules": "ledger",
+    "approval_rules": "ingest",
     "audit": "log",
     "audit_chain": "record_evidence",
-    "boq_processor": "health",
+    "boq_processor": "status",
     "cpm_engine": "compute",
-    "document_engine": "parse_all",
+    "document_engine": None,
     "evidence_chain": "record",
     "evidence_or_refuse": "judge",
     "file_hasher": "hash",
@@ -35,7 +35,7 @@ BLOCK_DEFAULT_ACTIONS: Dict[str, Optional[str]] = {
     "pdf": None,
     "transaction_state_machine": "transition",
     "validation": "validate_pipeline",
-    "version": "validate_version",
+    "version": "publish_version",
 }
 
 #: How a record's own scalars travel into a block's payload.

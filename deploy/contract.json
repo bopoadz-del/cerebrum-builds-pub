@@ -1,0 +1,50 @@
+{
+  "schema_version": "deploy_contract.v1",
+  "service": "harbourline-contracts-administration",
+  "runtime": {
+    "image": "python:3.11-slim",
+    "command": "sh -c 'python -c \"from app.migrations import upgrade_head; upgrade_head()\" && uvicorn app.main:app --host 0.0.0.0 --port ${PORT}'",
+    "port_env": "PORT",
+    "default_port": 8000,
+    "non_root_uid": 10001,
+    "healthcheck": {
+      "path": "/health",
+      "expect": 200,
+      "fail_closed": true
+    }
+  },
+  "persistence": {
+    "storage_path": "/data",
+    "storage_path_env": "STORAGE_PATH",
+    "database": "sqlite under STORAGE_PATH unless DATABASE_URL names Postgres",
+    "migrations": "alembic upgrade head on boot (app.migrations.upgrade_head and scripts/entrypoint.sh); a failed migration refuses boot",
+    "backup": "python -m app.backup create -> $STORAGE_PATH/backups (or BACKUP_DIR)",
+    "restore": "python -m app.backup restore <archive>",
+    "volumes": [
+      {
+        "name": "platform-data",
+        "mount": "/data",
+        "capacity_gb": 1,
+        "durable": true
+      }
+    ]
+  },
+  "environment": {
+    "required": ["PLATFORM_TOKEN"],
+    "optional": [
+      "DATABASE_URL",
+      "TENANT_TOKENS",
+      "APPROVED_PRINCIPALS",
+      "STORAGE_PATH",
+      "BACKUP_DIR",
+      "SENTRY_DSN",
+      "PORT"
+    ]
+  },
+  "rollback": {
+    "script": "scripts/rollback.sh",
+    "schema": "roll back the process to the prior image; the disk and its alembic version stay put",
+    "downgrade": "python -m alembic downgrade -1 (explicit, never automatic)"
+  },
+  "ci": ".github/workflows/ci.yml runs the whole suite (pytest tests) plus the audit and bench jobs"
+}

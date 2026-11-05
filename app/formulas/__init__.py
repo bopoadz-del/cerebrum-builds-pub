@@ -26,6 +26,8 @@ DEFINITIONS_PATH = Path(__file__).resolve().parent / "writer_definitions.jsonl"
 CANDIDATES_PATH = ROOT / "app" / "cerebrum_product_kernel" / "formulas" / "new_domain_candidates.jsonl"
 
 MONEY_QUANTUM = Decimal("0.01")
+#: The ruling's label for arithmetic neither the kernel nor the Store covers.
+IMPROVISED_LABEL = "improvised, no Store coverage"
 
 
 def money(value: Any) -> Decimal:
@@ -39,31 +41,36 @@ def _d(value: Any) -> Decimal:
 #: id -> definition row. ``source`` says where the arithmetic comes from.
 DEFINITIONS: Dict[str, Dict[str, Any]] = {
     "certificate_gross_amount": {
-        "label": "Interim Payment Certificate gross value: measured quantity x BOQ rate",
+        "label": IMPROVISED_LABEL,
+        "description": "Interim Payment Certificate gross value: measured quantity x BOQ rate",
         "source": "improvised, no Store coverage; priced BOQ item rates from "
         "document:d11a8fb09f114c4fb978033045b976c7_harbourline_boq.xlsx",
         "inputs": ["measured_quantity", "unit_rate"],
     },
     "retention_amount": {
-        "label": "Retention held from an Interim Payment Certificate",
+        "label": IMPROVISED_LABEL,
+        "description": "Retention held from an Interim Payment Certificate",
         "source": "improvised, no Store coverage; Clause 14.3 of "
         "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
         "inputs": ["certified_amount", "retention_rate"],
     },
     "certificate_net_payable": {
-        "label": "Net payable on a certificate after retention",
+        "label": IMPROVISED_LABEL,
+        "description": "Net payable on a certificate after retention",
         "source": "improvised, no Store coverage; Clause 14.3 of "
         "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
         "inputs": ["gross_amount", "retention_amount"],
     },
     "performance_security_amount": {
-        "label": "Performance security obligation",
+        "label": IMPROVISED_LABEL,
+        "description": "Performance security obligation",
         "source": "improvised, no Store coverage; Clause 4.2 of "
         "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
         "inputs": ["accepted_contract_amount", "performance_security_rate"],
     },
     "delay_damages_capped": {
-        "label": "Delay damages: daily rate x days of delay, capped",
+        "label": IMPROVISED_LABEL,
+        "description": "Delay damages: daily rate x days of delay, capped",
         "source": "improvised, no Store coverage; Clause 8.7 of "
         "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
         "inputs": [
@@ -74,19 +81,22 @@ DEFINITIONS: Dict[str, Dict[str, Any]] = {
         ],
     },
     "time_for_completion_deadline": {
-        "label": "Time for Completion deadline: commencement date + contract days",
+        "label": IMPROVISED_LABEL,
+        "description": "Time for Completion deadline: commencement date + contract days",
         "source": "improvised, no Store coverage; Clause 8.2 of "
         "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
         "inputs": ["commencement_date", "time_for_completion_days"],
     },
     "defects_notification_end": {
-        "label": "End of the Defects Notification Period: Taking-Over + 365 days",
+        "label": IMPROVISED_LABEL,
+        "description": "End of the Defects Notification Period: Taking-Over + 365 days",
         "source": "improvised, no Store coverage; Clause 11.1 of "
         "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
         "inputs": ["taking_over_date", "defects_notification_days"],
     },
     "retention_release_share": {
-        "label": "Retention released at a release stage",
+        "label": IMPROVISED_LABEL,
+        "description": "Retention released at a release stage",
         "source": "improvised, no Store coverage; Clause 14.3 of "
         "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
         "inputs": ["retention_held", "share", "already_released"],

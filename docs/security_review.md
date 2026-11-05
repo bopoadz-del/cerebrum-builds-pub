@@ -22,7 +22,7 @@ was broken and fixed.
 | Attack | Result |
 |--------|--------|
 | `../../escape` in `reference` / `document_number` | Held: `safe_name()` strips separators; files stay under `$STORAGE_PATH/work`. |
-| Free-text approver (`i am the director trust me`) on a certification, a retention release or a closing record | Held: 403 from `require_approver`. |
+| Free-text approver (`i am the director trust me`) on a certification, a retention release or a closing record | Held at the edge and in the handler: `security._check_approvers()` refuses any value that is not a principal identifier (403, `approved_by must name an approved principal, not free text`), and `require_approver()` refuses an unknown identifier whenever the record asserts authority (decision off its default, or `status=closed`). |
 | Cross-tenant read, delete, and list with a second tenant's token | Held: 404 / empty; the tenant comes from the principal, never the payload (an unknown `tenant_id` field is refused as an unknown field). |
 | Nested object for a scalar, 9 KB string, unknown field, malformed JSON | Held: 422 with `rejected_field` and `X-Rejected-Field`; never a 500. |
 | SQL injection through `reference` (`' OR 1=1--`) | Held: SQLAlchemy Core with bound parameters; the value is stored literally. |
@@ -42,3 +42,26 @@ was broken and fixed.
 - Block-side state (audit/evidence ledgers) is in-process per call in this
   Store build; the tenant passed to a block is now the caller's principal, so
   no tenant label is invented.
+
+## Rework re-check: approval authority on the edge (2026-11-05)
+
+The floor case `test_*_refuses_a_freetext_approver` posts a record whose
+approval field carries `i am the director trust me` while the decision stays
+on its default (`none`). A handler-only check therefore let it through: no
+decision was asserted, so `require_approver()` was never reached. The edge now
+grades the field itself, before any handler runs:
+
+| Payload (`progress_claims`) | Answer |
+|-----------------------------|--------|
+| `approved_by=qa.lead`, `approval_decision=certify` (configured principal) | 200, recorded |
+| `approved_by="Ahmed Al-Rashid"`, `certify` (configured, unusual punctuation) | 200, recorded |
+| `approved_by=director`, `certify` (unknown identifier, authority asserted) | 403 |
+| `approved_by=director`, `none` (named person, no authority asserted) | 200, recorded |
+| `approved_by="i am the director trust me"`, `none` (free text) | 403 |
+| `status=closed`, `approved_by=director` | 403 |
+| `status=closed`, `approved_by=qa.lead` | 200, recorded |
+
+The same rule is carried by `signed_off_by` on an ITP record and by
+`approved_by` on a retention release, because both fields declare
+`"approval": true` in `app/models.py` — the check reads the declaration, not
+the field name, so a new approval field inherits it without a code change.
