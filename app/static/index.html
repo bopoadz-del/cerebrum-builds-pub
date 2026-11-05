@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Harbourline Civil Works — contracts administration</title>
+<style>
+  :root { --ink:#13202b; --muted:#5b6b78; --line:#d7dee5; --accent:#0b5d7a; --paper:#f7f9fb; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--ink); background:var(--paper); }
+  header { background:var(--ink); color:#fff; padding:18px 24px; }
+  header h1 { margin:0 0 4px; font-size:20px; }
+  header p { margin:0; color:#b9c7d2; font-size:13px; }
+  main { display:grid; grid-template-columns: 360px 1fr; gap:18px; padding:18px 24px 40px; }
+  @media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+  section { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+  h2 { margin:0 0 12px; font-size:15px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  input, select, textarea { width:100%; padding:8px 9px; border:1px solid var(--line); border-radius:7px; font:inherit; background:#fff; }
+  textarea { min-height:72px; resize:vertical; }
+  button { margin-top:14px; background:var(--accent); color:#fff; border:0; border-radius:7px; padding:9px 14px; font:inherit; cursor:pointer; }
+  button.secondary { background:#e8eef2; color:var(--ink); }
+  pre { background:#0f1a22; color:#d7e3ea; padding:12px; border-radius:8px; overflow:auto; max-height:420px; font-size:12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; }
+  .row { display:flex; gap:8px; }
+  .row > * { flex:1; }
+  .hint { font-size:12px; color:var(--muted); margin-top:8px; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; background:#e8eef2; color:var(--muted); font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Harbourline Civil Works — contracts administration</h1>
+  <p>Interim payment certificates · delay damages · QA/ITP · controlled documents. The uploaded contract excerpt and BOQ are the source of record.</p>
+</header>
+<main>
+  <div>
+    <section>
+      <h2>Platform token</h2>
+      <label for="token">Bearer token (PLATFORM_TOKEN)</label>
+      <input id="token" type="password" autocomplete="off" placeholder="paste the operator token" />
+      <button id="saveToken" class="secondary">Use token</button>
+      <div class="hint" id="tokenState">No token loaded. Requests will answer 401.</div>
+    </section>
+
+    <section style="margin-top:14px">
+      <h2>New record</h2>
+      <label for="capability">Capability</label>
+      <select id="capability"></select>
+      <div id="fields"></div>
+      <button id="submit">POST /v1/&lt;capability&gt;</button>
+      <div class="hint">Fields come from the capability's declared model (GET /v1/capabilities).</div>
+    </section>
+  </div>
+
+  <div>
+    <section>
+      <h2>Register <span class="pill" id="count">0</span></h2>
+      <div class="row">
+        <button id="refresh" class="secondary">GET list</button>
+        <button id="clear" class="secondary">Clear output</button>
+      </div>
+      <table id="records"><thead><tr><th>id</th><th>reference</th><th>status</th><th>updated</th></tr></thead><tbody></tbody></table>
+    </section>
+    <section style="margin-top:14px">
+      <h2>Last response</h2>
+      <pre id="output">{}</pre>
+    </section>
+  </div>
+</main>
+<script>
+const state = { token: sessionStorage.getItem("platformToken") || "", capabilities: [], current: null };
+
+const $ = (id) => document.getElementById(id);
+
+function headers() {
+  return state.token ? { "Authorization": "Bearer " + state.token, "Content-Type": "application/json" } : { "Content-Type": "application/json" };
+}
+
+async function api(path, options) {
+  const resp = await fetch(path, Object.assign({ headers: headers() }, options || {}));
+  let body;
+  try { body = await resp.json(); } catch (e) { body = { ok: false, error: "non-JSON response" }; }
+  $("output").textContent = JSON.stringify({ status: resp.status, body }, null, 2);
+  return { status: resp.status, body };
+}
+
+function renderFields(capability) {
+  const container = $("fields");
+  container.innerHTML = "";
+  if (!capability) return;
+  for (const field of capability.fields || []) {
+    const label = document.createElement("label");
+    label.textContent = field.name + (field.required ? " *" : "");
+    container.appendChild(label);
+    let input;
+    if (field.allowed_values) {
+      input = document.createElement("select");
+      for (const value of field.allowed_values) {
+        const option = document.createElement("option");
+        option.value = value; option.textContent = value;
+        input.appendChild(option);
+      }
+    } else {
+      input = document.createElement("input");
+      input.type = field.type === "int" || field.type === "float" ? "number" : (field.format === "date" ? "date" : "text");
+      if (field.min !== undefined) input.min = field.min;
+      if (field.max !== undefined) input.max = field.max;
+      if (field.type === "float") input.step = "0.01";
+    }
+    input.dataset.name = field.name;
+    container.appendChild(input);
+  }
+}
+
+async function loadCapabilities() {
+  const resp = await fetch("/v1/capabilities", { headers: headers() });
+  if (!resp.ok) return;
+  const body = await resp.json();
+  state.capabilities = body.items || [];
+  const select = $("capability");
+  select.innerHTML = "";
+  for (const cap of state.capabilities) {
+    const option = document.createElement("option");
+    option.value = cap.id; option.textContent = cap.title || cap.id;
+    select.appendChild(option);
+  }
+  selectCapability();
+}
+
+function selectCapability() {
+  const id = $("capability").value;
+  state.current = state.capabilities.find((c) => c.id === id) || null;
+  renderFields(state.current);
+  refresh();
+}
+
+async function refresh() {
+  if (!state.current) return;
+  const { status, body } = await api("/v1/" + encodeURIComponent(state.current.id));
+  const tbody = $("records").querySelector("tbody");
+  tbody.innerHTML = "";
+  const items = (body && body.items) || [];
+  $("count").textContent = String(items.length);
+  for (const item of items) {
+    const tr = document.createElement("tr");
+    for (const key of ["id", "reference", "status", "updated_at"]) {
+      const td = document.createElement("td");
+      td.textContent = item[key] === undefined || item[key] === null ? "" : String(item[key]);
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+}
+
+function payload() {
+  const out = {};
+  for (const input of $("fields").querySelectorAll("[data-name]")) {
+    const name = input.dataset.name;
+    if (input.value === "") continue;
+    out[name] = input.type === "number" ? Number(input.value) : input.value;
+  }
+  return out;
+}
+
+$("saveToken").addEventListener("click", () => {
+  state.token = $("token").value.trim();
+  sessionStorage.setItem("platformToken", state.token);
+  $("tokenState").textContent = state.token ? "Token loaded for this tab." : "No token loaded. Requests will answer 401.";
+  loadCapabilities();
+});
+
+$("submit").addEventListener("click", async () => {
+  if (!state.current) return;
+  await api("/v1/" + encodeURIComponent(state.current.id), {
+    method: "POST",
+    body: JSON.stringify(payload()),
+  });
+  refresh();
+});
+
+$("refresh").addEventListener("click", refresh);
+$("clear").addEventListener("click", () => { $("output").textContent = "{}"; });
+$("capability").addEventListener("change", selectCapability);
+
+$("token").value = state.token;
+$("tokenState").textContent = state.token ? "Token loaded for this tab." : "No token loaded. Requests will answer 401.";
+loadCapabilities();
+</script>
+</body>
+</html>

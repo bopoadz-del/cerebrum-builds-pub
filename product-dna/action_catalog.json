@@ -1,0 +1,76 @@
+{
+  "actions": [
+    {
+      "block_ids": [
+        "document_engine",
+        "ocr",
+        "pdf",
+        "storage",
+        "knowledge",
+        "ingestion_provenance"
+      ],
+      "capability_id": "contract_source_of_record",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_reconciliation",
+        "finance_canonical_model",
+        "boq_processor",
+        "validation",
+        "approval_rules",
+        "transaction_state_machine",
+        "audit"
+      ],
+      "capability_id": "progress_claims",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "finance_planning",
+        "notification",
+        "dashboard",
+        "audit"
+      ],
+      "capability_id": "time_and_delay_damages",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workbench",
+        "workflow",
+        "capture",
+        "evidence_chain",
+        "review",
+        "audit_chain"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version",
+        "version_diff",
+        "search",
+        "file_hasher",
+        "audit"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth",
+        "multi_tenant_rbac",
+        "audit_fail_closed",
+        "governance_gate"
+      ],
+      "capability_id": "role_based_access_and_audit",
+      "strategy": "REUSE"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

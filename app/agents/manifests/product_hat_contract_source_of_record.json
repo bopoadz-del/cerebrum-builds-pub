@@ -1,0 +1,51 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.contract_source_of_record"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "contract_source_of_record"
+      },
+      {
+        "type": "capability",
+        "value": "contract_source_of_record"
+      }
+    ]
+  },
+  "agent_id": "product.hat.contract_source_of_record",
+  "allowed_actions": [
+    "product.contract_source_of_record"
+  ],
+  "block_ids": [
+    "document_engine",
+    "ocr",
+    "pdf",
+    "storage",
+    "knowledge",
+    "ingestion_provenance"
+  ],
+  "discipline": "contract_source_of_record",
+  "display_name": "Harbourline Civil Works contracts administration Contract Source Of Record Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'contract_source_of_record' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "contract_source_of_record"
+  ]
+}

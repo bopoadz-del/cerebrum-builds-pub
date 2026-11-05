@@ -1,0 +1,115 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Harbourline Civil Works contracts administration
+vertical: product
+summary: A contracts-administration platform for the Harbourline Civil Works project
+  that treats the uploaded contract excerpt and BOQ as the single source of record.
+  It administers interim payment certificates with retention and performance-security
+  deductions under the contract clauses, tracks Time for Completion and delay damages
+  exposure day by day, holds QA/ITP records tied to BOQ items, and maintains a controlled
+  document register so every claim, inspection record and document can be traced back
+  to
+capabilities:
+- id: contract_source_of_record
+  description: Ingests the uploaded contract excerpt and BOQ (document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf
+    and document:9eef45a732d042dfb83157ec67068a75_harbourline_boq.xlsx) and holds
+    their clauses, items, quantities and rates as the governing reference every other
+    capability cites.
+  block_ids:
+  - document_engine
+  - ocr
+  - pdf
+  - storage
+  - knowledge
+  - ingestion_provenance
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: progress_claims
+  description: Builds interim payment certificates against the BOQ quantum (Preliminaries
+    and Earthworks items), applies Clause 14.3 retention of 5% per certificate with
+    50% released at Taking-Over and 50% at end of the Defects Notification Period,
+    and tracks the Clause 4.2 performance security of 10% of the Accep
+  block_ids:
+  - finance_reconciliation
+  - finance_canonical_model
+  - boq_processor
+  - validation
+  - approval_rules
+  - transaction_state_machine
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: time_and_delay_damages
+  description: Tracks the Clause 8.2 Time for Completion of 730 days from the Commencement
+    Date and computes Clause 8.7 delay damages at 0.1% of the Accepted Contract Amount
+    per day of delay, capped at 10%, together with the Clause 11.1 Defects Notification
+    Period of 365 days from Taking-Over.
+  block_ids:
+  - cpm_engine
+  - formula_executor
+  - finance_planning
+  - notification
+  - dashboard
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: qa_itp_records
+  description: Records inspection and test plans, inspection results and sign-offs
+    against the BOQ items they cover, so quality evidence for each completed quantity
+    is held alongside the claim that bills it.
+  block_ids:
+  - workbench
+  - workflow
+  - capture
+  - evidence_chain
+  - review
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: document_register
+  description: Maintains a controlled register of project documents with revisions,
+    status and provenance, registering the contract and BOQ as governing documents
+    and linking every claim and ITP record to the document version it was made against.
+  block_ids:
+  - document_engine
+  - version
+  - version_diff
+  - search
+  - file_hasher
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: role_based_access_and_audit
+  description: Controls who may raise, review and certify claims and ITP records,
+    and keeps an immutable trail of every contractual decision and figure change.
+  block_ids:
+  - auth
+  - multi_tenant_rbac
+  - audit_fail_closed
+  - governance_gate
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors: []
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

@@ -1,0 +1,5 @@
+# Development/CI-only dependencies (the full-suite CI installs both files).
+pytest==9.1.1
+httpx==0.28.1
+bandit
+pip-audit

@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.role_based_access_and_audit"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "role_based_access_and_audit"
+      },
+      {
+        "type": "capability",
+        "value": "role_based_access_and_audit"
+      }
+    ]
+  },
+  "agent_id": "product.hat.role_based_access_and_audit",
+  "allowed_actions": [
+    "product.role_based_access_and_audit"
+  ],
+  "block_ids": [
+    "auth",
+    "multi_tenant_rbac",
+    "audit_fail_closed",
+    "governance_gate"
+  ],
+  "discipline": "role_based_access_and_audit",
+  "display_name": "Harbourline Civil Works contracts administration Role Based Access And Audit Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'role_based_access_and_audit' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "role_based_access_and_audit"
+  ]
+}
