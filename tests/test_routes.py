@@ -237,7 +237,7 @@ def test_every_capability_route_answers():
     """Code-phase: each capability POST answers HTTP 200 JSON.
     Store ok: False is allowed here — acceptance is the pilot test."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'source_document': 'document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf', 'document_type': 'contract', 'clause_ref': '4.2', 'boq_item': 'P1', 'description': 'sample', 'unit': 'sample', 'quantity': 1.0, 'rate': 1.0, 'amount': 1.0, 'status': 'open'}
     resp, _corr = _post_accepting("/v1/contract_source_of_record", payload, AUTH, 'contract_source_of_record')
     if resp.status_code not in (200,):
         failures.append('contract_source_of_record: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -263,7 +263,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('contract_source_of_record list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'ipc_number': 'sample', 'boq_item': 'P1', 'period': 'sample', 'gross_amount': 1.0, 'accepted_contract_amount': 1.0, 'retention_pct': 1.0, 'retention_amount': 1.0, 'performance_security_rate': 1.0, 'performance_security_deduction': 1.0, 'net_certified': 1.0, 'currency': 'sample', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/progress_claims", payload, AUTH, 'progress_claims')
     if resp.status_code not in (200,):
         failures.append('progress_claims: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -289,7 +289,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('progress_claims list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'time_for_completion_days': 1, 'accepted_contract_amount': 1.0, 'delay_days': 1, 'delay_damages_rate_pct': 1.0, 'delay_damages': 1.0, 'damages_cap_pct': 1.0, 'cap_reached': True, 'status': 'open'}
     resp, _corr = _post_accepting("/v1/time_and_delay_damages", payload, AUTH, 'time_and_delay_damages')
     if resp.status_code not in (200,):
         failures.append('time_and_delay_damages: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -315,7 +315,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('time_and_delay_damages list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'boq_item': 'P1', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'pass', 'inspection_date': '2026-09-03', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/qa_itp_records", payload, AUTH, 'qa_itp_records')
     if resp.status_code not in (200,):
         failures.append('qa_itp_records: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -341,7 +341,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('qa_itp_records list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'title': 'sample', 'document_type': 'contract', 'revision': 'sample', 'checksum': 'sample', 'source_document': 'sample', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/document_register", payload, AUTH, 'document_register')
     if resp.status_code not in (200,):
         failures.append('document_register: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -367,7 +367,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('document_register list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'principal_id': 'sample', 'role': 'owner', 'permission': 'contract.read', 'requested_action': 'read', 'decision': 'allow', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/role_based_access_and_audit", payload, AUTH, 'role_based_access_and_audit')
     if resp.status_code not in (200,):
         failures.append('role_based_access_and_audit: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -401,7 +401,7 @@ def test_every_capability_route_accepts_payload():
     """Pilot: spec payload is accepted (ok is not False) and persisted.
     Not the factory code-phase gate."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'source_document': 'document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf', 'document_type': 'contract', 'clause_ref': '4.2', 'boq_item': 'P1', 'description': 'sample', 'unit': 'sample', 'quantity': 1.0, 'rate': 1.0, 'amount': 1.0, 'status': 'open'}
     resp, _corr = _post_accepting("/v1/contract_source_of_record", payload, AUTH, 'contract_source_of_record')
     if resp.status_code not in (200,):
         failures.append('contract_source_of_record: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -427,7 +427,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('contract_source_of_record missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'ipc_number': 'sample', 'boq_item': 'P1', 'period': 'sample', 'gross_amount': 1.0, 'accepted_contract_amount': 1.0, 'retention_pct': 1.0, 'retention_amount': 1.0, 'performance_security_rate': 1.0, 'performance_security_deduction': 1.0, 'net_certified': 1.0, 'currency': 'sample', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/progress_claims", payload, AUTH, 'progress_claims')
     if resp.status_code not in (200,):
         failures.append('progress_claims: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -453,7 +453,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('progress_claims missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'time_for_completion_days': 1, 'accepted_contract_amount': 1.0, 'delay_days': 1, 'delay_damages_rate_pct': 1.0, 'delay_damages': 1.0, 'damages_cap_pct': 1.0, 'cap_reached': True, 'status': 'open'}
     resp, _corr = _post_accepting("/v1/time_and_delay_damages", payload, AUTH, 'time_and_delay_damages')
     if resp.status_code not in (200,):
         failures.append('time_and_delay_damages: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -479,7 +479,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('time_and_delay_damages missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'boq_item': 'P1', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'pass', 'inspection_date': '2026-09-03', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/qa_itp_records", payload, AUTH, 'qa_itp_records')
     if resp.status_code not in (200,):
         failures.append('qa_itp_records: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -505,7 +505,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('qa_itp_records missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'title': 'sample', 'document_type': 'contract', 'revision': 'sample', 'checksum': 'sample', 'source_document': 'sample', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/document_register", payload, AUTH, 'document_register')
     if resp.status_code not in (200,):
         failures.append('document_register: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -531,7 +531,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('document_register missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'principal_id': 'sample', 'role': 'owner', 'permission': 'contract.read', 'requested_action': 'read', 'decision': 'allow', 'status': 'open'}
     resp, _corr = _post_accepting("/v1/role_based_access_and_audit", payload, AUTH, 'role_based_access_and_audit')
     if resp.status_code not in (200,):
         failures.append('role_based_access_and_audit: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))

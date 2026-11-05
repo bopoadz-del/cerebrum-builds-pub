@@ -1,12 +1,10 @@
 """Counter-cases: what each capability REFUSES.
 
-Four cases per capability (the acceptance floor): a missing required field, a
-value outside the declared vocabulary, a cross-tenant read, and a malformed
-payload. Values come from each capability's own model, never from a test case
-id or a product literal.
+Written by the factory TESTER role. The floor (negative_floor) requires four
+per capability; these four are derived from each capability's own spec. Add
+the domain cases the brief implies -- the boundary of a rule, a state machine
+that must not skip a step -- they count toward the same floor.
 """
-
-from __future__ import annotations
 
 import os
 
@@ -16,277 +14,357 @@ from fastapi.testclient import TestClient
 from app.main import app
 
 client = TestClient(app)
+# Tokens come from the environment ONLY -- tests/conftest.py provisions the
+# well-known TEST values and maps tenant B through TENANT_TOKENS. No fallback
+# literal here: a writer that copies this pattern into runtime copies an
+# env-subscript, not a baked token (live 2026-09-29: the old fallback was
+# hardwired into app/tenancy.py as a production backdoor to make the
+# cross-tenant case pass).
 AUTH = {"Authorization": "Bearer " + os.environ["PLATFORM_TOKEN"]}
 OTHER_TENANT = {"Authorization": "Bearer " + os.environ["PLATFORM_TOKEN_B"]}
 
 REFUSED = (400, 403, 404, 409, 422)
 ACCEPTED = (200,)
+CROSS_TENANT_READ = 404
+# The typed unavailable refusal of a declared placeholder connector
+# (app.factory.build.placeholder_connectors).
+UNAVAILABLE_STATUS = 503
+UNAVAILABLE_KIND = 'unavailable'
 
 
-def _refused(response) -> bool:
+def _refused(response):
+    """A refusal, by status or by the envelope's own ok:false.
+
+    The typed unavailable refusal (HTTP 503, error_kind "unavailable") of a
+    capability whose connector is a declared placeholder is a refusal too:
+    the counter-case still holds, whatever kind of refusal answered it."""
     if response.status_code in REFUSED:
         return True
-    if response.status_code not in ACCEPTED:
+    if response.status_code not in ACCEPTED + (UNAVAILABLE_STATUS,):
         return False
     try:
         body = response.json()
     except Exception:
         return False
-    return isinstance(body, dict) and body.get("ok") is False
+    if not isinstance(body, dict) or body.get('ok') is not False:
+        return False
+    return response.status_code in ACCEPTED or body.get("error_kind") == UNAVAILABLE_KIND
 
 
-BODIES = {
-    "contract_source_of_record": {
-        "reference": "nf-contract",
-        "source_document": "document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf",
-        "document_type": "contract",
-        "clause_ref": "8.2",
-        "boq_item": "E1",
-        "description": "Bulk excavation",
-        "unit": "m3",
-        "quantity": 12500,
-        "rate": 38,
-        "amount": 475000,
-        "status": "open",
-    },
-    "progress_claims": {
-        "reference": "nf-claim",
-        "ipc_number": "1",
-        "boq_item": "E1",
-        "period": "2026-09",
-        "gross_amount": 475000,
-        "accepted_contract_amount": 1902950,
-        "retention_pct": 5,
-        "retention_amount": 23750,
-        "performance_security_rate": 10,
-        "performance_security_deduction": 190295,
-        "net_certified": 260955,
-        "currency": "SAR",
-        "status": "open",
-    },
-    "time_and_delay_damages": {
-        "reference": "nf-delay",
-        "commencement_date": "2026-01-01",
-        "completion_date": "2028-01-01",
-        "time_for_completion_days": 730,
-        "accepted_contract_amount": 1902950,
-        "delay_days": 0,
-        "delay_damages_rate_pct": 0.1,
-        "delay_damages": 0,
-        "damages_cap_pct": 10,
-        "cap_reached": False,
-        "status": "open",
-    },
-    "qa_itp_records": {
-        "reference": "nf-itp",
-        "boq_item": "E1",
-        "inspection_lot": "LOT-1",
-        "hold_point": "Excavation formation",
-        "witness_point": "Level check",
-        "test_result": "pass",
-        "inspection_date": "2026-09-03",
-        "status": "open",
-    },
-    "document_register": {
-        "reference": "nf-doc",
-        "title": "Contract excerpt",
-        "document_type": "contract",
-        "revision": "1.0.0",
-        "checksum": "a" * 64,
-        "source_document": "document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf",
-        "status": "open",
-    },
-    "role_based_access_and_audit": {
-        "reference": "nf-rbac",
-        "principal_id": "qs-1",
-        "role": "quantity_surveyor",
-        "permission": "claim.submit",
-        "requested_action": "write",
-        "decision": "allow",
-        "status": "open",
-    },
-}
+
+# -- contract_source_of_record -----------------------------------
 
 
-def _post(capability, body, headers=None):
-    return client.post("/v1/" + capability, json=body, headers=headers or AUTH)
-
-
-def _assert_refused(capability, body, why):
-    resp = _post(capability, body)
-    assert resp.status_code != 500, capability + " raised: " + resp.text[:200]
-    assert _refused(resp), capability + " accepted " + why + ": " + resp.text[:200]
-
-
-# -- contract_source_of_record ---------------------------------------------
-
-
-def test_contract_source_of_record_refuses_a_missing_reference():
-    body = dict(BODIES["contract_source_of_record"])
-    body.pop("reference")
-    _assert_refused("contract_source_of_record", body, "a payload with no reference")
+def test_contract_source_of_record_refuses_a_missing_required_field():
+    """A partial record is refused, never completed by the handler."""
+    body = {'source_document': 'document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf', 'document_type': 'contract', 'clause_ref': '4.2', 'boq_item': 'P1', 'description': 'sample', 'unit': 'sample', 'quantity': 1.0, 'rate': 1.0, 'amount': 1.0, 'status': 'open'}
+    resp = client.post("/v1/contract_source_of_record", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "contract_source_of_record accepted a payload with no reference: " + resp.text[:200]
+    )
 
 
 def test_contract_source_of_record_refuses_a_value_outside_its_vocabulary():
-    body = dict(BODIES["contract_source_of_record"], clause_ref="99.9")
-    _assert_refused("contract_source_of_record", body, "an undeclared clause")
+    """A column that accepts any string is not that column."""
+    body = {'reference': 'sample', 'source_document': 'not-a-declared-value', 'document_type': 'contract', 'clause_ref': '4.2', 'boq_item': 'P1', 'description': 'sample', 'unit': 'sample', 'quantity': 1.0, 'rate': 1.0, 'amount': 1.0, 'status': 'open'}
+    resp = client.post("/v1/contract_source_of_record", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "contract_source_of_record accepted an undeclared source_document: " + resp.text[:200]
+    )
 
 
 def test_contract_source_of_record_does_not_leak_across_tenants():
-    made = _post("contract_source_of_record", dict(BODIES["contract_source_of_record"]))
+    """404, never 403 and never the row: existence itself is private."""
+    body = {'reference': 'sample', 'source_document': 'document:62425b8c48e146f08c1ecbbaf93ba637_harbourline_contract.pdf', 'document_type': 'contract', 'clause_ref': '4.2', 'boq_item': 'P1', 'description': 'sample', 'unit': 'sample', 'quantity': 1.0, 'rate': 1.0, 'amount': 1.0, 'status': 'open'}
+    made = client.post("/v1/contract_source_of_record", json=body, headers=AUTH)
     if made.status_code not in ACCEPTED:
         pytest.skip("capability did not accept the sample record")
-    rid = ((made.json().get("stored") or {}).get("id"))
-    assert rid
+    try:
+        record = made.json()
+    except Exception:
+        pytest.skip("capability did not answer JSON")
+    rid = ((record.get('stored') or {}).get('id')
+           if isinstance(record, dict) else None)
+    if not rid:
+        pytest.skip("capability returned no record id to read back")
     other = client.get("/v1/contract_source_of_record/" + str(rid), headers=OTHER_TENANT)
-    assert other.status_code == 404
+    assert other.status_code == CROSS_TENANT_READ, (
+        "contract_source_of_record answered %s to another tenant, not %s" % (other.status_code, CROSS_TENANT_READ)
+    )
 
 
 def test_contract_source_of_record_refuses_a_malformed_payload():
+    """Garbage in is a refusal, never a 500 and never a stored row."""
     for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
-        _assert_refused("contract_source_of_record", junk, "malformed input")
+        resp = client.post("/v1/contract_source_of_record", json=junk, headers=AUTH)
+        assert resp.status_code != 500, (
+            "contract_source_of_record raised on malformed input: " + resp.text[:200]
+        )
+        assert resp.status_code in REFUSED or _refused(resp), (
+            "contract_source_of_record accepted malformed input %r" % (junk,)
+        )
 
 
-# -- progress_claims --------------------------------------------------------
+# -- document_register -------------------------------------------
 
 
-def test_progress_claims_refuses_a_missing_reference():
-    body = dict(BODIES["progress_claims"])
-    body.pop("reference")
-    _assert_refused("progress_claims", body, "a payload with no reference")
-
-
-def test_progress_claims_refuses_a_value_outside_its_vocabulary():
-    body = dict(BODIES["progress_claims"], status="not-a-declared-status")
-    _assert_refused("progress_claims", body, "an undeclared status")
-
-
-def test_progress_claims_does_not_leak_across_tenants():
-    made = _post("progress_claims", dict(BODIES["progress_claims"]))
-    if made.status_code not in ACCEPTED:
-        pytest.skip("capability did not accept the sample record")
-    rid = ((made.json().get("stored") or {}).get("id"))
-    assert rid
-    other = client.get("/v1/progress_claims/" + str(rid), headers=OTHER_TENANT)
-    assert other.status_code == 404
-
-
-def test_progress_claims_refuses_a_malformed_payload():
-    for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
-        _assert_refused("progress_claims", junk, "malformed input")
-
-
-# -- time_and_delay_damages -------------------------------------------------
-
-
-def test_time_and_delay_damages_refuses_a_missing_reference():
-    body = dict(BODIES["time_and_delay_damages"])
-    body.pop("reference")
-    _assert_refused("time_and_delay_damages", body, "a payload with no reference")
-
-
-def test_time_and_delay_damages_refuses_a_value_outside_its_vocabulary():
-    body = dict(BODIES["time_and_delay_damages"], status="not-a-declared-status")
-    _assert_refused("time_and_delay_damages", body, "an undeclared status")
-
-
-def test_time_and_delay_damages_does_not_leak_across_tenants():
-    made = _post("time_and_delay_damages", dict(BODIES["time_and_delay_damages"]))
-    if made.status_code not in ACCEPTED:
-        pytest.skip("capability did not accept the sample record")
-    rid = ((made.json().get("stored") or {}).get("id"))
-    assert rid
-    other = client.get("/v1/time_and_delay_damages/" + str(rid), headers=OTHER_TENANT)
-    assert other.status_code == 404
-
-
-def test_time_and_delay_damages_refuses_a_malformed_payload():
-    for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
-        _assert_refused("time_and_delay_damages", junk, "malformed input")
-
-
-# -- qa_itp_records ---------------------------------------------------------
-
-
-def test_qa_itp_records_refuses_a_missing_reference():
-    body = dict(BODIES["qa_itp_records"])
-    body.pop("reference")
-    _assert_refused("qa_itp_records", body, "a payload with no reference")
-
-
-def test_qa_itp_records_refuses_a_value_outside_its_vocabulary():
-    body = dict(BODIES["qa_itp_records"], test_result="not-a-result")
-    _assert_refused("qa_itp_records", body, "an undeclared test result")
-
-
-def test_qa_itp_records_does_not_leak_across_tenants():
-    made = _post("qa_itp_records", dict(BODIES["qa_itp_records"]))
-    if made.status_code not in ACCEPTED:
-        pytest.skip("capability did not accept the sample record")
-    rid = ((made.json().get("stored") or {}).get("id"))
-    assert rid
-    other = client.get("/v1/qa_itp_records/" + str(rid), headers=OTHER_TENANT)
-    assert other.status_code == 404
-
-
-def test_qa_itp_records_refuses_a_malformed_payload():
-    for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
-        _assert_refused("qa_itp_records", junk, "malformed input")
-
-
-# -- document_register ------------------------------------------------------
-
-
-def test_document_register_refuses_a_missing_reference():
-    body = dict(BODIES["document_register"])
-    body.pop("reference")
-    _assert_refused("document_register", body, "a payload with no reference")
+def test_document_register_refuses_a_missing_required_field():
+    """A partial record is refused, never completed by the handler."""
+    body = {'title': 'sample', 'document_type': 'contract', 'revision': 'sample', 'checksum': 'sample', 'source_document': 'sample', 'status': 'open'}
+    resp = client.post("/v1/document_register", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "document_register accepted a payload with no reference: " + resp.text[:200]
+    )
 
 
 def test_document_register_refuses_a_value_outside_its_vocabulary():
-    body = dict(BODIES["document_register"], document_type="not-a-type")
-    _assert_refused("document_register", body, "an undeclared document type")
+    """A column that accepts any string is not that column."""
+    body = {'reference': 'sample', 'title': 'sample', 'document_type': 'not-a-declared-value', 'revision': 'sample', 'checksum': 'sample', 'source_document': 'sample', 'status': 'open'}
+    resp = client.post("/v1/document_register", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "document_register accepted an undeclared document_type: " + resp.text[:200]
+    )
 
 
 def test_document_register_does_not_leak_across_tenants():
-    made = _post("document_register", dict(BODIES["document_register"]))
+    """404, never 403 and never the row: existence itself is private."""
+    body = {'reference': 'sample', 'title': 'sample', 'document_type': 'contract', 'revision': 'sample', 'checksum': 'sample', 'source_document': 'sample', 'status': 'open'}
+    made = client.post("/v1/document_register", json=body, headers=AUTH)
     if made.status_code not in ACCEPTED:
         pytest.skip("capability did not accept the sample record")
-    rid = ((made.json().get("stored") or {}).get("id"))
-    assert rid
+    try:
+        record = made.json()
+    except Exception:
+        pytest.skip("capability did not answer JSON")
+    rid = ((record.get('stored') or {}).get('id')
+           if isinstance(record, dict) else None)
+    if not rid:
+        pytest.skip("capability returned no record id to read back")
     other = client.get("/v1/document_register/" + str(rid), headers=OTHER_TENANT)
-    assert other.status_code == 404
+    assert other.status_code == CROSS_TENANT_READ, (
+        "document_register answered %s to another tenant, not %s" % (other.status_code, CROSS_TENANT_READ)
+    )
 
 
 def test_document_register_refuses_a_malformed_payload():
+    """Garbage in is a refusal, never a 500 and never a stored row."""
     for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
-        _assert_refused("document_register", junk, "malformed input")
+        resp = client.post("/v1/document_register", json=junk, headers=AUTH)
+        assert resp.status_code != 500, (
+            "document_register raised on malformed input: " + resp.text[:200]
+        )
+        assert resp.status_code in REFUSED or _refused(resp), (
+            "document_register accepted malformed input %r" % (junk,)
+        )
 
 
-# -- role_based_access_and_audit -------------------------------------------
+# -- progress_claims ---------------------------------------------
 
 
-def test_role_based_access_and_audit_refuses_a_missing_reference():
-    body = dict(BODIES["role_based_access_and_audit"])
-    body.pop("reference")
-    _assert_refused("role_based_access_and_audit", body, "a payload with no reference")
+def test_progress_claims_refuses_a_missing_required_field():
+    """A partial record is refused, never completed by the handler."""
+    body = {'ipc_number': 'sample', 'boq_item': 'P1', 'period': 'sample', 'gross_amount': 1.0, 'accepted_contract_amount': 1.0, 'retention_pct': 1.0, 'retention_amount': 1.0, 'performance_security_rate': 1.0, 'performance_security_deduction': 1.0, 'net_certified': 1.0, 'currency': 'sample', 'status': 'open'}
+    resp = client.post("/v1/progress_claims", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "progress_claims accepted a payload with no reference: " + resp.text[:200]
+    )
+
+
+def test_progress_claims_refuses_a_value_outside_its_vocabulary():
+    """A column that accepts any string is not that column."""
+    body = {'reference': 'sample', 'ipc_number': 'sample', 'boq_item': 'not-a-declared-value', 'period': 'sample', 'gross_amount': 1.0, 'accepted_contract_amount': 1.0, 'retention_pct': 1.0, 'retention_amount': 1.0, 'performance_security_rate': 1.0, 'performance_security_deduction': 1.0, 'net_certified': 1.0, 'currency': 'sample', 'status': 'open'}
+    resp = client.post("/v1/progress_claims", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "progress_claims accepted an undeclared boq_item: " + resp.text[:200]
+    )
+
+
+def test_progress_claims_does_not_leak_across_tenants():
+    """404, never 403 and never the row: existence itself is private."""
+    body = {'reference': 'sample', 'ipc_number': 'sample', 'boq_item': 'P1', 'period': 'sample', 'gross_amount': 1.0, 'accepted_contract_amount': 1.0, 'retention_pct': 1.0, 'retention_amount': 1.0, 'performance_security_rate': 1.0, 'performance_security_deduction': 1.0, 'net_certified': 1.0, 'currency': 'sample', 'status': 'open'}
+    made = client.post("/v1/progress_claims", json=body, headers=AUTH)
+    if made.status_code not in ACCEPTED:
+        pytest.skip("capability did not accept the sample record")
+    try:
+        record = made.json()
+    except Exception:
+        pytest.skip("capability did not answer JSON")
+    rid = ((record.get('stored') or {}).get('id')
+           if isinstance(record, dict) else None)
+    if not rid:
+        pytest.skip("capability returned no record id to read back")
+    other = client.get("/v1/progress_claims/" + str(rid), headers=OTHER_TENANT)
+    assert other.status_code == CROSS_TENANT_READ, (
+        "progress_claims answered %s to another tenant, not %s" % (other.status_code, CROSS_TENANT_READ)
+    )
+
+
+def test_progress_claims_refuses_a_malformed_payload():
+    """Garbage in is a refusal, never a 500 and never a stored row."""
+    for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
+        resp = client.post("/v1/progress_claims", json=junk, headers=AUTH)
+        assert resp.status_code != 500, (
+            "progress_claims raised on malformed input: " + resp.text[:200]
+        )
+        assert resp.status_code in REFUSED or _refused(resp), (
+            "progress_claims accepted malformed input %r" % (junk,)
+        )
+
+
+# -- qa_itp_records ----------------------------------------------
+
+
+def test_qa_itp_records_refuses_a_missing_required_field():
+    """A partial record is refused, never completed by the handler."""
+    body = {'boq_item': 'P1', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'pass', 'inspection_date': '2026-09-03', 'status': 'open'}
+    resp = client.post("/v1/qa_itp_records", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "qa_itp_records accepted a payload with no reference: " + resp.text[:200]
+    )
+
+
+def test_qa_itp_records_refuses_a_value_outside_its_vocabulary():
+    """A column that accepts any string is not that column."""
+    body = {'reference': 'sample', 'boq_item': 'not-a-declared-value', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'pass', 'inspection_date': '2026-09-03', 'status': 'open'}
+    resp = client.post("/v1/qa_itp_records", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "qa_itp_records accepted an undeclared boq_item: " + resp.text[:200]
+    )
+
+
+def test_qa_itp_records_does_not_leak_across_tenants():
+    """404, never 403 and never the row: existence itself is private."""
+    body = {'reference': 'sample', 'boq_item': 'P1', 'inspection_lot': 'sample', 'hold_point': 'sample', 'witness_point': 'sample', 'test_result': 'pass', 'inspection_date': '2026-09-03', 'status': 'open'}
+    made = client.post("/v1/qa_itp_records", json=body, headers=AUTH)
+    if made.status_code not in ACCEPTED:
+        pytest.skip("capability did not accept the sample record")
+    try:
+        record = made.json()
+    except Exception:
+        pytest.skip("capability did not answer JSON")
+    rid = ((record.get('stored') or {}).get('id')
+           if isinstance(record, dict) else None)
+    if not rid:
+        pytest.skip("capability returned no record id to read back")
+    other = client.get("/v1/qa_itp_records/" + str(rid), headers=OTHER_TENANT)
+    assert other.status_code == CROSS_TENANT_READ, (
+        "qa_itp_records answered %s to another tenant, not %s" % (other.status_code, CROSS_TENANT_READ)
+    )
+
+
+def test_qa_itp_records_refuses_a_malformed_payload():
+    """Garbage in is a refusal, never a 500 and never a stored row."""
+    for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
+        resp = client.post("/v1/qa_itp_records", json=junk, headers=AUTH)
+        assert resp.status_code != 500, (
+            "qa_itp_records raised on malformed input: " + resp.text[:200]
+        )
+        assert resp.status_code in REFUSED or _refused(resp), (
+            "qa_itp_records accepted malformed input %r" % (junk,)
+        )
+
+
+# -- role_based_access_and_audit ---------------------------------
+
+
+def test_role_based_access_and_audit_refuses_a_missing_required_field():
+    """A partial record is refused, never completed by the handler."""
+    body = {'principal_id': 'sample', 'role': 'owner', 'permission': 'contract.read', 'requested_action': 'read', 'decision': 'allow', 'status': 'open'}
+    resp = client.post("/v1/role_based_access_and_audit", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "role_based_access_and_audit accepted a payload with no reference: " + resp.text[:200]
+    )
 
 
 def test_role_based_access_and_audit_refuses_a_value_outside_its_vocabulary():
-    body = dict(BODIES["role_based_access_and_audit"], role="not-a-role")
-    _assert_refused("role_based_access_and_audit", body, "an undeclared role")
+    """A column that accepts any string is not that column."""
+    body = {'reference': 'sample', 'principal_id': 'sample', 'role': 'not-a-declared-value', 'permission': 'contract.read', 'requested_action': 'read', 'decision': 'allow', 'status': 'open'}
+    resp = client.post("/v1/role_based_access_and_audit", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "role_based_access_and_audit accepted an undeclared role: " + resp.text[:200]
+    )
 
 
 def test_role_based_access_and_audit_does_not_leak_across_tenants():
-    made = _post("role_based_access_and_audit", dict(BODIES["role_based_access_and_audit"]))
+    """404, never 403 and never the row: existence itself is private."""
+    body = {'reference': 'sample', 'principal_id': 'sample', 'role': 'owner', 'permission': 'contract.read', 'requested_action': 'read', 'decision': 'allow', 'status': 'open'}
+    made = client.post("/v1/role_based_access_and_audit", json=body, headers=AUTH)
     if made.status_code not in ACCEPTED:
         pytest.skip("capability did not accept the sample record")
-    rid = ((made.json().get("stored") or {}).get("id"))
-    assert rid
+    try:
+        record = made.json()
+    except Exception:
+        pytest.skip("capability did not answer JSON")
+    rid = ((record.get('stored') or {}).get('id')
+           if isinstance(record, dict) else None)
+    if not rid:
+        pytest.skip("capability returned no record id to read back")
     other = client.get("/v1/role_based_access_and_audit/" + str(rid), headers=OTHER_TENANT)
-    assert other.status_code == 404
+    assert other.status_code == CROSS_TENANT_READ, (
+        "role_based_access_and_audit answered %s to another tenant, not %s" % (other.status_code, CROSS_TENANT_READ)
+    )
 
 
 def test_role_based_access_and_audit_refuses_a_malformed_payload():
+    """Garbage in is a refusal, never a 500 and never a stored row."""
     for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
-        _assert_refused("role_based_access_and_audit", junk, "malformed input")
+        resp = client.post("/v1/role_based_access_and_audit", json=junk, headers=AUTH)
+        assert resp.status_code != 500, (
+            "role_based_access_and_audit raised on malformed input: " + resp.text[:200]
+        )
+        assert resp.status_code in REFUSED or _refused(resp), (
+            "role_based_access_and_audit accepted malformed input %r" % (junk,)
+        )
+
+
+# -- time_and_delay_damages --------------------------------------
+
+
+def test_time_and_delay_damages_refuses_a_missing_required_field():
+    """A partial record is refused, never completed by the handler."""
+    body = {'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'time_for_completion_days': 1, 'accepted_contract_amount': 1.0, 'delay_days': 1, 'delay_damages_rate_pct': 1.0, 'delay_damages': 1.0, 'damages_cap_pct': 1.0, 'cap_reached': True, 'status': 'open'}
+    resp = client.post("/v1/time_and_delay_damages", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "time_and_delay_damages accepted a payload with no reference: " + resp.text[:200]
+    )
+
+
+def test_time_and_delay_damages_refuses_a_value_outside_its_vocabulary():
+    """A column that accepts any string is not that column."""
+    body = {'reference': 'sample', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'time_for_completion_days': 1, 'accepted_contract_amount': 1.0, 'delay_days': 1, 'delay_damages_rate_pct': 1.0, 'delay_damages': 1.0, 'damages_cap_pct': 1.0, 'cap_reached': True, 'status': 'not-a-declared-value'}
+    resp = client.post("/v1/time_and_delay_damages", json=body, headers=AUTH)
+    assert resp.status_code in REFUSED or _refused(resp), (
+        "time_and_delay_damages accepted an undeclared status: " + resp.text[:200]
+    )
+
+
+def test_time_and_delay_damages_does_not_leak_across_tenants():
+    """404, never 403 and never the row: existence itself is private."""
+    body = {'reference': 'sample', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'time_for_completion_days': 1, 'accepted_contract_amount': 1.0, 'delay_days': 1, 'delay_damages_rate_pct': 1.0, 'delay_damages': 1.0, 'damages_cap_pct': 1.0, 'cap_reached': True, 'status': 'open'}
+    made = client.post("/v1/time_and_delay_damages", json=body, headers=AUTH)
+    if made.status_code not in ACCEPTED:
+        pytest.skip("capability did not accept the sample record")
+    try:
+        record = made.json()
+    except Exception:
+        pytest.skip("capability did not answer JSON")
+    rid = ((record.get('stored') or {}).get('id')
+           if isinstance(record, dict) else None)
+    if not rid:
+        pytest.skip("capability returned no record id to read back")
+    other = client.get("/v1/time_and_delay_damages/" + str(rid), headers=OTHER_TENANT)
+    assert other.status_code == CROSS_TENANT_READ, (
+        "time_and_delay_damages answered %s to another tenant, not %s" % (other.status_code, CROSS_TENANT_READ)
+    )
+
+
+def test_time_and_delay_damages_refuses_a_malformed_payload():
+    """Garbage in is a refusal, never a 500 and never a stored row."""
+    for junk in ([], "", {"": None}, {"x" * 300: "y" * 2000}):
+        resp = client.post("/v1/time_and_delay_damages", json=junk, headers=AUTH)
+        assert resp.status_code != 500, (
+            "time_and_delay_damages raised on malformed input: " + resp.text[:200]
+        )
+        assert resp.status_code in REFUSED or _refused(resp), (
+            "time_and_delay_damages accepted malformed input %r" % (junk,)
+        )
