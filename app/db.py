@@ -14,6 +14,7 @@ from typing import Any
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
+from sqlalchemy.sql import ClauseElement
 
 STORAGE_PATH_ENV = "STORAGE_PATH"
 DATABASE_URL_ENV = "DATABASE_URL"
@@ -126,10 +127,51 @@ def reset_engine() -> None:
         _ENGINE_KEY = None
 
 
+class CheckedConnection:
+    """A driver connection that also accepts a SQLAlchemy clause.
+
+    The shipped health probe hands Postgres a ``TextClause``. psycopg3
+    adapts str, bytes and ``psycopg.sql.Composable`` only, so a raw driver
+    connection rejects the clause. Compiling it here -- once, at the single
+    connection entry point -- keeps /health truthful on the database the
+    deployment actually runs. Strings and bytes pass through untouched.
+    """
+
+    __slots__ = ("_conn",)
+
+    def __init__(self, conn: Any) -> None:
+        self._conn = conn
+
+    def execute(self, statement: Any, *args: Any, **kwargs: Any):
+        if isinstance(statement, ClauseElement):
+            try:
+                statement = str(
+                    statement.compile(compile_kwargs={"literal_binds": True})
+                )
+            except Exception:  # noqa: BLE001 -- str() is the portable form
+                statement = str(statement)
+        return self._conn.execute(statement, *args, **kwargs)
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._conn, name)
+
+    def __enter__(self) -> "CheckedConnection":
+        self._conn.__enter__()
+        return self
+
+    def __exit__(self, *exc_info: Any) -> Any:
+        return self._conn.__exit__(*exc_info)
+
+
 def connect():
     """A DBAPI connection taken from the pool. Callers close it.
 
     app.health probes through this, and app.store takes its SQLAlchemy
     connection from :func:`engine`; neither opens a database of its own.
+    SQLite is handed back exactly as the driver returns it; a server
+    database is wrapped so a SQLAlchemy clause reaches it as SQL text.
     """
-    return engine().raw_connection()
+    conn = engine().raw_connection()
+    if backend_name() == "sqlite":
+        return conn
+    return CheckedConnection(conn)

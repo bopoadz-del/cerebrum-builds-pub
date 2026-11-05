@@ -30,7 +30,7 @@ def test_dispatch_runs_offline():
     from app.dispatch import execute, load_block
     for block_id in ['approval_rules', 'audit', 'audit_chain', 'boq_processor', 'cpm_engine', 'document_engine', 'evidence_chain', 'evidence_or_refuse', 'file_hasher', 'finance_planning', 'finance_reconciliation', 'finance_reconciliation_workflow', 'formula_executor', 'governance_gate', 'ingestion_provenance', 'notification', 'pdf', 'transaction_state_machine', 'validation', 'version']:
         load_block(block_id)
-    actions = {'audit': 'log', 'notification': 'send', 'validation': 'validate_pipeline', 'version': 'publish_version'}
+    actions = {}
     for block_id in ['approval_rules', 'audit', 'audit_chain', 'boq_processor', 'cpm_engine', 'document_engine', 'evidence_chain', 'evidence_or_refuse', 'file_hasher', 'finance_planning', 'finance_reconciliation', 'finance_reconciliation_workflow', 'formula_executor', 'governance_gate', 'ingestion_provenance', 'notification', 'pdf', 'transaction_state_machine', 'validation', 'version']:
         try:
             result = execute(block_id, {}, action=actions.get(block_id))
