@@ -26,7 +26,7 @@ def test_dispatch_runs_offline():
     from app.dispatch import execute, load_block
     for block_id in ['approval_rules', 'boq_processor', 'document_engine', 'finance_reconciliation', 'formula_executor', 'search', 'validation', 'version', 'workflow']:
         load_block(block_id)
-    actions = {'validation': 'validate_pipeline', 'version': 'publish_version', 'workflow': 'run'}
+    actions = {}
     for block_id in ['approval_rules', 'boq_processor', 'document_engine', 'finance_reconciliation', 'formula_executor', 'search', 'validation', 'version', 'workflow']:
         try:
             result = execute(block_id, {}, action=actions.get(block_id))

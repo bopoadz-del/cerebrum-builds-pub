@@ -183,7 +183,10 @@ def delay_values(payload: dict) -> dict:
             try:
                 from datetime import date
 
-                days = max(0, (date.fromisoformat(finish) - date.fromisoformat(start)).days - 730)
+                allowed = int(
+                    formulas.contract_clause("8.2").get("value") or 0
+                )
+                days = max(0, (date.fromisoformat(finish) - date.fromisoformat(start)).days - allowed)
             except ValueError:
                 days = 0
     return {"accepted_contract_amount": accepted, "days_of_delay": days}
@@ -213,7 +216,7 @@ def validation_inputs(payload: dict) -> dict:
             "duration_days": values["days_of_delay"],
             "cost": values["accepted_contract_amount"],
         },
-        "context": {"project_total_days": int(formulas.contract_clause("8.2").get("value") or 730)},
+        "context": {"project_total_days": int(formulas.contract_clause("8.2").get("value") or 0)},
     }
 
 

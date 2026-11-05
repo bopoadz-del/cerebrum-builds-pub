@@ -55,9 +55,10 @@ def create_app() -> FastAPI:
 
     @application.get("/static/{asset:path}", include_in_schema=False)
     def static_asset(asset: str):
+        root = STATIC_DIR.resolve()
         target = (STATIC_DIR / asset).resolve()
-        if not str(target).startswith(str(STATIC_DIR.resolve())) or not target.is_file():
-            return FileResponse(STATIC_DIR / "index.html", status_code=404)
+        if not target.is_relative_to(root) or not target.is_file():
+            return FileResponse(root / "index.html", status_code=404)
         return FileResponse(target)
 
     return application
