@@ -1,4 +1,8 @@
 {
+  "id": "platform",
+  "name": "Platform",
+  "version": "1.0.0",
+  "source": "brief-compiler",
   "blocks": [
     "approval_rules",
     "boq_processor",
@@ -10,8 +14,6 @@
     "version",
     "workflow"
   ],
-  "id": "platform",
-  "name": "Platform",
   "product_blocks": [
     "approval_rules",
     "boq_processor",
@@ -23,7 +25,6 @@
     "version",
     "workflow"
   ],
-  "source": "synthesized-from-factory-shelf",
   "vendored_blocks": {
     "approval_rules": "vendor/blocks/approval_rules",
     "boq_processor": "vendor/blocks/boq_processor",
@@ -34,6 +35,5 @@
     "validation": "vendor/blocks/validation",
     "version": "vendor/blocks/version",
     "workflow": "vendor/blocks/workflow"
-  },
-  "version": "1.0.0"
+  }
 }

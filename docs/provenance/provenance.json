@@ -1,0 +1,70 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "blueprint_id": "product:product_blueprint.v1",
+  "factory": "CerebrumDev.ai",
+  "factory_commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
+  "generated_at": "blueprint:01e41e3a424e6b473da3c00cafa16389de49d92ff6602c1673866c9ac31ef04c",
+  "inputs_hash": "01e41e3a424e6b473da3c00cafa16389de49d92ff6602c1673866c9ac31ef04c",
+  "kernel_version": "1.0.0",
+  "plan": {
+    "capabilities": [
+      {
+        "block_ids": [
+          "boq_processor",
+          "finance_reconciliation",
+          "approval_rules"
+        ],
+        "capability_id": "progress_claim_administration",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "formula_executor",
+          "validation"
+        ],
+        "capability_id": "delay_damages_tracking",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "document_engine",
+          "workflow"
+        ],
+        "capability_id": "qa_itp_records",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "document_engine",
+          "search",
+          "version"
+        ],
+        "capability_id": "document_register",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      }
+    ],
+    "dual_registered_blocks": [
+      "approval_rules",
+      "boq_processor",
+      "document_engine",
+      "finance_reconciliation",
+      "formula_executor",
+      "search",
+      "validation",
+      "version",
+      "workflow"
+    ],
+    "fail_closed": true,
+    "inventory_domain_gaps": [],
+    "product_id": "product",
+    "unsupported": [],
+    "vertical_scoped_out": []
+  },
+  "product_id": "product",
+  "schema": "factory_provenance.v1",
+  "writer_receipt": "sha256:6292feb245cd7797f424426893c5e24433773b29d69b48f846b2f54f8dec52f2"
+}

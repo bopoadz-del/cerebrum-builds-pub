@@ -1,235 +1,50 @@
 {
+  "store_pin": "4e8324486a839957498462f2fb8b01276b879714",
   "blocks": {
     "approval_rules": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/approval_rules",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/approval_rules/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "boq_processor": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/boq_processor",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/boq_processor/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "document_engine": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/document_engine",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/document_engine/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "finance_reconciliation": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 1,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/finance_reconciliation",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/finance_reconciliation/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "formula_executor": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/formula_executor",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/formula_executor/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "search": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/search",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/search/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "validation": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/validation",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/validation/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "version": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/version",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/version/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "workflow": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/workflow",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/workflow/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     }
-  },
-  "kits": {
-    "platform": {
-      "blocks": [
-        "approval_rules",
-        "boq_processor",
-        "document_engine",
-        "finance_reconciliation",
-        "formula_executor",
-        "search",
-        "validation",
-        "version",
-        "workflow"
-      ],
-      "files_copied": 0,
-      "path": "kits/platform",
-      "source": "synthesized-from-factory-shelf"
-    }
-  },
-  "runtime": {
-    "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-    "files": [
-      "vendor/cerebrum/__init__.py",
-      "vendor/cerebrum/blocks/__init__.py",
-      "vendor/cerebrum/blocks/approval_rules.py",
-      "vendor/cerebrum/blocks/boq_processor.py",
-      "vendor/cerebrum/blocks/document_engine.py",
-      "vendor/cerebrum/blocks/document_engine/__init__.py",
-      "vendor/cerebrum/blocks/document_engine/main.py",
-      "vendor/cerebrum/blocks/document_engine/mapper.py",
-      "vendor/cerebrum/blocks/document_engine/parsers/__init__.py",
-      "vendor/cerebrum/blocks/document_engine/parsers/docx_parser.py",
-      "vendor/cerebrum/blocks/document_engine/parsers/pdf_parser.py",
-      "vendor/cerebrum/blocks/document_engine/parsers/xlsx_parser.py",
-      "vendor/cerebrum/blocks/document_engine/reasoner.py",
-      "vendor/cerebrum/blocks/document_engine_block/__init__.py",
-      "vendor/cerebrum/blocks/document_engine_block/parsers/__init__.py",
-      "vendor/cerebrum/blocks/finance_reconciliation.py",
-      "vendor/cerebrum/blocks/formula_executor.py",
-      "vendor/cerebrum/blocks/search.py",
-      "vendor/cerebrum/blocks/validation.py",
-      "vendor/cerebrum/blocks/version.py",
-      "vendor/cerebrum/blocks/workflow.py",
-      "vendor/cerebrum/core/__init__.py",
-      "vendor/cerebrum/core/activation.py",
-      "vendor/cerebrum/core/file_crypto.py",
-      "vendor/cerebrum/core/finance_ops.py",
-      "vendor/cerebrum/core/http_errors.py",
-      "vendor/cerebrum/core/input_adapter.py",
-      "vendor/cerebrum/core/metric_utils.py",
-      "vendor/cerebrum/core/schema_registry.py",
-      "vendor/cerebrum/core/typed_block.py",
-      "vendor/cerebrum/core/universal_base.py"
-    ],
-    "for_blocks": [
-      "approval_rules",
-      "boq_processor",
-      "document_engine",
-      "finance_reconciliation",
-      "formula_executor",
-      "search",
-      "validation",
-      "version",
-      "workflow"
-    ],
-    "lazy_foreign_imports": [],
-    "path": "vendor/cerebrum",
-    "source": "cerebrum-blocks"
-  },
-  "schema": "blocks.lock.v1"
+  }
 }

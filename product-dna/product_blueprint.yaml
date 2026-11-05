@@ -1,0 +1,66 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Harbourline Civil Works
+vertical: product
+summary: A contracts-administration platform for the Harbourline Civil Works project
+  that uses the uploaded contract and BOQ as the source of record. It tracks progress
+  claims, delay damages, QA/ITP records, and the document register, serving the project's
+  contract administrators and engineers.
+capabilities:
+- id: progress_claim_administration
+  description: Prepares and validates interim payment certificates against BOQ items
+    and contract clauses (retention, performance security), drawing on the uploaded
+    contract and BOQ.
+  block_ids:
+  - boq_processor
+  - finance_reconciliation
+  - approval_rules
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: delay_damages_tracking
+  description: Monitors time for completion and calculates delay damages per Clause
+    8.7 (0.1% per day, capped at 10%), using contract dates and progress data.
+  block_ids:
+  - formula_executor
+  - validation
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: qa_itp_records
+  description: Manages QA/ITP records for inspections and tests, linking them to BOQ
+    items and contract requirements.
+  block_ids:
+  - document_engine
+  - workflow
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: document_register
+  description: Maintains a register of contract documents (contract, BOQ, drawings,
+    etc.) with version control and search, using the uploaded files as source of record.
+  block_ids:
+  - document_engine
+  - search
+  - version
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors: []
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

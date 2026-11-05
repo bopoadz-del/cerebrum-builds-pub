@@ -1,0 +1,47 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.delay_damages_tracking"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "delay_damages_tracking"
+      },
+      {
+        "type": "capability",
+        "value": "delay_damages_tracking"
+      }
+    ]
+  },
+  "agent_id": "product.hat.delay_damages_tracking",
+  "allowed_actions": [
+    "product.delay_damages_tracking"
+  ],
+  "block_ids": [
+    "formula_executor",
+    "validation"
+  ],
+  "discipline": "delay_damages_tracking",
+  "display_name": "Harbourline Civil Works Delay Damages Tracking Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'delay_damages_tracking' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "delay_damages_tracking"
+  ]
+}

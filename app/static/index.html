@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Harbourline Civil Works — Contracts Administration</title>
+  <style>
+    :root { color-scheme: light; --ink:#15202b; --muted:#5b6b7b; --line:#d8e0e8; --accent:#0b5fa5; --bg:#f4f7fa; --ok:#0f7b4f; --bad:#a52121; }
+    * { box-sizing: border-box; }
+    body { margin:0; font:15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); background:var(--bg); }
+    header { background:#0d2d4a; color:#fff; padding:18px 24px; }
+    header h1 { margin:0; font-size:20px; letter-spacing:.2px; }
+    header p { margin:4px 0 0; color:#c9d8e6; font-size:13px; }
+    main { max-width:1100px; margin:22px auto; padding:0 18px 50px; }
+    .authbar { display:flex; gap:10px; align-items:center; background:#fff; border:1px solid var(--line); padding:12px 14px; border-radius:10px; margin-bottom:18px; }
+    .authbar input { flex:1; min-width:200px; }
+    input, select, textarea, button { font:inherit; }
+    input, select, textarea { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:7px; background:#fff; }
+    button { background:var(--accent); color:#fff; border:0; padding:9px 16px; border-radius:7px; cursor:pointer; }
+    button.secondary { background:#e7eef5; color:var(--ink); }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    .tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+    .tab { padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer; }
+    .tab.active { background:#0d2d4a; color:#fff; border-color:#0d2d4a; }
+    .panel { background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:18px; }
+    .panel h2 { margin:0 0 4px; font-size:17px; }
+    .panel .desc { margin:0 0 14px; color:var(--muted); font-size:13px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
+    label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:.4px; }
+    .actions { display:flex; gap:10px; margin-top:14px; }
+    .authority { font-size:12px; background:#eef6ef; color:#0f5132; border:1px solid #c8e2d0; padding:3px 9px; border-radius:999px; display:inline-block; }
+    .authority.layer-2 { background:#eef4fb; color:#0b4a82; border-color:#c5daf0; }
+    .authority.layer-3 { background:#fff6e6; color:#7a4b00; border-color:#f0d9a8; }
+    .muted { color:var(--muted); font-size:13px; }
+    .result { margin-top:14px; border-top:1px dashed var(--line); padding-top:12px; }
+    pre { background:#0f1c28; color:#e6eef6; padding:12px; border-radius:8px; overflow:auto; max-height:320px; font-size:12px; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; font-size:13px; }
+    th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+    th { color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
+    .badge { font-size:11px; padding:2px 7px; border-radius:999px; background:#e7eef5; }
+    .badge.open { background:#fff3cd; color:#7a5a00; }
+    .badge.in_progress { background:#dcecff; color:#0b4a82; }
+    .badge.closed { background:#d9f2e3; color:#0f5132; }
+    .error { color:var(--bad); }
+    .ok { color:var(--ok); }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Harbourline Civil Works — Contracts Administration</h1>
+  <p>Progress claims · delay damages · QA/ITP · document register — source of record: contract &amp; BOQ</p>
+</header>
+<main>
+  <section class="authbar">
+    <label for="token" style="margin:0;white-space:nowrap">Bearer token</label>
+    <input id="token" type="password" autocomplete="off" placeholder="deploy token (PLATFORM_TOKEN)" />
+    <button class="secondary" id="saveToken">Use token</button>
+    <span id="tokenState" class="muted">not set</span>
+  </section>
+
+  <div class="tabs" id="tabs"></div>
+  <section class="panel" id="panel" hidden>
+    <h2 id="capTitle"></h2>
+    <p class="desc" id="capDesc"></p>
+    <form id="recordForm" class="grid"></form>
+    <div class="actions">
+      <button type="submit" form="recordForm" id="createBtn">Create record</button>
+      <button type="button" class="secondary" id="refreshBtn">Refresh register</button>
+    </div>
+    <div class="result">
+      <div id="authorityLine" class="muted">No answer yet.</div>
+      <pre id="answer" hidden></pre>
+      <table id="records" hidden>
+        <thead><tr><th>id</th><th>reference</th><th>status</th><th>summary</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script>
+(() => {
+  "use strict";
+  const tokenKey = "harbourline.token";
+  const state = { token: sessionStorage.getItem(tokenKey) || "", capabilities: [], active: null, schema: {} };
+  const API_ROUTES = {
+    capabilities: "/v1/capabilities",
+    progress_claim_administration: "/v1/progress_claim_administration",
+    delay_damages_tracking: "/v1/delay_damages_tracking",
+    qa_itp_records: "/v1/qa_itp_records",
+    document_register: "/v1/document_register",
+  };
+  const routeFor = (id) => API_ROUTES[id] || ("/v1/" + encodeURIComponent(id));
+
+  const $ = (id) => document.getElementById(id);
+  const tokenInput = $("token");
+  const tokenState = $("tokenState");
+  const tabs = $("tabs");
+  const panel = $("panel");
+  const form = $("recordForm");
+  const answer = $("answer");
+  const recordsTable = $("records");
+  const authorityLine = $("authorityLine");
+
+  const FIELD_HINTS = {
+    reference: "identifier, e.g. IPC-001",
+    claim_number: "claim / IPC number",
+    period_from: "2026-09-01",
+    period_to: "2026-09-30",
+    boq_item_codes: "E1,E3 or empty for the full BOQ",
+    claimed_amount: "amount claimed",
+    certified_amount: "amount certified",
+    notice_reference: "delay notice reference",
+    commencement_date: "YYYY-MM-DD",
+    completion_date: "contract completion YYYY-MM-DD",
+    actual_completion_date: "actual completion YYYY-MM-DD",
+    accepted_contract_amount: "empty uses the BOQ total",
+    days_of_delay: "days beyond Clause 8.2",
+    itp_number: "ITP number",
+    inspection_type: "hold point / witness point",
+    boq_item_code: "E1..E5, P1..P5",
+    inspection_date: "YYYY-MM-DD",
+    inspector: "name",
+    notes: "inspection notes",
+    evidence_text: "inspection evidence text",
+    title: "document title",
+    revision: "1.0.0 or A",
+    issued_date: "YYYY-MM-DD",
+    source_document: "document filename",
+    description: "register description",
+    search_query: "search terms",
+  };
+
+  const SELECTS = {
+    status: ["open", "in_progress", "closed"],
+    result: ["pending", "pass", "fail", "conditional"],
+    document_type: ["contract", "boq", "drawing", "specification", "itp", "correspondence"],
+  };
+
+  function headers() {
+    const out = { "Content-Type": "application/json" };
+    if (state.token) out.Authorization = "Bearer " + state.token;
+    return out;
+  }
+
+  function setToken(value) {
+    state.token = (value || "").trim();
+    if (state.token) sessionStorage.setItem(tokenKey, state.token);
+    else sessionStorage.removeItem(tokenKey);
+    tokenState.textContent = state.token ? "token set for this tab" : "not set";
+  }
+
+  function esc(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, (ch) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    })[ch]);
+  }
+
+  function authorityChip(label) {
+    if (!label || typeof label !== "object") return '<span class="authority">authority: procedures</span>';
+    return '<span class="authority layer-' + esc(label.layer) + '">authority: ' +
+      esc(label.label) + " · " + esc(label.detail || label.source) + "</span>";
+  }
+
+  async function api(method, path, body) {
+    const options = { method, headers: headers() };
+    if (body !== undefined) options.body = JSON.stringify(body);
+    const response = await fetch(path, options);
+    let payload = null;
+    try { payload = await response.json(); } catch (_) { payload = { ok: false, error: "non-JSON answer" }; }
+    if (!response.ok) {
+      const detail = payload && payload.detail;
+      const message = typeof detail === "string" ? detail : (detail && (detail.rejected_field || detail.error)) || payload.error || ("HTTP " + response.status);
+      const error = new Error(message);
+      error.status = response.status;
+      error.payload = payload;
+      throw error;
+    }
+    return payload;
+  }
+
+  function showAnswer(payload, isError) {
+    answer.hidden = false;
+    answer.textContent = JSON.stringify(payload, null, 2);
+    authorityLine.innerHTML = (isError ? '<span class="error">refused</span> · ' : '<span class="ok">accepted</span> · ') +
+      authorityChip(payload && payload.authority);
+  }
+
+  function renderTabs() {
+    tabs.innerHTML = "";
+    state.capabilities.forEach((cap) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "tab" + (state.active === cap.id ? " active" : "");
+      button.textContent = cap.title || cap.id;
+      button.addEventListener("click", () => selectCapability(cap.id));
+      tabs.appendChild(button);
+    });
+  }
+
+  function fieldControl(name, spec) {
+    const wrapper = document.createElement("div");
+    const label = document.createElement("label");
+    label.textContent = name.replace(/_/g, " ");
+    label.htmlFor = "f-" + name;
+    wrapper.appendChild(label);
+    let control;
+    if (SELECTS[name]) {
+      control = document.createElement("select");
+      SELECTS[name].forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        control.appendChild(option);
+      });
+    } else {
+      control = document.createElement("input");
+      control.type = "text";
+      control.placeholder = FIELD_HINTS[name] || "";
+    }
+    control.id = "f-" + name;
+    control.name = name;
+    if (name === "reference") control.required = true;
+    wrapper.appendChild(control);
+    return wrapper;
+  }
+
+  function buildForm(cap) {
+    form.innerHTML = "";
+    const spec = state.schema[cap.id] || {};
+    const fields = spec.fields && spec.fields.length ? spec.fields : ["reference", "status"];
+    fields.forEach((name) => form.appendChild(fieldControl(name, spec)));
+    const status = form.querySelector('[name="status"]');
+    if (status) status.value = "open";
+  }
+
+  async function selectCapability(id) {
+    state.active = id;
+    const cap = state.capabilities.find((item) => item.id === id);
+    if (!cap) return;
+    panel.hidden = false;
+    $("capTitle").textContent = cap.title || cap.id;
+    $("capDesc").textContent = cap.description || "";
+    buildForm(cap);
+    renderTabs();
+    await refreshRecords();
+  }
+
+  function rowSummary(record) {
+    const keys = ["title", "claim_number", "itp_number", "damages_amount", "certified_amount", "revision"];
+    return keys.filter((key) => record[key] !== undefined && record[key] !== null && record[key] !== "")
+      .slice(0, 3).map((key) => key.replace(/_/g, " ") + ": " + record[key]).join(" · ");
+  }
+
+  async function refreshRecords() {
+    if (!state.active) return;
+    try {
+      const payload = await api("GET", routeFor(state.active));
+      const rows = Array.isArray(payload.items) ? payload.items : [];
+      const body = recordsTable.querySelector("tbody");
+      body.innerHTML = "";
+      rows.forEach((record) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + esc(record.id) + "</td><td>" + esc(record.reference) + "</td>" +
+          '<td><span class="badge ' + esc(record.status) + '">' + esc(record.status) + "</span></td>" +
+          "<td>" + esc(rowSummary(record)) + "</td>";
+        body.appendChild(tr);
+      });
+      recordsTable.hidden = rows.length === 0;
+      authorityLine.innerHTML = "register: " + rows.length + " record(s) · " + authorityChip(payload.authority);
+    } catch (error) {
+      recordsTable.hidden = true;
+      showAnswer(error.payload || { ok: false, error: error.message }, true);
+    }
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!state.active) return;
+    const payload = {};
+    new FormData(form).forEach((value, key) => {
+      if (String(value).trim() !== "") payload[key] = String(value).trim();
+    });
+    $("createBtn").disabled = true;
+    try {
+      const answerPayload = await api("POST", routeFor(state.active), payload);
+      showAnswer(answerPayload, answerPayload.ok === false);
+      await refreshRecords();
+    } catch (error) {
+      showAnswer(error.payload || { ok: false, error: error.message }, true);
+    } finally {
+      $("createBtn").disabled = false;
+    }
+  });
+
+  $("refreshBtn").addEventListener("click", refreshRecords);
+  $("saveToken").addEventListener("click", () => setToken(tokenInput.value));
+
+  async function boot() {
+    tokenInput.value = state.token;
+    setToken(state.token);
+    try {
+      const catalog = await api("GET", API_ROUTES.capabilities);
+      state.capabilities = Array.isArray(catalog.items) ? catalog.items : [];
+      state.schema = {};
+      state.capabilities.forEach((cap) => {
+        const fieldNames = ["reference", "status"];
+        if (cap.id === "progress_claim_administration") fieldNames.push("claim_number", "period_from", "period_to", "boq_item_codes", "claimed_amount", "certified_amount");
+        if (cap.id === "delay_damages_tracking") fieldNames.push("notice_reference", "commencement_date", "completion_date", "actual_completion_date", "accepted_contract_amount", "days_of_delay");
+        if (cap.id === "qa_itp_records") fieldNames.push("itp_number", "inspection_type", "boq_item_code", "inspection_date", "result", "inspector", "notes");
+        if (cap.id === "document_register") fieldNames.push("title", "document_type", "revision", "issued_date", "source_document", "description", "search_query");
+        if (SELECTS.status) fieldNames[1] = "status";
+        if (cap.id === "qa_itp_records") fieldNames.splice(fieldNames.indexOf("result"), 0, "result");
+        state.schema[cap.id] = { fields: Array.from(new Set(fieldNames)) };
+      });
+      renderTabs();
+      if (state.capabilities.length) await selectCapability(state.capabilities[0].id);
+    } catch (error) {
+      showAnswer(error.payload || { ok: false, error: error.message }, true);
+    }
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>

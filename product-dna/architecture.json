@@ -1,0 +1,48 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation",
+        "approval_rules"
+      ],
+      "capability_id": "progress_claim_administration",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "validation"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "workflow"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "search",
+        "version"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "layers": [],
+  "product_id": "product",
+  "schema_version": "1.0.0",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}

@@ -1,0 +1,139 @@
+{
+  "schema": "source_of_record.v1",
+  "project": "Harbourline Civil Works",
+  "currency": "SAR",
+  "documents": [
+    {
+      "filename": "9624914db39345acbec7ff31dd838d91_harbourline_contract.pdf",
+      "kind": "contract",
+      "title": "Harbourline Civil Works - Contract Excerpt (synthetic - no client data)",
+      "clauses": [
+        {
+          "id": "8.2",
+          "title": "Time for Completion",
+          "value": 730,
+          "unit": "days",
+          "text": "730 days from the Commencement Date."
+        },
+        {
+          "id": "8.7",
+          "title": "Delay Damages",
+          "value": 0.001,
+          "unit": "ratio_per_day",
+          "text": "0.1% of the Accepted Contract Amount per day of delay, capped at 10% of the Accepted Contract Amount.",
+          "cap_ratio": 0.1
+        },
+        {
+          "id": "11.1",
+          "title": "Defects Notification Period",
+          "value": 365,
+          "unit": "days",
+          "text": "365 days from Taking-Over."
+        },
+        {
+          "id": "14.3",
+          "title": "Retention",
+          "value": 0.05,
+          "unit": "ratio",
+          "text": "5% of each Interim Payment Certificate, released 50% at Taking-Over and 50% at the end of the Defects Notification Period.",
+          "release_at_taking_over": 0.5,
+          "release_at_defects_end": 0.5
+        },
+        {
+          "id": "4.2",
+          "title": "Performance Security",
+          "value": 0.1,
+          "unit": "ratio",
+          "text": "10% of the Accepted Contract Amount."
+        }
+      ]
+    },
+    {
+      "filename": "c5779cac9bcd4e2db8e33a44491360e5_harbourline_boq.xlsx",
+      "kind": "boq",
+      "title": "Harbourline Civil Works - Bill of Quantities (synthetic - no client data)",
+      "items": [
+        {
+          "section": "Preliminaries",
+          "item": "P1",
+          "description": "Site establishment & temporary facilities",
+          "unit": "sum",
+          "qty": 1,
+          "rate": 185000
+        },
+        {
+          "section": "Preliminaries",
+          "item": "P2",
+          "description": "Site security & fencing (6 months)",
+          "unit": "month",
+          "qty": 6,
+          "rate": 22000
+        },
+        {
+          "section": "Preliminaries",
+          "item": "P3",
+          "description": "Survey & setting out",
+          "unit": "sum",
+          "qty": 1,
+          "rate": 48000
+        },
+        {
+          "section": "Preliminaries",
+          "item": "P4",
+          "description": "Project signboard",
+          "unit": "no",
+          "qty": 2,
+          "rate": 3500
+        },
+        {
+          "section": "Preliminaries",
+          "item": "P5",
+          "description": "As-built documentation",
+          "unit": "sum",
+          "qty": 1,
+          "rate": 26000
+        },
+        {
+          "section": "Earthworks",
+          "item": "E1",
+          "description": "Bulk excavation to reduced level",
+          "unit": "m3",
+          "qty": 12500,
+          "rate": 38
+        },
+        {
+          "section": "Earthworks",
+          "item": "E2",
+          "description": "Disposal of surplus material off-site",
+          "unit": "m3",
+          "qty": 8200,
+          "rate": 25
+        },
+        {
+          "section": "Earthworks",
+          "item": "E3",
+          "description": "Imported granular fill, compacted",
+          "unit": "m3",
+          "qty": 6400,
+          "rate": 92
+        },
+        {
+          "section": "Earthworks",
+          "item": "E4",
+          "description": "Trench excavation for services",
+          "unit": "m3",
+          "qty": 1850,
+          "rate": 55
+        },
+        {
+          "section": "Earthworks",
+          "item": "E5",
+          "description": "Geotextile separation layer",
+          "unit": "m2",
+          "qty": 9600,
+          "rate": 14
+        }
+      ]
+    }
+  ]
+}

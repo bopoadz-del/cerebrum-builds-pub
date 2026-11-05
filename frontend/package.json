@@ -1,0 +1,9 @@
+{
+  "name": "harbourline-console",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Console source; the built artifact is app/static/index.html",
+  "scripts": {
+    "build": "echo 'app/static/index.html is the committed built artifact'"
+  }
+}

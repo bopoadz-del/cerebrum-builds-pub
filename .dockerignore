@@ -1,0 +1,7 @@
+.git
+.codewhale
+__pycache__
+*.pyc
+data
+tests
+frontend/node_modules
