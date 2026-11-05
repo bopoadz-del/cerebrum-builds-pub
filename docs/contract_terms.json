@@ -1,0 +1,62 @@
+{
+  "document_id": "document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf",
+  "title": "Harbourline Civil Works - Contract Excerpt (synthetic - no client data)",
+  "clauses": [
+    {
+      "ref": "8.2",
+      "heading": "Time for Completion",
+      "text": "730 days from the Commencement Date.",
+      "term": "time_for_completion_days",
+      "value": 730,
+      "unit": "days"
+    },
+    {
+      "ref": "8.7",
+      "heading": "Delay Damages",
+      "text": "0.1% of the Accepted Contract Amount per day of delay, capped at 10% of the Accepted Contract Amount.",
+      "term": "delay_damages_daily_rate",
+      "value": 0.001,
+      "unit": "fraction of the Accepted Contract Amount per day"
+    },
+    {
+      "ref": "8.7",
+      "heading": "Delay Damages cap",
+      "text": "capped at 10% of the Accepted Contract Amount.",
+      "term": "delay_damages_cap_rate",
+      "value": 0.1,
+      "unit": "fraction of the Accepted Contract Amount"
+    },
+    {
+      "ref": "11.1",
+      "heading": "Defects Notification Period",
+      "text": "365 days from Taking-Over.",
+      "term": "defects_notification_days",
+      "value": 365,
+      "unit": "days"
+    },
+    {
+      "ref": "14.3",
+      "heading": "Retention",
+      "text": "5% of each Interim Payment Certificate, released 50% at Taking-Over and 50% at the end of the Defects Notification Period.",
+      "term": "retention_rate",
+      "value": 0.05,
+      "unit": "fraction of each Interim Payment Certificate"
+    },
+    {
+      "ref": "14.3",
+      "heading": "Retention release at Taking-Over",
+      "text": "released 50% at Taking-Over",
+      "term": "retention_release_first_share",
+      "value": 0.5,
+      "unit": "fraction of the retention held"
+    },
+    {
+      "ref": "4.2",
+      "heading": "Performance Security",
+      "text": "10% of the Accepted Contract Amount.",
+      "term": "performance_security_rate",
+      "value": 0.1,
+      "unit": "fraction of the Accepted Contract Amount"
+    }
+  ]
+}

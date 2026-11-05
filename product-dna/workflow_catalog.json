@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "workflows": [
+    {
+      "description": "Default linear workflow over planned capabilities.",
+      "name": "Capability sequence",
+      "steps": [
+        {
+          "capability_id": "progress_claims",
+          "role": "execute"
+        },
+        {
+          "capability_id": "delay_damages_tracking",
+          "role": "execute"
+        },
+        {
+          "capability_id": "qa_itp_records",
+          "role": "execute"
+        },
+        {
+          "capability_id": "document_register",
+          "role": "execute"
+        },
+        {
+          "capability_id": "retention_defects_release",
+          "role": "execute"
+        },
+        {
+          "capability_id": "contract_verification_gate",
+          "role": "execute"
+        }
+      ],
+      "workflow_id": "product.capability_sequence"
+    }
+  ]
+}

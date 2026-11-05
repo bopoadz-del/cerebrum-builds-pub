@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.contract_verification_gate"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "contract_verification_gate"
+      },
+      {
+        "type": "capability",
+        "value": "contract_verification_gate"
+      }
+    ]
+  },
+  "agent_id": "product.hat.contract_verification_gate",
+  "allowed_actions": [
+    "product.contract_verification_gate"
+  ],
+  "block_ids": [
+    "evidence_or_refuse",
+    "governance_gate",
+    "audit_chain"
+  ],
+  "discipline": "contract_verification_gate",
+  "display_name": "Harbourline Civil Works Contracts Administration Platform Contract Verification Gate Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'contract_verification_gate' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "contract_verification_gate"
+  ]
+}

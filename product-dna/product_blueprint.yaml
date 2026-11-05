@@ -1,0 +1,98 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Harbourline Civil Works Contracts Administration Platform
+vertical: product
+summary: A contracts-administration platform for the Harbourline Civil Works project
+  that ingests the contract excerpt and BOQ as the source of record to manage progress
+  claims, delay-damages tracking, QA/ITP records, and the document register. It serves
+  the project's contract administrators, quantity surveyors, and QA engineers by tying
+  every certificate, claim, and record back to the governing contract clauses (document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf)
+  and priced BOQ items (do
+capabilities:
+- id: progress_claims
+  description: Build and certify Interim Payment Certificates against BOQ measured
+    quantities (document:d11a8fb09f114c4fb978033045b976c7_harbourline_boq.xlsx), applying
+    the 5% retention under Clause 14.3 and the 10% performance security under Clause
+    4.2 (document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contra
+  block_ids:
+  - boq_processor
+  - finance_reconciliation
+  - finance_reconciliation_workflow
+  - approval_rules
+  - pdf
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: delay_damages_tracking
+  description: Track Time for Completion against the 730-day limit (Clause 8.2) and
+    compute delay damages at 0.1% of the Accepted Contract Amount per day, capped
+    at 10% (Clause 8.7) from document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf.
+  block_ids:
+  - formula_executor
+  - cpm_engine
+  - validation
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: qa_itp_records
+  description: Capture and track Inspection and Test Plan records, hold points, and
+    signed-off ITP sheets as evidence tied to the works in the BOQ (document:d11a8fb09f114c4fb978033045b976c7_harbourline_boq.xlsx).
+  block_ids:
+  - document_engine
+  - evidence_chain
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: document_register
+  description: Maintain a controlled register of contract, BOQ, drawings, and correspondence
+    with versioning and provenance, sourcing the contract excerpt and BOQ as the record
+    set (document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf, document:d11a8fb09f114c4fb978033045b976c7_harbourline_boq.xlsx).
+  block_ids:
+  - document_engine
+  - file_hasher
+  - ingestion_provenance
+  - version
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: retention_defects_release
+  description: Schedule retention releases -- 50% at Taking-Over and 50% at end of
+    the 365-day Defects Notification Period -- and the performance-security obligation,
+    per Clauses 14.3 and 11.1 of document:e8ed082091b444d2ba20f217fd13d15a_harbourline_contract.pdf.
+  block_ids:
+  - finance_planning
+  - transaction_state_machine
+  - notification
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: contract_verification_gate
+  description: Refuse or flag any claim, certificate, or record that cannot be grounded
+    in a governing clause or BOQ item from the uploaded contract and BOQ, citing the
+    exact document or clause.
+  block_ids:
+  - evidence_or_refuse
+  - governance_gate
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors: []
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

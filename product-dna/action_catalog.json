@@ -1,0 +1,62 @@
+{
+  "actions": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation",
+        "finance_reconciliation_workflow",
+        "approval_rules",
+        "pdf"
+      ],
+      "capability_id": "progress_claims",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "cpm_engine",
+        "validation"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "evidence_chain",
+        "audit"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "file_hasher",
+        "ingestion_provenance",
+        "version"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_planning",
+        "transaction_state_machine",
+        "notification"
+      ],
+      "capability_id": "retention_defects_release",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "evidence_or_refuse",
+        "governance_gate",
+        "audit_chain"
+      ],
+      "capability_id": "contract_verification_gate",
+      "strategy": "REUSE"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

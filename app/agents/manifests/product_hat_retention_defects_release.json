@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.retention_defects_release"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "retention_defects_release"
+      },
+      {
+        "type": "capability",
+        "value": "retention_defects_release"
+      }
+    ]
+  },
+  "agent_id": "product.hat.retention_defects_release",
+  "allowed_actions": [
+    "product.retention_defects_release"
+  ],
+  "block_ids": [
+    "finance_planning",
+    "transaction_state_machine",
+    "notification"
+  ],
+  "discipline": "retention_defects_release",
+  "display_name": "Harbourline Civil Works Contracts Administration Platform Retention Defects Release Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'retention_defects_release' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "retention_defects_release"
+  ]
+}

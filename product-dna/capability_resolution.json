@@ -1,0 +1,92 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation",
+        "finance_reconciliation_workflow",
+        "approval_rules",
+        "pdf"
+      ],
+      "capability_id": "progress_claims",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "cpm_engine",
+        "validation"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "evidence_chain",
+        "audit"
+      ],
+      "capability_id": "qa_itp_records",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "file_hasher",
+        "ingestion_provenance",
+        "version"
+      ],
+      "capability_id": "document_register",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_planning",
+        "transaction_state_machine",
+        "notification"
+      ],
+      "capability_id": "retention_defects_release",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "evidence_or_refuse",
+        "governance_gate",
+        "audit_chain"
+      ],
+      "capability_id": "contract_verification_gate",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "approval_rules",
+    "audit",
+    "audit_chain",
+    "boq_processor",
+    "cpm_engine",
+    "document_engine",
+    "evidence_chain",
+    "evidence_or_refuse",
+    "file_hasher",
+    "finance_planning",
+    "finance_reconciliation",
+    "finance_reconciliation_workflow",
+    "formula_executor",
+    "governance_gate",
+    "ingestion_provenance",
+    "notification",
+    "pdf",
+    "transaction_state_machine",
+    "validation",
+    "version"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

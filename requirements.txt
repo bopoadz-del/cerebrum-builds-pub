@@ -1,0 +1,27 @@
+# Runtime dependencies for the Harbourline contracts-administration platform.
+#
+# No version is repeated here: constraints.txt is the single pin table (the
+# Factory renders it, including fastapi, starlette, uvicorn, pydantic,
+# sqlalchemy, alembic, psycopg and psycopg-binary) and is applied with -c:
+#
+#   pip install -c constraints.txt -r requirements.txt
+#
+# Test-only tooling (pytest, httpx) is pinned there too but is not installed
+# into the runtime image, and the build runs no tests.
+
+# ASGI stack (app/main.py, app/routes.py)
+fastapi
+starlette
+uvicorn
+pydantic
+
+# Persistence: SQLAlchemy Core over alembic's versioned schema
+sqlalchemy
+alembic
+
+# Postgres driver, used only when DATABASE_URL names a postgres:// database;
+# the extra installs the binary wheel so no libpq or compiler is needed here.
+psycopg[binary]
+
+# The pdf block reads back the certificate it is handed (progress_claims).
+pypdf

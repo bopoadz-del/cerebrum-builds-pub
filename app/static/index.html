@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Harbourline Civil Works — Contracts Administration Console</title>
+<style>
+:root{--ink:#0d1b26;--ink2:#3c5266;--line:#d9e1e9;--bg:#f3f5f8;--card:#ffffff;--navy:#0f2738;--navy2:#17405b;--gold:#b7791f;--good:#1f6b46;--bad:#a52a2a;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1,h2,h3{margin:0;font-weight:600}
+h1{font-size:17px;letter-spacing:.2px}
+h2{font-size:18px;margin-bottom:4px}
+h3{font-size:15px;margin-bottom:8px}
+p{margin:0 0 8px}
+.bar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;background:var(--navy);color:#eef3f7;padding:14px 22px;border-bottom:3px solid var(--gold)}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:1px;border:1px solid rgba(255,255,255,.45);padding:8px 10px;border-radius:3px}
+.brand-text p{margin:2px 0 0;color:#a9c1d2;font-size:12px;letter-spacing:.4px;text-transform:uppercase}
+.token{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.token label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#a9c1d2}
+input,select,button,textarea{font:inherit;color:var(--ink)}
+input,select{padding:6px 8px;border:1px solid var(--line);border-radius:3px;background:#fff;min-width:150px}
+input[type=checkbox]{min-width:0;width:16px;height:16px;margin-top:6px}
+button{padding:6px 12px;border:1px solid var(--navy2);background:var(--navy2);color:#fff;border-radius:3px;cursor:pointer;font-size:13px}
+button:hover{background:#1d5174}
+button.ghost{background:transparent;color:var(--navy2);border-color:#bfd0dd}
+button.ghost:hover{background:#e8eef4}
+.token input{background:#10324a;border-color:#2a5675;color:#eef3f7;min-width:220px}
+.token button.ghost{color:#cfe0ec;border-color:#3c6683}
+.notice{margin:14px 22px 0;padding:10px 14px;border:1px solid #cfe0ec;border-left:4px solid var(--navy2);background:#eaf1f7;border-radius:3px}
+.notice.warn{border-left-color:var(--gold);background:#fbf3e4}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;margin:16px 22px 0;border-bottom:1px solid var(--line)}
+.tab{background:transparent;border:1px solid transparent;border-bottom:none;color:var(--ink2);border-radius:3px 3px 0 0;padding:8px 14px}
+.tab:hover{background:#e7edf3;color:var(--ink)}
+.tab.on{background:var(--card);border-color:var(--line);color:var(--navy);font-weight:600;margin-bottom:-1px}
+main{display:block;padding:16px 22px 32px;max-width:1280px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(15,39,56,.06)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px}
+.cap-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;margin-bottom:14px}
+.summary{color:var(--ink2);max-width:70ch;margin:6px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{font-size:12px;padding:2px 7px;border:1px solid var(--line);border-radius:10px;background:#eef2f6;color:var(--ink2)}
+.badge{display:inline-block;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:10px;background:#eef2f6;color:var(--ink2)}
+.badge.good{background:#e6f2ea;border-color:#bcdcc8;color:var(--good)}
+.badge.bad{background:#f8e8e8;border-color:#e2bcbc;color:var(--bad)}
+.mono{font-family:var(--mono)}
+.small{font-size:12px}
+.hint{color:var(--ink2);font-size:12px;margin:4px 0}
+.hint.warn{color:#8a5a12;font-weight:600}
+.error{color:var(--bad);font-weight:600;margin:6px 0}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 14px;margin:8px 0 14px}
+.field label{display:flex;flex-direction:column;gap:1px;margin-bottom:4px}
+.field .ftype{font-size:11px;color:#5d7387}
+.field input,.field select{width:100%}
+.actions{display:flex;gap:8px}
+.inline{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#eef2f6;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink2);white-space:nowrap}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:3px}
+pre{background:#0f2738;color:#e6eef5;padding:12px;border-radius:3px;font-size:12px;line-height:1.45;overflow:auto;margin:6px 0 0}
+pre.scroll{max-height:360px}
+details{margin-top:8px}
+summary{cursor:pointer;font-size:13px;color:var(--navy2);font-weight:600;margin-bottom:4px}
+.kernel-block{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.kernel-block:first-of-type{border-top:none;margin-top:8px;padding-top:0}
+.foot{padding:14px 22px 28px;color:#5d7387;font-size:12px;max-width:1280px}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="brand">
+    <div class="mark">HCW</div>
+    <div class="brand-text">
+      <h1>Harbourline Civil Works</h1>
+      <p>Contracts administration console</p>
+    </div>
+  </div>
+  <form class="token" data-role="token">
+    <div>
+      <label for="token">Platform token</label>
+      <input id="token" name="token" type="password" autocomplete="off" spellcheck="false" placeholder="paste platform token">
+    </div>
+    <button type="submit">Use token</button>
+    <button type="button" class="ghost" data-token-clear>Clear</button>
+  </form>
+</header>
+<div id="notice" class="notice" hidden></div>
+<nav id="tabs" class="tabs" aria-label="Console sections"></nav>
+<main id="panel"></main>
+<footer class="foot">
+  Every answer is shown with the authority label the platform returned. The token is held in this browser session
+  only (sessionStorage) and is sent as a bearer principal on each <span class="mono">/v1</span> call.
+</footer>
+<script>
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'harbourline.console.token';
+  // The three capabilities this console drives end to end are pinned first;
+  // any further capability the platform declares is listed after them.
+  var CAP_PREFERENCE = ['progress_claims', 'delay_damages_tracking', 'retention_defects_release'];
+
+  var state = {
+    token: '',
+    capabilities: [],
+    capsAnswer: null,
+    active: 'capabilities',
+    kernel: { jobs: null, provenance: null, gates: null }
+  };
+  var capState = {};
+
+  function capSlot(id) {
+    if (!capState[id]) {
+      capState[id] = { answer: null, request: null, list: null, read: null, busy: { post: false, list: false, read: false } };
+    }
+    return capState[id];
+  }
+
+  function esc(value) {
+    return String(value === null || value === undefined ? '' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function json(value) {
+    return esc(JSON.stringify(value === undefined ? null : value, null, 2));
+  }
+
+  async function api(path, options) {
+    options = options || {};
+    var headers = { Accept: 'application/json' };
+    if (options.body !== undefined) { headers['Content-Type'] = 'application/json'; }
+    if (state.token) { headers.Authorization = 'Bearer ' + state.token; }
+    try {
+      var response = await fetch(path, {
+        method: options.method || 'GET',
+        headers: headers,
+        body: options.body === undefined ? undefined : JSON.stringify(options.body)
+      });
+      var text = await response.text();
+      var body;
+      try {
+        body = text ? JSON.parse(text) : { ok: false, error: 'empty response body' };
+      } catch (parseError) {
+        body = { ok: false, error: 'non-JSON response: ' + text.slice(0, 200) };
+      }
+      return { status: response.status, ok: response.ok, body: body };
+    } catch (networkError) {
+      return {
+        status: 0,
+        ok: false,
+        body: { ok: false, error: 'network error: ' + String((networkError && networkError.message) || networkError) }
+      };
+    }
+  }
+
+  function isOk(result) {
+    var body = result.body || {};
+    if (body.ok === false) { return false; }
+    if (body.ok === true) { return true; }
+    return result.status >= 200 && result.status < 300;
+  }
+
+  function authorityOf(body) {
+    if (body && body.result && body.result.authority && body.result.authority.label) { return body.result.authority.label; }
+    if (body && body.authority && body.authority.label) { return body.authority.label; }
+    return null;
+  }
+
+  function statusBadges(result, authorityFallback) {
+    var body = result.body || {};
+    var good = isOk(result);
+    var label = authorityOf(body) || authorityFallback || 'not stated by this route';
+    var html = '<span class="badge ' + (good ? 'good' : 'bad') + '">HTTP ' + esc(result.status) + '</span>';
+    html += '<span class="badge ' + (good ? 'good' : 'bad') + '">ok:' + (good ? 'true' : 'false') + '</span>';
+    html += '<span class="badge mono">authority: ' + esc(label) + '</span>';
+    if (body.id !== undefined && body.id !== null) {
+      html += '<span class="badge mono">record id ' + esc(body.id) + '</span>';
+    }
+    return html;
+  }
+
+  function errorBlock(result) {
+    if (isOk(result)) { return ''; }
+    var body = result.body || {};
+    var message = body.error || body.detail || ('HTTP ' + result.status);
+    var html = '<p class="error">ok:false &middot; ' + esc(message) + '</p>';
+    if (body.rejected_field) {
+      html += '<p class="hint">rejected field <span class="mono">' + esc(body.rejected_field) + '</span>';
+      if (body.allowed_values && body.allowed_values.length) {
+        html += ' &middot; allowed: <span class="mono">' + esc(body.allowed_values.join(', ')) + '</span>';
+      }
+      html += '</p>';
+    }
+    if (result.status === 401) {
+      html += '<p class="hint warn">set the platform token in the header, then press Use token.</p>';
+    }
+    return html;
+  }
+
+  function findCapability(id) {
+    for (var i = 0; i < state.capabilities.length; i += 1) {
+      if (state.capabilities[i].id === id) { return state.capabilities[i]; }
+    }
+    return null;
+  }
+
+  function orderedCapabilities() {
+    return state.capabilities.slice().sort(function (a, b) {
+      var rankA = CAP_PREFERENCE.indexOf(a.id);
+      var rankB = CAP_PREFERENCE.indexOf(b.id);
+      rankA = rankA === -1 ? CAP_PREFERENCE.length : rankA;
+      rankB = rankB === -1 ? CAP_PREFERENCE.length : rankB;
+      return rankA - rankB;
+    });
+  }
+
+  function rangeText(field) {
+    var min = field.min === undefined || field.min === null ? null : field.min;
+    var max = field.max === undefined || field.max === null ? null : field.max;
+    if (min === null && max === null) { return ''; }
+    if (min !== null && max !== null) { return 'min ' + min + ', max ' + max; }
+    return min !== null ? 'min ' + min : 'max ' + max;
+  }
+
+  function metaText(field) {
+    var parts = [field.type || 'str'];
+    parts.push(field.required ? 'required' : 'optional');
+    var range = rangeText(field);
+    if (range) { parts.push(range); }
+    if (field.allowed_values && field.allowed_values.length) {
+      parts.push('one of ' + field.allowed_values.join('|'));
+    }
+    return parts.join(' \u00b7 ');
+  }
+
+  function fieldControl(field) {
+    var id = 'f-' + field.name;
+    var allowed = field.allowed_values || [];
+    var required = field.required ? ' required' : '';
+    var control;
+    if (allowed.length) {
+      control = '<select id="' + esc(id) + '" name="' + esc(field.name) + '"' + required + '>' +
+        '<option value="">(unset)</option>' +
+        allowed.map(function (value) {
+          return '<option value="' + esc(value) + '">' + esc(value) + '</option>';
+        }).join('') + '</select>';
+    } else if (field.type === 'bool') {
+      control = '<input id="' + esc(id) + '" name="' + esc(field.name) + '" type="checkbox">';
+    } else if (field.type === 'int' || field.type === 'float') {
+      control = '<input id="' + esc(id) + '" name="' + esc(field.name) + '" type="number" step="' +
+        (field.type === 'int' ? '1' : 'any') + '"' +
+        (field.min !== undefined && field.min !== null ? ' min="' + esc(field.min) + '"' : '') +
+        (field.max !== undefined && field.max !== null ? ' max="' + esc(field.max) + '"' : '') +
+        required + '>';
+    } else if (field.type === 'date') {
+      control = '<input id="' + esc(id) + '" name="' + esc(field.name) + '" type="date"' + required + '>';
+    } else {
+      control = '<input id="' + esc(id) + '" name="' + esc(field.name) + '" type="text"' + required + '>';
+    }
+    return '<div class="field"><label for="' + esc(id) + '"><span class="mono">' + esc(field.name) +
+      '</span><span class="ftype">' + esc(metaText(field)) + '</span></label>' + control + '</div>';
+  }
+
+  function fieldRow(field) {
+    var allowed = (field.allowed_values || []).join(', ') || '\u2014';
+    return '<tr><td class="mono">' + esc(field.name) + '</td><td>' + esc(field.type || 'str') + '</td>' +
+      '<td>' + (field.required ? 'yes' : 'no') + '</td><td class="mono">' + esc(allowed) + '</td>' +
+      '<td>' + esc(rangeText(field) || '\u2014') + '</td></tr>';
+  }
+
+  function fieldsTable(fields) {
+    if (!fields.length) { return '<p class="hint">No fields declared.</p>'; }
+    return '<div class="table-wrap"><table><thead><tr><th>field</th><th>type</th><th>required</th>' +
+      '<th>allowed values</th><th>range</th></tr></thead><tbody>' +
+      fields.map(fieldRow).join('') + '</tbody></table></div>';
+  }
+
+  function capabilityCardHtml(cap) {
+    var fields = cap.fields || [];
+    return '<div class="kernel-block"><h3>' + esc(cap.title) + '</h3>' +
+      '<p class="mono small">' + esc(cap.id) + (cap.entity ? ' &middot; entity ' + esc(cap.entity) : '') + '</p>' +
+      '<p class="summary">' + esc(cap.summary) + '</p>' +
+      '<div class="chips">' + (cap.blocks || []).map(function (block) {
+        return '<span class="chip mono">' + esc(block) + '</span>';
+      }).join('') + '</div>' + fieldsTable(fields) + '</div>';
+  }
+
+  function capabilitiesHtml() {
+    var result = state.capsAnswer;
+    var html = '<section class="card"><h2>Capabilities</h2>' +
+      '<p class="hint">GET <span class="mono">/v1/capabilities</span> ' +
+      '<button type="button" class="ghost" data-reload-caps>Reload</button></p>';
+    if (!result) { return html + '<p class="hint">Loading capabilities\u2026</p></section>'; }
+    html += '<div class="chips">' + statusBadges(result, 'platform declaration') + '</div>' + errorBlock(result);
+    var items = (result.body && result.body.items) || [];
+    if (items.length) {
+      html += items.map(capabilityCardHtml).join('');
+      html += '<p class="hint">' + esc(items.length) + ' capability(ies) declared by the platform.</p>';
+    } else if (result.body && result.body.ok) {
+      html += '<p class="hint">The platform declared no capabilities.</p>';
+    }
+    return html + '</section>';
+  }
+
+  function capabilityHtml(cap) {
+    var fields = cap.fields || [];
+    var id = esc(cap.id);
+    return '<div class="cap-head"><div><h2>' + esc(cap.title) + '</h2>' +
+      '<p class="mono small">' + id + ' &middot; entity ' + esc(cap.entity || cap.id) + '</p>' +
+      '<p class="summary">' + esc(cap.summary) + '</p></div>' +
+      '<div class="chips">' + (cap.blocks || []).map(function (block) {
+        return '<span class="chip mono">' + esc(block) + '</span>';
+      }).join('') + '</div></div>' +
+      '<div class="grid2">' +
+      '<section class="card"><h3>Declared fields</h3>' + fieldsTable(fields) + '</section>' +
+      '<section class="card"><h3>New record</h3><p class="hint">POST <span class="mono">/v1/' + id +
+      '</span> &middot; the body is built from the declared fields.</p>' +
+      '<form data-role="create" data-cap="' + id + '"><div class="fields">' +
+      fields.map(fieldControl).join('') + '</div>' +
+      '<div class="actions"><button type="submit">Submit record</button>' +
+      '<button type="reset" class="ghost">Reset</button></div></form></section></div>' +
+      '<section class="card" id="answer-' + id + '"></section>' +
+      '<section class="card" id="records-' + id + '"></section>' +
+      '<section class="card"><h3>Read one <span class="hint mono">GET /v1/' + id + '/{record_id}</span></h3>' +
+      '<form class="inline" data-role="read" data-cap="' + id + '">' +
+      '<div><label class="hint" for="read-' + id + '">record id</label>' +
+      '<input id="read-' + id + '" name="record_id" type="number" min="1" step="1" placeholder="1" required></div>' +
+      '<button type="submit">GET record</button></form>' +
+      '<div id="read-out-' + id + '"><p class="hint">No read yet.</p></div></section>';
+  }
+
+  function collectForm(form, fields) {
+    var body = {};
+    fields.forEach(function (field) {
+      var element = form.elements && form.elements.namedItem ? form.elements.namedItem(field.name) : null;
+      if (!element) { return; }
+      if (field.type === 'bool') { body[field.name] = !!element.checked; return; }
+      var raw = element.value;
+      if (raw === '' || raw === null || raw === undefined) { body[field.name] = null; return; }
+      if (field.type === 'int') { body[field.name] = parseInt(raw, 10); return; }
+      if (field.type === 'float') { body[field.name] = Number(raw); return; }
+      body[field.name] = raw;
+    });
+    return body;
+  }
+
+  function renderAnswer(id) {
+    var box = document.getElementById('answer-' + id);
+    if (!box) { return; }
+    var slot = capSlot(id);
+    var html = '<h3>Answer <span class="hint mono">POST /v1/' + esc(id) + '</span></h3>';
+    if (slot.busy.post) { box.innerHTML = html + '<p class="hint">Posting\u2026</p>'; return; }
+    if (!slot.answer) {
+      box.innerHTML = html + '<p class="hint">No submission yet. Fill the form and submit the record.</p>';
+      return;
+    }
+    var result = slot.answer;
+    var body = result.body || {};
+    html += '<div class="chips">' + statusBadges(result) + '</div>' + errorBlock(result);
+    if (isOk(result)) {
+      html += '<p class="hint">entity <span class="mono">' + esc(body.entity || id) + '</span> &middot; created record ' +
+        '<span class="mono">#' + esc(body.id) + '</span></p>';
+    }
+    if (slot.request) {
+      html += '<details><summary>Request body</summary><pre class="scroll">' + json(slot.request) + '</pre></details>';
+    }
+    if (body.result !== undefined && body.result !== null) {
+      html += '<details open><summary>Computed result</summary><pre class="scroll">' + json(body.result) + '</pre></details>';
+    }
+    if (body.record !== undefined && body.record !== null) {
+      html += '<details><summary>Stored record</summary><pre class="scroll">' + json(body.record) + '</pre></details>';
+    }
+    if (!isOk(result)) {
+      html += '<details open><summary>Refusal as data</summary><pre class="scroll">' + json(body) + '</pre></details>';
+    }
+    box.innerHTML = html;
+  }
+
+  function columnsOf(items) {
+    var seen = {};
+    var columns = [];
+    items.forEach(function (item) {
+      Object.keys(item || {}).forEach(function (key) {
+        if (!seen[key]) { seen[key] = true; columns.push(key); }
+      });
+    });
+    return columns;
+  }
+
+  function formatCell(value) {
+    if (value === null || value === undefined) { return '\u2014'; }
+    if (typeof value === 'object') { return JSON.stringify(value); }
+    return String(value);
+  }
+
+  function renderRecords(id) {
+    var box = document.getElementById('records-' + id);
+    if (!box) { return; }
+    var slot = capSlot(id);
+    var html = '<h3>Records <span class="hint mono">GET /v1/' + esc(id) + '</span> ' +
+      '<button type="button" class="ghost" data-refresh-list="' + esc(id) + '">Refresh</button></h3>';
+    if (slot.busy.list) { box.innerHTML = html + '<p class="hint">Loading records\u2026</p>'; return; }
+    if (!slot.list) { box.innerHTML = html + '<p class="hint">No list loaded yet.</p>'; return; }
+    var result = slot.list;
+    html += '<div class="chips">' + statusBadges(result, 'record store') + '</div>' + errorBlock(result);
+    var items = (result.body && result.body.items) || [];
+    if (items.length) {
+      var columns = columnsOf(items);
+      html += '<div class="table-wrap"><table><thead><tr>' + columns.map(function (column) {
+        return '<th>' + esc(column) + '</th>';
+      }).join('') + '<th>read</th></tr></thead><tbody>' + items.map(function (row) {
+        return '<tr>' + columns.map(function (column) {
+          return '<td' + (column === 'id' ? ' class="mono"' : '') + '>' + esc(formatCell(row[column])) + '</td>';
+        }).join('') + '<td><button type="button" class="ghost mono" data-read-id="' + esc(row.id) +
+          '" data-cap="' + esc(id) + '">GET ' + esc(row.id) + '</button></td></tr>';
+      }).join('') + '</tbody></table></div>';
+      html += '<p class="hint">total <span class="mono">' + esc(result.body.total !== undefined ? result.body.total : items.length) +
+        '</span> &middot; showing ' + esc(items.length) + '</p>';
+    } else if (result.body && result.body.ok) {
+      html += '<p class="hint">No records yet for this tenant.</p>';
+    }
+    box.innerHTML = html;
+  }
+
+  function renderRead(id) {
+    var box = document.getElementById('read-out-' + id);
+    if (!box) { return; }
+    var slot = capSlot(id);
+    if (slot.busy.read) { box.innerHTML = '<p class="hint">Reading\u2026</p>'; return; }
+    if (!slot.read) { box.innerHTML = '<p class="hint">No read yet.</p>'; return; }
+    var result = slot.read.result;
+    var html = '<div class="chips">' + statusBadges(result, 'record store') + '</div>' + errorBlock(result);
+    html += '<details open><summary>Answer for id ' + esc(slot.read.id) + '</summary><pre class="scroll">' +
+      json(result.body) + '</pre></details>';
+    box.innerHTML = html;
+  }
+
+  function render() {
+    renderTabs();
+    var panel = document.getElementById('panel');
+    if (!panel) { return; }
+    if (state.active === 'capabilities') { panel.innerHTML = capabilitiesHtml(); return; }
+    if (state.active === 'kernel') { panel.innerHTML = kernelHtml(); return; }
+    var cap = findCapability(state.active);
+    if (!cap) {
+      panel.innerHTML = '<section class="card"><p class="error">ok:false &middot; unknown capability ' +
+        esc(state.active) + '</p></section>';
+      return;
+    }
+    panel.innerHTML = capabilityHtml(cap);
+    renderAnswer(cap.id);
+    renderRecords(cap.id);
+    renderRead(cap.id);
+    if (!capState[cap.id] || !capState[cap.id].list) { void loadRecords(cap.id); }
+  }
+
+  function renderTabs() {
+    var tabs = [{ id: 'capabilities', title: 'Capabilities' }].concat(orderedCapabilities());
+    tabs.push({ id: 'kernel', title: 'Kernel' });
+    var nav = document.getElementById('tabs');
+    if (!nav) { return; }
+    nav.innerHTML = tabs.map(function (tab) {
+      return '<button type="button" class="tab' + (state.active === tab.id ? ' on' : '') +
+        '" data-tab="' + esc(tab.id) + '">' + esc(tab.title) + '</button>';
+    }).join('');
+  }
+
+  function kernelBlock(key, title, route) {
+    var result = state.kernel[key];
+    var html = '<div class="kernel-block"><h3>' + esc(title) +
+      ' <span class="hint mono">' + esc(route) + '</span></h3>';
+    if (!result) { return html + '<p class="hint">Loading\u2026</p></div>'; }
+    var body = result.body || {};
+    html += '<div class="chips">' + statusBadges(result, 'kernel route') +
+      (body.kernel ? '<span class="badge mono">kernel: ' + esc(body.kernel) + '</span>' : '') + '</div>';
+    html += errorBlock(result);
+    if (key === 'jobs' && body.jobs) {
+      html += '<div class="table-wrap"><table><thead><tr><th>kernel</th><th>title</th><th>mandate</th>' +
+        '<th>http routes</th><th>agent</th></tr></thead><tbody>' + body.jobs.map(function (job) {
+          return '<tr><td class="mono">' + esc(job.kernel) + '</td><td>' + esc(job.title) + '</td><td>' +
+            esc(job.mandate) + '</td><td class="mono">' + esc((job.http_routes || []).join(', ')) + '</td><td class="mono">' +
+            esc(job.agent) + '</td></tr>';
+        }).join('') + '</tbody></table></div>';
+    }
+    html += '<details' + (key === 'gates' ? ' open' : '') + '><summary>Raw answer</summary><pre class="scroll">' +
+      json(body) + '</pre></details></div>';
+    return html;
+  }
+
+  function kernelHtml() {
+    return '<section class="card"><h2>Kernel</h2>' +
+      '<p class="hint">GET <span class="mono">/v1/jobs</span>, <span class="mono">/v1/provenance</span>, ' +
+      '<span class="mono">/v1/gates</span> <button type="button" class="ghost" data-kernel-reload>Reload kernel</button></p>' +
+      kernelBlock('jobs', 'Jobs', 'GET /v1/jobs') +
+      kernelBlock('provenance', 'Provenance', 'GET /v1/provenance') +
+      kernelBlock('gates', 'Gates', 'GET /v1/gates') + '</section>';
+  }
+
+  async function loadKernel() {
+    state.kernel = { jobs: null, provenance: null, gates: null };
+    if (state.active === 'kernel') { render(); }
+    var paths = [['jobs', '/v1/jobs'], ['provenance', '/v1/provenance'], ['gates', '/v1/gates']];
+    var answers = await Promise.all(paths.map(function (pair) { return api(pair[1]); }));
+    paths.forEach(function (pair, index) { state.kernel[pair[0]] = answers[index]; });
+    if (state.active === 'kernel') { render(); }
+  }
+
+  async function loadCapabilities() {
+    var result = await api('/v1/capabilities');
+    state.capsAnswer = result;
+    if (result.body && result.body.ok && Array.isArray(result.body.items)) {
+      state.capabilities = result.body.items;
+    }
+    if (state.active !== 'capabilities' && state.active !== 'kernel' && !findCapability(state.active)) {
+      state.active = 'capabilities';
+    }
+    render();
+  }
+
+  async function loadRecords(id) {
+    var slot = capSlot(id);
+    slot.busy.list = true;
+    renderRecords(id);
+    var result = await api('/v1/' + encodeURIComponent(id));
+    slot.list = result;
+    slot.busy.list = false;
+    renderRecords(id);
+  }
+
+  async function submitCreate(form) {
+    var id = form.getAttribute('data-cap');
+    var cap = findCapability(id);
+    if (!cap) { return; }
+    var slot = capSlot(id);
+    var body = collectForm(form, cap.fields || []);
+    slot.busy.post = true;
+    slot.request = body;
+    renderAnswer(id);
+    var result = await api('/v1/' + encodeURIComponent(id), { method: 'POST', body: body });
+    slot.answer = result;
+    slot.busy.post = false;
+    renderAnswer(id);
+    if (isOk(result)) { void loadRecords(id); }
+  }
+
+  async function readOne(id, recordId) {
+    var slot = capSlot(id);
+    var value = String(recordId === undefined || recordId === null ? '' : recordId).trim();
+    if (!value) {
+      slot.read = { id: '(none)', result: { status: 0, ok: false, body: { ok: false, error: 'a record id is required' } } };
+      renderRead(id);
+      return;
+    }
+    slot.busy.read = true;
+    renderRead(id);
+    var result = await api('/v1/' + encodeURIComponent(id) + '/' + encodeURIComponent(value));
+    slot.read = { id: value, result: result };
+    slot.busy.read = false;
+    renderRead(id);
+  }
+
+  function setReadInput(id, recordId) {
+    var input = document.getElementById('read-' + id);
+    if (input) { input.value = String(recordId); }
+  }
+
+  function setNotice(text, warn) {
+    var box = document.getElementById('notice');
+    if (!box) { return; }
+    if (!text) {
+      box.hidden = true;
+      box.textContent = '';
+      box.className = 'notice';
+      return;
+    }
+    box.hidden = false;
+    box.className = 'notice' + (warn ? ' warn' : '');
+    box.textContent = text;
+  }
+
+  function applyToken() {
+    var input = document.getElementById('token');
+    state.token = input && input.value ? input.value.trim() : '';
+    try {
+      if (state.token) { sessionStorage.setItem(STORAGE_KEY, state.token); }
+      else { sessionStorage.removeItem(STORAGE_KEY); }
+    } catch (storageError) {
+      // sessionStorage can be unavailable; the token then lives for this page only.
+    }
+    capState = {};
+    state.kernel = { jobs: null, provenance: null, gates: null };
+    setNotice(
+      state.token
+        ? 'Platform token applied for this browser session.'
+        : 'No platform token set. Set the platform token in the header; every /v1 call is refused with 401 until you do.',
+      !state.token
+    );
+    render();
+    if (state.active === 'kernel') { void loadKernel(); }
+    void loadCapabilities();
+  }
+
+  function closestAttr(event, attribute) {
+    var node = event && event.target;
+    while (node && node !== document) {
+      if (node.hasAttribute && node.hasAttribute(attribute)) { return node; }
+      node = node.parentNode;
+    }
+    return null;
+  }
+
+  function switchTab(tabId) {
+    if (!tabId || state.active === tabId) { return; }
+    state.active = tabId;
+    render();
+    if (tabId === 'kernel' && !state.kernel.jobs) { void loadKernel(); }
+  }
+
+  function init() {
+    try { state.token = sessionStorage.getItem(STORAGE_KEY) || ''; } catch (readError) { state.token = ''; }
+    var input = document.getElementById('token');
+    if (input) { input.value = state.token; }
+    if (!state.token) {
+      setNotice('No platform token set. Set the platform token in the header; every /v1 call is refused with 401 until you do.', true);
+    }
+    document.addEventListener('click', function (event) {
+      var tab = closestAttr(event, 'data-tab');
+      if (tab) { switchTab(tab.getAttribute('data-tab')); return; }
+      if (closestAttr(event, 'data-reload-caps')) { void loadCapabilities(); return; }
+      if (closestAttr(event, 'data-kernel-reload')) { void loadKernel(); return; }
+      if (closestAttr(event, 'data-token-clear')) {
+        var tokenInput = document.getElementById('token');
+        if (tokenInput) { tokenInput.value = ''; }
+        applyToken();
+        return;
+      }
+      var refresh = closestAttr(event, 'data-refresh-list');
+      if (refresh) { void loadRecords(refresh.getAttribute('data-refresh-list')); return; }
+      var reader = closestAttr(event, 'data-read-id');
+      if (reader) {
+        var capId = reader.getAttribute('data-cap');
+        var recordId = reader.getAttribute('data-read-id');
+        setReadInput(capId, recordId);
+        void readOne(capId, recordId);
+      }
+    });
+    document.addEventListener('submit', function (event) {
+      var form = event.target;
+      if (!form || !form.getAttribute) { return; }
+      var role = form.getAttribute('data-role');
+      if (!role) { return; }
+      event.preventDefault();
+      if (role === 'token') { applyToken(); return; }
+      if (role === 'create') { void submitCreate(form); return; }
+      if (role === 'read') {
+        var element = form.elements && form.elements.namedItem ? form.elements.namedItem('record_id') : null;
+        void readOne(form.getAttribute('data-cap'), element ? element.value : '');
+      }
+    });
+    render();
+    void loadCapabilities();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

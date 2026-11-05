@@ -1,0 +1,17 @@
+{
+  "document_id": "document:d11a8fb09f114c4fb978033045b976c7_harbourline_boq.xlsx",
+  "title": "Harbourline Civil Works - Bills of Quantities",
+  "sections": ["Preliminaries", "Earthworks"],
+  "items": [
+    {"item_code": "P1", "section": "Preliminaries", "description": "Site establishment & temporary facilities", "unit": "sum", "quantity": 1, "rate": 185000},
+    {"item_code": "P2", "section": "Preliminaries", "description": "Site security & fencing (6 months)", "unit": "month", "quantity": 6, "rate": 22000},
+    {"item_code": "P3", "section": "Preliminaries", "description": "Survey & setting out", "unit": "sum", "quantity": 1, "rate": 48000},
+    {"item_code": "P4", "section": "Preliminaries", "description": "Project signboard", "unit": "no", "quantity": 2, "rate": 3500},
+    {"item_code": "P5", "section": "Preliminaries", "description": "As-built documentation", "unit": "sum", "quantity": 1, "rate": 26000},
+    {"item_code": "E1", "section": "Earthworks", "description": "Bulk excavation to reduced level", "unit": "m3", "quantity": 12500, "rate": 38},
+    {"item_code": "E2", "section": "Earthworks", "description": "Disposal of surplus material off-site", "unit": "m3", "quantity": 8200, "rate": 25},
+    {"item_code": "E3", "section": "Earthworks", "description": "Imported granular fill, compacted", "unit": "m3", "quantity": 6400, "rate": 92},
+    {"item_code": "E4", "section": "Earthworks", "description": "Trench excavation for services", "unit": "m3", "quantity": 1850, "rate": 55},
+    {"item_code": "E5", "section": "Earthworks", "description": "Geotextile separation layer", "unit": "m2", "quantity": 9600, "rate": 14}
+  ]
+}

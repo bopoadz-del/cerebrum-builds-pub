@@ -1,0 +1,55 @@
+# Build context for the Harbourline platform image.
+#
+# vendor/ (the locked Store blocks), app/ (the ASGI app), alembic/ (the schema)
+# and docs/ (the uploaded contract excerpt and priced BOQ) are deliberately NOT
+# excluded: the image cannot serve without them, and app/dispatch.py refuses a
+# start when no vendor/blocks directory is on disk.
+#
+# Only local state, caches and secrets are dropped.
+
+# Python caches and bytecode
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.py[cod]
+
+# Local virtualenvs
+.venv/
+**/.venv/
+venv/
+**/venv/
+env/
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+
+# Local runtime state (STORAGE_PATH lives on a volume, never in the context).
+# Only the context-root data/ is dropped: a nested data/ directory inside a
+# vendored block or docs/ is part of the product and must travel with it.
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Secrets: the operator's .env is never baked into an image.
+# .env.example is documentation and stays in the context.
+.env
+**/.env
+
+# Build and packaging leftovers
+build/
+dist/
+*.egg-info/
+*.egg-link
+.DS_Store
