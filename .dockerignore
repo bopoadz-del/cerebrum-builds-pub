@@ -4,6 +4,7 @@ __pycache__/
 .git/
 .github/
 tests/
+frontend/
 data/
 backups/
 *.sqlite

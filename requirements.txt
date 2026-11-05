@@ -10,52 +10,11 @@ PyYAML
 # imports, and framework features FastAPI does not declare.
 starlette==1.7.0
 psycopg[binary]==3.3.6
-python-multipart>=0.0.9
-CoolProp  # action: CoolProp in library_container.py
-Levenshtein  # module: Levenshtein in drawing_qto.py
-Pillow  # module: PIL in capture.py, image.py, image_quality.py
-Pint  # action: pint in formula_executor.py, library_container.py, pint_validation.py
-PyMuPDF  # action: fitz in drawing_qto.py, marker.py, ocr.py
-QuantLib  # action: QuantLib in library_container.py
-RestrictedPython  # module: RestrictedPython in sandbox.py
-SpeechRecognition  # action: speech_recognition in voice.py
-aiofiles  # module: aiofiles in client.py, storage.py
-aiohttp  # module: aiohttp in client.py, email.py, webhook.py
-aiosmtplib  # action: aiosmtplib in notification.py
-asyncpg  # module: asyncpg in vector_store.py, video_store.py
-bcrypt  # module: bcrypt in user_auth.py
-beautifulsoup4  # module: bs4 in web.py
-boto3  # action: boto3 in email.py
-botocore  # action: botocore in email.py
-cryptography  # module: cryptography in file_crypto.py, google_drive.py, publisher_registry.py
-ddgs  # action: ddgs in search.py
-deep-translator  # action: deep_translator in translate.py
-easyocr  # action: easyocr in capture.py, ocr_v2.py
-ezdxf  # action: ezdxf in bim.py, drawing_qto.py, dxf.py
-gTTS  # action: gtts in voice.py
-ifcopenshell  # action: ifcopenshell in bim.py, bim_extractor.py, ifc.py
-manifold3d  # action: manifold3d in geometry_engine.py
-mlflow  # action: mlflow in mlflow_tracker.py
-numpy  # module: numpy in formula_executor.py, geometry_engine.py, ifc_loader.py
-openpyxl  # module: openpyxl in excel_templates.py, finance_import.py, pdf.py
-packaging  # module: packaging in version.py
-pandas  # action: pandas in boq_processor.py
-pdfplumber  # action: pdfplumber in boq_processor.py, pdf.py, pdf_parser.py
-psutil  # action: psutil in hal.py
-psycopg2-binary  # action: psycopg2 in database.py
-pypdf  # action: pypdf in pdf.py, pdf_parser.py
-pypdfium2  # action: pypdfium2 in marker.py
-pytesseract  # action: pytesseract in capture.py, image.py, ocr.py
-python-docx  # action: docx in docx_parser.py, extraction.py, pdf.py
-redis  # module: redis in queue.py, redis_infra.py
-requests  # module: requests in microsoft_365.py
+numpy  # action: np in formula_executor.py, vector_search.py
 scikit-learn  # module: sklearn in vector_search.py
-sentence-transformers  # action: sentence_transformers in vector.py, vector_store.py
-sentry-sdk  # action: sentry_sdk in logging_config.py
-shapely  # action: shapely in drawing_qto.py
-specklepy  # action: specklepy in model_clone.py
-stripe  # action: stripe in billing.py
-sympy  # module: sympy in _knowledge.py, finance_v2.py, formula_executor.py
-trimesh  # action: trimesh in geometry_engine.py, ifc_loader.py
-ultralytics  # module: ultralytics in image.py, safety_world_detector.py
+sympy  # action: sympy in formula_executor.py
+pypdf  # action: pypdf in pdf.py
+packaging  # module: packaging.version in version.py
+bcrypt  # module: bcrypt in auth.py
+python-multipart  # form parsing for the export routes
 # --- END factory block ---

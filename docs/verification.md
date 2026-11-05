@@ -4,7 +4,7 @@ Run in this checkout, with the locked blocks present at `vendor/blocks/`
 (paths pinned by `blocks.lock.json`) and a scratch `STORAGE_PATH`.
 
 ```sh
-python -m pytest -q                       # 126 passed, 3 skipped
+python -m pytest -q                       # 128 passed, 3 skipped
 python scripts/factory_checks.py          # no findings; every capability fails closed
 PLATFORM_TOKEN=dev-local-token \
 TENANT_TOKENS='token-a:tenant-a,token-b:tenant-b' \
@@ -65,6 +65,34 @@ Two contract mismatches the refreshed suite exposed were fixed generally:
 * `gradebook_and_transcript` refused the whole record when the optional
   `prior_average` was not numeric. Non-numeric enrichment is now ignored; the
   weighted average is unchanged.
+
+## No programme content in product code
+
+`tests/test_no_hardwiring.py` reads every seed under `tracks/` and searches
+the shipped source (`app/**/*.py`, the console page, its JSON) for every
+track name, audience, term title, week theme, reading title/source, case
+title/prompt/outcome and rubric criterion label/description. It also refuses
+a seed track id baked into Python source as a fallback. The check is derived
+from the YAML, so a track the product has never seen is covered without
+editing the test.
+
+## One-record round-trip per capability
+
+With `PLATFORM_TOKEN` set and a scratch `STORAGE_PATH`, each non-placeholder
+capability was POSTed a payload built from its own `FIELDS`/`CONSTRAINTS`,
+read back through `GET /v1/{capability_id}/{id}`, and found in
+`GET /v1/{capability_id}`:
+
+```
+track_loader               post 200  get 200  listed
+faculty_session            post 200  get 200  listed
+memo_grading               post 200  get 200  listed
+gradebook_and_transcript   post 200  get 200  listed
+track_admin                post 200  get 200  listed
+reading_and_case_library   post 200  get 200  listed
+enrolment_and_calendar     503 placeholder (email_delivery) -- not judged
+defense_and_capstone       503 placeholder (email_delivery) -- not judged
+```
 
 ## Not measured here
 
