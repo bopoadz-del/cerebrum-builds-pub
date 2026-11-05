@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.git/
+.github/
+tests/
+frontend/
+data/
+backups/
+*.sqlite
+*.db
+.env
+.venv/

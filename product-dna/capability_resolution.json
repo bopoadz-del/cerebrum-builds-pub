@@ -1,0 +1,121 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "validation",
+        "config",
+        "version"
+      ],
+      "capability_id": "track_loader",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth",
+        "notification",
+        "email",
+        "database"
+      ],
+      "capability_id": "enrolment_and_calendar",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "orchestrator",
+        "knowledge",
+        "memory",
+        "audit",
+        "governance_gate"
+      ],
+      "capability_id": "faculty_session",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "validation",
+        "evidence_chain",
+        "ingestion_provenance"
+      ],
+      "capability_id": "memo_grading",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "analytics",
+        "pdf",
+        "database",
+        "dashboard"
+      ],
+      "capability_id": "gradebook_and_transcript",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "notification",
+        "approval_rules",
+        "transaction_state_machine",
+        "pdf"
+      ],
+      "capability_id": "defense_and_capstone",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "validation",
+        "version_diff",
+        "workbench",
+        "audit"
+      ],
+      "capability_id": "track_admin",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "knowledge",
+        "vector_search",
+        "governance_gate"
+      ],
+      "capability_id": "reading_and_case_library",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "analytics",
+    "approval_rules",
+    "audit",
+    "auth",
+    "config",
+    "dashboard",
+    "database",
+    "email",
+    "evidence_chain",
+    "formula_executor",
+    "governance_gate",
+    "ingestion_provenance",
+    "knowledge",
+    "memory",
+    "notification",
+    "orchestrator",
+    "pdf",
+    "transaction_state_machine",
+    "validation",
+    "vector_search",
+    "version",
+    "version_diff",
+    "workbench",
+    "workflow"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

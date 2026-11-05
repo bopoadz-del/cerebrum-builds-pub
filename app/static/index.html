@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cerebrum Executive Programs</title>
+<style>
+  :root { --ink:#14202e; --muted:#5c6b7d; --line:#d9e1ea; --brand:#1f3a5f; --accent:#0f766e; --bg:#f2f5f9; --warn:#9a3412; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--brand); color:#fff; padding:16px 22px; display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  header h1 { font-size:17px; margin:0; font-weight:600; letter-spacing:.2px; }
+  header .spacer { flex:1; }
+  button { background:var(--accent); color:#fff; border:0; border-radius:6px; padding:8px 13px; cursor:pointer; font-size:13px; }
+  button.secondary { background:#42566f; }
+  button:disabled { opacity:.55; cursor:not-allowed; }
+  input, textarea, select { width:100%; padding:7px 9px; border:1px solid var(--line); border-radius:6px; font-size:13px; background:#fff; }
+  label { display:block; font-size:12px; color:var(--muted); margin:7px 0 3px; }
+  main { padding:18px; display:grid; grid-template-columns: 1.15fr 1fr; gap:18px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+  .card h2 { font-size:14px; margin:0 0 8px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  ul.caps { list-style:none; margin:0; padding:0; font-size:13px; }
+  ul.caps li { padding:5px 0; border-bottom:1px dashed var(--line); }
+  ul.caps li b { font-weight:600; }
+  pre { background:#0f1b2a; color:#d8e6f2; padding:10px; border-radius:8px; overflow:auto; font-size:12px; max-height:260px; }
+  .authority { font-size:12px; color:var(--accent); margin:6px 0; }
+  .muted { color:var(--muted); font-size:12px; }
+  .verdict { font-family: ui-monospace, Menlo, Consolas, monospace; font-size:12px; white-space:pre-wrap; }
+  .pill { display:inline-block; font-size:11px; padding:1px 7px; border-radius:10px; background:#e6f2ef; color:#0f766e; margin-left:6px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cerebrum Executive Programs</h1>
+  <span class="spacer"></span>
+  <div class="row">
+    <input id="token" placeholder="Bearer token" style="width:210px" />
+    <button id="connect">Connect</button>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="card">
+      <h2>Capabilities <span class="muted" id="who">not connected</span></h2>
+      <ul class="caps" id="caps"></ul>
+      <div class="row" style="margin-top:10px">
+        <button id="loadCaps" class="secondary">Refresh capability list</button>
+        <button id="loadTracks" class="secondary">Load tracks</button>
+        <button id="loadFormulas" class="secondary">Load formula roster</button>
+      </div>
+      <div class="authority" id="capsAuthority"></div>
+      <pre id="capsOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Track catalogue</h2>
+      <div class="muted">Programme content is customer YAML; the loader validates it against the shipped schema.</div>
+      <div class="authority" id="tracksAuthority"></div>
+      <pre id="tracksOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Faculty session</h2>
+      <div class="grid3">
+        <div><label for="sTrack">Track</label><input id="sTrack" value="coo" /></div>
+        <div><label for="sWeek">Week</label><input id="sWeek" type="number" value="1" min="1" /></div>
+        <div><label for="sMode">Kernel mode</label>
+          <select id="sMode">
+            <option>lecture</option><option>brief</option><option>socratic</option>
+            <option>sparring</option><option>oral_quiz</option><option>examiner</option>
+          </select></div>
+      </div>
+      <label for="sMessage">Your message to faculty</label>
+      <textarea id="sMessage" rows="2">Pressure-test my reading of this week's framework.</textarea>
+      <div class="row" style="margin-top:9px"><button id="runSession">Open session</button></div>
+      <div class="authority" id="sessionAuthority"></div>
+      <div class="verdict" id="sessionTurns"></div>
+      <pre id="sessionOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Reading and case library</h2>
+      <div class="grid3">
+        <div><label for="lTrack">Track</label><input id="lTrack" value="coo" /></div>
+        <div><label for="lWeek">Week</label><input id="lWeek" type="number" value="1" min="1" /></div>
+        <div><label for="lOffset">Session offset</label><input id="lOffset" type="number" value="0" min="0" max="5" /></div>
+      </div>
+      <div class="row" style="margin-top:9px"><button id="loadLibrary">Read the week</button></div>
+      <div class="authority" id="libraryAuthority"></div>
+      <pre id="libraryOut"></pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2>Memo grading</h2>
+      <div class="grid3">
+        <div><label for="gTrack">Track</label><input id="gTrack" value="coo" /></div>
+        <div><label for="gWeek">Week</label><input id="gWeek" type="number" value="1" min="1" /></div>
+        <div><label for="gLearner">Learner email</label><input id="gLearner" value="learner@example.com" /></div>
+      </div>
+      <label for="gSubmission">Weekly memo</label>
+      <textarea id="gSubmission" rows="6">The constraint in this operation is the single heat-treatment furnace, not the machining cells. The furnace sets throughput; utilisation upstream of it only lengthens queue time, which Little's law predicts will increase work in process without increasing output. The Goal argues the constraint must be scheduled first and everything else subordinated to it. Decision: cap release into the machining cells at the furnace's takt and accept a lower utilisation figure for the quarter. The alternative, buying a second furnace, fails on payback unless the mix shifts. I would reverse this if the furnace's changeover time falls below twenty minutes.</textarea>
+      <div class="row" style="margin-top:9px"><button id="runGrade">Grade memo</button></div>
+      <div class="authority" id="gradeAuthority"></div>
+      <div class="verdict" id="gradeVerdicts"></div>
+      <pre id="gradeOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Gradebook and transcript</h2>
+      <div class="grid3">
+        <div><label for="bTrack">Track</label><input id="bTrack" value="coo" /></div>
+        <div><label for="bTerm">Term</label><input id="bTerm" type="number" value="1" min="1" /></div>
+        <div><label for="bLearner">Learner email</label><input id="bLearner" value="learner@example.com" /></div>
+        <div><label for="bMemos">Memos</label><input id="bMemos" type="number" value="86" /></div>
+        <div><label for="bDefenses">Defenses</label><input id="bDefenses" type="number" value="82" /></div>
+        <div><label for="bCapstone">Capstone</label><input id="bCapstone" type="number" value="90" /></div>
+      </div>
+      <div class="row" style="margin-top:9px"><button id="runGradebook">Compute gradebook</button></div>
+      <div class="authority" id="gradebookAuthority"></div>
+      <div class="verdict" id="gradebookLines"></div>
+      <pre id="gradebookOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Retrieval corpus</h2>
+      <div class="muted">Empty until you ingest a source. Nothing is seeded.</div>
+      <label for="ragText">Document text</label>
+      <textarea id="ragText" rows="3">A note on the operating model for the coming term.</textarea>
+      <div class="grid2" style="margin-top:8px">
+        <div><label for="ragSource">Source label</label><input id="ragSource" value="board-note.txt" /></div>
+        <div><label for="ragQuery">Query</label><input id="ragQuery" value="operating model" /></div>
+      </div>
+      <div class="row" style="margin-top:9px">
+        <button id="ragIngest">Ingest</button>
+        <button id="ragSearch" class="secondary">Query</button>
+      </div>
+      <div class="authority" id="ragAuthority"></div>
+      <pre id="ragOut"></pre>
+    </div>
+
+    <div class="card">
+      <h2>Formula roster</h2>
+      <div class="muted">Kernel definitions by address, then any writer definition with its source.</div>
+      <pre id="formulasOut"></pre>
+    </div>
+  </section>
+</main>
+
+<script>
+let token = sessionStorage.getItem("platformToken") || "";
+const $ = (id) => document.getElementById(id);
+
+function authHeaders(extra) {
+  return Object.assign({ "Authorization": "Bearer " + token }, extra || {});
+}
+
+async function api(path, options) {
+  const opts = Object.assign({ headers: authHeaders() }, options || {});
+  if (opts.body && !opts.headers["Content-Type"]) {
+    opts.headers["Content-Type"] = "application/json";
+  }
+  const resp = await fetch(path, opts);
+  let body = null;
+  try { body = await resp.json(); } catch (e) { body = null; }
+  return { status: resp.status, body: body };
+}
+
+function show(target, body) {
+  $(target).textContent = JSON.stringify(body, null, 2);
+}
+
+function showAuthority(target, body) {
+  const label = body && (body.authority || (body.record && body.record.authority));
+  if (!label) { $(target).textContent = ""; return; }
+  $(target).textContent = "authority: layer " + label.layer + " — " + label.label +
+    (label.source ? " (" + label.source + ")" : "");
+}
+
+async function connect() {
+  token = $("token").value.trim();
+  sessionStorage.setItem("platformToken", token);
+  const { status, body } = await api("/v1/capabilities");
+  if (status !== 200) {
+    $("who").textContent = "connection failed (HTTP " + status + ")";
+    return;
+  }
+  $("who").textContent = (body.items || []).length + " capabilities discovered";
+  showAuthority("capsAuthority", body);
+  const list = $("caps");
+  list.innerHTML = "";
+  (body.items || []).forEach((item) => {
+    const li = document.createElement("li");
+    li.innerHTML = "<b>" + item.id + "</b> <span class='pill'>" + item.entity + "</span>";
+    list.appendChild(li);
+  });
+  show("capsOut", body);
+}
+
+async function loadCaps() { await connect(); }
+
+async function loadTracks() {
+  const { body } = await api("/v1/tracks");
+  showAuthority("tracksAuthority", body);
+  show("tracksOut", body);
+}
+
+async function loadFormulas() {
+  const { body } = await api("/v1/formulas");
+  show("formulasOut", body);
+}
+
+async function runSession() {
+  const payload = {
+    reference: "session-" + Date.now(),
+    status: "open",
+    track_id: $("sTrack").value,
+    week: Number($("sWeek").value || 1),
+    mode: $("sMode").value,
+    learner_email: "learner@example.com",
+    message: $("sMessage").value
+  };
+  const { body } = await api("/v1/faculty_session", { method: "POST", body: JSON.stringify(payload) });
+  showAuthority("sessionAuthority", body);
+  const record = (body && body.record) || {};
+  const turns = record.turns || [];
+  $("sessionTurns").textContent = turns.map((t, i) => (i + 1) + ". " + t).join("\n");
+  show("sessionOut", body);
+}
+
+async function loadLibrary() {
+  const payload = {
+    reference: "library-" + Date.now(),
+    status: "open",
+    track_id: $("lTrack").value,
+    week: Number($("lWeek").value || 1),
+    session_offset: Number($("lOffset").value || 0),
+    learner_email: "learner@example.com"
+  };
+  const { body } = await api("/v1/reading_and_case_library", { method: "POST", body: JSON.stringify(payload) });
+  showAuthority("libraryAuthority", body);
+  show("libraryOut", body);
+}
+
+async function runGrade() {
+  const payload = {
+    reference: "memo-" + Date.now(),
+    status: "open",
+    track_id: $("gTrack").value,
+    week: Number($("gWeek").value || 1),
+    learner_email: $("gLearner").value,
+    submission: $("gSubmission").value
+  };
+  const { body } = await api("/v1/memo_grading", { method: "POST", body: JSON.stringify(payload) });
+  showAuthority("gradeAuthority", body);
+  const lines = (body && (body.verdict_lines || (body.record && body.record.verdict_lines))) || [];
+  $("gradeVerdicts").textContent = lines.join("\n");
+  show("gradeOut", body);
+}
+
+async function runGradebook() {
+  const payload = {
+    reference: "gradebook-" + Date.now(),
+    status: "open",
+    track_id: $("bTrack").value,
+    term: Number($("bTerm").value || 1),
+    learner_email: $("bLearner").value,
+    memos_score: Number($("bMemos").value),
+    defenses_score: Number($("bDefenses").value),
+    capstone_score: Number($("bCapstone").value)
+  };
+  const { body } = await api("/v1/gradebook_and_transcript", { method: "POST", body: JSON.stringify(payload) });
+  showAuthority("gradebookAuthority", body);
+  const lines = (body && (body.gradebook || (body.record && body.record.grade_lines))) || [];
+  $("gradebookLines").textContent = lines.join("\n");
+  show("gradebookOut", body);
+}
+
+async function ragIngest() {
+  const payload = { text: $("ragText").value, source: $("ragSource").value };
+  const { body } = await api("/v1/rag/ingest", { method: "POST", body: JSON.stringify(payload) });
+  showAuthority("ragAuthority", body);
+  show("ragOut", body);
+}
+
+async function ragSearch() {
+  const q = encodeURIComponent($("ragQuery").value);
+  const { body } = await api("/v1/rag/query?q=" + q);
+  showAuthority("ragAuthority", body);
+  show("ragOut", body);
+}
+
+$("connect").addEventListener("click", connect);
+$("loadCaps").addEventListener("click", loadCaps);
+$("loadTracks").addEventListener("click", loadTracks);
+$("loadFormulas").addEventListener("click", loadFormulas);
+$("runSession").addEventListener("click", runSession);
+$("loadLibrary").addEventListener("click", loadLibrary);
+$("runGrade").addEventListener("click", runGrade);
+$("runGradebook").addEventListener("click", runGradebook);
+$("ragIngest").addEventListener("click", ragIngest);
+$("ragSearch").addEventListener("click", ragSearch);
+
+$("token").value = token;
+if (token) { connect(); }
+</script>
+</body>
+</html>

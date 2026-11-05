@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.track_admin"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "track_admin"
+      },
+      {
+        "type": "capability",
+        "value": "track_admin"
+      }
+    ]
+  },
+  "agent_id": "product.hat.track_admin",
+  "allowed_actions": [
+    "product.track_admin"
+  ],
+  "block_ids": [
+    "validation",
+    "version_diff",
+    "workbench",
+    "audit"
+  ],
+  "discipline": "track_admin",
+  "display_name": "Cerebrum Executive Programs Track Admin Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'track_admin' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "track_admin"
+  ]
+}

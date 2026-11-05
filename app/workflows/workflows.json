@@ -1,0 +1,41 @@
+[
+  {
+    "description": "Default linear workflow over planned capabilities.",
+    "name": "Capability sequence",
+    "steps": [
+      {
+        "capability_id": "track_loader",
+        "role": "execute"
+      },
+      {
+        "capability_id": "enrolment_and_calendar",
+        "role": "execute"
+      },
+      {
+        "capability_id": "faculty_session",
+        "role": "execute"
+      },
+      {
+        "capability_id": "memo_grading",
+        "role": "execute"
+      },
+      {
+        "capability_id": "gradebook_and_transcript",
+        "role": "execute"
+      },
+      {
+        "capability_id": "defense_and_capstone",
+        "role": "execute"
+      },
+      {
+        "capability_id": "track_admin",
+        "role": "execute"
+      },
+      {
+        "capability_id": "reading_and_case_library",
+        "role": "execute"
+      }
+    ],
+    "workflow_id": "product.capability_sequence"
+  }
+]

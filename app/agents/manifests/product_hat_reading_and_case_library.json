@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.reading_and_case_library"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "reading_and_case_library"
+      },
+      {
+        "type": "capability",
+        "value": "reading_and_case_library"
+      }
+    ]
+  },
+  "agent_id": "product.hat.reading_and_case_library",
+  "allowed_actions": [
+    "product.reading_and_case_library"
+  ],
+  "block_ids": [
+    "knowledge",
+    "vector_search",
+    "governance_gate"
+  ],
+  "discipline": "reading_and_case_library",
+  "display_name": "Cerebrum Executive Programs Reading And Case Library Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'reading_and_case_library' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "reading_and_case_library"
+  ]
+}

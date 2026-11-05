@@ -1,0 +1,96 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "validation",
+        "config",
+        "version"
+      ],
+      "capability_id": "track_loader",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth",
+        "notification",
+        "email",
+        "database"
+      ],
+      "capability_id": "enrolment_and_calendar",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "orchestrator",
+        "knowledge",
+        "memory",
+        "audit",
+        "governance_gate"
+      ],
+      "capability_id": "faculty_session",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "validation",
+        "evidence_chain",
+        "ingestion_provenance"
+      ],
+      "capability_id": "memo_grading",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "analytics",
+        "pdf",
+        "database",
+        "dashboard"
+      ],
+      "capability_id": "gradebook_and_transcript",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "notification",
+        "approval_rules",
+        "transaction_state_machine",
+        "pdf"
+      ],
+      "capability_id": "defense_and_capstone",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "validation",
+        "version_diff",
+        "workbench",
+        "audit"
+      ],
+      "capability_id": "track_admin",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "knowledge",
+        "vector_search",
+        "governance_gate"
+      ],
+      "capability_id": "reading_and_case_library",
+      "strategy": "REUSE"
+    }
+  ],
+  "connectors": [
+    "email_delivery"
+  ],
+  "layers": [],
+  "product_id": "product",
+  "schema_version": "1.0.0",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}

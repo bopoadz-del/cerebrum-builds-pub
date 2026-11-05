@@ -1,0 +1,356 @@
+schema_version: track.v1
+id: coo
+name: Chief Operating Officer Program
+audience: Operating executives accountable for delivery, cost, quality and the operating model
+length_weeks: 16
+hours_per_week: 12
+rubric:
+  points_each: 20
+  criteria:
+    - id: diagnosis
+      label: Problem diagnosis
+      description: Names the operating problem, its boundary and the evidence that it is the binding constraint.
+    - id: evidence
+      label: Evidence and sources
+      description: Uses named sources from the week, distinguishes measurement from assertion and says what is not known.
+    - id: mechanism
+      label: Causal mechanism
+      description: Explains why the intervention would work, not only that it is recommended.
+    - id: decision
+      label: Decision and trade-offs
+      description: States the decision, the alternative given up, and the conditions under which it would be reversed.
+    - id: communication
+      label: Executive communication
+      description: Written so a board member could act on it in one reading, with the ask and the risk explicit.
+  bands:
+    A: 90
+    B: 80
+    C: 70
+    rewrite_below: 70
+  weights:
+    memos: 60
+    defenses: 20
+    capstone: 20
+terms:
+  - number: 1
+    title: The Operating Model and Its Constraints
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 1
+        theme: Throughput, capacity and the constraint that sets the pace
+        concepts:
+          - throughput
+          - capacity
+          - bottleneck
+          - work in process
+          - Little's law
+        readings:
+          - title: The Goal
+            source: Goldratt, E. M. & Cox, J., North River Press, 1984
+            note: Chapters on the constraint and the five focusing steps
+          - title: The Machine That Changed the World
+            source: Womack, J., Jones, D. & Roos, D., Rawson Associates, 1990
+        cases:
+          - id: coo-t1-w1-a
+            title: A plant that measures utilisation and still misses delivery dates
+            source: Published operations-management teaching case literature; figures reconstructed for the classroom
+            prompt: Where is the constraint, and what does the utilisation metric hide?
+            outcome: The constraint is a single heat-treatment furnace; raising upstream utilisation only lengthened the queue in front of it.
+      - number: 2
+        theme: Value streams and the cost of handoffs
+        concepts:
+          - value stream mapping
+          - handoff cost
+          - cycle time
+          - queueing
+        readings:
+          - title: Lean Thinking
+            source: Womack, J. & Jones, D., Simon & Schuster, 1996
+          - title: Decoding the DNA of the Toyota Production System
+            source: Spear, S. & Bowen, H. K., Harvard Business Review, September-October 1999
+        cases:
+          - id: coo-t1-w2-a
+            title: An insurer that halved its claims cycle without new technology
+            source: Published lean-services case literature; company anonymised
+            prompt: Which handoffs were removed, and which queue disappeared with them?
+            outcome: Eleven of fourteen handoffs were eliminated; the largest gain came from co-locating assessment and payment approval.
+      - number: 3
+        theme: Quality, variation and the cost of rework
+        concepts:
+          - common-cause variation
+          - special-cause variation
+          - cost of poor quality
+          - statistical process control
+        readings:
+          - title: Out of the Crisis
+            source: Deming, W. E., MIT Press, 1986
+          - title: Learning to Lead at Toyota
+            source: Spear, S., Harvard Business Review, May 2004
+        cases:
+          - id: coo-t1-w3-a
+            title: A supplier whose defect rate rose after a cost-reduction programme
+            source: Published automotive-supplier case literature; figures rounded
+            prompt: Which cost was reduced, and where did it reappear?
+            outcome: Incoming inspection was cut; defects moved downstream and the total cost of quality rose by a third.
+      - number: 4
+        theme: The operating model as a set of explicit choices
+        concepts:
+          - operating model
+          - make versus buy
+          - span of control
+          - decision rights
+        readings:
+          - title: Reengineering the Corporation
+            source: Hammer, M. & Champy, J., HarperBusiness, 1993
+          - title: The Discipline of Teams
+            source: Katzenbach, J. & Smith, D., Harvard Business Review, March-April 1993
+        cases:
+          - id: coo-t1-w4-a
+            title: A retailer that centralised planning and lost local responsiveness
+            source: Published retail case literature; company anonymised
+            prompt: Which decision rights moved, and what did the centre get wrong?
+            outcome: Replenishment planning moved to the centre; markdown authority had to be returned to stores within two seasons.
+  - number: 2
+    title: Cost, Capital and the Supply Base
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 5
+        theme: Unit economics and the cost to serve
+        concepts:
+          - contribution margin
+          - cost to serve
+          - fixed and variable cost
+          - operating leverage
+        readings:
+          - title: Execution
+            source: Bossidy, L. & Charan, R., Crown Business, 2002
+          - title: How Competitive Forces Shape Strategy
+            source: Porter, M. E., Harvard Business Review, March-April 1979
+        cases:
+          - id: coo-t2-w5-a
+            title: A distributor that discovered its largest customer was unprofitable
+            source: Published distribution case literature; figures illustrative
+            prompt: Which costs were invisible in the standard margin report?
+            outcome: Cost to serve for the largest account exceeded gross margin once special handling and returns were allocated.
+      - number: 6
+        theme: Inventory, cash and the working-capital triangle
+        concepts:
+          - days inventory outstanding
+          - cash conversion cycle
+          - safety stock
+          - working capital
+        readings:
+          - title: Working Capital Management
+            source: Standard managerial-finance treatment; see any graduate corporate-finance text, chapter on short-term finance
+          - title: Lean Thinking
+            source: Womack, J. & Jones, D., Simon & Schuster, 1996
+        cases:
+          - id: coo-t2-w6-a
+            title: A manufacturer that cut inventory and missed a launch
+            source: Published consumer-electronics case literature; company anonymised
+            prompt: Which buffer was removed, and which risk was mispriced?
+            outcome: Safety stock on a long-lead component was cut; the launch slipped by six weeks and the recovery cost exceeded the inventory saving.
+      - number: 7
+        theme: Supplier relationships and the limits of price competition
+        concepts:
+          - total cost of ownership
+          - supplier segmentation
+          - hold-up problem
+          - contract design
+        readings:
+          - title: The Five Competitive Forces That Shape Strategy
+            source: Porter, M. E., Harvard Business Review, January 2008
+          - title: Strategy and Society - The Link Between Competitive Advantage and Corporate Social Responsibility
+            source: Porter, M. E. & Kramer, M. R., Harvard Business Review, December 2006
+        cases:
+          - id: coo-t2-w7-a
+            title: An apparel brand that audited its second tier and lost two suppliers
+            source: Published supply-chain traceability reporting; company anonymised
+            prompt: What did the audit buy, and what did it cost?
+            outcome: Two suppliers exited; delivery recovered within a season and the brand retained its largest wholesale account.
+      - number: 8
+        theme: Capital allocation inside operations
+        concepts:
+          - hurdle rate
+          - payback
+          - sunk cost
+          - real options
+        readings:
+          - title: The Balanced Scorecard - Measures That Drive Performance
+            source: Kaplan, R. S. & Norton, D. P., Harvard Business Review, January-February 1992
+          - title: Good Strategy Bad Strategy
+            source: Rumelt, R., Crown Business, 2011
+        cases:
+          - id: coo-t2-w8-a
+            title: A factory automation project that passed its business case and failed on the floor
+            source: Published manufacturing case literature; figures rounded
+            prompt: Which assumption in the business case was never tested?
+            outcome: The case assumed a stable product mix; changeover frequency doubled after a portfolio expansion and the payback never arrived.
+  - number: 3
+    title: People, Safety and Execution at Scale
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 9
+        theme: Safety as an operating system, not a campaign
+        concepts:
+          - leading indicators
+          - normalisation of deviance
+          - authority to stop
+          - incident learning
+        readings:
+          - title: Managing the Risks of Organizational Accidents
+            source: Reason, J., Ashgate, 1997
+          - title: The Challenger Launch Decision
+            source: Vaughan, D., University of Chicago Press, 1996
+        cases:
+          - id: coo-t3-w9-a
+            title: A chemical site with zero recorded incidents and three near misses a week
+            source: Published process-safety case literature; site anonymised
+            prompt: Why did the reporting rate fall before the incident rate rose?
+            outcome: Near-miss reporting had been discouraged by a bonus tied to recordable injuries; the reporting rate recovered only after the bonus changed.
+      - number: 10
+        theme: Frontline capability and standard work
+        concepts:
+          - standard work
+          - training within industry
+          - job instruction
+          - capability ladder
+        readings:
+          - title: Learning to Lead at Toyota
+            source: Spear, S., Harvard Business Review, May 2004
+          - title: High Output Management
+            source: Grove, A. S., Random House, 1983
+        cases:
+          - id: coo-t3-w10-a
+            title: A service centre that trained everyone and improved nothing
+            source: Published service-operations case literature; company anonymised
+            prompt: What was trained, and what was not changed?
+            outcome: Training covered tools but not the standard work; supervisors reverted to the old method within a month.
+      - number: 11
+        theme: Performance management without gaming
+        concepts:
+          - Goodhart's law
+          - balanced scorecard
+          - leading and lagging measures
+          - target setting
+        readings:
+          - title: The Balanced Scorecard - Measures That Drive Performance
+            source: Kaplan, R. S. & Norton, D. P., Harvard Business Review, January-February 1992
+          - title: Measure What Matters
+            source: Doerr, J., Portfolio, 2018
+        cases:
+          - id: coo-t3-w11-a
+            title: A logistics firm whose on-time metric reached 98 per cent and whose customers left
+            source: Published logistics case literature; figures illustrative
+            prompt: What did the metric stop measuring?
+            outcome: On-time was measured against a renegotiated promise date; the customer's own required date was missed four times in ten.
+      - number: 12
+        theme: Change at scale and the cost of a programme
+        concepts:
+          - Kotter's eight steps
+          - guiding coalition
+          - change fatigue
+          - sequencing
+        readings:
+          - title: Leading Change
+            source: Kotter, J. P., Harvard Business School Press, 1996
+          - title: Thinking, Fast and Slow
+            source: Kahneman, D., Farrar, Straus and Giroux, 2011
+        cases:
+          - id: coo-t3-w12-a
+            title: A bank that ran four transformation programmes at once
+            source: Published banking case literature; company anonymised
+            prompt: Which programme should have been sequenced first?
+            outcome: Two programmes shared the same middle managers; sequencing them cut the elapsed time by nine months.
+  - number: 4
+    title: Governance, Resilience and the Executive Agenda
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 13
+        theme: Operating governance and the decision calendar
+        concepts:
+          - decision rights
+          - operating cadence
+          - escalation design
+          - meeting architecture
+        readings:
+          - title: The Effective Executive
+            source: Drucker, P. F., Harper & Row, 1967
+          - title: Execution
+            source: Bossidy, L. & Charan, R., Crown Business, 2002
+        cases:
+          - id: coo-t4-w13-a
+            title: A group whose capital committee met monthly and decided nothing
+            source: Published corporate-governance case literature; company anonymised
+            prompt: Where was the decision actually made?
+            outcome: Decisions were pre-empted in a weekly regional call; the committee's role was reduced to ratification.
+      - number: 14
+        theme: Resilience, redundancy and the cost of being ready
+        concepts:
+          - single point of failure
+          - redundancy cost
+          - recovery time objective
+          - scenario planning
+        readings:
+          - title: The Art of the Long View
+            source: Schwartz, P., Doubleday, 1991
+          - title: Managing the Risks of Organizational Accidents
+            source: Reason, J., Ashgate, 1997
+        cases:
+          - id: coo-t4-w14-a
+            title: A food producer that survived one flood and not the second
+            source: Published business-continuity reporting; company anonymised
+            prompt: Which single point of failure was known and left in place?
+            outcome: Both plants drew from one chilled-water line; the second flood arrived before the redundant line was commissioned.
+      - number: 15
+        theme: The board conversation about operations
+        concepts:
+          - materiality
+          - risk appetite
+          - assurance
+          - board reporting
+        readings:
+          - title: Seven Surprises for New CEOs
+            source: Porter, M. E., Lorsch, J. W. & Nohria, N., Harvard Business Review, October 2004
+          - title: What Makes a Leader
+            source: Goleman, D., Harvard Business Review, November-December 1998
+        cases:
+          - id: coo-t4-w15-a
+            title: An operator who reported every metric and was still surprised
+            source: Published board-effectiveness literature; company anonymised
+            prompt: Which risk was not in the reporting pack?
+            outcome: The pack covered operational risk but not customer concentration; the loss of one account removed a fifth of volume.
+      - number: 16
+        theme: The 100-day operating agenda
+        concepts:
+          - prioritisation
+          - sequencing
+          - stakeholder mapping
+          - commitment design
+        readings:
+          - title: Managing Oneself
+            source: Drucker, P. F., Harvard Business Review, March-April 1999
+          - title: Good Strategy Bad Strategy
+            source: Rumelt, R., Crown Business, 2011
+        cases:
+          - id: coo-t4-w16-a
+            title: A new COO with ninety days and eleven inherited initiatives
+            source: Published executive-transition literature; company anonymised
+            prompt: What would you stop, and what would you refuse to decide yet?
+            outcome: Six initiatives were stopped in week three; stopping them early funded the two that survived.

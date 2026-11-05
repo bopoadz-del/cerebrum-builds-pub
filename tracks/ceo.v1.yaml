@@ -1,0 +1,354 @@
+schema_version: track.v1
+id: ceo
+name: Chief Executive Officer Program
+audience: Chief executives and executive-team members accountable for strategy, capital and the board relationship
+length_weeks: 16
+hours_per_week: 12
+rubric:
+  points_each: 20
+  criteria:
+    - id: diagnosis
+      label: Problem diagnosis
+      description: Names the strategic problem, its boundary and the evidence that it is the binding constraint.
+    - id: evidence
+      label: Evidence and sources
+      description: Uses named sources from the week, distinguishes measurement from assertion and says what is not known.
+    - id: mechanism
+      label: Causal mechanism
+      description: Explains why the move would create value, not only that it is recommended.
+    - id: decision
+      label: Decision and trade-offs
+      description: States the decision, the alternative given up, and the conditions under which it would be reversed.
+    - id: communication
+      label: Executive communication
+      description: Written so a board member could act on it in one reading, with the ask and the risk explicit.
+  bands:
+    A: 90
+    B: 80
+    C: 70
+    rewrite_below: 70
+  weights:
+    memos: 60
+    defenses: 20
+    capstone: 20
+terms:
+  - number: 1
+    title: Strategy and the Source of Advantage
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 1
+        theme: Competitive position and the structure of the industry
+        concepts:
+          - five forces
+          - entry barriers
+          - bargaining power
+          - industry structure
+        readings:
+          - title: How Competitive Forces Shape Strategy
+            source: Porter, M. E., Harvard Business Review, March-April 1979
+          - title: The Five Competitive Forces That Shape Strategy
+            source: Porter, M. E., Harvard Business Review, January 2008
+        cases:
+          - id: ceo-t1-w1-a
+            title: A regional airline that entered a route pair with two incumbents
+            source: Published airline-industry reporting; carrier anonymised
+            prompt: Which force did the entrant misjudge, and what did it cost?
+            outcome: Excess capacity and low switching costs produced a fare war; the entrant exited the pair within eighteen months.
+      - number: 2
+        theme: Capabilities, resources and what cannot be copied
+        concepts:
+          - resource-based view
+          - VRIN
+          - core competence
+          - causal ambiguity
+        readings:
+          - title: The Core Competence of the Corporation
+            source: Prahalad, C. K. & Hamel, G., Harvard Business Review, May-June 1990
+          - title: Dynamic Capabilities and Strategic Management
+            source: Teece, D. J., Pisano, G. & Shuen, A., Strategic Management Journal, 1997
+        cases:
+          - id: ceo-t1-w2-a
+            title: A retailer whose private label advantage disappeared in one season
+            source: Published retail case literature; company anonymised
+            prompt: What looked like a capability and was actually a supplier relationship?
+            outcome: The advantage was a supply contract; when the supplier opened a direct channel the margin disappeared.
+      - number: 3
+        theme: Where to compete and how to win, stated as choices
+        concepts:
+          - strategy kernel
+          - diagnosis
+          - guiding policy
+          - coherent action
+        readings:
+          - title: Good Strategy Bad Strategy
+            source: Rumelt, R., Crown Business, 2011
+          - title: What Is Strategy
+            source: Porter, M. E., Harvard Business Review, November-December 1996
+        cases:
+          - id: ceo-t1-w3-a
+            title: A software firm with eleven priorities and no strategy
+            source: Published technology case literature; company anonymised
+            prompt: Which priority would you cut first, and what does the cut buy?
+            outcome: Cutting four priorities released the engineering capacity that shipped the one product the market paid for.
+      - number: 4
+        theme: Business model reinvention before the crisis
+        concepts:
+          - business model
+          - value capture
+          - disruption
+          - incumbent inertia
+        readings:
+          - title: The Innovator's Dilemma
+            source: Christensen, C. M., Harvard Business School Press, 1997
+          - title: Reinventing Your Business Model
+            source: Johnson, M. W., Christensen, C. M. & Kagermann, H., Harvard Business Review, December 2008
+        cases:
+          - id: ceo-t1-w4-a
+            title: An incumbent that saw the new model early and priced it out of existence
+            source: Published media-industry reporting; company anonymised
+            prompt: Why did seeing the threat not produce a response?
+            outcome: The new model was funded but measured on the incumbent's margins; it was shut down in year two.
+  - number: 2
+    title: Capital, Portfolio and the Balance Sheet
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 5
+        theme: Capital allocation as the CEO's real product
+        concepts:
+          - hurdle rate
+          - internal capital market
+          - portfolio logic
+          - sunk cost
+        readings:
+          - title: The CEO's Role in Business Model Reinvention
+            source: Johnson, M. W., Christensen, C. M. & Kagermann, H., Harvard Business Review, December 2008
+          - title: Good Strategy Bad Strategy
+            source: Rumelt, R., Crown Business, 2011
+        cases:
+          - id: ceo-t2-w5-a
+            title: A conglomerate whose best division subsidised its worst for a decade
+            source: Published corporate-finance case literature; company anonymised
+            prompt: What would a market test have revealed?
+            outcome: The worst division had negative economic profit throughout; divestment released capital that doubled the best division's capacity.
+      - number: 6
+        theme: Growth, reinvestment and the cost of capital
+        concepts:
+          - return on invested capital
+          - weighted average cost of capital
+          - reinvestment
+          - compound growth
+        readings:
+          - title: The Capital Allocation Process
+            source: Standard corporate-finance treatment; see any graduate corporate-finance text, chapter on capital budgeting
+          - title: Competing on Analytics
+            source: Davenport, T. H., Harvard Business Review, January 2006
+        cases:
+          - id: ceo-t2-w6-a
+            title: A services firm that grew revenue and destroyed value
+            source: Published services case literature; figures illustrative
+            prompt: Which line of the accounts shows the destruction?
+            outcome: ROIC fell below the cost of capital in year three; revenue growth had been bought with pricing concessions.
+      - number: 7
+        theme: Mergers, integration and the price paid
+        concepts:
+          - synergies
+          - control premium
+          - integration risk
+          - winner's curse
+        readings:
+          - title: The Big Idea - The New M&A Playbook
+            source: Christensen, C. M., Alton, R., Rising, C. & Waldeck, A., Harvard Business Review, March 2011
+          - title: Seven Surprises for New CEOs
+            source: Porter, M. E., Lorsch, J. W. & Nohria, N., Harvard Business Review, October 2004
+        cases:
+          - id: ceo-t2-w7-a
+            title: An acquisition whose synergies arrived after the CFO left
+            source: Published deal reporting; companies anonymised
+            prompt: Which synergy was real, and which was a spreadsheet entry?
+            outcome: Cost synergies were delivered; revenue synergies never appeared and the control premium was never recovered.
+      - number: 8
+        theme: The balance sheet as a strategic instrument
+        concepts:
+          - leverage
+          - covenants
+          - liquidity
+          - capital structure
+        readings:
+          - title: Managing Oneself
+            source: Drucker, P. F., Harvard Business Review, March-April 1999
+          - title: Execution
+            source: Bossidy, L. & Charan, R., Crown Business, 2002
+        cases:
+          - id: ceo-t2-w8-a
+            title: A leveraged roll-up that met every covenant until the refix
+            source: Published credit reporting; company anonymised
+            prompt: What was the covenant actually protecting?
+            outcome: Interest cover was met only by capitalising maintenance; the refix exposed a maintenance backlog equal to a year of EBITDA.
+  - number: 3
+    title: Leading the Executive Team and the Organisation
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 9
+        theme: The executive team as a decision machine
+        concepts:
+          - team effectiveness
+          - decision rights
+          - conflict design
+          - accountability
+        readings:
+          - title: The Discipline of Teams
+            source: Katzenbach, J. & Smith, D., Harvard Business Review, March-April 1993
+          - title: High Output Management
+            source: Grove, A. S., Random House, 1983
+        cases:
+          - id: ceo-t3-w9-a
+            title: An executive team that agreed in the room and disagreed in the corridor
+            source: Published leadership case literature; company anonymised
+            prompt: What made the corridor the real meeting?
+            outcome: Decisions were reopened informally because the decision rights had never been written down.
+      - number: 10
+        theme: Culture, incentives and what gets rewarded
+        concepts:
+          - incentive design
+          - culture as behaviour
+          - measurement gaming
+          - psychological safety
+        readings:
+          - title: What Makes a Leader
+            source: Goleman, D., Harvard Business Review, November-December 1998
+          - title: Measure What Matters
+            source: Doerr, J., Portfolio, 2018
+        cases:
+          - id: ceo-t3-w10-a
+            title: A sales force that hit its number and damaged the franchise
+            source: Published conduct-reporting; company anonymised
+            prompt: Which incentive produced which behaviour?
+            outcome: Volume-based commission produced unauthorised account openings; the remediation cost exceeded three years of commission.
+      - number: 11
+        theme: Succession, talent and the bench
+        concepts:
+          - succession planning
+          - capability gaps
+          - internal versus external hire
+          - derailment risk
+        readings:
+          - title: The Effective Executive
+            source: Drucker, P. F., Harper & Row, 1967
+          - title: Seven Surprises for New CEOs
+            source: Porter, M. E., Lorsch, J. W. & Nohria, N., Harvard Business Review, October 2004
+        cases:
+          - id: ceo-t3-w11-a
+            title: A company with a succession plan and no successor
+            source: Published governance reporting; company anonymised
+            prompt: What did the plan actually contain?
+            outcome: The plan named roles, not people; when the CEO left, the board chose an external candidate and lost two internal leaders.
+      - number: 12
+        theme: Communication under pressure
+        concepts:
+          - narrative
+          - stakeholder mapping
+          - bad news
+          - credibility
+        readings:
+          - title: Thinking, Fast and Slow
+            source: Kahneman, D., Farrar, Straus and Giroux, 2011
+          - title: Leading Change
+            source: Kotter, J. P., Harvard Business School Press, 1996
+        cases:
+          - id: ceo-t3-w12-a
+            title: A profit warning delivered twice in three weeks
+            source: Published market reporting; company anonymised
+            prompt: Which part of the first message destroyed the second?
+            outcome: The first warning was framed as a one-off; the second revealed a structural decline and the share price fell twice as far.
+  - number: 4
+    title: The Board, Society and the Long Term
+    defense_minutes: 45
+    capstone:
+      pages: 10
+      slides: 15
+      reviewers: 3
+    weeks:
+      - number: 13
+        theme: The board relationship and the information asymmetry
+        concepts:
+          - board effectiveness
+          - information asymmetry
+          - assurance
+          - board composition
+        readings:
+          - title: Seven Surprises for New CEOs
+            source: Porter, M. E., Lorsch, J. W. & Nohria, N., Harvard Business Review, October 2004
+          - title: The Balanced Scorecard - Measures That Drive Performance
+            source: Kaplan, R. S. & Norton, D. P., Harvard Business Review, January-February 1992
+        cases:
+          - id: ceo-t4-w13-a
+            title: A board that learned about the problem from the auditor
+            source: Published governance reporting; company anonymised
+            prompt: What should the CEO have told the board, and when?
+            outcome: The issue was known internally for two quarters; disclosure after the audit cost the chair and the CEO their positions.
+      - number: 14
+        theme: Purpose, externalities and the licence to operate
+        concepts:
+          - shared value
+          - externality
+          - stakeholder theory
+          - licence to operate
+        readings:
+          - title: Creating Shared Value
+            source: Porter, M. E. & Kramer, M. R., Harvard Business Review, January-February 2011
+          - title: Strategy and Society - The Link Between Competitive Advantage and Corporate Social Responsibility
+            source: Porter, M. E. & Kramer, M. R., Harvard Business Review, December 2006
+        cases:
+          - id: ceo-t4-w14-a
+            title: A miner whose social licence expired before its permit
+            source: Published extractives reporting; company anonymised
+            prompt: Which commitment was treated as communication rather than operation?
+            outcome: Local employment commitments were reported but not staffed; community blockade cost eleven weeks of production.
+      - number: 15
+        theme: Risk, resilience and the scenario the board has not seen
+        concepts:
+          - risk appetite
+          - scenario planning
+          - tail risk
+          - recovery planning
+        readings:
+          - title: The Art of the Long View
+            source: Schwartz, P., Doubleday, 1991
+          - title: Managing the Risks of Organizational Accidents
+            source: Reason, J., Ashgate, 1997
+        cases:
+          - id: ceo-t4-w15-a
+            title: A bank with a strong risk function and one unmodelled exposure
+            source: Published banking supervision reporting; bank anonymised
+            prompt: Why did the model not include the exposure?
+            outcome: The exposure sat in a subsidiary outside the model's perimeter; the group discovered it in the resolution planning exercise.
+      - number: 16
+        theme: "The first year: what a new CEO actually controls"
+        concepts:
+          - agenda setting
+          - sequencing
+          - expectations
+          - legacy
+        readings:
+          - title: Managing Oneself
+            source: Drucker, P. F., Harvard Business Review, March-April 1999
+          - title: What Is Strategy
+            source: Porter, M. E., Harvard Business Review, November-December 1996
+        cases:
+          - id: ceo-t4-w16-a
+            title: A new CEO who announced a strategy before hearing the diagnosis
+            source: Published executive-transition literature; company anonymised
+            prompt: What did the early announcement foreclose?
+            outcome: Two business units withheld bad news; the strategy had to be rewritten in month five at the cost of the CFO's credibility.

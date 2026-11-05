@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "track.v1.schema.json",
+  "title": "Cerebrum executive track (track.v1)",
+  "description": "The whole of a programme's content. Product code reads this file and never contains programme text of its own.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "name",
+    "audience",
+    "length_weeks",
+    "hours_per_week",
+    "rubric",
+    "terms"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "track.v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 1
+    },
+    "length_weeks": {
+      "type": "integer",
+      "minimum": 4
+    },
+    "hours_per_week": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["points_each", "criteria", "bands", "weights"],
+      "properties": {
+        "points_each": {
+          "type": "integer",
+          "const": 20
+        },
+        "criteria": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/criterion"
+          }
+        },
+        "bands": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["A", "B", "C", "rewrite_below"],
+          "properties": {
+            "A": {"type": "number", "minimum": 0, "maximum": 100},
+            "B": {"type": "number", "minimum": 0, "maximum": 100},
+            "C": {"type": "number", "minimum": 0, "maximum": 100},
+            "rewrite_below": {"type": "number", "minimum": 0, "maximum": 100}
+          }
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["memos", "defenses", "capstone"],
+          "properties": {
+            "memos": {"type": "number", "minimum": 0, "maximum": 100},
+            "defenses": {"type": "number", "minimum": 0, "maximum": 100},
+            "capstone": {"type": "number", "minimum": 0, "maximum": 100}
+          }
+        }
+      }
+    },
+    "terms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/term"
+      }
+    }
+  },
+  "$defs": {
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "description"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1}
+      }
+    },
+    "term": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "title", "defense_minutes", "weeks"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "title": {"type": "string", "minLength": 1},
+        "defense_minutes": {"type": "integer", "minimum": 1},
+        "capstone": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pages", "slides", "reviewers"],
+          "properties": {
+            "pages": {"type": "integer", "minimum": 1},
+            "slides": {"type": "integer", "minimum": 1},
+            "reviewers": {"type": "integer", "minimum": 1}
+          }
+        },
+        "weeks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/week"
+          }
+        }
+      }
+    },
+    "week": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "theme"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "theme": {"type": "string", "minLength": 1},
+        "concepts": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "readings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/source"}
+        },
+        "cases": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/case"}
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "source"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1},
+        "note": {"type": "string"}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "source", "outcome"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1},
+        "prompt": {"type": "string"},
+        "outcome": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

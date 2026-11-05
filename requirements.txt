@@ -1,0 +1,20 @@
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+alembic
+httpx
+PyYAML
+# --- BEGIN factory block: stamped by the Factory, edits here are replaced ---
+# Packages this tree needs and did not declare: vendored block
+# imports, and framework features FastAPI does not declare.
+starlette==1.7.0
+psycopg[binary]==3.3.6
+numpy  # action: np in formula_executor.py, vector_search.py
+scikit-learn  # module: sklearn in vector_search.py
+sympy  # action: sympy in formula_executor.py
+pypdf  # action: pypdf in pdf.py
+packaging  # module: packaging.version in version.py
+bcrypt  # module: bcrypt in auth.py
+python-multipart  # form parsing for the export routes
+# --- END factory block ---

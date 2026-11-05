@@ -1,0 +1,448 @@
+{
+  "agents": [
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "auto",
+        "put_off_by": [
+          "disable:product.base"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "unknown"
+          }
+        ]
+      },
+      "agent_id": "product.base",
+      "allowed_actions": [
+        "product.track_loader",
+        "product.enrolment_and_calendar",
+        "product.faculty_session",
+        "product.memo_grading",
+        "product.gradebook_and_transcript",
+        "product.defense_and_capstone",
+        "product.track_admin",
+        "product.reading_and_case_library"
+      ],
+      "context_sources": [
+        {
+          "description": "Tenant/project documents via hybrid retrieval",
+          "kind": "project_documents",
+          "source_id": "project_docs"
+        }
+      ],
+      "discipline": "base",
+      "display_name": "Cerebrum Executive Programs Base Agent",
+      "extends": null,
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "base",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "summary": "Shared product cortex adapted from RetailClient hat patterns: trusted context, ActionRegistry awareness, honesty policies. Discipline hats specialize this base \u2014 they never replace it.",
+      "tags": [
+        "base",
+        "factory-generated",
+        "product"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.track_loader"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "track_loader"
+          },
+          {
+            "type": "capability",
+            "value": "track_loader"
+          }
+        ]
+      },
+      "agent_id": "product.hat.track_loader",
+      "allowed_actions": [
+        "product.track_loader"
+      ],
+      "block_ids": [
+        "validation",
+        "config",
+        "version"
+      ],
+      "discipline": "track_loader",
+      "display_name": "Cerebrum Executive Programs Track Loader Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'track_loader' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "track_loader"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.enrolment_and_calendar"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "enrolment_and_calendar"
+          },
+          {
+            "type": "capability",
+            "value": "enrolment_and_calendar"
+          }
+        ]
+      },
+      "agent_id": "product.hat.enrolment_and_calendar",
+      "allowed_actions": [
+        "product.enrolment_and_calendar"
+      ],
+      "block_ids": [
+        "auth",
+        "notification",
+        "email",
+        "database"
+      ],
+      "discipline": "enrolment_and_calendar",
+      "display_name": "Cerebrum Executive Programs Enrolment And Calendar Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'enrolment_and_calendar' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "enrolment_and_calendar"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.faculty_session"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "faculty_session"
+          },
+          {
+            "type": "capability",
+            "value": "faculty_session"
+          }
+        ]
+      },
+      "agent_id": "product.hat.faculty_session",
+      "allowed_actions": [
+        "product.faculty_session"
+      ],
+      "block_ids": [
+        "orchestrator",
+        "knowledge",
+        "memory",
+        "audit",
+        "governance_gate"
+      ],
+      "discipline": "faculty_session",
+      "display_name": "Cerebrum Executive Programs Faculty Session Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'faculty_session' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "faculty_session"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.memo_grading"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "memo_grading"
+          },
+          {
+            "type": "capability",
+            "value": "memo_grading"
+          }
+        ]
+      },
+      "agent_id": "product.hat.memo_grading",
+      "allowed_actions": [
+        "product.memo_grading"
+      ],
+      "block_ids": [
+        "formula_executor",
+        "validation",
+        "evidence_chain",
+        "ingestion_provenance"
+      ],
+      "discipline": "memo_grading",
+      "display_name": "Cerebrum Executive Programs Memo Grading Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'memo_grading' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "memo_grading"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.gradebook_and_transcript"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "gradebook_and_transcript"
+          },
+          {
+            "type": "capability",
+            "value": "gradebook_and_transcript"
+          }
+        ]
+      },
+      "agent_id": "product.hat.gradebook_and_transcript",
+      "allowed_actions": [
+        "product.gradebook_and_transcript"
+      ],
+      "block_ids": [
+        "analytics",
+        "pdf",
+        "database",
+        "dashboard"
+      ],
+      "discipline": "gradebook_and_transcript",
+      "display_name": "Cerebrum Executive Programs Gradebook And Transcript Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'gradebook_and_transcript' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "gradebook_and_transcript"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.defense_and_capstone"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "defense_and_capstone"
+          },
+          {
+            "type": "capability",
+            "value": "defense_and_capstone"
+          }
+        ]
+      },
+      "agent_id": "product.hat.defense_and_capstone",
+      "allowed_actions": [
+        "product.defense_and_capstone"
+      ],
+      "block_ids": [
+        "workflow",
+        "notification",
+        "approval_rules",
+        "transaction_state_machine",
+        "pdf"
+      ],
+      "discipline": "defense_and_capstone",
+      "display_name": "Cerebrum Executive Programs Defense And Capstone Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'defense_and_capstone' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "defense_and_capstone"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.track_admin"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "track_admin"
+          },
+          {
+            "type": "capability",
+            "value": "track_admin"
+          }
+        ]
+      },
+      "agent_id": "product.hat.track_admin",
+      "allowed_actions": [
+        "product.track_admin"
+      ],
+      "block_ids": [
+        "validation",
+        "version_diff",
+        "workbench",
+        "audit"
+      ],
+      "discipline": "track_admin",
+      "display_name": "Cerebrum Executive Programs Track Admin Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'track_admin' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "track_admin"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.reading_and_case_library"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "reading_and_case_library"
+          },
+          {
+            "type": "capability",
+            "value": "reading_and_case_library"
+          }
+        ]
+      },
+      "agent_id": "product.hat.reading_and_case_library",
+      "allowed_actions": [
+        "product.reading_and_case_library"
+      ],
+      "block_ids": [
+        "knowledge",
+        "vector_search",
+        "governance_gate"
+      ],
+      "discipline": "reading_and_case_library",
+      "display_name": "Cerebrum Executive Programs Reading And Case Library Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'reading_and_case_library' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "reading_and_case_library"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0"
+}

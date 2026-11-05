@@ -1,0 +1,50 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.faculty_session"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "faculty_session"
+      },
+      {
+        "type": "capability",
+        "value": "faculty_session"
+      }
+    ]
+  },
+  "agent_id": "product.hat.faculty_session",
+  "allowed_actions": [
+    "product.faculty_session"
+  ],
+  "block_ids": [
+    "orchestrator",
+    "knowledge",
+    "memory",
+    "audit",
+    "governance_gate"
+  ],
+  "discipline": "faculty_session",
+  "display_name": "Cerebrum Executive Programs Faculty Session Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'faculty_session' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "faculty_session"
+  ]
+}

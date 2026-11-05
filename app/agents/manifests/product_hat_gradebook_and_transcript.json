@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.gradebook_and_transcript"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "gradebook_and_transcript"
+      },
+      {
+        "type": "capability",
+        "value": "gradebook_and_transcript"
+      }
+    ]
+  },
+  "agent_id": "product.hat.gradebook_and_transcript",
+  "allowed_actions": [
+    "product.gradebook_and_transcript"
+  ],
+  "block_ids": [
+    "analytics",
+    "pdf",
+    "database",
+    "dashboard"
+  ],
+  "discipline": "gradebook_and_transcript",
+  "display_name": "Cerebrum Executive Programs Gradebook And Transcript Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'gradebook_and_transcript' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "gradebook_and_transcript"
+  ]
+}

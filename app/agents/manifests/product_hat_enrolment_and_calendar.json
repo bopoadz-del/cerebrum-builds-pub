@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.enrolment_and_calendar"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "enrolment_and_calendar"
+      },
+      {
+        "type": "capability",
+        "value": "enrolment_and_calendar"
+      }
+    ]
+  },
+  "agent_id": "product.hat.enrolment_and_calendar",
+  "allowed_actions": [
+    "product.enrolment_and_calendar"
+  ],
+  "block_ids": [
+    "auth",
+    "notification",
+    "email",
+    "database"
+  ],
+  "discipline": "enrolment_and_calendar",
+  "display_name": "Cerebrum Executive Programs Enrolment And Calendar Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'enrolment_and_calendar' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "enrolment_and_calendar"
+  ]
+}

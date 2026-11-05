@@ -1,0 +1,131 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Cerebrum Executive Programs
+vertical: product
+summary: Cerebrum Executive Programs is a data-driven executive-education platform
+  for running 16-week executive programs (COO, CEO, or any other track) defined entirely
+  in YAML track files, never in product code. Learners enrol on a track with a start
+  date and timezone, receive a generated 96-session calendar (16 weeks x 6 fixed-template
+  sessions), attend faculty chat sessions in six kernel modes (lecture, brief, socratic,
+  sparring, oral_quiz, examiner), submit weekly memos and a capstone, sit a term de
+capabilities:
+- id: track_loader
+  description: Load and validate track YAML files at startup against the shipped track.v1.schema.json
+    (draft 2020-12, additionalProperties false, required header fields, rubric with
+    5 x 20-point criteria, weights summing to 100, length_weeks minimum 4). An invalid
+    file is refused with the offending field path name
+  block_ids:
+  - validation
+  - config
+  - version
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: enrolment_and_calendar
+  description: Enrol a learner on a track with start_date and timezone, generate the
+    16-week x 6-session calendar from the fixed session template (day offsets 0,1,2,4,5,6
+    with framework/case_prep/case_class/lab/lab/exam durations), store the enrolment
+    with its pinned track version, and send the week-1 reading emai
+  block_ids:
+  - auth
+  - notification
+  - email
+  - database
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - email_delivery
+- id: faculty_session
+  description: Run a chat session per scheduled session in six kernel modes (lecture,
+    brief, socratic, sparring, oral_quiz, examiner), storing the transcript and writing
+    an audit row per session; faculty content is built only from the week's track
+    data, and sparring mode refuses to write the learner's deliverable.
+  block_ids:
+  - orchestrator
+  - knowledge
+  - memory
+  - audit
+  - governance_gate
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: memo_grading
+  description: A separate grader with no access to the faculty transcript scores a
+    submission on the track's 5 x 20-point rubric via formula_executor, emits one
+    verdict line per criterion, stores provenance (kernel block, kernel version, rubric
+    version, run id), and routes submissions below 70 to a rewrite path.
+  block_ids:
+  - formula_executor
+  - validation
+  - evidence_chain
+  - ingestion_provenance
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: gradebook_and_transcript
+  description: Maintain a live weighted gradebook (memos 60, defenses 20, capstone
+    20) and produce a transcript PDF containing every grade id and score.
+  block_ids:
+  - analytics
+  - pdf
+  - database
+  - dashboard
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: defense_and_capstone
+  description: Schedule the term defense on the term's last day with pass/fail and
+    a re-sit within 7 days on failure; accept capstone upload with two reviewer invites
+    sent by email, collect three verdicts under the acceptance rule (all accept ->
+    accepted, accept/accept/revise -> revise), and gate graduation on ave
+  block_ids:
+  - workflow
+  - notification
+  - approval_rules
+  - transaction_state_machine
+  - pdf
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - email_delivery
+- id: track_admin
+  description: Upload and edit track YAML, validate it against the schema, show a
+    week-level diff against the current version, and pin a track version per enrolment
+    so existing learners stay on their pinned version.
+  block_ids:
+  - validation
+  - version_diff
+  - workbench
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: reading_and_case_library
+  description: Expose per-week readings and cases with their public sources, withholding
+    each case's outcome until the case_class session opens it for that learner.
+  block_ids:
+  - knowledge
+  - vector_search
+  - governance_gate
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors:
+- email_delivery
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

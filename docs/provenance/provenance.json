@@ -1,0 +1,135 @@
+{
+  "blocks_commit": "4e8324486a839957498462f2fb8b01276b879714",
+  "blueprint_id": "product:product_blueprint.v1",
+  "factory": "CerebrumDev.ai",
+  "factory_commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
+  "generated_at": "blueprint:c06f1aefde38171e745f2e0ba259d5c95c93e3fe0ddfff38e4841ea889889189",
+  "inputs_hash": "c06f1aefde38171e745f2e0ba259d5c95c93e3fe0ddfff38e4841ea889889189",
+  "kernel_version": "1.0.0",
+  "plan": {
+    "capabilities": [
+      {
+        "block_ids": [
+          "validation",
+          "config",
+          "version"
+        ],
+        "capability_id": "track_loader",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "auth",
+          "notification",
+          "email",
+          "database"
+        ],
+        "capability_id": "enrolment_and_calendar",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "orchestrator",
+          "knowledge",
+          "memory",
+          "audit",
+          "governance_gate"
+        ],
+        "capability_id": "faculty_session",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "formula_executor",
+          "validation",
+          "evidence_chain",
+          "ingestion_provenance"
+        ],
+        "capability_id": "memo_grading",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "analytics",
+          "pdf",
+          "database",
+          "dashboard"
+        ],
+        "capability_id": "gradebook_and_transcript",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "workflow",
+          "notification",
+          "approval_rules",
+          "transaction_state_machine",
+          "pdf"
+        ],
+        "capability_id": "defense_and_capstone",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "validation",
+          "version_diff",
+          "workbench",
+          "audit"
+        ],
+        "capability_id": "track_admin",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "knowledge",
+          "vector_search",
+          "governance_gate"
+        ],
+        "capability_id": "reading_and_case_library",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      }
+    ],
+    "dual_registered_blocks": [
+      "analytics",
+      "approval_rules",
+      "audit",
+      "auth",
+      "config",
+      "dashboard",
+      "database",
+      "email",
+      "evidence_chain",
+      "formula_executor",
+      "governance_gate",
+      "ingestion_provenance",
+      "knowledge",
+      "memory",
+      "notification",
+      "orchestrator",
+      "pdf",
+      "transaction_state_machine",
+      "validation",
+      "vector_search",
+      "version",
+      "version_diff",
+      "workbench",
+      "workflow"
+    ],
+    "fail_closed": true,
+    "inventory_domain_gaps": [],
+    "product_id": "product",
+    "unsupported": [],
+    "vertical_scoped_out": []
+  },
+  "product_id": "product",
+  "schema": "factory_provenance.v1",
+  "writer_receipt": "sha256:23a6d37f395870497acf523fcc4900a087ecc1b5d589135bad6826fcb276c3a0"
+}
