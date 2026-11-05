@@ -98,7 +98,7 @@ def main() -> int:
         # so the delivered tree needs no app/factory import. A docstring
         # sentence decides nothing.
         _agent_prefixes = ('coder LLM', 'coder CLI', 'FACTORY_CODE_CLI', 'codewhale')
-        _agent_exact = {'harvested workspace handler', 'compiled-brief oneshot'}
+        _agent_exact = {'compiled-brief oneshot', 'harvested workspace handler'}
         stamped = 0
         for path in handlers:
             _src = _authored_by(path.read_text(encoding="utf-8", errors="replace"))

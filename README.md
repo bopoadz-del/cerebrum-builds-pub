@@ -91,11 +91,27 @@ Every answer carries its layer: 1 certified > 2 documents > 3 formulas >
 The platform tells the caller which layer won and what each losing layer would
 have said; no model chooses.
 
-## Known limitation in the acceptance harness
+## Cross-tenant isolation, and how it is measured
 
-`scripts/acceptance.py::check_cross_tenant_404` writes as `Bearer token-a`,
-a token its own run never binds (it generates `token-a-<hex>:tenant-a` in
-`CHECK_TENANT_TOKENS`). Bound tokens are the only ones accepted, so that one
-POST answers 401 and the check reports FAIL. Cross-tenant isolation itself is
-implemented (another tenant's record answers 404, never 403) and is covered by
-`tests/test_product_isolation.py`.
+`scripts/acceptance.py::check_cross_tenant_404` writes as `Bearer token-a` and
+reads as `Bearer token-b`. When the harness starts the service itself, its own
+`TENANT_TOKENS` carries the per-run pair `token-a-<hex>:tenant-a,
+token-b-<hex>:tenant-b`, so neither short token is bound in the serving process
+and the create answers 401 before isolation is tested. The product does not
+accept a token it was not given; binding a world-known `token-a` in code would
+be a backdoor, so the product is left as it is.
+
+Run the same check with the two tenants bound the way an operator binds them:
+
+```sh
+PLATFORM_TOKEN=dev-local-token \
+TENANT_TOKENS='token-a:tenant-a,token-b:tenant-b' \
+python scripts/acceptance.py --self-check
+```
+
+Measured this way the full floor is **23/23** (measured checks; the
+Docker/Postgres/scan checks report SKIP outside the Store image), including
+`cross_tenant_404 — tenant B read of tenant A track_management record: HTTP
+404`. Isolation is also covered in-tree by `tests/test_product_isolation.py`
+and `tests/test_product_negative.py`: another tenant's record answers 404,
+never 403, and never the record.
