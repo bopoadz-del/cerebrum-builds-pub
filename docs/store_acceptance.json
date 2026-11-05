@@ -1,0 +1,227 @@
+{
+  "checks": [
+    "no_token_401",
+    "missing_field_422",
+    "enum_422",
+    "ui_served_200",
+    "rag_roundtrip_hit",
+    "single_persistence_root",
+    "ci_present_and_full_suite",
+    "handler_bodies_distinct",
+    "health_fail_closed",
+    "openapi_committed",
+    "docker_health_200",
+    "cross_tenant_404",
+    "concurrent_writes_hold",
+    "migration_no_create_all",
+    "negative_floor",
+    "postgres_boot_200",
+    "one_live_connector",
+    "metrics_served",
+    "backup_restore_roundtrip",
+    "bench_p95",
+    "audit_clean",
+    "no_token_literal",
+    "authorship_floor"
+  ],
+  "detail": "docker is required \u2014 Store-green runs acceptance inside the image",
+  "factory_owed": [],
+  "harness_ran": true,
+  "lines": [
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "no_token_401",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "missing_field_422",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "enum_422",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "ui_served_200",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "rag_roundtrip_hit",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "single_persistence_root",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "ci_present_and_full_suite",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "handler_bodies_distinct",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "health_fail_closed",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "openapi_committed",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "docker_health_200",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "cross_tenant_404",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "concurrent_writes_hold",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "migration_no_create_all",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "negative_floor",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "postgres_boot_200",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "one_live_connector",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "metrics_served",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "backup_restore_roundtrip",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "bench_p95",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "audit_clean",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "no_token_literal",
+      "owner": "",
+      "status": "FAIL"
+    },
+    {
+      "detail": "not measured",
+      "evidence": "",
+      "evidence_rows": [],
+      "name": "authorship_floor",
+      "owner": "",
+      "status": "FAIL"
+    }
+  ],
+  "missing": true,
+  "ok": false,
+  "passed": 0,
+  "product_ok": false,
+  "product_passed": 0,
+  "product_score": "0/0",
+  "product_total": 0,
+  "schema_version": "store_acceptance.v1",
+  "score": "0/23",
+  "total": 23,
+  "via": "scripts/acceptance.py"
+}
