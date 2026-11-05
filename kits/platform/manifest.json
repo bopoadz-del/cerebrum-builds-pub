@@ -1,0 +1,39 @@
+{
+  "blocks": [
+    "approval_rules",
+    "boq_processor",
+    "document_engine",
+    "finance_reconciliation",
+    "formula_executor",
+    "search",
+    "validation",
+    "version",
+    "workflow"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "approval_rules",
+    "boq_processor",
+    "document_engine",
+    "finance_reconciliation",
+    "formula_executor",
+    "search",
+    "validation",
+    "version",
+    "workflow"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "approval_rules": "vendor/blocks/approval_rules",
+    "boq_processor": "vendor/blocks/boq_processor",
+    "document_engine": "vendor/blocks/document_engine",
+    "finance_reconciliation": "vendor/blocks/finance_reconciliation",
+    "formula_executor": "vendor/blocks/formula_executor",
+    "search": "vendor/blocks/search",
+    "validation": "vendor/blocks/validation",
+    "version": "vendor/blocks/version",
+    "workflow": "vendor/blocks/workflow"
+  },
+  "version": "1.0.0"
+}
