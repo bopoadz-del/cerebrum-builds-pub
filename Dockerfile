@@ -17,6 +17,9 @@ RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt
 
 COPY . .
 
+# The console the image serves must be in the image, not only in the checkout.
+RUN test -s app/static/index.html
+
 RUN mkdir -p /data \
     && useradd --system --uid 10001 --home /app platform \
     && chown -R platform:platform /data /app

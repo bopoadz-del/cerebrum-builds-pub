@@ -76,6 +76,23 @@ def _ensure_paths() -> None:
             sys.path.insert(0, entry)
 
 
+def _prime_shadowed_wrapper(block_id: str) -> None:
+    """Register a vendored <block>_block package the block's loader expects.
+
+    The vendor slice ships some wrappers as a package directory
+    (``<block>_block/``) while the block's own ``get_block()`` resolves the
+    sibling module name by file path. Importing the package first puts it in
+    ``sys.modules`` under the name the loader then reuses instead of loading a
+    non-existent file. This is a read-only compatibility shim: it never
+    writes into vendor/.
+    """
+    wrapper = "vendor.cerebrum.blocks." + str(block_id) + "_block"
+    try:
+        importlib.import_module(wrapper)
+    except ImportError:
+        pass
+
+
 def load_block(block_id: str):
     if block_id in _MODULES:
         return _MODULES[block_id]
@@ -85,6 +102,7 @@ def load_block(block_id: str):
     if not path.is_file():
         raise RuntimeError("locked block missing at " + str(path) + " (" + block_id + ")")
     _ensure_paths()
+    _prime_shadowed_wrapper(block_id)
     module_name = "locked_block_" + block_id
     spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:

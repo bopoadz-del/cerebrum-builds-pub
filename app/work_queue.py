@@ -26,6 +26,9 @@ INSERT_QUEUE = (
 )
 INSERT_QUEUE_RETURNING = INSERT_QUEUE + " RETURNING id"
 SELECT_QUEUE = "SELECT * FROM work_queue WHERE id = :id AND tenant_id = :tenant_id"
+LIST_QUEUE = (
+    "SELECT * FROM work_queue WHERE tenant_id = :tenant_id ORDER BY id LIMIT :limit"
+)
 SELECT_QUEUE_TENANT = "SELECT tenant_id FROM work_queue WHERE id = :id"
 CLAIM_QUEUE = (
     "UPDATE work_queue SET status = :status, updated_at = :updated_at"
@@ -144,6 +147,20 @@ def mark(item_id: int, status: str, result: Any = None, from_status: Optional[st
     finally:
         connection.close()
     return get(item_id, tenant_id=tenant_id)
+
+
+def list_items(tenant_id: str, limit: int = 100) -> list:
+    """The caller's own queue rows, oldest first. Never another tenant's."""
+    if not tenant_id:
+        raise ValueError("tenant_id is required")
+    connection = _db.connect()
+    try:
+        rows = connection.execute(
+            LIST_QUEUE, {"tenant_id": tenant_id, "limit": int(limit)}
+        ).fetchall()
+    finally:
+        connection.close()
+    return [item for item in (_row(row) for row in rows) if item is not None]
 
 
 def recall(idempotency_key: str) -> Optional[dict]:

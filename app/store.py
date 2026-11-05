@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import json
 import os
+import threading
+from contextlib import nullcontext
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
@@ -88,6 +90,23 @@ def connect():
     return _db.connect()
 
 
+_WRITE_LOCK = threading.Lock()
+
+
+def _write_guard():
+    """Serialise SQLite writes inside this process.
+
+    SQLite admits one writer at a time, and its file lock starves under a
+    burst of writers (badly so on a network filesystem): N simultaneous
+    saves otherwise queue on the OS lock for minutes. A process-wide gate
+    makes the cohort queue here instead, one committed write each -- every
+    caller still gets its own row and its own id. Postgres needs no gate.
+    """
+    if _db.backend_name() == "sqlite":
+        return _WRITE_LOCK
+    return nullcontext()
+
+
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -141,17 +160,18 @@ def save(entity: str, record: dict, tenant_id: str) -> dict:
         "created_at": now,
         "updated_at": now,
     }
-    connection = connect()
-    try:
-        if _db.backend_name() == "postgres":
-            row = connection.execute(INSERT_SQL_RETURNING[entity], params).fetchone()
-            record_id = row[0] if row is not None else None
-        else:
-            cursor = connection.execute(INSERT_SQL[entity], params)
-            record_id = cursor.lastrowid
-        connection.commit()
-    finally:
-        connection.close()
+    with _write_guard():
+        connection = connect()
+        try:
+            if _db.backend_name() == "postgres":
+                row = connection.execute(INSERT_SQL_RETURNING[entity], params).fetchone()
+                record_id = row[0] if row is not None else None
+            else:
+                cursor = connection.execute(INSERT_SQL[entity], params)
+                record_id = cursor.lastrowid
+            connection.commit()
+        finally:
+            connection.close()
     result = dict(stored)
     result["id"] = record_id
     result["tenant_id"] = tenant_id
@@ -218,22 +238,24 @@ def update(entity: str, record_id: Any, record: dict, tenant_id: str) -> Optiona
         "id": record_id,
         "tenant_id": tenant_id,
     }
-    connection = connect()
-    try:
-        connection.execute(UPDATE_SQL[entity], params)
-        connection.commit()
-    finally:
-        connection.close()
+    with _write_guard():
+        connection = connect()
+        try:
+            connection.execute(UPDATE_SQL[entity], params)
+            connection.commit()
+        finally:
+            connection.close()
     return get(entity, record_id, tenant_id)
 
 
 def delete(entity: str, record_id: Any, tenant_id: str) -> bool:
     _require_entity(entity)
-    connection = connect()
-    try:
-        cursor = connection.execute(DELETE_SQL[entity], {"id": record_id, "tenant_id": tenant_id})
-        connection.commit()
-        deleted = cursor.rowcount
-    finally:
-        connection.close()
+    with _write_guard():
+        connection = connect()
+        try:
+            cursor = connection.execute(DELETE_SQL[entity], {"id": record_id, "tenant_id": tenant_id})
+            connection.commit()
+            deleted = cursor.rowcount
+        finally:
+            connection.close()
     return bool(deleted)

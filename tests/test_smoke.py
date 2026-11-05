@@ -75,7 +75,7 @@ def test_every_capability_handle_returns_mapping():
     failures = []
     from app.actions import progress_claim_administration
     try:
-        out = progress_claim_administration.handle({})
+        out = progress_claim_administration.handle({'reference': 'sample', 'status': 'open', 'claim_number': 'sample', 'period_from': '2026-09-03', 'period_to': '2026-09-03', 'boq_item_codes': 'sample', 'claimed_quantity': 1.0, 'unit_rate': 1.0, 'claimed_amount': 1.0, 'certified_amount': 1.0, 'retention_amount': 1.0, 'performance_security': 1.0, 'accepted_contract_amount': 1.0, 'line_items': 'sample', 'clause_reference': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -83,7 +83,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('progress_claim_administration')
     from app.actions import delay_damages_tracking
     try:
-        out = delay_damages_tracking.handle({})
+        out = delay_damages_tracking.handle({'reference': 'sample', 'status': 'open', 'notice_reference': 'sample', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'actual_completion_date': '2026-09-03', 'accepted_contract_amount': 1.0, 'days_of_delay': 1, 'daily_rate': 1.0, 'damages_cap_ratio': 1.0, 'damages_amount': 1.0, 'clause_reference': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -91,7 +91,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('delay_damages_tracking')
     from app.actions import qa_itp_records
     try:
-        out = qa_itp_records.handle({})
+        out = qa_itp_records.handle({'reference': 'sample', 'status': 'open', 'itp_number': 'sample', 'inspection_type': 'sample', 'boq_item_code': 'sample', 'inspection_date': '2026-09-03', 'result': 'pass', 'inspector': 'sample', 'notes': 'sample', 'evidence_text': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -99,7 +99,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('qa_itp_records')
     from app.actions import document_register
     try:
-        out = document_register.handle({})
+        out = document_register.handle({'reference': 'sample', 'status': 'open', 'title': 'sample', 'document_type': 'contract', 'revision': 'sample', 'issued_date': '2026-09-03', 'source_document': 'sample', 'checksum': 'sample', 'supersedes': 'sample', 'description': 'sample', 'search_query': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -117,7 +117,7 @@ def test_every_capability_executes_end_to_end():
     import json as _json
     failures = []
     from app.actions import progress_claim_administration
-    out = progress_claim_administration.handle({})
+    out = progress_claim_administration.handle({'reference': 'sample', 'status': 'open', 'claim_number': 'sample', 'period_from': '2026-09-03', 'period_to': '2026-09-03', 'boq_item_codes': 'sample', 'claimed_quantity': 1.0, 'unit_rate': 1.0, 'claimed_amount': 1.0, 'certified_amount': 1.0, 'retention_amount': 1.0, 'performance_security': 1.0, 'accepted_contract_amount': 1.0, 'line_items': 'sample', 'clause_reference': 'sample'})
     if not isinstance(out, dict):
         failures.append('progress_claim_administration returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('progress_claim_administration')
@@ -128,7 +128,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('progress_claim_administration reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('progress_claim_administration')
     from app.actions import delay_damages_tracking
-    out = delay_damages_tracking.handle({})
+    out = delay_damages_tracking.handle({'reference': 'sample', 'status': 'open', 'notice_reference': 'sample', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'actual_completion_date': '2026-09-03', 'accepted_contract_amount': 1.0, 'days_of_delay': 1, 'daily_rate': 1.0, 'damages_cap_ratio': 1.0, 'damages_amount': 1.0, 'clause_reference': 'sample'})
     if not isinstance(out, dict):
         failures.append('delay_damages_tracking returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('delay_damages_tracking')
@@ -139,7 +139,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('delay_damages_tracking reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('delay_damages_tracking')
     from app.actions import qa_itp_records
-    out = qa_itp_records.handle({})
+    out = qa_itp_records.handle({'reference': 'sample', 'status': 'open', 'itp_number': 'sample', 'inspection_type': 'sample', 'boq_item_code': 'sample', 'inspection_date': '2026-09-03', 'result': 'pass', 'inspector': 'sample', 'notes': 'sample', 'evidence_text': 'sample'})
     if not isinstance(out, dict):
         failures.append('qa_itp_records returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('qa_itp_records')
@@ -150,7 +150,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('qa_itp_records reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('qa_itp_records')
     from app.actions import document_register
-    out = document_register.handle({})
+    out = document_register.handle({'reference': 'sample', 'status': 'open', 'title': 'sample', 'document_type': 'contract', 'revision': 'sample', 'issued_date': '2026-09-03', 'source_document': 'sample', 'checksum': 'sample', 'supersedes': 'sample', 'description': 'sample', 'search_query': 'sample'})
     if not isinstance(out, dict):
         failures.append('document_register returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('document_register')

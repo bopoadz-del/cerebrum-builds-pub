@@ -13,8 +13,8 @@ from app.main import app
 from app.observe import JsonFormatter, REQUEST_ID_HEADER, strip_emoji
 from app.revision import MARK_BASELINE, REVISION_N
 
-ENTITY = ''
-SAMPLE = {}
+ENTITY = 'delay_damages_tracking'
+SAMPLE = {'reference': 's10-row', 'status': 'open', 'notice_reference': 's10-row', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'actual_completion_date': '2026-09-03', 'accepted_contract_amount': 1.0, 'days_of_delay': 1, 'daily_rate': 1.0, 'damages_cap_ratio': 1.0, 'damages_amount': 1.0, 'clause_reference': 's10-row'}
 TENANT = "test-tenant"
 
 

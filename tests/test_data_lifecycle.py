@@ -15,12 +15,12 @@ import pytest
 from app import backup, store
 from app.migrations import current_revision, downgrade, upgrade_head, upgrade_to
 
-ENTITY = ''
-SAMPLE = {}
+ENTITY = 'delay_damages_tracking'
+SAMPLE = {'reference': 's10-row', 'status': 'open', 'notice_reference': 's10-row', 'commencement_date': '2026-09-03', 'completion_date': '2026-09-03', 'actual_completion_date': '2026-09-03', 'accepted_contract_amount': 1.0, 'days_of_delay': 1, 'daily_rate': 1.0, 'damages_cap_ratio': 1.0, 'damages_amount': 1.0, 'clause_reference': 's10-row'}
 #: Tenant the generated tests act as. Tenant-scoped store calls require
 #: an explicit tenant — never a default (the tenancy module's rule).
 TENANT = "test-tenant"
-ENTITIES = []
+ENTITIES = ['delay_damages_tracking', 'document_register', 'progress_claim_administration', 'qa_itp_records']
 REV_V1 = '0001_baseline'
 REV_V2 = '0002_lifecycle_audit'
 AUDIT = 'lifecycle_audit'

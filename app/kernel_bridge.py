@@ -49,6 +49,15 @@ async def _handle(context: ActionContext, arguments: dict) -> ActionOutcome:
 
 
 def spec_for(capability_id: str) -> ActionSpec:
+    """The process action for one capability.
+
+    The capability is bound into the handler, so a queued payload does not
+    have to name its own capability (the queue row already does).
+    """
+
+    async def _process(context: ActionContext, arguments: dict) -> ActionOutcome:
+        return await _handle(context, {**dict(arguments or {}), "capability_id": capability_id})
+
     return ActionSpec(
         action_id="product.process",
         domain="product",
@@ -59,5 +68,5 @@ def spec_for(capability_id: str) -> ActionSpec:
         required_context=[],
         permissions=["product.process"],
         read_only=False,
-        handler=_handle,
+        handler=_process,
     )

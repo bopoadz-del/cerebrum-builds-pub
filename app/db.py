@@ -117,6 +117,12 @@ def connect():
     connection = sqlite3.connect(str(path), timeout=BUSY_TIMEOUT_MS / 1000.0, check_same_thread=False)
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA busy_timeout = 30000")
+    # WAL + NORMAL: a committed write survives an application crash and the
+    # WAL is checkpointed on the boot path. Only an OS-level crash can drop
+    # the last commits, which is the durability docs/data_lifecycle.json
+    # declares -- and the per-commit fsync is what makes a write burst on a
+    # mounted volume crawl.
+    connection.execute("PRAGMA synchronous = NORMAL")
     connection.execute("PRAGMA foreign_keys = ON")
     return connection
 

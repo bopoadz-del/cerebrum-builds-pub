@@ -5,6 +5,13 @@ a payload the route is expected to accept. Only ``reference`` and ``status`` are
 required: every other field is derived from the contract/BOQ source of record or
 defaulted by the handler. Field vocabularies and formats are declared here, never
 enforced only in prose inside a handler.
+
+Numeric declarations: the platform's kernel JSON contract speaks
+string/integer/number/boolean, so money and quantity fields are declared
+``float`` and carry the canonical markers ``money=True`` / ``quantity=True``
+and their class-level ``MONEY_FIELDS`` / ``QUANTITY_FIELDS`` lists. Currency,
+country and every rate are still read from ``app.money_settings`` at the point
+of use -- no rate or currency is typed here.
 """
 
 from __future__ import annotations
@@ -98,13 +105,13 @@ class ProgressClaim(_Model):
         _f("period_from", "date"),
         _f("period_to", "date"),
         _f("boq_item_codes", "str"),
-        _f("claimed_quantity", "quantity", min=0.0),
-        _f("unit_rate", "money", min=0.0),
-        _f("claimed_amount", "money", min=0.0),
-        _f("certified_amount", "money", min=0.0),
-        _f("retention_amount", "money", min=0.0),
-        _f("performance_security", "money", min=0.0),
-        _f("accepted_contract_amount", "money", min=0.0),
+        _f("claimed_quantity", "float", min=0.0, quantity=True),
+        _f("unit_rate", "float", min=0.0, money=True),
+        _f("claimed_amount", "float", min=0.0, money=True),
+        _f("certified_amount", "float", min=0.0, money=True),
+        _f("retention_amount", "float", min=0.0, money=True),
+        _f("performance_security", "float", min=0.0, money=True),
+        _f("accepted_contract_amount", "float", min=0.0, money=True),
         _f("line_items", "str"),
         _f("clause_reference", "str"),
     )
@@ -129,11 +136,11 @@ class DelayDamages(_Model):
         _f("commencement_date", "date"),
         _f("completion_date", "date"),
         _f("actual_completion_date", "date"),
-        _f("accepted_contract_amount", "money", min=0.0),
-        _f("days_of_delay", "int", min=0),
-        _f("daily_rate", "number", min=0.0),
-        _f("damages_cap_ratio", "number", min=0.0),
-        _f("damages_amount", "money", min=0.0),
+        _f("accepted_contract_amount", "float", min=0.0, money=True),
+        _f("days_of_delay", "int", min=0, quantity=True),
+        _f("daily_rate", "float", min=0.0),
+        _f("damages_cap_ratio", "float", min=0.0),
+        _f("damages_amount", "float", min=0.0, money=True),
         _f("clause_reference", "str"),
     )
     MONEY_FIELDS = ["accepted_contract_amount", "damages_amount"]
