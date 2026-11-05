@@ -148,8 +148,7 @@ def run(**kwargs):
     envelope = _run_async(instance.execute(input_data, params))
     if envelope.get("status") == "error":
         inner = envelope.get("result", {})
-        message = envelope.get("error") or (
-            inner.get("error") if isinstance(inner, dict) else str(inner)
-        )
+        message = inner.get("error") if isinstance(inner, dict) else str(inner)
         raise RuntimeError(message or "workbench block failed")
-    return envelope
+
+    return envelope.get("result", envelope)

@@ -1,5 +1,5 @@
 """Approval Rules - the human step between a proposed clearance rule and a
-number an engineer will move a duct to satisfy, ported from <private-repo>
+number an engineer will move a duct to satisfy, ported from bim-manager-agent
 ``app/rules/approval.py``.
 
 A candidate rule is inert. It is stored, it is listed, it can be read - and
@@ -43,12 +43,12 @@ def _envelope(status, result=None, error=None, detail=None):
 
 
 class ApprovalRulesBlock(UniversalBlock):
-    """Clearance-rule candidate approval gate, ported from <private-repo>."""
+    """Clearance-rule candidate approval gate, ported from bim-manager-agent."""
 
     name = "approval_rules"
     version = "1.0.0"
     description = (
-        "real (clone of <private-repo> app/rules/approval.py): extracted "
+        "real (clone of bim-manager-agent app/rules/approval.py): extracted "
         "clearance-rule candidates are inert until a NAMED reviewer approves "
         "them one at a time by id - no approve_all, no approval by count; an "
         "anonymous approval is refused and every decision is a ledger row "

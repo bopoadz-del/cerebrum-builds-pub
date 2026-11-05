@@ -183,7 +183,7 @@ def _record_capability_failure(capability_id):
 
 def test_defense_and_capstone_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/defense_and_capstone", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/defense_and_capstone", {}, AUTH, 'defense_and_capstone')
+    resp, _corr = _post_accepting("/v1/defense_and_capstone", {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'kind': 'defense', 'scheduled_date': 'sample', 'verdict': 'pass', 'reviewer_email': 'sample', 'defense_minutes': 1}, AUTH, 'defense_and_capstone')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False
@@ -197,7 +197,7 @@ def test_defense_and_capstone_answers_the_declared_unavailable_refusal():
 
 def test_enrolment_and_calendar_answers_the_declared_unavailable_refusal():
     before = client.get("/v1/enrolment_and_calendar", headers=AUTH)
-    resp, _corr = _post_accepting("/v1/enrolment_and_calendar", {}, AUTH, 'enrolment_and_calendar')
+    resp, _corr = _post_accepting("/v1/enrolment_and_calendar", {'reference': 'sample', 'status': 'open', 'learner_name': 'sample', 'learner_email': 'sample', 'start_date': 'sample', 'timezone': 'sample', 'track_version': 'sample'}, AUTH, 'enrolment_and_calendar')
     assert resp.status_code == 503, resp.text[:300]
     body = resp.json()
     assert body['ok'] is False

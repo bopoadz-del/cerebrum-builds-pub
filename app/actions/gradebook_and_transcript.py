@@ -54,12 +54,15 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
             supplied[name] = domain.number(raw)
     missing = [name for name in COMPONENTS if name not in supplied]
     average = formulas.weighted_average(supplied, weights) if supplied else 0.0
-    prior = data.get("prior_average")
-    growth = (
-        formulas.period_growth(domain.number(prior), average)
-        if prior not in (None, "") and supplied
-        else None
-    )
+    # prior_average is optional enrichment: a value that is not a number is
+    # ignored rather than allowed to invalidate an otherwise complete
+    # gradebook record.
+    prior_raw = data.get("prior_average")
+    try:
+        prior = float(prior_raw) if prior_raw not in (None, "") else None
+    except (TypeError, ValueError):
+        prior = None
+    growth = formulas.period_growth(prior, average) if prior is not None and supplied else None
     bands = dict(rubric.get("bands") or {})
     band = formulas.band_for(average, bands) if supplied else ""
 

@@ -1,118 +1,4 @@
 """Database Block - SQLite/PostgreSQL persistence"""
-import os as _os
-import sqlite3 as _sqlite3
-from pathlib import Path as _HalPath
-
-
-class _OfflineHal:
-    """In-process HAL so Store DatabaseBlock can cursor() without a live store.
-
-    Passing None made the tasting-room suite fail with
-    ``'NoneType' object has no attribute 'cursor'`` after construct succeeded.
-    """
-
-    def __init__(self, db_path):
-        self._db_path = db_path
-        self._conn = None
-        self.config = {}
-
-    def _connect(self):
-        if self._conn is None:
-            parent = _HalPath(self._db_path).parent
-            parent.mkdir(parents=True, exist_ok=True)
-            self._conn = _sqlite3.connect(self._db_path, check_same_thread=False)
-            self._conn.row_factory = _sqlite3.Row
-        return self._conn
-
-    @property
-    def connection(self):
-        return self._connect()
-
-    def get_connection(self):
-        return self._connect()
-
-    def cursor(self):
-        return self._connect().cursor()
-
-    def execute(self, *args, **kwargs):
-        return self._connect().execute(*args, **kwargs)
-
-    def executemany(self, *args, **kwargs):
-        return self._connect().executemany(*args, **kwargs)
-
-    def commit(self):
-        self._connect().commit()
-
-    def close(self):
-        if self._conn is not None:
-            self._conn.close()
-            self._conn = None
-
-
-def _offline_hal():
-    root = _HalPath(_os.environ.get("STORAGE_PATH") or ".").resolve()
-    root.mkdir(parents=True, exist_ok=True)
-    return _OfflineHal(str(root / "store_blocks.sqlite"))
-
-
-def _ensure_store_block_ready(instance):
-    """DatabaseBlock only opens SQLite in _legacy_initialize.
-
-    Construct-with-HAL is not enough: process() uses self._connection,
-    which stays None until initialize runs. LotDesk pilot then died on
-    Insert failed: 'NoneType' object has no attribute 'cursor'.
-    """
-    conn = getattr(instance, "_connection", None)
-    init = getattr(instance, "_legacy_initialize", None)
-    if conn is None and callable(init):
-        import asyncio
-        try:
-            asyncio.get_running_loop()
-        except RuntimeError:
-            asyncio.run(init())
-            return instance
-        import concurrent.futures
-        with concurrent.futures.ThreadPoolExecutor() as pool:
-            pool.submit(asyncio.run, init()).result()
-    return instance
-
-
-def _instantiate_store_block(block_cls):
-    """Store classes take (hal_block, config); kit shims called block_cls()."""
-    hal = _offline_hal()
-    attempts = []
-    for call in (
-        lambda: block_cls(hal, {}),
-        lambda: block_cls(hal_block=hal, config={}),
-        lambda: block_cls(hal=hal, config={}),
-        lambda: block_cls(),
-    ):
-        try:
-            return _ensure_store_block_ready(call())
-        except TypeError as exc:
-            attempts.append(exc)
-    raise attempts[-1]
-
-
-def _create_block_instance(block_or_name, *args, **kwargs):
-    """Store host DI. Generated platforms have no app.dependencies host.
-
-    Live: workflow step_0 (database) raised
-    DatabaseBlock.__init__() missing 2 required positional arguments:
-    'hal_block' and 'config' after the Store-host import failed and the
-    fallback constructed DatabaseBlock() with no HAL.
-    """
-    target = block_or_name
-    if isinstance(target, str):
-        try:
-            from vendor.cerebrum.blocks import get_block as _gb
-        except ImportError:
-            from app.blocks import get_block as _gb
-        target = _gb(target)
-    if isinstance(target, type):
-        return _instantiate_store_block(target)
-    return _ensure_store_block_ready(target)
-
 import logging
 import os
 
@@ -156,7 +42,7 @@ class DatabaseBlock(UniversalBlock):
         class's signature to two REQUIRED arguments. Every sibling --
         storage, team, workflow, dashboard, capture -- takes
         ``(hal_block=None, config=None)``, and so does UniversalBlock itself,
-        so every generic caller constructs blocks as ``_instantiate_store_block(block_cls)``.
+        so every generic caller constructs blocks as ``block_cls()``.
 
         On ``database`` that raised, and the caller could only report the
         raw TypeError. From a booted generated platform, running a two-step
@@ -248,39 +134,10 @@ class DatabaseBlock(UniversalBlock):
         """Execute SELECT query"""
         sql = data.get("sql")
         params = data.get("params", ())
-        # Store-unwired query: handlers often pass table/filters
-        # without a SQL string. sqlite3.execute(None) raises
-        # "argument 1 must be str, not None".
-        if not sql:
-            table = data.get("table") or data.get("table_name")
-            filters = data.get("filters") or data.get("where") or {}
-            if table and isinstance(filters, dict) and filters:
-                cols = " AND ".join(f"{k} = ?" for k in filters)
-                sql = f"SELECT * FROM {table} WHERE {cols}"
-                params = tuple(filters.values())
-            elif table:
-                sql = f"SELECT * FROM {table}"
-                params = ()
-            else:
-                return {"error": "Query failed: missing sql or table", "sql": None}
         
         try:
             cursor = self._connection.cursor()
-            try:
-                cursor.execute(sql, params)
-            except Exception as qexc:
-                if self._connection is not None and "no such table" in str(qexc).lower():
-                    table = data.get("table") or data.get("table_name")
-                    if table:
-                        cursor.execute(
-                            f"CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY)"
-                        )
-                        self._connection.commit()
-                        cursor.execute(sql, params)
-                    else:
-                        raise
-                else:
-                    raise
+            cursor.execute(sql, params)
             
             rows = cursor.fetchall()
             columns = [description[0] for description in cursor.description] if cursor.description else []
@@ -323,22 +180,6 @@ class DatabaseBlock(UniversalBlock):
             }
             
         except Exception as e:
-            if self._connection is not None and "no such table" in str(e).lower():
-                try:
-                    cols = ", ".join(f"{k} TEXT" for k in values.keys())
-                    cursor = self._connection.cursor()
-                    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} ({cols})")
-                    cursor.execute(sql, tuple(values.values()))
-                    self._connection.commit()
-                    last_id = cursor.lastrowid if self.backend == "sqlite" else None
-                    return {
-                        "inserted": True,
-                        "id": last_id,
-                        "rows_affected": cursor.rowcount,
-                        "created_table": True,
-                    }
-                except Exception as retry_exc:
-                    return {"error": f"Insert failed: {str(retry_exc)}"}
             return {"error": f"Insert failed: {str(e)}"}
     
     async def _update(self, data: Dict) -> Dict:

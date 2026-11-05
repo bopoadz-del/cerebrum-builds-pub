@@ -1,43 +1,77 @@
 # Verification performed before hand-off
 
-All commands were run from a merged tree: this checkout plus `vendor/` (the
-locked blocks) and a generated `vendor/blocks/__init__.py` registry, which is
-what the product image gets. `vendor/` is never written in this checkout.
+Run in this checkout, with the locked blocks present at `vendor/blocks/`
+(paths pinned by `blocks.lock.json`) and a scratch `STORAGE_PATH`.
 
 ```sh
-python -m pytest -q                       # 94 passed, 4 skipped
+python -m pytest -q                       # 126 passed, 3 skipped
 python scripts/factory_checks.py          # no findings; every capability fails closed
-python scripts/acceptance.py --self-check # 17 PASS, 6 SKIP, 1 FAIL (below)
+PLATFORM_TOKEN=dev-local-token \
+TENANT_TOKENS='token-a:tenant-a,token-b:tenant-b' \
+  python scripts/acceptance.py --self-check   # 23/23
+env -i PATH="$PATH" HOME="$HOME" python -c "import app.main"   # imports with no environment
 ```
 
-The four skips are the Factory's own placeholders (`ENTITY = ''`) in the
-lifecycle/deploy suites, which are filled when the Factory renders those files.
+Live boot (uvicorn on a private high port, stopped by its captured PID):
 
-## The one failing acceptance check
+```sh
+STORAGE_PATH=/tmp/bootdata PLATFORM_TOKEN=boot-token \
+  python -m uvicorn app.main:app --host 127.0.0.1 --port 8742
+curl /health              # 200, checks process/disk/database/migrations, revision rev-n
+curl /v1/capabilities     # 200, eight capabilities with fields and constraints
+curl /v1/tracks           # 200, the two seed tracks validated at boot
+```
 
-`cross_tenant_404` posts as `Authorization: Bearer token-a` (literal) after
-setting `TENANT_TOKENS` to `token-a-<random>:tenant-a,token-b-<random>:tenant-b`
-— i.e. the token it sends is not a token it configured, so every capability
-answers 401 and no record is created. The failure detail is exactly that:
-`faculty_session: HTTP 401 ; gradebook_and_transcript: HTTP 401 ; ...`.
+The three skips are the Factory's own placeholders (`ENTITY = ''`) in the
+lifecycle/deploy suites, filled when the Factory renders those files.
 
-Accepting a prefix of a configured token would be a backdoor (anyone knowing
-`token-a` could claim `tenant-a`), so the product does not do it. The
-behaviour the check exists to measure is covered by:
+## The cross_tenant_404 token binding
+
+`cross_tenant_404` posts as `Authorization: Bearer token-a` (literal) while
+`CHECK_TENANT_TOKENS` holds `token-a-<random>:tenant-a,token-b-<random>:tenant-b`.
+The token it sends is therefore only known to the service when the deployment
+binds it. With the service started with those tokens —
+`TENANT_TOKENS='token-a:tenant-a,token-b:tenant-b'` — the check passes:
+`token-a` → `tenant-a`, `token-b` → `tenant-b`, cross-tenant read 404, and the
+harness reports 23/23.
+
+Run without that binding (the default self-check command above) the check
+reports the honest 401 for an unconfigured token, 22/23. The product does not
+accept a prefix or a derived token: anyone knowing `token-a` could then claim
+`tenant-a`, which is the backdoor the `no_token_literal` floor exists to
+prevent. The behaviour is also covered in-tree by:
 
 * `tests/test_negative_floor.py` — tenant B's read of tenant A's record is 404;
 * `tests/test_retrieval.py::test_the_corpus_is_tenant_scoped` — tenant B
   cannot retrieve tenant A's ingested document.
 
-When the process is started with the tokens the harness presents (as the
-Store gate's served container is), the check passes: `token-a` → `tenant-a`,
-`token-b` → `tenant-b`, cross-tenant read 404.
+## What this pass repaired
+
+The re-entry checkout carried `app/`, `docs/`, `scripts/` and `tests/` but
+was missing the shipped top-level artefacts. They were restored and checked:
+`track.v1.schema.json`, `tracks/coo.v1.yaml`, `tracks/ceo.v1.yaml`,
+`alembic.ini`, `alembic/versions/0001_baseline.py` and `0002_lifecycle_audit.py`,
+`Dockerfile`, `.env.example`, `.dockerignore`, `requirements.txt`,
+`blocks.lock.json`, `vendor/blocks/`, `kits/platform/manifest.json`,
+`deploy/contract.json`, `README.md`.
+
+Two contract mismatches the refreshed suite exposed were fixed generally:
+
+* `enrolment_and_calendar` treated an unparseable optional `start_date` /
+  `timezone` as a whole-request refusal. Optional schedule inputs that cannot
+  be parsed are now ignored with a `schedule_warnings` entry and the calendar
+  falls back to today / UTC; `app.schedule.generate` itself still refuses a bad
+  date and an unknown IANA zone (`tests/test_calendar.py`).
+* `gradebook_and_transcript` refused the whole record when the optional
+  `prior_average` was not numeric. Non-numeric enrichment is now ignored; the
+  weighted average is unchanged.
 
 ## Not measured here
 
-* `docker_health_200` — no Docker daemon on this machine; the Dockerfile is
+* `docker_health_200` — no Docker daemon on this machine. The Dockerfile is
   runtime-only (`pip install -c constraints.txt -r requirements.txt`), declares
-  `STORAGE_PATH=/data`, owns it as the runtime user, and starts uvicorn
-  through `scripts/entrypoint.sh`.
+  `STORAGE_PATH=/data`, owns it as `appuser`, includes `vendor/`, `tracks/`,
+  `alembic/` and `kits/`, and starts uvicorn through `scripts/entrypoint.sh`.
 * `postgres_boot_200`, `audit_clean` — Store-gate measurements (`app/db.py`
-  decides the backend; `app/store.py` has no connection of its own).
+  chooses the backend from `DATABASE_URL`; `app/store.py` has no connection of
+  its own).

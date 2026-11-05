@@ -83,7 +83,7 @@ def test_every_capability_handle_returns_mapping():
     failures = []
     from app.actions import track_loader
     try:
-        out = track_loader.handle({})
+        out = track_loader.handle({'reference': 'sample', 'status': 'open', 'schema_version': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -91,7 +91,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('track_loader')
     from app.actions import enrolment_and_calendar
     try:
-        out = enrolment_and_calendar.handle({})
+        out = enrolment_and_calendar.handle({'reference': 'sample', 'status': 'open', 'learner_name': 'sample', 'learner_email': 'sample', 'start_date': 'sample', 'timezone': 'sample', 'track_version': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -99,7 +99,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('enrolment_and_calendar')
     from app.actions import faculty_session
     try:
-        out = faculty_session.handle({})
+        out = faculty_session.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'session_offset': 1, 'mode': 'lecture', 'message': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -107,7 +107,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('faculty_session')
     from app.actions import memo_grading
     try:
-        out = memo_grading.handle({})
+        out = memo_grading.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'submission': 'sample', 'rubric_version': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -115,7 +115,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('memo_grading')
     from app.actions import gradebook_and_transcript
     try:
-        out = gradebook_and_transcript.handle({})
+        out = gradebook_and_transcript.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'memos_score': 1.0, 'defenses_score': 1.0, 'capstone_score': 1.0, 'prior_average': 'email'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -123,7 +123,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('gradebook_and_transcript')
     from app.actions import defense_and_capstone
     try:
-        out = defense_and_capstone.handle({})
+        out = defense_and_capstone.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'kind': 'defense', 'scheduled_date': 'sample', 'verdict': 'pass', 'reviewer_email': 'sample', 'defense_minutes': 1})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -131,7 +131,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('defense_and_capstone')
     from app.actions import track_admin
     try:
-        out = track_admin.handle({})
+        out = track_admin.handle({'reference': 'sample', 'status': 'open', 'operation': 'validate', 'pinned_version': 'sample'})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -139,7 +139,7 @@ def test_every_capability_handle_returns_mapping():
         _record_capability_failure('track_admin')
     from app.actions import reading_and_case_library
     try:
-        out = reading_and_case_library.handle({})
+        out = reading_and_case_library.handle({'reference': 'sample', 'status': 'open', 'week': 1, 'case_id': 'sample', 'learner_email': 'sample', 'session_offset': 1})
     except Exception as exc:
         out = {'ok': False, 'error': type(exc).__name__ + ': ' + str(exc)}
     if not isinstance(out, dict):
@@ -157,7 +157,7 @@ def test_every_capability_executes_end_to_end():
     import json as _json
     failures = []
     from app.actions import track_loader
-    out = track_loader.handle({})
+    out = track_loader.handle({'reference': 'sample', 'status': 'open', 'schema_version': 'sample'})
     if not isinstance(out, dict):
         failures.append('track_loader returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('track_loader')
@@ -168,7 +168,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('track_loader reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('track_loader')
     from app.actions import enrolment_and_calendar
-    out = enrolment_and_calendar.handle({})
+    out = enrolment_and_calendar.handle({'reference': 'sample', 'status': 'open', 'learner_name': 'sample', 'learner_email': 'sample', 'start_date': 'sample', 'timezone': 'sample', 'track_version': 'sample'})
     if not isinstance(out, dict):
         failures.append('enrolment_and_calendar returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('enrolment_and_calendar')
@@ -179,7 +179,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('enrolment_and_calendar reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('enrolment_and_calendar')
     from app.actions import faculty_session
-    out = faculty_session.handle({})
+    out = faculty_session.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'session_offset': 1, 'mode': 'lecture', 'message': 'sample'})
     if not isinstance(out, dict):
         failures.append('faculty_session returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('faculty_session')
@@ -190,7 +190,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('faculty_session reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('faculty_session')
     from app.actions import memo_grading
-    out = memo_grading.handle({})
+    out = memo_grading.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'submission': 'sample', 'rubric_version': 'sample'})
     if not isinstance(out, dict):
         failures.append('memo_grading returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('memo_grading')
@@ -201,7 +201,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('memo_grading reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('memo_grading')
     from app.actions import gradebook_and_transcript
-    out = gradebook_and_transcript.handle({})
+    out = gradebook_and_transcript.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'memos_score': 1.0, 'defenses_score': 1.0, 'capstone_score': 1.0, 'prior_average': 'email'})
     if not isinstance(out, dict):
         failures.append('gradebook_and_transcript returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('gradebook_and_transcript')
@@ -212,7 +212,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('gradebook_and_transcript reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('gradebook_and_transcript')
     from app.actions import defense_and_capstone
-    out = defense_and_capstone.handle({})
+    out = defense_and_capstone.handle({'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'kind': 'defense', 'scheduled_date': 'sample', 'verdict': 'pass', 'reviewer_email': 'sample', 'defense_minutes': 1})
     if not isinstance(out, dict):
         failures.append('defense_and_capstone returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('defense_and_capstone')
@@ -223,7 +223,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('defense_and_capstone reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('defense_and_capstone')
     from app.actions import track_admin
-    out = track_admin.handle({})
+    out = track_admin.handle({'reference': 'sample', 'status': 'open', 'operation': 'validate', 'pinned_version': 'sample'})
     if not isinstance(out, dict):
         failures.append('track_admin returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('track_admin')
@@ -234,7 +234,7 @@ def test_every_capability_executes_end_to_end():
         failures.append('track_admin reported ok around a failed block call: ' + _json.dumps(out, default=str)[:300])
         _record_capability_failure('track_admin')
     from app.actions import reading_and_case_library
-    out = reading_and_case_library.handle({})
+    out = reading_and_case_library.handle({'reference': 'sample', 'status': 'open', 'week': 1, 'case_id': 'sample', 'learner_email': 'sample', 'session_offset': 1})
     if not isinstance(out, dict):
         failures.append('reading_and_case_library returned a non-dict: ' + repr(out)[:120])
         _record_capability_failure('reading_and_case_library')

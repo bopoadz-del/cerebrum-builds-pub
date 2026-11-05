@@ -14,6 +14,7 @@ Scope
 
 from __future__ import annotations
 
+from datetime import date
 from typing import Any, Dict, List
 
 from app import domain, schedule, track_schema
@@ -56,10 +57,23 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
 
     timezone_name = domain.text(data.get("timezone") or "UTC")
     length_weeks = int(track.get("length_weeks") or schedule.DEFAULT_LENGTH_WEEKS)
+    # start_date and timezone are optional request inputs. A supplied value
+    # that cannot be parsed is not silently reinterpreted: it is reported in
+    # schedule_warnings, and the calendar falls back to the documented
+    # defaults (today / UTC) so the enrolment record still exists.
+    schedule_warnings: List[str] = []
+    supplied_start = data.get("start_date")
     try:
-        calendar = schedule.generate(data.get("start_date"), timezone_name, length_weeks)
+        start = schedule.parse_start(supplied_start)
     except schedule.ScheduleError as exc:
-        return programme.refusal(CAPABILITY_ID, str(exc), field="timezone", kind="schedule_refused")
+        schedule_warnings.append(str(exc))
+        start = date.today()
+    try:
+        schedule.zone(timezone_name)
+    except schedule.ScheduleError as exc:
+        schedule_warnings.append(str(exc))
+        timezone_name = "UTC"
+    calendar = schedule.generate(start, timezone_name, length_weeks)
 
     terms: List[Dict[str, Any]] = list(track.get("terms") or [])
     for entry in calendar:
@@ -141,6 +155,7 @@ def handle(payload: Dict[str, Any]) -> Dict[str, Any]:
         "email_subject": "Week 1 readings",
         "email_body": email_text,
         "email_status": "queued_not_sent_placeholder",
+        "schedule_warnings": schedule_warnings,
         "calendar": calendar,
         "terms": [
             {

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Adapter for Cerebrum block: evidence_chain
+Auto-generated adapter for Cerebrum block: evidence_chain
+Wraps vendor.cerebrum.blocks.evidence_chain into a synchronous run() function.
 """
 import os as _os
 import sqlite3 as _sqlite3
@@ -118,8 +119,7 @@ def _create_block_instance(block_or_name, *args, **kwargs):
 
 
 import asyncio
-
-from vendor.cerebrum.blocks.evidence_chain import EvidenceChainBlock
+from vendor.cerebrum.blocks import get_block
 
 
 def _run_async(coro):
@@ -134,11 +134,21 @@ def _run_async(coro):
 
 
 def run(**kwargs):
-    """Execute the evidence_chain block."""
-    instance = _instantiate_store_block(EvidenceChainBlock)
+    """
+    Execute the evidence_chain block.
+    Accepts keyword args matching the block's inputs/params.
+    Returns the standardized block result payload.
+    """
+    block_cls = get_block("evidence_chain")
+    instance = _instantiate_store_block(block_cls)
+
     input_data = kwargs.get("input", kwargs)
     params = {k: v for k, v in kwargs.items() if k != "input"}
+
     envelope = _run_async(instance.execute(input_data, params))
-    if envelope.get("status") in ("error", "refused"):
-        raise RuntimeError(envelope.get("error") or "evidence_chain block failed")
+    if envelope.get("status") == "error":
+        inner = envelope.get("result", {})
+        message = inner.get("error") if isinstance(inner, dict) else str(inner)
+        raise RuntimeError(message or "evidence_chain block failed")
+
     return envelope.get("result", envelope)

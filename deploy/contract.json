@@ -1,0 +1,28 @@
+{
+  "schema_version": "deploy_contract.v1",
+  "product_id": "cerebrum-exec-programs",
+  "runtime": {
+    "command": "sh scripts/entrypoint.sh",
+    "server": "uvicorn app.main:app",
+    "port_setting": "PORT",
+    "default_port": 8000
+  },
+  "storage": {
+    "setting": "STORAGE_PATH",
+    "dockerfile_env": "/data",
+    "single_root": true,
+    "writable_by_runtime_user": "appuser (uid 10001)",
+    "migrations": "alembic upgrade head in the application lifespan before traffic"
+  },
+  "required_settings": ["STORAGE_PATH", "PLATFORM_TOKEN"],
+  "optional_settings": [
+    "TENANT_TOKENS", "TENANT_ROLES", "DATABASE_URL", "PLATFORM_SESSION_START",
+    "PLATFORM_CRITERION_WORDS", "PLATFORM_GRADUATION_AVERAGE",
+    "PLATFORM_TAX_RATE", "PLATFORM_COUNTRY", "PLATFORM_CURRENCY",
+    "EMAIL_DELIVERY_CREDENTIALS", "BACKUP_DIR"
+  ],
+  "health": {"path": "/health", "fail_closed": true, "ready_status": 200, "not_ready_status": 503},
+  "rollback": {"script": "scripts/rollback.sh", "retains_storage": true},
+  "backup": {"script": "scripts/backup.sh", "restore_verified": "app/backup.py"},
+  "spof": "Single instance on one disk. Rollback restarts a prior image against the same storage; there is no replica or multi-AZ handoff."
+}

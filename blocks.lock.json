@@ -1,549 +1,125 @@
 {
+  "store_pin": "4e8324486a839957498462f2fb8b01276b879714",
   "blocks": {
     "analytics": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/analytics",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/analytics/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "approval_rules": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/approval_rules",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/approval_rules/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "audit": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/audit",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/audit/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "auth": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/auth",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/auth/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "config": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/config",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/config/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "dashboard": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/dashboard",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/dashboard/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "database": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/database",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/database/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "email": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/email",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/email/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "evidence_chain": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/evidence_chain",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/evidence_chain/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "formula_executor": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/formula_executor",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/formula_executor/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "governance_gate": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/governance_gate",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/governance_gate/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "ingestion_provenance": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/ingestion_provenance",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/ingestion_provenance/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "knowledge": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/knowledge",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/knowledge/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "memory": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/memory",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/memory/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "notification": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/notification",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/notification/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "orchestrator": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/orchestrator",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/orchestrator/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "pdf": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/pdf",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/pdf/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "transaction_state_machine": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/transaction_state_machine",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/transaction_state_machine/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "validation": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/validation",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/validation/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "vector_search": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/vector_search",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/vector_search/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "version": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/version",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/version/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "version_diff": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/version_diff",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/version_diff/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "workbench": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "none",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/workbench",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/workbench/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     },
     "workflow": {
-      "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-      "image_pin": "refused_unverified",
-      "integrity": {
-        "absent": [],
-        "bad_signature": [],
-        "files_hashed": 2,
-        "findings": [],
-        "has_digests": true,
-        "mismatched": [],
-        "signature_reason": "no publisher registry in the source tree",
-        "signature_verified": null,
-        "signed_unverified": true,
-        "verified": true
-      },
-      "path": "vendor/blocks/workflow",
-      "source": "cerebrum-blocks"
+      "path": "vendor/blocks/workflow/block.py",
+      "commit": "4e8324486a839957498462f2fb8b01276b879714",
+      "source": "store"
     }
-  },
-  "kits": {
-    "platform": {
-      "blocks": [
-        "analytics",
-        "approval_rules",
-        "audit",
-        "auth",
-        "config",
-        "dashboard",
-        "database",
-        "email",
-        "evidence_chain",
-        "formula_executor",
-        "governance_gate",
-        "ingestion_provenance",
-        "knowledge",
-        "memory",
-        "notification",
-        "orchestrator",
-        "pdf",
-        "transaction_state_machine",
-        "validation",
-        "vector_search",
-        "version",
-        "version_diff",
-        "workbench",
-        "workflow"
-      ],
-      "files_copied": 0,
-      "path": "kits/platform",
-      "source": "synthesized-from-factory-shelf"
-    }
-  },
-  "runtime": {
-    "commit": "fc86c7a0fd8b64a47485ea4737ffb0fa69c97e03",
-    "files": [
-      "vendor/cerebrum/__init__.py",
-      "vendor/cerebrum/blocks/__init__.py",
-      "vendor/cerebrum/blocks/analytics.py",
-      "vendor/cerebrum/blocks/approval_rules.py",
-      "vendor/cerebrum/blocks/audit.py",
-      "vendor/cerebrum/blocks/audit_chain.py",
-      "vendor/cerebrum/blocks/auth.py",
-      "vendor/cerebrum/blocks/config.py",
-      "vendor/cerebrum/blocks/dashboard.py",
-      "vendor/cerebrum/blocks/database.py",
-      "vendor/cerebrum/blocks/email.py",
-      "vendor/cerebrum/blocks/evidence_chain.py",
-      "vendor/cerebrum/blocks/formula_executor.py",
-      "vendor/cerebrum/blocks/governance_gate.py",
-      "vendor/cerebrum/blocks/ingestion_provenance.py",
-      "vendor/cerebrum/blocks/knowledge.py",
-      "vendor/cerebrum/blocks/marker.py",
-      "vendor/cerebrum/blocks/memory.py",
-      "vendor/cerebrum/blocks/notification.py",
-      "vendor/cerebrum/blocks/orchestrator.py",
-      "vendor/cerebrum/blocks/pdf.py",
-      "vendor/cerebrum/blocks/transaction_state_machine.py",
-      "vendor/cerebrum/blocks/validation.py",
-      "vendor/cerebrum/blocks/vector_search.py",
-      "vendor/cerebrum/blocks/version.py",
-      "vendor/cerebrum/blocks/version_diff.py",
-      "vendor/cerebrum/blocks/workbench.py",
-      "vendor/cerebrum/blocks/workflow.py",
-      "vendor/cerebrum/core/__init__.py",
-      "vendor/cerebrum/core/activation.py",
-      "vendor/cerebrum/core/answer_contract.py",
-      "vendor/cerebrum/core/block_result.py",
-      "vendor/cerebrum/core/data_transformer.py",
-      "vendor/cerebrum/core/file_crypto.py",
-      "vendor/cerebrum/core/http_errors.py",
-      "vendor/cerebrum/core/input_adapter.py",
-      "vendor/cerebrum/core/llm_config.py",
-      "vendor/cerebrum/core/mcp_registry.py",
-      "vendor/cerebrum/core/metric_utils.py",
-      "vendor/cerebrum/core/schema_registry.py",
-      "vendor/cerebrum/core/typed_block.py",
-      "vendor/cerebrum/core/universal_base.py",
-      "vendor/cerebrum/core/url_guard.py"
-    ],
-    "for_blocks": [
-      "analytics",
-      "approval_rules",
-      "audit",
-      "auth",
-      "config",
-      "dashboard",
-      "database",
-      "email",
-      "evidence_chain",
-      "formula_executor",
-      "governance_gate",
-      "ingestion_provenance",
-      "knowledge",
-      "memory",
-      "notification",
-      "orchestrator",
-      "pdf",
-      "transaction_state_machine",
-      "validation",
-      "vector_search",
-      "version",
-      "version_diff",
-      "workbench",
-      "workflow"
-    ],
-    "lazy_foreign_imports": [
-      "vendor/cerebrum/blocks/notification.py: app.dependencies"
-    ],
-    "path": "vendor/cerebrum",
-    "source": "cerebrum-blocks"
-  },
-  "schema": "blocks.lock.v1"
+  }
 }

@@ -1,5 +1,5 @@
 """Evidence Chain — tamper-evident SHA-256 hash chain with a full-walk
-verifier, ported from <private-repo> ``audit/service.py``.
+verifier, ported from Cerebrum-FinanceOps ``audit/service.py``.
 
 The donor computed per-record chain hashes but never walked the chain;
 the plan required adding the missing full walk. This block does both:
@@ -36,7 +36,7 @@ class EvidenceChainBlock(UniversalBlock):
     name = "evidence_chain"
     version = "1.0.0"
     description = (
-        "Tamper-evident SHA-256 evidence chain ported from <private-repo> "
+        "Tamper-evident SHA-256 evidence chain ported from Cerebrum-FinanceOps "
         "audit/service.py with the missing full-walk verifier added: record, "
         "verify (walks every link), get_latest. Chain store is in-process."
     )

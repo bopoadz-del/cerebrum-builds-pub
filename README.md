@@ -129,7 +129,8 @@ python scripts/factory_checks.py        # the writer gate's own probe
 app/            application (actions/, routers/, store, dispatch, tracks, grading)
 alembic/        schema revisions (one op.create_table per entity)
 tracks/         programme content as YAML
-kits/           the block pack this product composes
+vendor/blocks/  the locked Store blocks (paths pinned by blocks.lock.json)
+kits/           the block pack manifests the product composes
 docs/           openapi.json, provenance, acceptance records
-frontend/src/   the console component (the served UI is app/static/index.html)
+deploy/         the deploy contract this image is built to satisfy
 ```

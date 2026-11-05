@@ -67,7 +67,7 @@
     <div class="card">
       <h2>Faculty session</h2>
       <div class="grid3">
-        <div><label for="sTrack">Track</label><input id="sTrack" value="coo" /></div>
+        <div><label for="sTrack">Track</label><input id="sTrack" placeholder="track id (load tracks)" /></div>
         <div><label for="sWeek">Week</label><input id="sWeek" type="number" value="1" min="1" /></div>
         <div><label for="sMode">Kernel mode</label>
           <select id="sMode">
@@ -86,7 +86,7 @@
     <div class="card">
       <h2>Reading and case library</h2>
       <div class="grid3">
-        <div><label for="lTrack">Track</label><input id="lTrack" value="coo" /></div>
+        <div><label for="lTrack">Track</label><input id="lTrack" placeholder="track id (load tracks)" /></div>
         <div><label for="lWeek">Week</label><input id="lWeek" type="number" value="1" min="1" /></div>
         <div><label for="lOffset">Session offset</label><input id="lOffset" type="number" value="0" min="0" max="5" /></div>
       </div>
@@ -100,12 +100,12 @@
     <div class="card">
       <h2>Memo grading</h2>
       <div class="grid3">
-        <div><label for="gTrack">Track</label><input id="gTrack" value="coo" /></div>
+        <div><label for="gTrack">Track</label><input id="gTrack" placeholder="track id (load tracks)" /></div>
         <div><label for="gWeek">Week</label><input id="gWeek" type="number" value="1" min="1" /></div>
         <div><label for="gLearner">Learner email</label><input id="gLearner" value="learner@example.com" /></div>
       </div>
       <label for="gSubmission">Weekly memo</label>
-      <textarea id="gSubmission" rows="6">The constraint in this operation is the single heat-treatment furnace, not the machining cells. The furnace sets throughput; utilisation upstream of it only lengthens queue time, which Little's law predicts will increase work in process without increasing output. The Goal argues the constraint must be scheduled first and everything else subordinated to it. Decision: cap release into the machining cells at the furnace's takt and accept a lower utilisation figure for the quarter. The alternative, buying a second furnace, fails on payback unless the mix shifts. I would reverse this if the furnace's changeover time falls below twenty minutes.</textarea>
+      <textarea id="gSubmission" rows="6" placeholder="Paste the learner's submission here."></textarea>
       <div class="row" style="margin-top:9px"><button id="runGrade">Grade memo</button></div>
       <div class="authority" id="gradeAuthority"></div>
       <div class="verdict" id="gradeVerdicts"></div>
@@ -115,7 +115,7 @@
     <div class="card">
       <h2>Gradebook and transcript</h2>
       <div class="grid3">
-        <div><label for="bTrack">Track</label><input id="bTrack" value="coo" /></div>
+        <div><label for="bTrack">Track</label><input id="bTrack" placeholder="track id (load tracks)" /></div>
         <div><label for="bTerm">Term</label><input id="bTerm" type="number" value="1" min="1" /></div>
         <div><label for="bLearner">Learner email</label><input id="bLearner" value="learner@example.com" /></div>
         <div><label for="bMemos">Memos</label><input id="bMemos" type="number" value="86" /></div>
@@ -209,6 +209,12 @@ async function loadTracks() {
   const { body } = await api("/v1/tracks");
   showAuthority("tracksAuthority", body);
   show("tracksOut", body);
+  // Track ids come from the customer's YAML, never from this page.
+  const ids = ((body && body.tracks) || []).map((track) => track.id).filter(Boolean);
+  ["sTrack", "lTrack", "gTrack", "bTrack"].forEach((field) => {
+    if (!$(field).value && ids.length) { $(field).value = ids[0]; }
+  });
+  return ids;
 }
 
 async function loadFormulas() {
@@ -308,7 +314,7 @@ $("ragIngest").addEventListener("click", ragIngest);
 $("ragSearch").addEventListener("click", ragSearch);
 
 $("token").value = token;
-if (token) { connect(); }
+if (token) { connect().then(loadTracks); }
 </script>
 </body>
 </html>

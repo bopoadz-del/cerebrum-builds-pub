@@ -182,7 +182,6 @@ class GradebookAndTranscript(RecordModel):
         "memos_score": {"min": 0, "max": 100},
         "defenses_score": {"min": 0, "max": 100},
         "capstone_score": {"min": 0, "max": 100},
-        "prior_average": {"min": 0, "max": 100},
     }
 
     reference: str

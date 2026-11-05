@@ -237,7 +237,7 @@ def test_every_capability_route_answers():
     """Code-phase: each capability POST answers HTTP 200 JSON.
     Store ok: False is allowed here — acceptance is the pilot test."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'schema_version': 'sample'}
     resp, _corr = _post_accepting("/v1/track_loader", payload, AUTH, 'track_loader')
     if resp.status_code not in (200,):
         failures.append('track_loader: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -263,7 +263,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('track_loader list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_name': 'sample', 'learner_email': 'sample', 'start_date': 'sample', 'timezone': 'sample', 'track_version': 'sample'}
     resp, _corr = _post_accepting("/v1/enrolment_and_calendar", payload, AUTH, 'enrolment_and_calendar')
     try:
         body = resp.json()
@@ -278,7 +278,7 @@ def test_every_capability_route_answers():
     if listed.status_code not in (200,):
         failures.append('enrolment_and_calendar list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'session_offset': 1, 'mode': 'lecture', 'message': 'sample'}
     resp, _corr = _post_accepting("/v1/faculty_session", payload, AUTH, 'faculty_session')
     if resp.status_code not in (200,):
         failures.append('faculty_session: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -304,7 +304,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('faculty_session list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'submission': 'sample', 'rubric_version': 'sample'}
     resp, _corr = _post_accepting("/v1/memo_grading", payload, AUTH, 'memo_grading')
     if resp.status_code not in (200,):
         failures.append('memo_grading: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -330,7 +330,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('memo_grading list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'memos_score': 1.0, 'defenses_score': 1.0, 'capstone_score': 1.0, 'prior_average': 'email'}
     resp, _corr = _post_accepting("/v1/gradebook_and_transcript", payload, AUTH, 'gradebook_and_transcript')
     if resp.status_code not in (200,):
         failures.append('gradebook_and_transcript: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -356,7 +356,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('gradebook_and_transcript list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'kind': 'defense', 'scheduled_date': 'sample', 'verdict': 'pass', 'reviewer_email': 'sample', 'defense_minutes': 1}
     resp, _corr = _post_accepting("/v1/defense_and_capstone", payload, AUTH, 'defense_and_capstone')
     try:
         body = resp.json()
@@ -371,7 +371,7 @@ def test_every_capability_route_answers():
     if listed.status_code not in (200,):
         failures.append('defense_and_capstone list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'operation': 'validate', 'pinned_version': 'sample'}
     resp, _corr = _post_accepting("/v1/track_admin", payload, AUTH, 'track_admin')
     if resp.status_code not in (200,):
         failures.append('track_admin: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -397,7 +397,7 @@ def test_every_capability_route_answers():
             if listed.status_code not in (200,):
                 failures.append('track_admin list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'week': 1, 'case_id': 'sample', 'learner_email': 'sample', 'session_offset': 1}
     resp, _corr = _post_accepting("/v1/reading_and_case_library", payload, AUTH, 'reading_and_case_library')
     if resp.status_code not in (200,):
         failures.append('reading_and_case_library: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -431,7 +431,7 @@ def test_every_capability_route_accepts_payload():
     """Pilot: spec payload is accepted (ok is not False) and persisted.
     Not the factory code-phase gate."""
     failures = []
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'schema_version': 'sample'}
     resp, _corr = _post_accepting("/v1/track_loader", payload, AUTH, 'track_loader')
     if resp.status_code not in (200,):
         failures.append('track_loader: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -457,7 +457,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('track_loader missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_name': 'sample', 'learner_email': 'sample', 'start_date': 'sample', 'timezone': 'sample', 'track_version': 'sample'}
     resp, _corr = _post_accepting("/v1/enrolment_and_calendar", payload, AUTH, 'enrolment_and_calendar')
     try:
         body = resp.json()
@@ -472,7 +472,7 @@ def test_every_capability_route_accepts_payload():
     if listed.status_code not in (200,):
         failures.append('enrolment_and_calendar list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'session_offset': 1, 'mode': 'lecture', 'message': 'sample'}
     resp, _corr = _post_accepting("/v1/faculty_session", payload, AUTH, 'faculty_session')
     if resp.status_code not in (200,):
         failures.append('faculty_session: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -498,7 +498,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('faculty_session missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'week': 1, 'submission': 'sample', 'rubric_version': 'sample'}
     resp, _corr = _post_accepting("/v1/memo_grading", payload, AUTH, 'memo_grading')
     if resp.status_code not in (200,):
         failures.append('memo_grading: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -524,7 +524,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('memo_grading missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'memos_score': 1.0, 'defenses_score': 1.0, 'capstone_score': 1.0, 'prior_average': 'email'}
     resp, _corr = _post_accepting("/v1/gradebook_and_transcript", payload, AUTH, 'gradebook_and_transcript')
     if resp.status_code not in (200,):
         failures.append('gradebook_and_transcript: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -550,7 +550,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('gradebook_and_transcript missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'learner_email': 'sample', 'term': 1, 'kind': 'defense', 'scheduled_date': 'sample', 'verdict': 'pass', 'reviewer_email': 'sample', 'defense_minutes': 1}
     resp, _corr = _post_accepting("/v1/defense_and_capstone", payload, AUTH, 'defense_and_capstone')
     try:
         body = resp.json()
@@ -565,7 +565,7 @@ def test_every_capability_route_accepts_payload():
     if listed.status_code not in (200,):
         failures.append('defense_and_capstone list: HTTP ' + str(listed.status_code))
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'operation': 'validate', 'pinned_version': 'sample'}
     resp, _corr = _post_accepting("/v1/track_admin", payload, AUTH, 'track_admin')
     if resp.status_code not in (200,):
         failures.append('track_admin: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))
@@ -591,7 +591,7 @@ def test_every_capability_route_accepts_payload():
                 if missing.status_code != 404:
                     failures.append('track_admin missing id: HTTP ' + str(missing.status_code) + ' (expected 404)')
 
-    payload = {}
+    payload = {'reference': 'sample', 'status': 'open', 'week': 1, 'case_id': 'sample', 'learner_email': 'sample', 'session_offset': 1}
     resp, _corr = _post_accepting("/v1/reading_and_case_library", payload, AUTH, 'reading_and_case_library')
     if resp.status_code not in (200,):
         failures.append('reading_and_case_library: HTTP ' + str(resp.status_code) + ': ' + resp.text[:200] + (' [tester already tried the values the route named: ' + '; '.join(_corr) + ']' if _corr else ''))

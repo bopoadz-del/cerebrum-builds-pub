@@ -8,7 +8,7 @@ verify_chain that recomputes every link) while keeping the block's
 public action surface (log / query / export / verify_chain / get_stats /
 tamper_check) unchanged.
 
-Donor semantics: <private-repo> backend/app/audit/service.py.
+Donor semantics: Cerebrum-FinanceOps backend/app/audit/service.py.
 """
 
 from __future__ import annotations

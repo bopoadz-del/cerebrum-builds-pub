@@ -1,5 +1,5 @@
 """Ingestion Provenance — factory provenance payload + content hash tree,
-ported from <private-repo> ``cerebrum_product_kernel/provenance.py``.
+ported from Cerebrum-Steward ``cerebrum_product_kernel/provenance.py``.
 
 build_provenance and hash_tree are ported as-is; a ``record`` action adds
 page/sheet/row provenance metadata for ingested documents so the donor's
@@ -24,7 +24,7 @@ def build_provenance(*, product_id, blueprint_id, factory_commit, blocks_commit,
     return {
         "blueprint_id": blueprint_id,
         "blocks_commit": blocks_commit,
-        "factory": "<private-repo>",
+        "factory": "CerebrumDev.ai",
         "factory_commit": factory_commit,
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime()),
         "inputs_hash": inputs_hash,
@@ -53,13 +53,13 @@ def hash_tree(root: str, ignore_names: set = None) -> str:
 
 
 class IngestionProvenanceBlock(UniversalBlock):
-    """Ingestion provenance ported from <private-repo>: factory provenance
+    """Ingestion provenance ported from Cerebrum-Steward: factory provenance
     payloads, content hash trees, page/sheet/row source labelling."""
 
     name = "ingestion_provenance"
     version = "1.0.0"
     description = (
-        "Ingestion provenance ported from <private-repo> cerebrum_product_kernel/"
+        "Ingestion provenance ported from Cerebrum-Steward cerebrum_product_kernel/"
         "provenance.py: factory provenance payloads, SHA-256 content hash trees, and "
         "page/sheet/row source labels for ingested documents."
     )
