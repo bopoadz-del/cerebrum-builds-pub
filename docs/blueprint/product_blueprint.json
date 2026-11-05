@@ -1,0 +1,137 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "validation",
+        "config",
+        "version"
+      ],
+      "connectors": [],
+      "description": "Load and validate track YAML files at startup against the shipped track.v1.schema.json (draft 2020-12, additionalProperties false, required header fields, rubric with 5 x 20-point criteria, weights summing to 100, length_weeks minimum 4). An invalid file is refused with the offending field path name",
+      "id": "track_loader",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth",
+        "notification",
+        "email",
+        "database"
+      ],
+      "connectors": [
+        "email_delivery"
+      ],
+      "description": "Enrol a learner on a track with start_date and timezone, generate the 16-week x 6-session calendar from the fixed session template (day offsets 0,1,2,4,5,6 with framework/case_prep/case_class/lab/lab/exam durations), store the enrolment with its pinned track version, and send the week-1 reading emai",
+      "id": "enrolment_and_calendar",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "orchestrator",
+        "knowledge",
+        "memory",
+        "audit",
+        "governance_gate"
+      ],
+      "connectors": [],
+      "description": "Run a chat session per scheduled session in six kernel modes (lecture, brief, socratic, sparring, oral_quiz, examiner), storing the transcript and writing an audit row per session; faculty content is built only from the week's track data, and sparring mode refuses to write the learner's deliverable.",
+      "id": "faculty_session",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "validation",
+        "evidence_chain",
+        "ingestion_provenance"
+      ],
+      "connectors": [],
+      "description": "A separate grader with no access to the faculty transcript scores a submission on the track's 5 x 20-point rubric via formula_executor, emits one verdict line per criterion, stores provenance (kernel block, kernel version, rubric version, run id), and routes submissions below 70 to a rewrite path.",
+      "id": "memo_grading",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "analytics",
+        "pdf",
+        "database",
+        "dashboard"
+      ],
+      "connectors": [],
+      "description": "Maintain a live weighted gradebook (memos 60, defenses 20, capstone 20) and produce a transcript PDF containing every grade id and score.",
+      "id": "gradebook_and_transcript",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "notification",
+        "approval_rules",
+        "transaction_state_machine",
+        "pdf"
+      ],
+      "connectors": [
+        "email_delivery"
+      ],
+      "description": "Schedule the term defense on the term's last day with pass/fail and a re-sit within 7 days on failure; accept capstone upload with two reviewer invites sent by email, collect three verdicts under the acceptance rule (all accept -> accepted, accept/accept/revise -> revise), and gate graduation on ave",
+      "id": "defense_and_capstone",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "validation",
+        "version_diff",
+        "workbench",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Upload and edit track YAML, validate it against the schema, show a week-level diff against the current version, and pin a track version per enrolment so existing learners stay on their pinned version.",
+      "id": "track_admin",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "knowledge",
+        "vector_search",
+        "governance_gate"
+      ],
+      "connectors": [],
+      "description": "Expose per-week readings and cases with their public sources, withholding each case's outcome until the case_class session opens it for that learner.",
+      "id": "reading_and_case_library",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "email_delivery"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 8,
+  "product_id": "product",
+  "product_name": "Cerebrum Executive Programs",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "Cerebrum Executive Programs is a data-driven executive-education platform for running 16-week executive programs (COO, CEO, or any other track) defined entirely in YAML track files, never in product code. Learners enrol on a track with a start date and timezone, receive a generated 96-session calendar (16 weeks x 6 fixed-template sessions), attend faculty chat sessions in six kernel modes (lecture, brief, socratic, sparring, oral_quiz, examiner), submit weekly memos and a capstone, sit a term de",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
