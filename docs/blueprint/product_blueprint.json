@@ -1,0 +1,128 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "finance_import",
+        "boq_processor",
+        "ocr_v2",
+        "document_engine",
+        "validation",
+        "version"
+      ],
+      "connectors": [],
+      "description": "Ingest the uploaded Harbourline contract excerpt and BOQ, extract the priced items (P1-P5, E1-E5) and the contract terms (Clauses 8.2, 8.7, 11.1, 14.3, 4.2), and hold them as the versioned source of record every other capability reads from.",
+      "id": "source_of_record_contract_boq",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_canonical_model",
+        "finance_reconciliation",
+        "finance_reconciliation_workflow",
+        "billing",
+        "formula_executor",
+        "approval_rules"
+      ],
+      "connectors": [],
+      "description": "Build interim payment certificates from measured quantities against BOQ rates, apply the Clause 14.3 retention of 5% of each certificate with its 50/50 release schedule, and reconcile claimed versus certified values.",
+      "id": "progress_claim_valuation",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "audit_chain",
+        "approval_rules",
+        "project_reasoner"
+      ],
+      "connectors": [],
+      "description": "Track the Clause 8.2 Time for Completion of 730 days from Commencement and compound Clause 8.7 delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10%, with an audit trail for every accrual and waiver.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "evidence_chain",
+        "evidence_verifier",
+        "workflow",
+        "task_listing",
+        "review",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Capture inspection and test plan (ITP) records, hold points, and witness sign-offs tied to BOQ items, with an evidence chain that proves each quality record was reviewed and closed before the related work is certified.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version_diff",
+        "file_hasher",
+        "ingestion_provenance",
+        "search",
+        "audit_chain"
+      ],
+      "connectors": [],
+      "description": "Maintain the project document register with numbering, revision control, transmittals, and full lineage back to the governing contract clause or BOQ line, keeping the uploaded contract and BOQ as the reference set.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "governance_gate",
+        "clearance_rules",
+        "evidence_or_refuse",
+        "approval_rules",
+        "audit_fail_closed"
+      ],
+      "connectors": [],
+      "description": "Gate claim certification and document issuance against contract obligations \u2014 performance security at 10% of the Accepted Contract Amount, retention release milestones at Taking-Over and end of the Defects Notification Period, and evidence-or-refuse checks before anything is certified.",
+      "id": "contract_compliance_gate",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "portfolio_rollup",
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Provide dashboards and scheduled reports on claim status, cumulative delay-damages exposure against the 10% cap, ITP closure rates, and register completeness for the project director and contract administrator.",
+      "id": "claim_and_register_reporting",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project, serving the project's contract administrator, quantity surveyors, and QA team. It treats the uploaded Harbourline contract and BOQ as the source of record, driving progress-claim valuation against BOQ items, delay-damages accrual under Clause 8.7, QA/ITP record management, and a governed document register with full traceability back to the contract and BOQ.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
