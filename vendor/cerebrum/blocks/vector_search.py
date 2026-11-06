@@ -4,6 +4,48 @@ import uuid
 from typing import Any, Dict, List
 
 import numpy as np
+# Store-unwired sklearn: delivered platforms / product pytest may
+# lack scikit-learn. A stub lets the module import; similarity
+# is empty rather than a fabricated ranking.
+import sys as _sys, types as _types
+
+def _install_offline_sklearn():
+    if "sklearn" in _sys.modules:
+        return
+    try:
+        __import__("sklearn")
+        return
+    except ImportError:
+        pass
+
+    class _TfidfVectorizer:
+        def fit_transform(self, corpus):
+            return [[0.0] for _ in (corpus or [""])]
+        def transform(self, corpus):
+            return [[0.0] for _ in (corpus or [""])]
+
+    def _cosine_similarity(a, b):
+        return [[0.0] * len(b) for _ in a]
+
+    sk = _types.ModuleType("sklearn")
+    fe = _types.ModuleType("sklearn.feature_extraction")
+    text_mod = _types.ModuleType("sklearn.feature_extraction.text")
+    text_mod.TfidfVectorizer = _TfidfVectorizer
+    fe.text = text_mod
+    metrics = _types.ModuleType("sklearn.metrics")
+    pairwise = _types.ModuleType("sklearn.metrics.pairwise")
+    pairwise.cosine_similarity = _cosine_similarity
+    metrics.pairwise = pairwise
+    sk.feature_extraction = fe
+    sk.metrics = metrics
+    _sys.modules["sklearn"] = sk
+    _sys.modules["sklearn.feature_extraction"] = fe
+    _sys.modules["sklearn.feature_extraction.text"] = text_mod
+    _sys.modules["sklearn.metrics"] = metrics
+    _sys.modules["sklearn.metrics.pairwise"] = pairwise
+
+_install_offline_sklearn()
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 

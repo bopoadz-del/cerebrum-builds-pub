@@ -1,7 +1,4 @@
 {
-  "id": "platform",
-  "name": "Platform",
-  "description": "The platform blocks this product composes. Each one is vendored from the Store at the pinned commit and loaded from its locked path.",
   "blocks": [
     "analytics",
     "approval_rules",
@@ -28,6 +25,8 @@
     "workbench",
     "workflow"
   ],
+  "id": "platform",
+  "name": "Platform",
   "product_blocks": [
     "analytics",
     "approval_rules",
@@ -54,6 +53,7 @@
     "workbench",
     "workflow"
   ],
+  "source": "synthesized-from-factory-shelf",
   "vendored_blocks": {
     "analytics": "vendor/blocks/analytics",
     "approval_rules": "vendor/blocks/approval_rules",
@@ -80,6 +80,5 @@
     "workbench": "vendor/blocks/workbench",
     "workflow": "vendor/blocks/workflow"
   },
-  "layer": 3,
-  "source": "cerebrum-blocks"
+  "version": "1.0.0"
 }

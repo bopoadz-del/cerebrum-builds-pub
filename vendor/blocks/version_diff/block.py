@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Auto-generated adapter for Cerebrum block: version_diff
-Wraps vendor.cerebrum.blocks.version_diff into a synchronous run() function.
+Adapter for Cerebrum block: version_diff
+Wraps vendor.cerebrum.blocks.version_diff.VersionDiffBlock.execute() into a synchronous run() function.
 """
 import os as _os
 import sqlite3 as _sqlite3
@@ -119,7 +119,8 @@ def _create_block_instance(block_or_name, *args, **kwargs):
 
 
 import asyncio
-from vendor.cerebrum.blocks import get_block
+
+from vendor.cerebrum.blocks.version_diff import VersionDiffBlock
 
 
 def _run_async(coro):
@@ -139,16 +140,10 @@ def run(**kwargs):
     Accepts keyword args matching the block's inputs/params.
     Returns the standardized block result payload.
     """
-    block_cls = get_block("version_diff")
-    instance = _instantiate_store_block(block_cls)
-
+    instance = _instantiate_store_block(VersionDiffBlock)
     input_data = kwargs.get("input", kwargs)
     params = {k: v for k, v in kwargs.items() if k != "input"}
-
     envelope = _run_async(instance.execute(input_data, params))
     if envelope.get("status") == "error":
-        inner = envelope.get("result", {})
-        message = inner.get("error") if isinstance(inner, dict) else str(inner)
-        raise RuntimeError(message or "version_diff block failed")
-
+        raise RuntimeError(envelope.get("error") or "version_diff block failed")
     return envelope.get("result", envelope)

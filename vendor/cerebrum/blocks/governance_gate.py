@@ -1,5 +1,5 @@
 """Governance Gate — fail-closed action approval, ported from
-Cerebrum-FinanceOps ``governance/service.py`` (require_approved_action).
+<private-repo> ``governance/service.py`` (require_approved_action).
 
 The SQLAlchemy/FastAPI layers are not ported; the gate itself is:
 an action may execute only when an approval request for
@@ -25,7 +25,7 @@ class GovernanceGateBlock(UniversalBlock):
     name = "governance_gate"
     version = "1.0.0"
     description = (
-        "Fail-closed governance gate ported from Cerebrum-FinanceOps: an action "
+        "Fail-closed governance gate ported from <private-repo>: an action "
         "executes only when an approved request exists for (tenant, action_type, "
         "target_id). Approval store is in-process."
     )

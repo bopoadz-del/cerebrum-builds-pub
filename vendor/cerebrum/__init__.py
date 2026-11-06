@@ -1,1 +1,1 @@
-"""Vendored Cerebrum blocks (harness copy of the block registry)."""
+"""Cerebrum Store runtime, vendored at build time (see blocks.lock.json)."""

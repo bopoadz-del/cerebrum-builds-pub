@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Auto-generated adapter for Cerebrum block: governance_gate
-Wraps vendor.cerebrum.blocks.governance_gate into a synchronous run() function.
+Adapter for Cerebrum block: governance_gate
 """
 import os as _os
 import sqlite3 as _sqlite3
@@ -119,7 +118,8 @@ def _create_block_instance(block_or_name, *args, **kwargs):
 
 
 import asyncio
-from vendor.cerebrum.blocks import get_block
+
+from vendor.cerebrum.blocks.governance_gate import GovernanceGateBlock
 
 
 def _run_async(coro):
@@ -134,21 +134,11 @@ def _run_async(coro):
 
 
 def run(**kwargs):
-    """
-    Execute the governance_gate block.
-    Accepts keyword args matching the block's inputs/params.
-    Returns the standardized block result payload.
-    """
-    block_cls = get_block("governance_gate")
-    instance = _instantiate_store_block(block_cls)
-
+    """Execute the governance_gate block."""
+    instance = _instantiate_store_block(GovernanceGateBlock)
     input_data = kwargs.get("input", kwargs)
     params = {k: v for k, v in kwargs.items() if k != "input"}
-
     envelope = _run_async(instance.execute(input_data, params))
-    if envelope.get("status") == "error":
-        inner = envelope.get("result", {})
-        message = inner.get("error") if isinstance(inner, dict) else str(inner)
-        raise RuntimeError(message or "governance_gate block failed")
-
+    if envelope.get("status") in ("error", "refused"):
+        raise RuntimeError(envelope.get("error") or "governance_gate block failed")
     return envelope.get("result", envelope)

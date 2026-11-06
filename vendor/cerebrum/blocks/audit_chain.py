@@ -1,10 +1,10 @@
-"""Audit chain block — the Cerebrum-FinanceOps audit service, neutralized
+"""Audit chain block — the <private-repo> audit service, neutralized
 for the Store (in-process tenant-scoped records) with the missing piece
 the survey demanded: a FULL-WALK ``verify_chain`` that recomputes every
 link (previous-hash linkage + payload/result digests + created_at) and
 names each violation. A tampered record can never verify.
 
-Donor: Cerebrum-FinanceOps backend/app/audit/service.py.
+Donor: <private-repo> backend/app/audit/service.py.
 """
 
 from __future__ import annotations
