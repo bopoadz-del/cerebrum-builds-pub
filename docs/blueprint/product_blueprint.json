@@ -1,0 +1,112 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "document_engine",
+        "file_hasher",
+        "storage",
+        "search",
+        "version",
+        "version_diff",
+        "ingestion_provenance"
+      ],
+      "connectors": [],
+      "description": "Ingests and registers the contract and BOQ as controlled source-of-record documents, with versioning, hashing, and a searchable register of clauses and dated revisions; later capabilities cite these documents rather than restating them.",
+      "id": "source_of_record_document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "formula_executor",
+        "validation",
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Parses the BOQ (Preliminaries P1-P5, Earthworks E1-E5) into priced line items with unit, quantity, and SAR rates, forming the measurement base for progress claims and the Accepted Contract Amount used in delay-damages and security calculations.",
+      "id": "boq_priced_schedule",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_reconciliation_workflow",
+        "finance_canonical_model",
+        "approval_rules",
+        "workflow",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Builds interim payment certificates by measured quantity against BOQ items, applies Clause 14.3 retention of 5% per certificate with 50% release at Taking-Over and 50% at the end of the 365-day Defects Notification Period (Clause 11.1), and tracks the 10% Performance Security under Clause 4.2.",
+      "id": "progress_claims_and_ipc",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "approval_rules",
+        "evidence_chain",
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks time for completion of 730 days from the Commencement Date (Clause 8.2) and accrues delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10% (Clause 8.7), with evidence-linked delay events and a running position.",
+      "id": "delay_damages_tracker",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workbench",
+        "document_engine",
+        "approval_rules",
+        "evidence_chain",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Maintains inspection and test plans with hold/witness points tied to BOQ work sections (Preliminaries and Earthworks), capturing signed inspection records, non-conformances, and their linkage to claimed work.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "knowledge",
+        "rag_tenant_isolation",
+        "evidence_or_refuse",
+        "search",
+        "llm_enhancer"
+      ],
+      "connectors": [],
+      "description": "Answers team questions about clause obligations and BOQ positions, grounding every answer in the registered contract and BOQ documents and refusing to answer when the source does not support it.",
+      "id": "contract_query_and_clause_grounding",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that treats the uploaded contract (document:2c2a9fa3f70944788231a6591ab7bdcd_harbourline_contract.pdf) and BOQ (document:defd6a1241534d4db417c5230ce90372_harbourline_boq.xlsx) as the single source of record. It lets the project team administer progress claims and interim payment certificates against BOQ items with Clause 14.3 retention (5%, half at Taking-Over, half at the end of the 365-day Defects Notification Period),",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
