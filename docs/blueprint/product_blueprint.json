@@ -1,0 +1,116 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation",
+        "workflow",
+        "validation"
+      ],
+      "connectors": [],
+      "description": "Builds interim payment certificates from measured BOQ quantities and rates (P1-P5, E1-E5 in document:13ae7b5c8c7d4b8e9471c3381455cd92_harbourline_boq.xlsx), applies the 5% retention of each certificate per Clause 14.3 (document:f878d0a048d849648008d3a5e0ae0cdf_harbourline_contract.pdf), and tracks r",
+      "id": "progress_claim_processing",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_canonical_model",
+        "formula_executor",
+        "project_reasoner",
+        "audit_chain"
+      ],
+      "connectors": [],
+      "description": "Tracks the 730-day Time for Completion and Commencement Date, computes delay damages at 0.1% of the Accepted Contract Amount per day capped at 10% under Clause 8.7, and tracks the 365-day Defects Notification Period under Clause 11.1, using the contract excerpt as the rule source.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "evidence_chain",
+        "evidence_or_refuse",
+        "validation_pipeline_fork",
+        "document_engine"
+      ],
+      "connectors": [],
+      "description": "Captures inspection and test plan records, inspection lot sign-offs, and non-conformance evidence against the project's work items, with an evidence chain and refusal where records are incomplete.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "ingestion_provenance",
+        "version",
+        "search"
+      ],
+      "connectors": [],
+      "description": "Maintains a controlled register of contract, BOQ, drawings, and submittals as the source of record, with ingestion provenance, versioning, and search over uploaded project documents.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "contract_retrieval",
+        "knowledge",
+        "rag_tenant_isolation",
+        "evidence_verifier"
+      ],
+      "connectors": [],
+      "description": "Answers queries about contract terms such as Clause 8.2 time for completion, Clause 8.7 delay damages, Clause 11.1 defects notification period, Clause 14.3 retention, and Clause 4.2 performance security, grounded in the uploaded contract excerpt.",
+      "id": "contract_clause_lookup",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_planning",
+        "approval_rules",
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the 10% performance security required under Clause 4.2 against the Accepted Contract Amount and flags expiry or shortfall.",
+      "id": "performance_security_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "portfolio_rollup"
+      ],
+      "connectors": [],
+      "description": "Produces a dashboard of claim status, retention balances, delay-damages exposure, and QA/ITP completion for the project team.",
+      "id": "commercial_reporting",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works contracts administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that uses the uploaded contract and bill of quantities as its source of record. It lets the project team process progress claims against BOQ items, track delay damages against the contract's time and cap, manage QA/ITP records, and maintain a controlled document register, serving the contract administrator, commercial manager, and QA lead on the project.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
