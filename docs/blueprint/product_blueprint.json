@@ -1,0 +1,105 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "finance_reconciliation",
+        "payment_escrow",
+        "document_engine",
+        "pdf",
+        "formula_executor"
+      ],
+      "connectors": [],
+      "description": "Build interim payment certificates from measured BOQ items (Preliminaries, Earthworks) priced at the BOQ rates, compute retention at 5% per Clause 14.3, and track release of 50% at Taking-Over and 50% at end of the Defects Notification Period.",
+      "id": "progress_claims_and_payment_certificates",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Track Time for Completion (730 days from Commencement, Clause 8.2) and compute delay damages at 0.1% of the Accepted Contract Amount per day of delay, capped at 10% per Clause 8.7, with a live running total and cap alarm.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "validation_pipeline_fork",
+        "evidence_chain",
+        "review",
+        "audit_chain"
+      ],
+      "connectors": [],
+      "description": "Record Inspection and Test Plans and QA records against BOQ work sections, keep evidence and sign-offs attributable, and link passed inspections to the claimable BOQ quantities.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version",
+        "version_diff",
+        "ingestion_provenance",
+        "audit_chain",
+        "storage"
+      ],
+      "connectors": [],
+      "description": "Maintain a controlled register of contract and project documents (the contract excerpt and BOQ as source of record) with versioning, provenance, and audit trail so every claim and QA record cites a registered document.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_canonical_model",
+        "validation"
+      ],
+      "connectors": [],
+      "description": "Ingest the Harbourline BOQ, hold quantities and SAR rates per item, and value measured quantities for each claim so claim lines reconcile to BOQ totals.",
+      "id": "boq_measurement_and_valuation",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "notification",
+        "approval_rules"
+      ],
+      "connectors": [],
+      "description": "Track the 10% Performance Security required by Clause 4.2 against the Accepted Contract Amount, with expiry and renewal reminders.",
+      "id": "performance_security_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that treats the uploaded contract and BOQ as the source of record. It serves the project's contract administrator and commercial team by managing progress claims and interim payment certificates, tracking delay damages against the Clause 8.7 cap, recording QA/ITP inspections, and maintaining a controlled document register \u2014 all grounded in the contract excerpt and priced BOQ items.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
