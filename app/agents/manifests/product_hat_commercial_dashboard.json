@@ -1,0 +1,48 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.commercial_dashboard"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "commercial_dashboard"
+      },
+      {
+        "type": "capability",
+        "value": "commercial_dashboard"
+      }
+    ]
+  },
+  "agent_id": "product.hat.commercial_dashboard",
+  "allowed_actions": [
+    "product.commercial_dashboard"
+  ],
+  "block_ids": [
+    "dashboard",
+    "analytics",
+    "portfolio_rollup"
+  ],
+  "discipline": "commercial_dashboard",
+  "display_name": "Harbourline Civil Works Contracts Administration Commercial Dashboard Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'commercial_dashboard' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "commercial_dashboard"
+  ]
+}

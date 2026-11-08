@@ -1,0 +1,16 @@
+.git
+.gitignore
+.codewhale
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+.venv
+venv
+data
+*.db
+*.db-wal
+*.db-shm
+.env
+.DS_Store

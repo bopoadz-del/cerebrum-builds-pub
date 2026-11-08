@@ -1,0 +1,79 @@
+{
+  "blocks_commit": "f14b4f76cfa048b770787dc1c7fbc8d230da3818",
+  "factory_commit": "962ad719c37919b75f10d99cebf4a554ae4d8250",
+  "pins": [
+    {
+      "block_id": "analytics",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "approval_rules",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "boq_processor",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dashboard",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "document_engine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_reconciliation_workflow",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "formula_executor",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "governance_gate",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "notification",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "portfolio_rollup",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "review",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "task_listing",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "validation",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "version_diff",
+      "source": "dual_registry"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

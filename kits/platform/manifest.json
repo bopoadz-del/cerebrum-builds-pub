@@ -1,45 +1,10 @@
 {
-  "blocks": [
-    "analytics",
-    "approval_rules",
-    "audit",
-    "audit_chain",
-    "boq_processor",
-    "dashboard",
-    "document_engine",
-    "evidence_chain",
-    "finance_reconciliation_workflow",
-    "formula_executor",
-    "governance_gate",
-    "notification",
-    "review",
-    "search",
-    "task_listing",
-    "validation",
-    "version_diff"
-  ],
   "id": "platform",
   "name": "Platform",
-  "product_blocks": [
-    "analytics",
-    "approval_rules",
-    "audit",
-    "audit_chain",
-    "boq_processor",
-    "dashboard",
-    "document_engine",
-    "evidence_chain",
-    "finance_reconciliation_workflow",
-    "formula_executor",
-    "governance_gate",
-    "notification",
-    "review",
-    "search",
-    "task_listing",
-    "validation",
-    "version_diff"
-  ],
-  "source": "synthesized-from-factory-shelf",
+  "version": "1.0.0",
+  "source": "brief-compiler",
+  "blocks": ["analytics", "approval_rules", "audit", "audit_chain", "boq_processor", "dashboard", "document_engine", "evidence_chain", "finance_reconciliation_workflow", "formula_executor", "governance_gate", "notification", "review", "search", "task_listing", "validation", "version_diff"],
+  "product_blocks": ["analytics", "approval_rules", "audit", "audit_chain", "boq_processor", "dashboard", "document_engine", "evidence_chain", "finance_reconciliation_workflow", "formula_executor", "governance_gate", "notification", "review", "search", "task_listing", "validation", "version_diff"],
   "vendored_blocks": {
     "analytics": "vendor/blocks/analytics",
     "approval_rules": "vendor/blocks/approval_rules",
@@ -58,6 +23,5 @@
     "task_listing": "vendor/blocks/task_listing",
     "validation": "vendor/blocks/validation",
     "version_diff": "vendor/blocks/version_diff"
-  },
-  "version": "1.0.0"
+  }
 }

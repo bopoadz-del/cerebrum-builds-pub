@@ -1,0 +1,344 @@
+{
+  "agents": [
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "auto",
+        "put_off_by": [
+          "disable:product.base"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "unknown"
+          }
+        ]
+      },
+      "agent_id": "product.base",
+      "allowed_actions": [
+        "product.progress_claim_management",
+        "product.delay_damages_tracking",
+        "product.qa_itp_records",
+        "product.document_register",
+        "product.contract_terms_governance",
+        "product.commercial_dashboard"
+      ],
+      "context_sources": [
+        {
+          "description": "Tenant/project documents via hybrid retrieval",
+          "kind": "project_documents",
+          "source_id": "project_docs"
+        }
+      ],
+      "discipline": "base",
+      "display_name": "Harbourline Civil Works Contracts Administration Base Agent",
+      "extends": null,
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "base",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "summary": "Shared product cortex adapted from RetailClient hat patterns: trusted context, ActionRegistry awareness, honesty policies. Discipline hats specialize this base \u2014 they never replace it.",
+      "tags": [
+        "base",
+        "factory-generated",
+        "product"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.progress_claim_management"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "progress_claim_management"
+          },
+          {
+            "type": "capability",
+            "value": "progress_claim_management"
+          }
+        ]
+      },
+      "agent_id": "product.hat.progress_claim_management",
+      "allowed_actions": [
+        "product.progress_claim_management"
+      ],
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation_workflow",
+        "approval_rules",
+        "audit"
+      ],
+      "discipline": "progress_claim_management",
+      "display_name": "Harbourline Civil Works Contracts Administration Progress Claim Management Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'progress_claim_management' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "progress_claim_management"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.delay_damages_tracking"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "delay_damages_tracking"
+          },
+          {
+            "type": "capability",
+            "value": "delay_damages_tracking"
+          }
+        ]
+      },
+      "agent_id": "product.hat.delay_damages_tracking",
+      "allowed_actions": [
+        "product.delay_damages_tracking"
+      ],
+      "block_ids": [
+        "formula_executor",
+        "notification",
+        "audit"
+      ],
+      "discipline": "delay_damages_tracking",
+      "display_name": "Harbourline Civil Works Contracts Administration Delay Damages Tracking Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'delay_damages_tracking' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "delay_damages_tracking"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.qa_itp_records"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "qa_itp_records"
+          },
+          {
+            "type": "capability",
+            "value": "qa_itp_records"
+          }
+        ]
+      },
+      "agent_id": "product.hat.qa_itp_records",
+      "allowed_actions": [
+        "product.qa_itp_records"
+      ],
+      "block_ids": [
+        "document_engine",
+        "task_listing",
+        "evidence_chain",
+        "audit_chain"
+      ],
+      "discipline": "qa_itp_records",
+      "display_name": "Harbourline Civil Works Contracts Administration Qa Itp Records Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'qa_itp_records' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "qa_itp_records"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.document_register"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "document_register"
+          },
+          {
+            "type": "capability",
+            "value": "document_register"
+          }
+        ]
+      },
+      "agent_id": "product.hat.document_register",
+      "allowed_actions": [
+        "product.document_register"
+      ],
+      "block_ids": [
+        "document_engine",
+        "version_diff",
+        "review",
+        "search"
+      ],
+      "discipline": "document_register",
+      "display_name": "Harbourline Civil Works Contracts Administration Document Register Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'document_register' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "document_register"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.contract_terms_governance"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "contract_terms_governance"
+          },
+          {
+            "type": "capability",
+            "value": "contract_terms_governance"
+          }
+        ]
+      },
+      "agent_id": "product.hat.contract_terms_governance",
+      "allowed_actions": [
+        "product.contract_terms_governance"
+      ],
+      "block_ids": [
+        "governance_gate",
+        "validation"
+      ],
+      "discipline": "contract_terms_governance",
+      "display_name": "Harbourline Civil Works Contracts Administration Contract Terms Governance Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'contract_terms_governance' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "contract_terms_governance"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.commercial_dashboard"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "commercial_dashboard"
+          },
+          {
+            "type": "capability",
+            "value": "commercial_dashboard"
+          }
+        ]
+      },
+      "agent_id": "product.hat.commercial_dashboard",
+      "allowed_actions": [
+        "product.commercial_dashboard"
+      ],
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "portfolio_rollup"
+      ],
+      "discipline": "commercial_dashboard",
+      "display_name": "Harbourline Civil Works Contracts Administration Commercial Dashboard Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'commercial_dashboard' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "commercial_dashboard"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0"
+}

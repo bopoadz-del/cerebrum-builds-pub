@@ -1,0 +1,89 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation_workflow",
+        "approval_rules",
+        "audit"
+      ],
+      "capability_id": "progress_claim_management",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "notification",
+        "audit"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "task_listing",
+        "evidence_chain",
+        "audit_chain"
+      ],
+      "capability_id": "qa_itp_records",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version_diff",
+        "review",
+        "search"
+      ],
+      "capability_id": "document_register",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "governance_gate",
+        "validation"
+      ],
+      "capability_id": "contract_terms_governance",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "portfolio_rollup"
+      ],
+      "capability_id": "commercial_dashboard",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "analytics",
+    "approval_rules",
+    "audit",
+    "audit_chain",
+    "boq_processor",
+    "dashboard",
+    "document_engine",
+    "evidence_chain",
+    "finance_reconciliation_workflow",
+    "formula_executor",
+    "governance_gate",
+    "notification",
+    "portfolio_rollup",
+    "review",
+    "search",
+    "task_listing",
+    "validation",
+    "version_diff"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

@@ -1,0 +1,102 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Harbourline Civil Works Contracts Administration
+vertical: product
+summary: A contracts-administration platform for the Harbourline Civil Works project
+  that treats the uploaded contract and BOQ as the source of record. It manages progress
+  claims against BOQ line items, tracks delay damages under Clause 8.7 with a configurable
+  daily rate and cap, maintains QA/ITP records, and provides a controlled document
+  register. The platform serves the project's contracts and commercial team, QA/QC
+  staff, and document controllers.
+capabilities:
+- id: progress_claim_management
+  description: Creates and tracks interim payment certificates and progress claims,
+    linking claim lines to BOQ items and quantities from document:harbourline_boq.xlsx,
+    applies the 5% retention under Clause 14.3 of document:harbourline_contract.pdf,
+    and routes claims through approval.
+  block_ids:
+  - boq_processor
+  - finance_reconciliation_workflow
+  - approval_rules
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: delay_damages_tracking
+  description: Tracks elapsed days against the 730-day Time for Completion in Clause
+    8.2 of document:harbourline_contract.pdf, computes delay damages at 0.1% per day
+    capped at 10% of the Accepted Contract Amount under Clause 8.7, and raises alerts
+    when the cap or milestones are approached.
+  block_ids:
+  - formula_executor
+  - notification
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: qa_itp_records
+  description: Captures Inspection and Test Plan records, hold points, inspection
+    results, and sign-offs against work items, with evidence attachments and an immutable
+    audit trail.
+  block_ids:
+  - document_engine
+  - task_listing
+  - evidence_chain
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: document_register
+  description: Maintains a controlled register of project documents with version history,
+    review status, and distribution; ingests the contract and BOQ as source-of-record
+    documents and tracks revisions.
+  block_ids:
+  - document_engine
+  - version_diff
+  - review
+  - search
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - project_document_management_system_e_g_procore_aconex
+- id: contract_terms_governance
+  description: Extracts and governs key contract terms (time for completion, delay
+    damages, retention, performance security, defects notification period) from document:harbourline_contract.pdf,
+    provides a clause register, and checks claims and outputs against these terms.
+  block_ids:
+  - contract_retrieval
+  - governance_gate
+  - validation
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: commercial_dashboard
+  description: Provides a project commercial dashboard showing claim status, cumulative
+    certified amounts, retention balances, delay-damages exposure, and QA/ITP open
+    items.
+  block_ids:
+  - dashboard
+  - analytics
+  - portfolio_rollup
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors:
+- project_document_management_system_e_g_procore_aconex
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

@@ -1,0 +1,72 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation_workflow",
+        "approval_rules",
+        "audit"
+      ],
+      "capability_id": "progress_claim_management",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "notification",
+        "audit"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "task_listing",
+        "evidence_chain",
+        "audit_chain"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version_diff",
+        "review",
+        "search"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "governance_gate",
+        "validation"
+      ],
+      "capability_id": "contract_terms_governance",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "portfolio_rollup"
+      ],
+      "capability_id": "commercial_dashboard",
+      "strategy": "REUSE"
+    }
+  ],
+  "connectors": [
+    "project_document_management_system_e_g_procore_aconex"
+  ],
+  "layers": [],
+  "product_id": "product",
+  "schema_version": "1.0.0",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}

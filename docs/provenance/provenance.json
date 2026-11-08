@@ -1,0 +1,117 @@
+{
+  "blocks_commit": "f14b4f76cfa048b770787dc1c7fbc8d230da3818",
+  "blueprint_id": "product:product_blueprint.v1",
+  "factory": "CerebrumDev.ai",
+  "factory_commit": "962ad719c37919b75f10d99cebf4a554ae4d8250",
+  "generated_at": "blueprint:624d0277b1159c0315e48730413365d4166f40f896d93145814e6f838d79ef40",
+  "inputs_hash": "624d0277b1159c0315e48730413365d4166f40f896d93145814e6f838d79ef40",
+  "kernel_version": "1.0.0",
+  "plan": {
+    "capabilities": [
+      {
+        "block_ids": [
+          "boq_processor",
+          "finance_reconciliation_workflow",
+          "approval_rules",
+          "audit"
+        ],
+        "capability_id": "progress_claim_management",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "formula_executor",
+          "notification",
+          "audit"
+        ],
+        "capability_id": "delay_damages_tracking",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "document_engine",
+          "task_listing",
+          "evidence_chain",
+          "audit_chain"
+        ],
+        "capability_id": "qa_itp_records",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "document_engine",
+          "version_diff",
+          "review",
+          "search"
+        ],
+        "capability_id": "document_register",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "governance_gate",
+          "validation"
+        ],
+        "capability_id": "contract_terms_governance",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "dashboard",
+          "analytics",
+          "portfolio_rollup"
+        ],
+        "capability_id": "commercial_dashboard",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      }
+    ],
+    "dual_registered_blocks": [
+      "analytics",
+      "approval_rules",
+      "audit",
+      "audit_chain",
+      "boq_processor",
+      "dashboard",
+      "document_engine",
+      "evidence_chain",
+      "finance_reconciliation_workflow",
+      "formula_executor",
+      "governance_gate",
+      "notification",
+      "portfolio_rollup",
+      "review",
+      "search",
+      "task_listing",
+      "validation",
+      "version_diff"
+    ],
+    "fail_closed": true,
+    "inventory_domain_gaps": [],
+    "product_id": "product",
+    "unsupported": [],
+    "vertical_scoped_out": [
+      {
+        "allowed_verticals": [
+          "architecture",
+          "construction",
+          "facilities_management",
+          "facility_management",
+          "interior_design"
+        ],
+        "block_id": "contract_retrieval",
+        "capability_id": "contract_terms_governance",
+        "reason": "contract_retrieval is scoped to architecture, construction, facilities_management, facility_management, interior_design; this platform's vertical is 'product', so it is not attached",
+        "vertical": "product"
+      }
+    ]
+  },
+  "product_id": "product",
+  "schema": "factory_provenance.v1",
+  "writer_receipt": "sha256:6419a2cae2717be79e234fc789b2a2d808ae29c0718bba79dab2be846d620ef5"
+}

@@ -1,0 +1,49 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.progress_claim_management"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "progress_claim_management"
+      },
+      {
+        "type": "capability",
+        "value": "progress_claim_management"
+      }
+    ]
+  },
+  "agent_id": "product.hat.progress_claim_management",
+  "allowed_actions": [
+    "product.progress_claim_management"
+  ],
+  "block_ids": [
+    "boq_processor",
+    "finance_reconciliation_workflow",
+    "approval_rules",
+    "audit"
+  ],
+  "discipline": "progress_claim_management",
+  "display_name": "Harbourline Civil Works Contracts Administration Progress Claim Management Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'progress_claim_management' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "progress_claim_management"
+  ]
+}

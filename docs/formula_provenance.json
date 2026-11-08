@@ -1,0 +1,9 @@
+{
+  "schema": "writer_formula_provenance.v1",
+  "formulas": [
+    {"id": "delay_damages_capped", "label": "Delay damages at a daily percentage, capped at a percentage of the amount", "source": "improvised, no Store coverage -- document:harbourline_contract.pdf Clause 8.7", "store_coverage": false},
+    {"id": "retention_amount", "label": "Retention withheld from an interim payment certificate", "source": "improvised, no Store coverage -- document:harbourline_contract.pdf Clause 14.3", "store_coverage": false},
+    {"id": "performance_security_amount", "label": "Performance security as a percentage of the Accepted Contract Amount", "source": "improvised, no Store coverage -- document:harbourline_contract.pdf Clause 4.2", "store_coverage": false},
+    {"id": "certified_amount", "label": "Net certified amount after retention", "source": "improvised, no Store coverage -- arithmetic identity applied to Clause 14.3", "store_coverage": false}
+  ]
+}

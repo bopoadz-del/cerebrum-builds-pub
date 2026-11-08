@@ -1,0 +1,747 @@
+{
+ "components": {
+  "schemas": {
+   "Body_intake_document_v1_document_register_intake_post": {
+    "properties": {
+     "file": {
+      "contentMediaType": "application/octet-stream",
+      "title": "File",
+      "type": "string"
+     }
+    },
+    "required": [
+     "file"
+    ],
+    "title": "Body_intake_document_v1_document_register_intake_post",
+    "type": "object"
+   },
+   "Body_parse_uploaded_document_v1_document_register_parse_post": {
+    "properties": {
+     "file": {
+      "contentMediaType": "application/octet-stream",
+      "title": "File",
+      "type": "string"
+     }
+    },
+    "required": [
+     "file"
+    ],
+    "title": "Body_parse_uploaded_document_v1_document_register_parse_post",
+    "type": "object"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "title": "Detail",
+      "type": "array"
+     }
+    },
+    "title": "HTTPValidationError",
+    "type": "object"
+   },
+   "ValidationError": {
+    "properties": {
+     "ctx": {
+      "title": "Context",
+      "type": "object"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "title": "Location",
+      "type": "array"
+     },
+     "msg": {
+      "title": "Message",
+      "type": "string"
+     },
+     "type": {
+      "title": "Error Type",
+      "type": "string"
+     }
+    },
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError",
+    "type": "object"
+   }
+  }
+ },
+ "info": {
+  "description": "Contracts administration for a single civil-works project: interim payment certificates measured against BOQ lines, time and delay-damages tracking, inspection and test-plan records, a revision-controlled document register, a clause register, and the commercial position aggregated from the tenant's own records. The uploaded excerpt and bill of quantities are the source every figure cites.",
+  "title": "Harbourline Civil Works Contracts Administration",
+  "version": "1.0.0"
+ },
+ "openapi": "3.1.0",
+ "paths": {
+  "/health": {
+   "get": {
+    "description": "The shipped fail-closed health body (process, disk, database, head).",
+    "operationId": "health_route_health_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Health Route",
+    "tags": [
+     "ops"
+    ]
+   }
+  },
+  "/metrics": {
+   "get": {
+    "operationId": "metrics_response_metrics_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Metrics Response"
+   }
+  },
+  "/v1/capabilities": {
+   "get": {
+    "operationId": "capability_roster_v1_capabilities_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Capability Roster",
+    "tags": [
+     "kernel"
+    ]
+   }
+  },
+  "/v1/catalog": {
+   "get": {
+    "operationId": "kernel_catalog_v1_catalog_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Kernel Catalog",
+    "tags": [
+     "kernel"
+    ]
+   }
+  },
+  "/v1/document_register/ask": {
+   "get": {
+    "operationId": "ask_guide_v1_document_register_ask_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Ask Guide",
+    "tags": [
+     "document-register"
+    ]
+   },
+   "post": {
+    "description": "Answer a question, citing the document each passage came from.\n\nThe tenant's registered copies are searched first; a copy the caller\nattached in the same request is the fallback, labelled as such.",
+    "operationId": "ask_document_register_v1_document_register_ask_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "anyOf": [
+         {
+          "additionalProperties": true,
+          "type": "object"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Payload"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Ask Document Register",
+    "tags": [
+     "document-register"
+    ]
+   }
+  },
+  "/v1/document_register/intake": {
+   "get": {
+    "operationId": "intake_guide_v1_document_register_intake_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Intake Guide",
+    "tags": [
+     "document-register"
+    ]
+   },
+   "post": {
+    "description": "Parse an uploaded document and file it in the tenant's register.\n\nThe parsed text is kept under the one storage root and keyed by the\nregister entry's checksum, so a later question is answered from the copy\nthis tenant actually attached, never from a guess.",
+    "operationId": "intake_document_v1_document_register_intake_post",
+    "requestBody": {
+     "content": {
+      "multipart/form-data": {
+       "schema": {
+        "$ref": "#/components/schemas/Body_intake_document_v1_document_register_intake_post"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Intake Document",
+    "tags": [
+     "document-register"
+    ]
+   }
+  },
+  "/v1/document_register/parse": {
+   "get": {
+    "description": "The parse endpoint is POST-only; say so instead of colliding with the\nrecord reader, which would answer 404 for a POST-only sub-resource.",
+    "operationId": "parse_uploaded_document_guide_v1_document_register_parse_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Parse Uploaded Document Guide",
+    "tags": [
+     "document-register"
+    ]
+   },
+   "post": {
+    "description": "Parse an attached copy and return its text; nothing is stored.\n\nThis is the console's read-only intake preview. Filing the copy in the\ncontrolled register is the tenant-scoped POST below.",
+    "operationId": "parse_uploaded_document_v1_document_register_parse_post",
+    "requestBody": {
+     "content": {
+      "multipart/form-data": {
+       "schema": {
+        "$ref": "#/components/schemas/Body_parse_uploaded_document_v1_document_register_parse_post"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Parse Uploaded Document",
+    "tags": [
+     "document-register"
+    ]
+   }
+  },
+  "/v1/document_register/search": {
+   "get": {
+    "operationId": "search_document_register_v1_document_register_search_get",
+    "parameters": [
+     {
+      "in": "query",
+      "name": "q",
+      "required": false,
+      "schema": {
+       "default": "",
+       "title": "Q",
+       "type": "string"
+      }
+     },
+     {
+      "in": "query",
+      "name": "document_type",
+      "required": false,
+      "schema": {
+       "default": "",
+       "title": "Document Type",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Search Document Register",
+    "tags": [
+     "document-register"
+    ]
+   }
+  },
+  "/v1/gates": {
+   "get": {
+    "operationId": "kernel_gates_v1_gates_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Kernel Gates",
+    "tags": [
+     "kernel"
+    ]
+   }
+  },
+  "/v1/inventory": {
+   "get": {
+    "operationId": "kernel_inventory_v1_inventory_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Kernel Inventory",
+    "tags": [
+     "kernel"
+    ]
+   }
+  },
+  "/v1/jobs": {
+   "get": {
+    "operationId": "kernel_jobs_v1_jobs_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Kernel Jobs",
+    "tags": [
+     "kernel"
+    ]
+   }
+  },
+  "/v1/provenance": {
+   "get": {
+    "operationId": "kernel_provenance_v1_provenance_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Kernel Provenance",
+    "tags": [
+     "kernel"
+    ]
+   }
+  },
+  "/v1/ui": {
+   "get": {
+    "operationId": "ui_manifest_v1_ui_get",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     }
+    },
+    "summary": "Ui Manifest",
+    "tags": [
+     "kernel"
+    ]
+   }
+  },
+  "/v1/{capability_id}": {
+   "get": {
+    "description": "The capability's catalogue entry, and its tenant's records when signed in.\n\nA caller with no credential gets the public entry (an empty record list),\nso a console or a monitor can discover the route without holding a token.\nTenant records are only ever read for the authenticated principal.",
+    "operationId": "list_capability_records_v1__capability_id__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "capability_id",
+      "required": true,
+      "schema": {
+       "title": "Capability Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "List Capability Records",
+    "tags": [
+     "capabilities"
+    ]
+   },
+   "post": {
+    "operationId": "create_capability_record_v1__capability_id__post",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "capability_id",
+      "required": true,
+      "schema": {
+       "title": "Capability Id",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "anyOf": [
+         {
+          "additionalProperties": true,
+          "type": "object"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Payload"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Create Capability Record",
+    "tags": [
+     "capabilities"
+    ]
+   }
+  },
+  "/v1/{capability_id}/{item_id}": {
+   "delete": {
+    "operationId": "delete_capability_record_v1__capability_id___item_id__delete",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "capability_id",
+      "required": true,
+      "schema": {
+       "title": "Capability Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "path",
+      "name": "item_id",
+      "required": true,
+      "schema": {
+       "title": "Item Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Delete Capability Record",
+    "tags": [
+     "capabilities"
+    ]
+   },
+   "get": {
+    "operationId": "read_capability_record_v1__capability_id___item_id__get",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "capability_id",
+      "required": true,
+      "schema": {
+       "title": "Capability Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "path",
+      "name": "item_id",
+      "required": true,
+      "schema": {
+       "title": "Item Id",
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Read Capability Record",
+    "tags": [
+     "capabilities"
+    ]
+   },
+   "put": {
+    "operationId": "update_capability_record_v1__capability_id___item_id__put",
+    "parameters": [
+     {
+      "in": "path",
+      "name": "capability_id",
+      "required": true,
+      "schema": {
+       "title": "Capability Id",
+       "type": "string"
+      }
+     },
+     {
+      "in": "path",
+      "name": "item_id",
+      "required": true,
+      "schema": {
+       "title": "Item Id",
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "additionalProperties": true,
+        "title": "Payload",
+        "type": "object"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      },
+      "description": "Successful Response"
+     },
+     "422": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      },
+      "description": "Validation Error"
+     }
+    },
+    "summary": "Update Capability Record",
+    "tags": [
+     "capabilities"
+    ]
+   }
+  }
+ }
+}
