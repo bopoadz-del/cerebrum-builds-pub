@@ -1,0 +1,104 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_reconciliation",
+        "approval_rules",
+        "formula_executor"
+      ],
+      "connectors": [],
+      "description": "Builds Interim Payment Certificates from measured BOQ quantities, applies 5% retention per Clause 14.3 of document:f5d84271683940708ff3a14721ff52a3_harbourline_contract.pdf, and releases retention at Taking-Over and Defects Notification Period end.",
+      "id": "progress_claims",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "finance_planning",
+        "formula_executor",
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the 730-day Time for Completion from Clause 8.2 of document:f5d84271683940708ff3a14721ff52a3_harbourline_contract.pdf and computes delay damages at 0.1% of Accepted Contract Amount per day, capped at 10%, per Clause 8.7.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "evidence_chain",
+        "validation",
+        "document_engine"
+      ],
+      "connectors": [],
+      "description": "Captures Inspection and Test Plan records against BOQ work items, with evidence and sign-off, so QA acceptance can be evidenced per progress claim line.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version",
+        "file_hasher",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "A register of project documents (contract, BOQ, drawings, ITPs, submittals) with provenance and version control; the contract and BOQ are the source of record.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "ingestion_provenance",
+        "contract_retrieval",
+        "boq_processor",
+        "rag_tenant_isolation"
+      ],
+      "connectors": [],
+      "description": "Ingests and indexes document:f5d84271683940708ff3a14721ff52a3_harbourline_contract.pdf and document:e74ced2fa0814ff387444937e92e624f_harbourline_boq.xlsx, extracting clauses (8.2, 8.7, 11.1, 14.3, 4.2) and BOQ items as the authoritative source for all downstream calculations.",
+      "id": "contract_source_of_record",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "portfolio_rollup"
+      ],
+      "connectors": [],
+      "description": "Portfolio view of certified value, retention held, delay-damages exposure, and open QA/ITP items across the Harbourline project.",
+      "id": "commercial_dashboard",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project, serving the contractor's commercial and QA teams. It treats document:f5d84271683940708ff3a14721ff52a3_harbourline_contract.pdf and document:e74ced2fa0814ff387444937e92e624f_harbourline_boq.xlsx as the source of record \u2014 driving progress claims against BOQ items with 5% retention under Clause 14.3, tracking time for completion (730 days, Clause 8.2) and delay damages at 0.1% per day capped at 10% (Clause 8.7), capturing ",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
