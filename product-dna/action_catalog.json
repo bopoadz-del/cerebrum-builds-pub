@@ -1,0 +1,68 @@
+{
+  "actions": [
+    {
+      "block_ids": [
+        "document_engine",
+        "pdf",
+        "validation",
+        "audit_chain"
+      ],
+      "capability_id": "contract_and_boq_source_of_record",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "approval_rules",
+        "workflow",
+        "finance_canonical_model",
+        "billing",
+        "audit"
+      ],
+      "capability_id": "progress_claims_and_payment_certificates",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "transaction_state_machine",
+        "notification",
+        "evidence_chain"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "capture",
+        "evidence_classifier",
+        "evidence_verifier",
+        "file_hasher"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "search",
+        "version",
+        "audit"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "review",
+        "dispute_resolution",
+        "evidence_or_refuse",
+        "audit_chain"
+      ],
+      "capability_id": "claim_review_and_dispute_resolution",
+      "strategy": "REUSE"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

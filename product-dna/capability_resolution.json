@@ -1,0 +1,102 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "document_engine",
+        "pdf",
+        "validation",
+        "audit_chain"
+      ],
+      "capability_id": "contract_and_boq_source_of_record",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "approval_rules",
+        "workflow",
+        "finance_canonical_model",
+        "billing",
+        "audit"
+      ],
+      "capability_id": "progress_claims_and_payment_certificates",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "transaction_state_machine",
+        "notification",
+        "evidence_chain"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "capture",
+        "evidence_classifier",
+        "evidence_verifier",
+        "file_hasher"
+      ],
+      "capability_id": "qa_itp_records",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "search",
+        "version",
+        "audit"
+      ],
+      "capability_id": "document_register",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "review",
+        "dispute_resolution",
+        "evidence_or_refuse",
+        "audit_chain"
+      ],
+      "capability_id": "claim_review_and_dispute_resolution",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "approval_rules",
+    "audit",
+    "audit_chain",
+    "billing",
+    "boq_processor",
+    "capture",
+    "cpm_engine",
+    "dispute_resolution",
+    "document_engine",
+    "evidence_chain",
+    "evidence_classifier",
+    "evidence_or_refuse",
+    "evidence_verifier",
+    "file_hasher",
+    "finance_canonical_model",
+    "formula_executor",
+    "notification",
+    "pdf",
+    "review",
+    "search",
+    "transaction_state_machine",
+    "validation",
+    "version",
+    "workflow"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

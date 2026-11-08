@@ -1,0 +1,106 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Harbourline Civil Works Contracts Administration
+vertical: product
+summary: 'A contracts-administration platform for the Harbourline Civil Works project
+  that uses the uploaded contract (document:harbourline_contract.pdf) and BOQ (document:harbourline_boq.xlsx)
+  as the source of record. It handles progress claims (interim payment certificates
+  with retention per Clause 14.3), delay-damages tracking (Clause 8.7: 0.1% per day
+  capped at 10%, against Clause 8.2''s 730-day Time for Completion), QA/ITP records,
+  and a document register. It serves the project''s contract administrato'
+capabilities:
+- id: contract_and_boq_source_of_record
+  description: 'Ingests and holds the uploaded contract (document:harbourline_contract.pdf)
+    and BOQ (document:harbourline_boq.xlsx) as the immutable source of record: contract
+    clauses (8.2, 8.7, 11.1, 14.3, 4.2) and BOQ line items (P1-P5, E1-E5) with quantities
+    and rates, each traceable to its source document.'
+  block_ids:
+  - document_engine
+  - pdf
+  - validation
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: progress_claims_and_payment_certificates
+  description: Builds progress claims from BOQ line items by measured quantity, computes
+    each Interim Payment Certificate, applies 5% retention per Clause 14.3 (50% released
+    at Taking-Over, 50% at end of Defects Notification Period), tracks 10% performance
+    security per Clause 4.2, and routes claims through approva
+  block_ids:
+  - boq_processor
+  - approval_rules
+  - workflow
+  - finance_canonical_model
+  - billing
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: delay_damages_tracking
+  description: Tracks days elapsed against the 730-day Time for Completion under Clause
+    8.2 and computes delay damages at 0.1% of the Accepted Contract Amount per day
+    of delay, capped at 10%, per Clause 8.7; flags when the cap is approached.
+  block_ids:
+  - cpm_engine
+  - formula_executor
+  - transaction_state_machine
+  - notification
+  - evidence_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: qa_itp_records
+  description: Captures Inspection and Test Plan (ITP) records — inspection lots,
+    hold points, test results, sign-offs — linked to BOQ items such as E1–E5 earthworks,
+    with evidence retained for payment-release gating.
+  block_ids:
+  - capture
+  - evidence_classifier
+  - evidence_verifier
+  - file_hasher
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: document_register
+  description: A single register of all project documents — contract, BOQ, drawings,
+    ITPs, claims, correspondence, certificates — with versioning, status, and search,
+    each entry citing its source.
+  block_ids:
+  - document_engine
+  - search
+  - version
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: claim_review_and_dispute_resolution
+  description: Reviews submitted claims against the contract and BOQ source of record,
+    handles disagreements on measured quantities or clause interpretation, and records
+    determinations with an evidence trail.
+  block_ids:
+  - review
+  - dispute_resolution
+  - evidence_or_refuse
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors: []
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

@@ -1,0 +1,49 @@
+{
+  "schema_version": "deploy_contract.v1",
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "image": {
+    "dockerfile": "Dockerfile",
+    "build_context": ".",
+    "port": 8000,
+    "user": "app"
+  },
+  "runtime": {
+    "command": "python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+    "migrations": "alembic on boot (FastAPI lifespan -> app.migrations.upgrade_head)",
+    "healthcheck_path": "/health",
+    "metrics_path": "/metrics",
+    "ui_path": "/"
+  },
+  "persistence": {
+    "root_env": "STORAGE_PATH",
+    "root": "/app/data",
+    "database": "sqlite:///$STORAGE_PATH/platform.db unless DATABASE_URL is set",
+    "backup_dir": "$STORAGE_PATH/backups",
+    "volume": {
+      "mount_path": "/app/data",
+      "size_gb": 1
+    }
+  },
+  "required_settings": [
+    "PLATFORM_TOKEN"
+  ],
+  "optional_settings": [
+    "TENANT_TOKENS",
+    "APPROVED_PRINCIPALS",
+    "DATABASE_URL",
+    "PORT",
+    "APP_REVISION",
+    "APP_MARK",
+    "BACKUP_DIR"
+  ],
+  "capacity": {
+    "replicas": 1,
+    "ha": false,
+    "sqlite_on_mounted_disk": true
+  },
+  "revisions": {
+    "baseline": "0001_baseline",
+    "head": "0002_lifecycle_audit"
+  }
+}

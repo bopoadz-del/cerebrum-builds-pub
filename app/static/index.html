@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Harbourline Civil Works — contracts administration</title>
+<style>
+  :root { --ink:#13202b; --muted:#5b6b78; --line:#d7dee5; --accent:#0b5d7a; --paper:#f7f9fb; --warn:#8a3b12; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--ink); background:var(--paper); }
+  header { background:var(--ink); color:#fff; padding:18px 24px; }
+  header h1 { margin:0 0 4px; font-size:20px; }
+  header p { margin:0; color:#b9c7d2; font-size:13px; }
+  main { display:grid; grid-template-columns: 400px 1fr; gap:18px; padding:18px 24px 40px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  section { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+  section + section { margin-top:14px; }
+  h2 { margin:0 0 12px; font-size:15px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  input, select, textarea { width:100%; padding:8px 9px; border:1px solid var(--line); border-radius:7px; font:inherit; background:#fff; }
+  textarea { min-height:62px; resize:vertical; }
+  button { margin-top:12px; background:var(--accent); color:#fff; border:0; border-radius:7px; padding:9px 14px; font:inherit; cursor:pointer; }
+  button.secondary { background:#e8eef2; color:var(--ink); }
+  button.plus { width:42px; height:38px; padding:0; font-size:20px; line-height:1; margin-top:0; }
+  pre { background:#0f1a22; color:#d7e3ea; padding:12px; border-radius:8px; overflow:auto; max-height:380px; font-size:12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:600; }
+  .row { display:flex; gap:8px; align-items:center; }
+  .row > * { flex:1; }
+  .row > button.plus { flex:0 0 auto; }
+  .hint { font-size:12px; color:var(--muted); margin-top:8px; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; background:#e8eef2; color:var(--muted); font-size:12px; }
+  .refused { color:var(--warn); }
+  nav { display:flex; gap:6px; padding:10px 24px 0; flex-wrap:wrap; }
+  nav a { color:var(--accent); text-decoration:none; border:1px solid var(--line); background:#fff; border-radius:7px; padding:6px 10px; font-size:13px; }
+  nav a.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  [data-screen] { scroll-margin-top:12px; }
+  article.answer { border-top:1px solid var(--line); padding-top:10px; margin-top:10px; }
+  article.answer p { margin:4px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Harbourline Civil Works — contracts administration</h1>
+  <p>Interim payment certificates · delay damages · QA/ITP · controlled documents. The uploaded contract excerpt and BOQ are the source of record.</p>
+  <p>Product: <span id="productId">{{PRODUCT_ID}}</span> · <span id="productName">{{PRODUCT_NAME}}</span></p>
+</header>
+<nav aria-label="Console screens">
+  <a href="#/command_center" data-nav="command_center">Command center</a>
+  <a href="#/operational_chat" data-nav="operational_chat">Operational chat</a>
+  <a href="#/resident_engineer" data-nav="resident_engineer">Resident engineer</a>
+</nav>
+<main>
+  <div>
+    <section id="operational_chat" data-screen="operational_chat">
+      <h2>Operational chat — attach a document, ask the register</h2>
+      <div class="row">
+        <button id="attach" class="plus" type="button" aria-label="+" title="Attach a PDF, XLSX, CSV or text document">+</button>
+        <div class="hint" id="parseState" style="margin:0">Attach the contract or BOQ to register it as a controlled copy.</div>
+      </div>
+      <input id="file" type="file" accept=".pdf,.xlsx,.xlsm,.xls,.csv,.txt,.md,.doc,.docx" style="display:none" />
+      <label for="question">Question</label>
+      <textarea id="question" rows="2" placeholder="What does the attached document say about retention?"></textarea>
+      <button id="ask" type="button">Ask the register</button>
+      <div class="hint">Enter asks; Shift+Enter adds a line. The answer cites the registered document and carries its authority label.</div>
+      <div id="answers"></div>
+      <h2 style="margin-top:18px">Resolve a governing term</h2>
+      <div class="row">
+        <select id="documentType" aria-label="Document">
+          <option value="contract">contract</option>
+          <option value="boq">boq</option>
+        </select>
+        <select id="clauseRef" aria-label="Clause"><option value="">— whole contract —</option></select>
+        <select id="boqItem" aria-label="BOQ item"><option value="">— none —</option></select>
+      </div>
+      <button id="resolveSource" type="button">Resolve against the source of record</button>
+      <div id="sourceAnswers"></div>
+    </section>
+
+    <section>
+      <h2>New record</h2>
+      <label for="capability">Capability</label>
+      <select id="capability"></select>
+      <div id="fields"></div>
+      <button id="submit" type="button">POST /v1/&lt;capability&gt;</button>
+      <div class="hint" id="formError"></div>
+      <div class="hint">Fields come from the capability's declared model (GET /v1/capabilities).</div>
+    </section>
+  </div>
+
+  <div>
+    <section id="command_center" data-screen="command_center">
+      <h2>Command center — register <span class="pill" id="count">0</span></h2>
+      <div class="row">
+        <input id="registerQuery" type="search" placeholder="Filter the register by reference, title or source" aria-label="Filter the register" />
+        <button id="searchRegister" class="secondary" type="button">Search register</button>
+        <button id="refresh" class="secondary" type="button">GET list</button>
+      </div>
+      <table id="records"><thead><tr><th>id</th><th>reference</th><th>status</th><th>updated</th></tr></thead><tbody></tbody></table>
+    </section>
+    <section>
+      <h2>Last response <span class="pill" id="authority">unlabelled</span></h2>
+      <pre id="output">{}</pre>
+    </section>
+    <section id="resident_engineer" data-screen="resident_engineer">
+      <h2>Resident engineer — position at a glance</h2>
+      <table id="position"><thead><tr><th>Capability</th><th>Records</th><th>Authority</th></tr></thead><tbody></tbody></table>
+      <div class="hint" id="positionState">Loading the capability roster …</div>
+    </section>
+    <section>
+      <h2>Operator credential</h2>
+      <label for="token">Bearer token</label>
+      <input id="token" type="password" autocomplete="off" placeholder="Paste the deploy token; it stays in this tab" />
+      <div class="hint">The page holds no credential of its own — every call is 401 until you paste one.</div>
+    </section>
+  </div>
+</main>
+<script>
+const state = { capabilities: [], current: null, rows: {}, localDocs: [] };
+
+const $ = (id) => document.getElementById(id);
+
+function headers(json) {
+  const token = sessionStorage.getItem("platformToken") || "";
+  const out = {};
+  if (json) out["Content-Type"] = "application/json";
+  if (token) out.Authorization = "Bearer " + token;
+  return out;
+}
+
+const tokenInput = $("token");
+tokenInput.value = sessionStorage.getItem("platformToken") || "";
+tokenInput.addEventListener("change", () => {
+  sessionStorage.setItem("platformToken", tokenInput.value.trim());
+  loadCapabilities();
+});
+
+async function api(path, options) {
+  let resp;
+  try {
+    resp = await fetch(path, Object.assign({ headers: headers(true) }, options || {}));
+  } catch (err) {
+    $("output").textContent = JSON.stringify({ status: 0, error: String(err) }, null, 2);
+    return { status: 0, body: { ok: false, error: "the platform did not answer" } };
+  }
+  let body;
+  try { body = await resp.json(); } catch (e) { body = { ok: false, error: "non-JSON response" }; }
+  $("output").textContent = JSON.stringify({ status: resp.status, body }, null, 2);
+  const label = (body && typeof body.authority === "string" && body.authority) || "unlabelled";
+  $("authority").textContent = label;
+  return { status: resp.status, body };
+}
+
+function renderFields(capability) {
+  const container = $("fields");
+  container.innerHTML = "";
+  if (!capability) return;
+  for (const field of capability.fields || []) {
+    const label = document.createElement("label");
+    label.textContent = field.name + (field.required ? " *" : "");
+    container.appendChild(label);
+    let input;
+    if (field.allowed_values) {
+      input = document.createElement("select");
+      for (const value of field.allowed_values) {
+        const option = document.createElement("option");
+        option.value = value; option.textContent = value;
+        input.appendChild(option);
+      }
+    } else {
+      input = document.createElement("input");
+      input.type = field.type === "int" || field.type === "float" ? "number" : (field.format === "date" ? "date" : "text");
+      if (field.min !== undefined) input.min = field.min;
+      if (field.max !== undefined) input.max = field.max;
+      if (field.type === "float") input.step = "0.01";
+    }
+    input.dataset.name = field.name;
+    container.appendChild(input);
+  }
+}
+
+async function loadCapabilities() {
+  let resp;
+  try {
+    resp = await fetch("/v1/capabilities", { headers: headers(false) });
+  } catch (e) {
+    $("positionState").textContent = "The platform did not answer; paste the deploy token and retry.";
+    return;
+  }
+  if (!resp.ok) {
+    $("positionState").textContent = "Capability roster refused (HTTP " + resp.status + "); paste the deploy token.";
+    return;
+  }
+  const body = await resp.json();
+  state.capabilities = body.items || [];
+  const select = $("capability");
+  select.innerHTML = "";
+  for (const cap of state.capabilities) {
+    const option = document.createElement("option");
+    option.value = cap.id; option.textContent = cap.title || cap.id;
+    select.appendChild(option);
+  }
+  await Promise.all(state.capabilities.map(async (cap) => {
+    try {
+      const listed = await fetch("/v1/" + encodeURIComponent(cap.id), { headers: headers(false) });
+      if (!listed.ok) return;
+      const listedBody = await listed.json();
+      state.rows[cap.id] = listedBody.items || [];
+    } catch (e) {
+      state.rows[cap.id] = [];
+    }
+  }));
+  renderPosition();
+  fillSourceOptions();
+  selectCapability();
+}
+
+function selectCapability() {
+  const id = $("capability").value;
+  state.current = state.capabilities.find((c) => c.id === id) || null;
+  renderFields(state.current);
+  refresh();
+}
+
+async function refresh() {
+  if (!state.current) return;
+  const { status, body } = await api("/v1/" + encodeURIComponent(state.current.id));
+  // A refused list is not an empty register: leave the last known rows and
+  // the counts alone rather than rendering 401/ok:false as "0 records".
+  if (status !== 200 || !body || body.ok !== true) {
+    $("formError").textContent = "Register list refused (" + status + "): "
+      + ((body && body.error) || "no answer");
+    $("formError").className = "hint refused";
+    return;
+  }
+  $("formError").textContent = "";
+  $("formError").className = "hint";
+  const tbody = $("records").querySelector("tbody");
+  tbody.innerHTML = "";
+  const items = body.items || [];
+  $("count").textContent = String(items.length);
+  for (const item of items) {
+    const tr = document.createElement("tr");
+    for (const key of ["id", "reference", "status", "updated_at"]) {
+      const td = document.createElement("td");
+      td.textContent = item[key] === undefined || item[key] === null ? "" : String(item[key]);
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  state.rows[state.current.id] = items;
+  renderPosition();
+}
+
+function renderPosition() {
+  const tbody = $("position").querySelector("tbody");
+  tbody.innerHTML = "";
+  for (const cap of state.capabilities) {
+    const tr = document.createElement("tr");
+    tr.dataset.capability = cap.id;
+    for (const value of [cap.title || cap.id, (state.rows[cap.id] || []).length, cap.authority || "unlabelled"]) {
+      const td = document.createElement("td");
+      td.textContent = String(value);
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  $("positionState").textContent = state.capabilities.length
+    ? "Position across " + state.capabilities.length + " declared capabilities."
+    : "No capabilities loaded.";
+}
+
+function payload() {
+  const out = {};
+  for (const input of $("fields").querySelectorAll("[data-name]")) {
+    const name = input.dataset.name;
+    if (input.value === "") continue;
+    out[name] = input.type === "number" ? Number(input.value) : input.value;
+  }
+  return out;
+}
+
+$("submit").addEventListener("click", async () => {
+  if (!state.current) return;
+  const { status, body } = await api("/v1/" + encodeURIComponent(state.current.id), {
+    method: "POST",
+    body: JSON.stringify(payload()),
+  });
+  if (status !== 200 || !body || body.ok !== true) {
+    const field = body && body.rejected_field ? " — field " + body.rejected_field : "";
+    $("formError").textContent = "Refused (" + status + "): " + ((body && body.error) || "no answer") + field;
+    $("formError").className = "hint refused";
+    return;
+  }
+  $("formError").textContent = "";
+  $("formError").className = "hint";
+  refresh();
+});
+
+$("refresh").addEventListener("click", refresh);
+$("capability").addEventListener("change", selectCapability);
+
+// --- document register: intake, search, cited answers ----------------------
+function showAnswer(container, heading, body, authority, citation) {
+  const article = document.createElement("article");
+  article.className = "answer";
+  const title = document.createElement("p");
+  title.textContent = heading;
+  const text = document.createElement("p");
+  text.textContent = body;
+  const label = document.createElement("p");
+  label.textContent = "Authority: " + (authority || "unlabelled") + (citation ? " · Source: " + citation : "");
+  article.appendChild(title); article.appendChild(text); article.appendChild(label);
+  container.prepend(article);
+}
+
+$("attach").addEventListener("click", () => $("file").click());
+
+function pdfText(bytes) {
+  // Read the literal strings a PDF draws with Tj/TJ. This is the text the
+  // page can see in the tab; the server parses the file again on intake.
+  let raw = "";
+  for (let i = 0; i < bytes.length; i += 1) raw += String.fromCharCode(bytes[i]);
+  const lines = [];
+  const re = /\(((?:\\.|[^\\()])*)\)\s*Tj/g;
+  let match;
+  while ((match = re.exec(raw)) !== null) {
+    const text = match[1].replace(/\\([nrtbf()\\])/g, (m, c) => (
+      { n: "\n", r: "\r", t: "\t", b: "\b", f: "\f", "(": "(", ")": ")", "\\": "\\" }[c] || c
+    ));
+    if (text.trim()) lines.push(text.trim());
+  }
+  return lines.join("\n");
+}
+
+async function registerUpload(file) {
+  const form = new FormData();
+  form.append("file", file, file.name);
+  let resp;
+  try {
+    resp = await fetch("/v1/document_register/intake", {
+      method: "POST",
+      headers: headers(false),
+      body: form,
+    });
+  } catch (e) {
+    $("parseState").textContent = "Parsed in this tab; the platform did not answer the intake.";
+    return;
+  }
+  let body = {};
+  try { body = await resp.json(); } catch (e) { body = {}; }
+  $("output").textContent = JSON.stringify({ status: resp.status, body }, null, 2);
+  if (resp.ok && body.ok === true && body.parsed === true) {
+    const info = body.intake || {};
+    $("parseState").textContent = "Parsed: " + (info.characters || 0) + " characters from "
+      + (info.filename || file.name) + " — registered as record #" + body.id + ".";
+    $("parseState").className = "hint";
+    showAnswer($("answers"), "Registered " + (info.document_type || "document"),
+      "Parsed " + (info.lines || 0) + " non-empty lines. " + (info.excerpt || ""),
+      body.authority, body.record && body.record.source_document);
+    refresh();
+  } else {
+    $("parseState").textContent = "Parsed in this tab; registration refused: "
+      + (body.error || ("HTTP " + resp.status));
+    $("parseState").className = "hint refused";
+  }
+}
+
+$("file").addEventListener("change", async () => {
+  const file = $("file").files && $("file").files[0];
+  if (!file) return;
+  $("parseState").textContent = "Parsing " + file.name + " …";
+  let text = "";
+  try {
+    const buffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    const name = file.name.toLowerCase();
+    if (name.endsWith(".pdf")) {
+      text = pdfText(bytes);
+    } else if (/\.(txt|md|csv)$/.test(name)) {
+      text = new TextDecoder("utf-8").decode(bytes);
+    }
+  } catch (e) {
+    text = "";
+  }
+  if (text.trim()) {
+    state.localDocs.push({ name: file.name, text: text });
+    $("parseState").textContent = "Parsed: " + text.trim().length + " characters from "
+      + file.name + " (held in this tab; register it to file it in the controlled register).";
+    $("parseState").className = "hint";
+    showAnswer($("answers"), "Attached " + file.name,
+      "Tab preview only, not a register answer — "
+      + text.trim().split(/\n/).filter(Boolean).length + " non-empty lines are visible in this tab. "
+      + text.trim().slice(0, 240),
+      "tab preview", "");
+    if (sessionStorage.getItem("platformToken")) await registerUpload(file);
+  } else {
+    $("parseState").textContent = "Attached " + file.name
+      + " — cells are read when the token is present and the file is registered.";
+    $("parseState").className = "hint";
+    if (sessionStorage.getItem("platformToken")) await registerUpload(file);
+  }
+  $("file").value = "";
+});
+
+async function askQuestion() {
+  const question = $("question").value.trim();
+  if (!question) return;
+  // Always ask the register. A keyword match over text held in this tab is a
+  // preview, never an answer: only the server's cited answer is authoritative.
+  const { status, body } = await api("/v1/document_register/ask", {
+    method: "POST",
+    body: JSON.stringify({ question }),
+  });
+  if (status === 200 && body.ok === true) {
+    const citations = body.citations || [];
+    const first = citations[0] || {};
+    showAnswer($("answers"), "Question: " + question, body.answer || "",
+      body.authority, first.document);
+  } else {
+    showAnswer($("answers"), "Question: " + question,
+      "Refused: " + (body.error || ("HTTP " + status)), body.authority, "");
+  }
+}
+
+$("ask").addEventListener("click", askQuestion);
+$("question").addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    askQuestion();
+  }
+});
+
+async function searchRegister() {
+  const query = $("registerQuery").value.trim();
+  const { status, body } = await api("/v1/document_register/search?q=" + encodeURIComponent(query));
+  if (status !== 200 || !body || body.ok !== true) {
+    showAnswer($("answers"), "Register search",
+      "Refused: " + ((body && body.error) || ("HTTP " + status)), body && body.authority, "");
+    return;
+  }
+  const tbody = $("records").querySelector("tbody");
+  tbody.innerHTML = "";
+  const items = body.items || [];
+  $("count").textContent = String(items.length);
+  for (const item of items) {
+    const tr = document.createElement("tr");
+    for (const key of ["id", "reference", "status", "updated_at"]) {
+      const td = document.createElement("td");
+      td.textContent = item[key] === undefined || item[key] === null ? "" : String(item[key]);
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+}
+
+$("searchRegister").addEventListener("click", searchRegister);
+
+// --- source of record: resolve a clause or BOQ item against the documents ---
+function fillSourceOptions() {
+  const source = state.capabilities.find((cap) => cap.id === "contract_and_boq_source_of_record");
+  const clauseSelect = $("clauseRef");
+  const boqSelect = $("boqItem");
+  const fields = (source && source.fields) || [];
+  const clauseField = fields.find((f) => f.name === "clause_ref");
+  const boqField = fields.find((f) => f.name === "boq_item");
+  for (const value of (clauseField && clauseField.allowed_values) || []) {
+    const option = document.createElement("option");
+    option.value = value; option.textContent = "Clause " + value;
+    clauseSelect.appendChild(option);
+  }
+  for (const value of (boqField && boqField.allowed_values) || []) {
+    const option = document.createElement("option");
+    option.value = value; option.textContent = value;
+    boqSelect.appendChild(option);
+  }
+}
+
+$("resolveSource").addEventListener("click", async () => {
+  const documentType = $("documentType").value;
+  const request = {
+    reference: "console-" + Date.now(),
+    document_type: documentType,
+  };
+  if (documentType === "contract" && $("clauseRef").value) request.clause_ref = $("clauseRef").value;
+  if (documentType === "boq" && $("boqItem").value) request.boq_item = $("boqItem").value;
+  const { status, body } = await api("/v1/contract_and_boq_source_of_record", {
+    method: "POST",
+    body: JSON.stringify(request),
+  });
+  const heading = documentType + (request.clause_ref ? " clause " + request.clause_ref : request.boq_item ? " item " + request.boq_item : "");
+  if (status === 200 && body.ok !== false) {
+    const result = body.result || {};
+    showAnswer($("sourceAnswers"), heading,
+      (result.description || result.citation || "Resolved.") + " [" + (result.clause_ref || result.boq_item || "1") + "]",
+      body.authority, result.citation);
+  } else {
+    showAnswer($("sourceAnswers"), heading, "Refused: " + (body.error || ("HTTP " + status)), body.authority, "");
+  }
+  refresh();
+});
+
+function focusScreen() {
+  const name = (location.hash || "#/command_center").replace(/^#\/?/, "");
+  const target = document.querySelector('[data-screen="' + name + '"]');
+  for (const link of document.querySelectorAll("[data-nav]")) {
+    link.classList.toggle("active", link.dataset.nav === name);
+  }
+  if (target && target.scrollIntoView) target.scrollIntoView({ block: "start" });
+}
+
+window.addEventListener("hashchange", focusScreen);
+focusScreen();
+loadCapabilities();
+</script>
+</body>
+</html>

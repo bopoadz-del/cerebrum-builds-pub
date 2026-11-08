@@ -1,0 +1,35 @@
+# Runtime dependencies only. The image installs these against the
+# Factory-owned constraints.txt; dev/test tools live in requirements-dev.txt.
+fastapi
+uvicorn[standard]
+pydantic
+sqlalchemy
+alembic
+python-multipart
+openpyxl
+pypdf
+pandas
+pdfplumber
+psycopg[binary]
+# The shipped bench (scripts/bench.py, run by CI without the dev file) uses
+# FastAPI's TestClient, which needs httpx at runtime.
+httpx
+# --- BEGIN factory block: stamped by the Factory, edits here are replaced ---
+# Packages this tree needs and did not declare: vendored block
+# imports, and framework features FastAPI does not declare.
+starlette==1.7.0
+Pillow  # action: PIL in pdf.py
+Pint  # action: pint in formula_executor.py
+PyMuPDF  # action: fitz in marker.py, pdf.py, pdf_parser.py
+PyYAML  # module: yaml in __init__.py, main.py, mapper.py
+aiosmtplib  # action: aiosmtplib in notification.py
+cryptography  # module: cryptography in file_crypto.py
+ddgs  # action: ddgs in search.py
+numpy  # action: numpy in formula_executor.py
+packaging  # module: packaging in version.py
+pypdfium2  # action: pypdfium2 in marker.py
+pytesseract  # action: pytesseract in pdf.py
+python-docx  # action: docx in docx_parser.py, pdf.py
+stripe  # action: stripe in billing.py
+sympy  # action: sympy in formula_executor.py
+# --- END factory block ---

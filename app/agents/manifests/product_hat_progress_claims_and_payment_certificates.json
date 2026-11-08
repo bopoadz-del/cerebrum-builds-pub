@@ -1,0 +1,51 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.progress_claims_and_payment_certificates"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "progress_claims_and_payment_certificates"
+      },
+      {
+        "type": "capability",
+        "value": "progress_claims_and_payment_certificates"
+      }
+    ]
+  },
+  "agent_id": "product.hat.progress_claims_and_payment_certificates",
+  "allowed_actions": [
+    "product.progress_claims_and_payment_certificates"
+  ],
+  "block_ids": [
+    "boq_processor",
+    "approval_rules",
+    "workflow",
+    "finance_canonical_model",
+    "billing",
+    "audit"
+  ],
+  "discipline": "progress_claims_and_payment_certificates",
+  "display_name": "Harbourline Civil Works Contracts Administration Progress Claims And Payment Certificates Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'progress_claims_and_payment_certificates' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "progress_claims_and_payment_certificates"
+  ]
+}

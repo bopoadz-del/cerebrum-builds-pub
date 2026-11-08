@@ -1,0 +1,5 @@
+# Test and quality tooling. CI installs this file; the image never does.
+pytest
+httpx
+pip-audit
+bandit

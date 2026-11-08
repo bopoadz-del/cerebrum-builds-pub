@@ -1,0 +1,33 @@
+WORKFLOWS = [
+  {
+    "description": "Default linear workflow over planned capabilities.",
+    "name": "Capability sequence",
+    "steps": [
+      {
+        "capability_id": "contract_and_boq_source_of_record",
+        "role": "execute"
+      },
+      {
+        "capability_id": "progress_claims_and_payment_certificates",
+        "role": "execute"
+      },
+      {
+        "capability_id": "delay_damages_tracking",
+        "role": "execute"
+      },
+      {
+        "capability_id": "qa_itp_records",
+        "role": "execute"
+      },
+      {
+        "capability_id": "document_register",
+        "role": "execute"
+      },
+      {
+        "capability_id": "claim_review_and_dispute_resolution",
+        "role": "execute"
+      }
+    ],
+    "workflow_id": "product.capability_sequence"
+  }
+]
