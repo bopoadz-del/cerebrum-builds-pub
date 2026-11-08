@@ -1,0 +1,111 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_canonical_model",
+        "finance_reconciliation",
+        "formula_executor",
+        "approval_rules",
+        "transaction_state_machine"
+      ],
+      "connectors": [],
+      "description": "Builds and certifies Interim Payment Certificates against the BOQ source of record, applying 5% retention per Clause 14.3 and tracking retention release (50% at Taking-Over, 50% at end of Defects Notification Period).",
+      "id": "progress_claims_administration",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor",
+        "finance_canonical_model",
+        "analytics",
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Computes delay damages at 0.1% of the Accepted Contract Amount per day of delay, capped at 10% per Clause 8.7, and tracks Time for Completion of 730 days from the Commencement Date against Clause 8.2.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "ingestion_provenance",
+        "file_hasher",
+        "search",
+        "version",
+        "audit_chain",
+        "storage",
+        "pdf",
+        "ocr"
+      ],
+      "connectors": [],
+      "description": "Registers project documents with provenance and hashing, including the uploaded contract and BOQ as source-of-record, and supports register search, version tracking, and audit.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "evidence_chain",
+        "approval_rules",
+        "audit_chain",
+        "capture",
+        "validation"
+      ],
+      "connectors": [],
+      "description": "Manages QA inspection and test plan records linked to BOQ work items, with evidence capture, approval rules, and audit trail for quality sign-offs.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "contract_retrieval",
+        "governance_gate",
+        "knowledge",
+        "formula_executor"
+      ],
+      "connectors": [],
+      "description": "Extracts and governs the contract's time, retention, performance-security, and delay-damages terms as the source of record so other capabilities apply them consistently.",
+      "id": "contract_terms_governance",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_canonical_model",
+        "approval_rules",
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the 10% performance security required under Clause 4.2 and its status across the contract period.",
+      "id": "performance_security_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Contracts Administration Platform for Harbourline Civil Works",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that administers progress claims against the uploaded contract and BOQ, tracks delay damages per the contract's time and damages clauses, manages QA/ITP records, and maintains a document register. It serves the project's contract administrator, commercial manager, and QA lead, using the uploaded contract excerpt as the source of record for time, retention, security, and delay-damages terms, and the uploaded BOQ as the so",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
