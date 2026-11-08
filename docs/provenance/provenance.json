@@ -1,0 +1,127 @@
+{
+  "blocks_commit": "f14b4f76cfa048b770787dc1c7fbc8d230da3818",
+  "blueprint_id": "product:product_blueprint.v1",
+  "factory": "CerebrumDev.ai",
+  "factory_commit": "49baeeffb0795d7965e05cf5b0a8afc4d905c255",
+  "generated_at": "blueprint:52964e696008cd7c60f6c7bbba2b5c330ec4cae8a12c3d450021f1147a0bd6cf",
+  "inputs_hash": "52964e696008cd7c60f6c7bbba2b5c330ec4cae8a12c3d450021f1147a0bd6cf",
+  "kernel_version": "1.0.0",
+  "plan": {
+    "capabilities": [
+      {
+        "block_ids": [
+          "pdf",
+          "ocr",
+          "knowledge",
+          "document_engine",
+          "vector_search",
+          "audit_chain"
+        ],
+        "capability_id": "contract_source_of_record",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "boq_processor",
+          "finance_canonical_model",
+          "formula_executor",
+          "workflow",
+          "approval_rules",
+          "pdf",
+          "transaction_state_machine"
+        ],
+        "capability_id": "progress_claims",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "cpm_engine",
+          "formula_executor",
+          "notification",
+          "analytics",
+          "dashboard"
+        ],
+        "capability_id": "delay_damages_tracking",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "workflow",
+          "approval_rules",
+          "evidence_chain",
+          "capture",
+          "document_engine",
+          "audit"
+        ],
+        "capability_id": "qa_itp_records",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "document_engine",
+          "version",
+          "file_hasher",
+          "audit_chain",
+          "search",
+          "notification"
+        ],
+        "capability_id": "document_register",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      },
+      {
+        "block_ids": [
+          "validation",
+          "governance_gate",
+          "evidence_or_refuse",
+          "rule_intent_router",
+          "audit_fail_closed"
+        ],
+        "capability_id": "contract_compliance_gate",
+        "notes": "dual-registered",
+        "strategy": "REUSE"
+      }
+    ],
+    "dual_registered_blocks": [
+      "analytics",
+      "approval_rules",
+      "audit",
+      "audit_chain",
+      "audit_fail_closed",
+      "boq_processor",
+      "capture",
+      "cpm_engine",
+      "dashboard",
+      "document_engine",
+      "evidence_chain",
+      "evidence_or_refuse",
+      "file_hasher",
+      "finance_canonical_model",
+      "formula_executor",
+      "governance_gate",
+      "knowledge",
+      "notification",
+      "ocr",
+      "pdf",
+      "rule_intent_router",
+      "search",
+      "transaction_state_machine",
+      "validation",
+      "vector_search",
+      "version",
+      "workflow"
+    ],
+    "fail_closed": true,
+    "inventory_domain_gaps": [],
+    "product_id": "product",
+    "unsupported": [],
+    "vertical_scoped_out": []
+  },
+  "product_id": "product",
+  "schema": "factory_provenance.v1",
+  "writer_receipt": "sha256:6cfb97b455eca18227f3cc8077d0c2bd2a9b15ac8368e6c3729d49b88dda2d5d"
+}

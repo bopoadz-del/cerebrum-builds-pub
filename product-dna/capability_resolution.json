@@ -1,0 +1,113 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "pdf",
+        "ocr",
+        "knowledge",
+        "document_engine",
+        "vector_search",
+        "audit_chain"
+      ],
+      "capability_id": "contract_source_of_record",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_canonical_model",
+        "formula_executor",
+        "workflow",
+        "approval_rules",
+        "pdf",
+        "transaction_state_machine"
+      ],
+      "capability_id": "progress_claims",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "notification",
+        "analytics",
+        "dashboard"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "approval_rules",
+        "evidence_chain",
+        "capture",
+        "document_engine",
+        "audit"
+      ],
+      "capability_id": "qa_itp_records",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version",
+        "file_hasher",
+        "audit_chain",
+        "search",
+        "notification"
+      ],
+      "capability_id": "document_register",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "validation",
+        "governance_gate",
+        "evidence_or_refuse",
+        "rule_intent_router",
+        "audit_fail_closed"
+      ],
+      "capability_id": "contract_compliance_gate",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "analytics",
+    "approval_rules",
+    "audit",
+    "audit_chain",
+    "audit_fail_closed",
+    "boq_processor",
+    "capture",
+    "cpm_engine",
+    "dashboard",
+    "document_engine",
+    "evidence_chain",
+    "evidence_or_refuse",
+    "file_hasher",
+    "finance_canonical_model",
+    "formula_executor",
+    "governance_gate",
+    "knowledge",
+    "notification",
+    "ocr",
+    "pdf",
+    "rule_intent_router",
+    "search",
+    "transaction_state_machine",
+    "validation",
+    "vector_search",
+    "version",
+    "workflow"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

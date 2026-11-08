@@ -1,0 +1,115 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Harbourline Civil Works
+vertical: product
+summary: A contracts-administration platform for the Harbourline Civil Works project
+  that governs progress claims, delay-damages exposure, QA/ITP records and the project
+  document register against the uploaded contract and BOQ as the single source of
+  record. It serves the project's contract administrator, commercial manager, QA lead
+  and document controller, anchoring every claim, notification and test record to
+  the executed contract clauses (Time for Completion, Delay Damages, Retention, Performance
+  Secur
+capabilities:
+- id: contract_source_of_record
+  description: Ingests the uploaded Harbourline contract and BOQ, extracts and version-pins
+    the governing terms (Clause 8.2 Time for Completion, 8.7 Delay Damages, 11.1 DNP,
+    14.3 Retention, 4.2 Performance Security) and the BOQ item/rate schedule, and
+    makes that pinned set the authority every other capability read
+  block_ids:
+  - pdf
+  - ocr
+  - knowledge
+  - document_engine
+  - vector_search
+  - audit_chain
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: progress_claims
+  description: Builds Interim Payment Certificates from measured BOQ quantities and
+    rates, applies 5% retention per Clause 14.3, and tracks release of 50% at Taking-Over
+    and 50% at the end of the Defects Notification Period.
+  block_ids:
+  - boq_processor
+  - finance_canonical_model
+  - formula_executor
+  - workflow
+  - approval_rules
+  - pdf
+  - transaction_state_machine
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: delay_damages_tracking
+  description: Monitors elapsed time against the 730-day Time for Completion from
+    the Commencement Date, projects taking-over dates, and computes delay-damages
+    exposure at 0.1% of the Accepted Contract Amount per day capped at 10%, with early-warning
+    notifications as the cap is approached.
+  block_ids:
+  - cpm_engine
+  - formula_executor
+  - notification
+  - analytics
+  - dashboard
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: qa_itp_records
+  description: Holds the Inspection and Test Plan register and inspection records
+    against BOQ work items, capturing hold points, witness points, sign-offs and evidence
+    so QA status can be cited in claims and taking-over submissions.
+  block_ids:
+  - workflow
+  - approval_rules
+  - evidence_chain
+  - capture
+  - document_engine
+  - audit
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: document_register
+  description: 'Maintains the project document register: incoming and outgoing correspondence,
+    drawings, submittals, transmittals and contract instructions, each with revision
+    control, distribution and a tamper-evident audit trail.'
+  block_ids:
+  - document_engine
+  - version
+  - file_hasher
+  - audit_chain
+  - search
+  - notification
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+- id: contract_compliance_gate
+  description: Gates each claim, notification and taking-over submission against the
+    pinned contract clauses and BOQ schedule, refusing or escalating records that
+    conflict with Time for Completion, retention, security or DNP terms.
+  block_ids:
+  - validation
+  - governance_gate
+  - evidence_or_refuse
+  - rule_intent_router
+  - audit_fail_closed
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors: []
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: production
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

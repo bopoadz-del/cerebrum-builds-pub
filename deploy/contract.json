@@ -1,0 +1,32 @@
+{
+  "service": "harbourline-civil-works",
+  "product_id": "product",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".",
+    "runtime_requirements": "requirements.txt",
+    "constraints": "constraints.txt"
+  },
+  "run": {
+    "command": "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}",
+    "port": 8000,
+    "health_path": "/health",
+    "ui_path": "/",
+    "storage_path": "/data"
+  },
+  "settings": [
+    "PLATFORM_TOKEN",
+    "TENANT_TOKENS",
+    "APPROVED_PRINCIPALS",
+    "STORAGE_PATH",
+    "BACKUP_DIR",
+    "DATABASE_URL"
+  ],
+  "migrations": {
+    "tool": "alembic",
+    "head": "head",
+    "applied_at": "boot"
+  },
+  "render_ready": true,
+  "live_deploy": false
+}

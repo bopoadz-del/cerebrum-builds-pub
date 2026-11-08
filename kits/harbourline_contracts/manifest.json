@@ -1,0 +1,22 @@
+{
+  "id": "harbourline_contracts",
+  "name": "Harbourline Civil Works contracts kit",
+  "version": "1.0.0",
+  "capabilities": [
+    "contract_source_of_record",
+    "progress_claims",
+    "delay_damages_tracking",
+    "qa_itp_records",
+    "document_register",
+    "contract_compliance_gate"
+  ],
+  "blocks": [
+    "pdf", "ocr", "knowledge", "document_engine", "vector_search",
+    "audit_chain", "boq_processor", "finance_canonical_model",
+    "formula_executor", "workflow", "approval_rules",
+    "transaction_state_machine", "cpm_engine", "notification",
+    "analytics", "dashboard", "evidence_chain", "capture", "audit",
+    "version", "file_hasher", "search", "validation", "governance_gate",
+    "evidence_or_refuse", "rule_intent_router", "audit_fail_closed"
+  ]
+}

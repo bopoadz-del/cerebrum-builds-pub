@@ -1,0 +1,187 @@
+{
+  "certified": false,
+  "hardwiring": {
+    "clean": false,
+    "findings": [
+      {
+        "file": "app/domain_ops.py",
+        "kind": "forbidden_literal",
+        "literals": [
+          "product"
+        ]
+      },
+      {
+        "file": "vendor/cerebrum/blocks/notification.py",
+        "kind": "forbidden_literal",
+        "literals": [
+          "Date"
+        ]
+      },
+      {
+        "file": "vendor/cerebrum/core/finance_ops.py",
+        "kind": "forbidden_literal",
+        "literals": [
+          "product"
+        ]
+      },
+      {
+        "kind": "prompt_leak",
+        "literals": [
+          "Contract",
+          "product"
+        ]
+      }
+    ],
+    "ran": true
+  },
+  "layer1": {
+    "functions": {
+      "failing": [
+        "contract_source_of_record",
+        "progress_claims",
+        "delay_damages_tracking",
+        "qa_itp_records",
+        "document_register",
+        "contract_compliance_gate"
+      ],
+      "functions": [
+        {
+          "capability_id": "contract_source_of_record",
+          "detail": "",
+          "mutants_killed": [
+            "constant_return"
+          ],
+          "mutants_survived": [
+            "drop_rule"
+          ],
+          "ok": false,
+          "two_input_passed": true
+        },
+        {
+          "capability_id": "progress_claims",
+          "detail": "",
+          "mutants_killed": [
+            "constant_return"
+          ],
+          "mutants_survived": [
+            "drop_rule"
+          ],
+          "ok": false,
+          "two_input_passed": true
+        },
+        {
+          "capability_id": "delay_damages_tracking",
+          "detail": "",
+          "mutants_killed": [
+            "constant_return"
+          ],
+          "mutants_survived": [
+            "drop_rule"
+          ],
+          "ok": false,
+          "two_input_passed": true
+        },
+        {
+          "capability_id": "qa_itp_records",
+          "detail": "",
+          "mutants_killed": [
+            "constant_return"
+          ],
+          "mutants_survived": [
+            "drop_rule"
+          ],
+          "ok": false,
+          "two_input_passed": true
+        },
+        {
+          "capability_id": "document_register",
+          "detail": "",
+          "mutants_killed": [
+            "constant_return"
+          ],
+          "mutants_survived": [
+            "drop_rule"
+          ],
+          "ok": false,
+          "two_input_passed": true
+        },
+        {
+          "capability_id": "contract_compliance_gate",
+          "detail": "",
+          "mutants_killed": [
+            "constant_return"
+          ],
+          "mutants_survived": [
+            "drop_rule"
+          ],
+          "ok": false,
+          "two_input_passed": true
+        }
+      ],
+      "graded": 6,
+      "min_functions": 4,
+      "ok": false,
+      "vault": {
+        "entries": [],
+        "gaps": [
+          {
+            "capability_id": "contract_source_of_record",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "progress_claims",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "delay_damages_tracking",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "qa_itp_records",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "document_register",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "contract_compliance_gate",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          }
+        ],
+        "seed": 7371788533865690726
+      }
+    },
+    "ok": false,
+    "ui": {
+      "failing": [
+        "UI run did not happen: no playwright report"
+      ],
+      "ok": false,
+      "ran": false,
+      "steps": []
+    }
+  },
+  "layer2": {
+    "open_fails": [
+      "layer 2 did not answer: JSONDecodeError"
+    ],
+    "ran": false,
+    "verdicts": []
+  },
+  "next_tasks": [
+    "re-run writer on: layer 2 did not answer: JSONDecodeError",
+    "remove baked literals from app/domain_ops.py: ['product']",
+    "remove baked literals from vendor/cerebrum/blocks/notification.py: ['Date']",
+    "remove baked literals from vendor/cerebrum/core/finance_ops.py: ['product']",
+    "stop leaking the prompt into the source: ['Contract', 'product']"
+  ],
+  "product_id": "product",
+  "schema": "product_grade.v1"
+}

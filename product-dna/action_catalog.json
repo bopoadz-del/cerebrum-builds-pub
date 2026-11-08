@@ -1,0 +1,76 @@
+{
+  "actions": [
+    {
+      "block_ids": [
+        "pdf",
+        "ocr",
+        "knowledge",
+        "document_engine",
+        "vector_search",
+        "audit_chain"
+      ],
+      "capability_id": "contract_source_of_record",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_canonical_model",
+        "formula_executor",
+        "workflow",
+        "approval_rules",
+        "pdf",
+        "transaction_state_machine"
+      ],
+      "capability_id": "progress_claims",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "notification",
+        "analytics",
+        "dashboard"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "approval_rules",
+        "evidence_chain",
+        "capture",
+        "document_engine",
+        "audit"
+      ],
+      "capability_id": "qa_itp_records",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "version",
+        "file_hasher",
+        "audit_chain",
+        "search",
+        "notification"
+      ],
+      "capability_id": "document_register",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "validation",
+        "governance_gate",
+        "evidence_or_refuse",
+        "rule_intent_router",
+        "audit_fail_closed"
+      ],
+      "capability_id": "contract_compliance_gate",
+      "strategy": "REUSE"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

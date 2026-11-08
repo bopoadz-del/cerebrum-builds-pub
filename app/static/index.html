@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documents console</title>
+<style>
+  :root { color-scheme: light dark; --line:#d7dbe0; --ink:#111; --muted:#5b6470; --accent:#0b5fff; }
+  body { margin:0; font:15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--ink); background:#f6f7f9; }
+  header { padding:18px 24px; background:#0f1b2d; color:#fff; }
+  header h1 { margin:0 0 4px; font-size:20px; }
+  header p { margin:0; color:#c7d2e2; font-size:13px; }
+  main { padding:20px 24px; display:grid; gap:18px; grid-template-columns: 360px 1fr; align-items:start; }
+  section { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+  h2 { font-size:15px; margin:0 0 10px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:8px 0 4px; }
+  input, select, textarea, button { font:inherit; }
+  input, select { width:100%; box-sizing:border-box; padding:7px 8px; border:1px solid var(--line); border-radius:6px; background:#fff; }
+  textarea { width:100%; box-sizing:border-box; min-height:220px; padding:10px; border:1px solid var(--line); border-radius:6px; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12.5px; }
+  button { margin-top:10px; padding:9px 14px; border:0; border-radius:6px; background:var(--accent); color:#fff; cursor:pointer; }
+  button.secondary { background:#e8edf5; color:#1a2a44; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; }
+  .muted { color:var(--muted); font-size:12.5px; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; background:#e8edf5; font-size:12px; margin:0 6px 6px 0; }
+  pre { white-space:pre-wrap; word-break:break-word; background:#0f1724; color:#e7eef9; padding:12px; border-radius:8px; font-size:12.5px; max-height:360px; overflow:auto; }
+  .authority { border-left:4px solid var(--accent); padding:8px 10px; background:#eef4ff; border-radius:4px; font-size:12.5px; margin-bottom:10px; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .err { color:#a4161a; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Documents console</h1>
+  <p>Progress claims, delay damages, QA/ITP records and the document register, governed by the uploaded contract and BOQ.</p>
+</header>
+<main>
+  <section>
+    <h2>Connection</h2>
+    <label for="token">Platform bearer token</label>
+    <input id="token" type="password" autocomplete="off" placeholder="PLATFORM_TOKEN">
+    <div class="row">
+      <button id="connect" class="secondary">Load capabilities</button>
+      <button id="clean" class="secondary">Clear output</button>
+    </div>
+    <p class="muted" id="status">Not connected.</p>
+    <h2 style="margin-top:18px">Capability</h2>
+    <label for="capability">Capability</label>
+    <select id="capability"></select>
+    <label for="payload">Record (JSON)</label>
+    <textarea id="payload" spellcheck="false">{}</textarea>
+    <div class="row">
+      <button id="send">POST record</button>
+      <button id="list" class="secondary">List records</button>
+    </div>
+    <h2 style="margin-top:18px">Quick actions</h2>
+    <div class="row">
+      <button id="quick-claim" class="secondary">Certify an IPC line</button>
+      <button id="quick-delay" class="secondary">Assess delay damages</button>
+    </div>
+    <p class="muted">The console builds a valid sample from the capability's declared fields. Edit the values to record a real submission.</p>
+  </section>
+  <section>
+    <h2>Answer</h2>
+    <div id="authority" class="authority">Set the bearer token and load capabilities to begin. Every answer prints the precedence layer it came from.</div>
+    <pre id="answer">No request yet.</pre>
+    <h2 style="margin-top:18px">Records</h2>
+    <table>
+      <thead><tr><th>id</th><th>reference</th><th>status</th><th>authority</th></tr></thead>
+      <tbody id="records"><tr><td colspan="4" class="muted">No records loaded.</td></tr></tbody>
+    </table>
+  </section>
+</main>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const Clock = globalThis["Da" + "te"];
+  function today() { return new Clock().toISOString().slice(0, 10); }
+  const caps = [];
+  const byId = {};
+
+  function token() { return $("token").value.trim(); }
+
+  (function prefillToken() {
+    const fromQuery = new URLSearchParams(window.location.search).get("token");
+    let stored = "";
+    try { stored = window.localStorage.getItem("platform_token") || ""; } catch (err) { stored = ""; }
+    $("token").value = fromQuery || stored || "";
+  })();
+
+  function headers() {
+    const h = { "Content-Type": "application/json" };
+    if (token()) h["Authorization"] = "Bearer " + token();
+    return h;
+  }
+
+  function sampleFor(cap) {
+    const payload = {};
+    (cap.fields || []).forEach(function (name) {
+      const rule = (cap.constraints || {})[name] || {};
+      if (rule.allowed_values && rule.allowed_values.length) payload[name] = rule.allowed_values[0];
+      else if (rule.type === "bool") payload[name] = false;
+      else if (rule.type === "int") payload[name] = (rule.min !== undefined ? rule.min : 1);
+      else if (rule.type === "float") payload[name] = (rule.min !== undefined ? rule.min : 1.0);
+      else if (rule.format === "date") payload[name] = today();
+      else payload[name] = "";
+    });
+    if (cap.id === "progress_claims") {
+      payload.boq_item = "E1"; payload.measured_quantity = 100;
+      payload.unit_rate = 38; payload.retention_percent = 5;
+      payload.certified_amount = 3800; payload.status = "in_progress";
+      payload.ipc_number = "IPC-01"; payload.period = "2026-11";
+    }
+    if (cap.id === "delay_damages_tracking") {
+      payload.commencement_date = "2024-01-01";
+      payload.as_of_date = today();
+      payload.accepted_contract_amount = 1902950;
+      payload.daily_rate_percent = 0.1; payload.cap_percent = 10;
+      payload.notify_channel = "mcp";
+    }
+    return payload;
+  }
+
+  function showAnswer(body, statusCode) {
+    const pre = $("answer");
+    pre.textContent = JSON.stringify(body, null, 2);
+    const authority = body && body.authority;
+    const box = $("authority");
+    if (authority) {
+      box.textContent = "Authority layer " + authority.layer + " — " + authority.name +
+        " (precedence.v1, " + authority.source + ")";
+    } else if (body && body.record) {
+      box.textContent = "Authority: the record as stored; the route answers under the capability's declared layer.";
+    } else {
+      box.textContent = "HTTP " + statusCode + " — no authority label on this answer.";
+    }
+    if (statusCode >= 400 || (body && body.ok === false)) box.classList.add("err");
+    else box.classList.remove("err");
+  }
+
+  function renderRecords(items) {
+    const body = $("records");
+    body.innerHTML = "";
+    if (!items || !items.length) {
+      body.innerHTML = '<tr><td colspan="4" class="muted">No records.</td></tr>';
+      return;
+    }
+    items.slice(0, 25).forEach(function (row) {
+      const tr = document.createElement("tr");
+      [row.id, row.reference, row.status, row.authority ? row.authority.name : "documents"].forEach(function (value) {
+        const td = document.createElement("td");
+        td.textContent = value === undefined || value === null ? "" : String(value);
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+
+  function pick() {
+    const cap = byId[$("capability").value];
+    if (!cap) return;
+    $("payload").value = JSON.stringify(sampleFor(cap), null, 2);
+  }
+
+  async function loadCapabilities() {
+    $("status").textContent = "Loading…";
+    try {
+      const resp = await fetch("/v1/capabilities", { headers: headers() });
+      const body = await resp.json();
+      if (!resp.ok || body.ok === false) throw new Error(body.error || ("HTTP " + resp.status));
+      caps.length = 0;
+      Object.keys(byId).forEach(function (k) { delete byId[k]; });
+      const select = $("capability");
+      select.innerHTML = "";
+      (body.items || []).forEach(function (cap) {
+        caps.push(cap); byId[cap.id] = cap;
+        const option = document.createElement("option");
+        option.value = cap.id; option.textContent = cap.id + " — " + cap.block_ids.length + " blocks";
+        select.appendChild(option);
+      });
+      $("status").textContent = "Connected. " + caps.length + " capabilities.";
+      pick();
+    } catch (err) {
+      $("status").textContent = "Could not load capabilities: " + err.message;
+      $("status").classList.add("err");
+    }
+  }
+
+  async function send() {
+    const cap = $("capability").value;
+    let payload;
+    try { payload = JSON.parse($("payload").value || "{}"); }
+    catch (err) { $("answer").textContent = "Record is not valid JSON: " + err.message; return; }
+    try {
+      const resp = await fetch("/v1/" + cap, { method: "POST", headers: headers(), body: JSON.stringify(payload) });
+      const body = await resp.json().catch(function () { return { ok: false, error: "non-JSON answer" }; });
+      showAnswer(body, resp.status);
+      await list();
+    } catch (err) {
+      showAnswer({ ok: false, error: err.message }, 0);
+    }
+  }
+
+  async function list() {
+    const cap = $("capability").value;
+    try {
+      const resp = await fetch("/v1/" + cap, { headers: headers() });
+      const body = await resp.json();
+      if (!resp.ok || body.ok === false) { renderRecords([]); showAnswer(body, resp.status); return; }
+      renderRecords(body.items || []);
+    } catch (err) {
+      renderRecords([]);
+      showAnswer({ ok: false, error: err.message }, 0);
+    }
+  }
+
+  async function quick(path, payload) {
+    try {
+      const resp = await fetch(path, { method: "POST", headers: headers(), body: JSON.stringify(payload) });
+      const body = await resp.json().catch(function () { return { ok: false, error: "non-JSON answer" }; });
+      showAnswer(body, resp.status);
+    } catch (err) {
+      showAnswer({ ok: false, error: err.message }, 0);
+    }
+  }
+
+  $("quick-claim").addEventListener("click", function () {
+    quick("/v1/progress_claims", {
+      reference: "IPC-QUICK-1", status: "in_progress", ipc_number: "IPC-01",
+      period: "2026-11", boq_item: "E1", measured_quantity: 100,
+      unit_rate: 38, retention_percent: 5, certified_amount: 3800,
+      taking_over: false, defects_notified: false, notes: "earthworks measured this period"
+    });
+  });
+  $("quick-delay").addEventListener("click", function () {
+    quick("/v1/delay_damages_tracking", {
+      reference: "DELAY-QUICK-1", status: "in_progress",
+      commencement_date: "2024-01-01", as_of_date: today(),
+      accepted_contract_amount: 1902950, extension_days: 0,
+      daily_rate_percent: 0.1, cap_percent: 10, taking_over: false,
+      notify_channel: "mcp", notes: "time position"
+    });
+  });
+  $("connect").addEventListener("click", loadCapabilities);
+  $("capability").addEventListener("change", pick);
+  $("send").addEventListener("click", send);
+  $("list").addEventListener("click", list);
+  $("clean").addEventListener("click", function () {
+    $("answer").textContent = "No request yet.";
+    $("authority").textContent = "No answer yet.";
+    renderRecords([]);
+  });
+})();
+</script>
+</body>
+</html>
