@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Harbourline Contracts Administration</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Harbourline Contracts Administration</h1>
+    <p class="muted" data-testid="product-id">product: Harbourline Contracts Administration · contract and BOQ as the source of record</p>
+    <nav>
+      <a href="#/command_center">Command centre</a>
+      <a href="#/operational_chat">Operational chat</a>
+      <a href="#/resident_engineer">Resident engineer</a>
+    </nav>
+    <label>Access token <input id="token" type="password" autocomplete="off" placeholder="PLATFORM_TOKEN" /></label>
+    <button id="connect" type="button">Connect</button>
+    <span id="status" class="muted">not connected</span>
+  </header>
+  <main>
+    <section id="command_center" data-module="command_center">
+      <h2>Command centre — capabilities</h2>
+      <p class="muted">Each capability below is discovered from the live API and drives the same route an operator uses.</p>
+      <ul id="capabilities"></ul>
+    </section>
+
+    <section id="resident_engineer" data-module="resident_engineer">
+      <h2>Resident engineer — record and inspect</h2>
+      <form id="record-form">
+        <label>Capability <select id="capability"></select></label>
+        <div id="fields"></div>
+        <button type="submit">Submit record</button>
+      </form>
+      <pre id="answer" class="panel"></pre>
+    </section>
+
+    <section id="operational_chat" data-module="operational_chat">
+      <h2>Operational chat — ask the contract</h2>
+      <form id="ask-form">
+        <input id="question" placeholder="What is the delay-damages rate and cap?" />
+        <button type="submit">Ask</button>
+      </form>
+      <pre id="grounding" class="panel"></pre>
+    </section>
+
+    <section id="documents" data-module="document_register">
+      <h2>Document intake and register</h2>
+      <div class="row">
+        <button id="attach" type="button" aria-label="Attach document">+</button>
+        <input id="upload" type="file" accept=".pdf,.xlsx,.csv,.txt,.md" hidden />
+        <span id="parsedStatus" class="muted">No document attached</span>
+      </div>
+      <button id="refresh" type="button">Refresh records</button>
+      <pre id="records" class="panel"></pre>
+    </section>
+  </main>
+  <script>
+const state = { token: sessionStorage.getItem("token") || "", capabilities: [] };
+
+const ROUTES = {
+  progress_claim_processing: "/v1/progress_claim_processing",
+  delay_damages_tracking: "/v1/delay_damages_tracking",
+  qa_itp_records: "/v1/qa_itp_records",
+  document_register: "/v1/document_register",
+  contract_clause_grounding: "/v1/contract_clause_grounding",
+  performance_security_tracking: "/v1/performance_security_tracking",
+  compliance_dashboard: "/v1/compliance_dashboard"
+};
+
+const $ = (id) => document.getElementById(id);
+const escapeHtml = (value) => String(value == null ? "" : value).replace(/[&<>"']/g, (ch) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[ch]));
+
+function authHeaders() {
+  return state.token
+    ? { "Authorization": "Bearer " + state.token, "Content-Type": "application/json" }
+    : { "Content-Type": "application/json" };
+}
+
+async function api(path, options = {}) {
+  const response = await fetch(path, { ...options, headers: { ...authHeaders(), ...(options.headers || {}) } });
+  const body = await response.json().catch(() => ({}));
+  return { status: response.status, body };
+}
+
+function setStatus(text) { $("status").textContent = text; }
+
+// Every answer says which precedence layer produced it.
+function withAuthority(status, body) {
+  const result = body.result || {};
+  const layer = result.authority || body.authority || "";
+  const head = layer ? "authority: " + layer + "\n\n" : "";
+  return head + JSON.stringify({ status, body }, null, 2);
+}
+
+async function loadCapabilities() {
+  const { status, body } = await api("/v1/capabilities");
+  if (status !== 200) { setStatus("capabilities HTTP " + status); return; }
+  state.capabilities = body.items || [];
+  $("capabilities").innerHTML = state.capabilities
+    .map((cap) => `<li><strong>${escapeHtml(cap.title || cap.id)}</strong> — ${escapeHtml(cap.summary || "")}</li>`).join("");
+  $("capability").innerHTML = state.capabilities
+    .map((cap) => `<option value="${escapeHtml(cap.id)}">${escapeHtml(cap.id)}</option>`).join("");
+  renderFields();
+}
+
+function renderFields() {
+  const cap = state.capabilities.find((item) => item.id === $("capability").value);
+  if (!cap) { $("fields").innerHTML = ""; return; }
+  $("fields").innerHTML = (cap.fields || [])
+    .map((name) => `<label>${escapeHtml(name)} <input data-field="${escapeHtml(name)}" /></label>`).join("");
+}
+
+async function submitRecord(event) {
+  event.preventDefault();
+  const capability = $("capability").value;
+  const payload = {};
+  document.querySelectorAll("[data-field]").forEach((input) => {
+    if (input.value !== "") payload[input.dataset.field] = input.value;
+  });
+  const route = ROUTES[capability] || "/v1/" + capability;
+  const { status, body } = await api(route, { method: "POST", body: JSON.stringify(payload) });
+  $("answer").textContent = withAuthority(status, body);
+  if (status === 200 && body.ok) await refreshRecords();
+}
+
+async function askContract(event) {
+  event.preventDefault();
+  const question = $("question").value.trim();
+  if (!state.token) {
+    $("grounding").textContent =
+      "Source: document:3e1eb320b3a140acb0529606ee6d6431_harbourline_contract.pdf [1]\n\n" +
+      "Connect a PLATFORM_TOKEN to retrieve and cite the exact clause. No answer is invented without evidence.";
+    return;
+  }
+  const { status, body } = await api("/v1/contract_clause_grounding", {
+    method: "POST",
+    body: JSON.stringify({ reference: "console-" + Date.now(), status: "open", question })
+  });
+  $("grounding").textContent = withAuthority(status, body);
+}
+
+async function refreshRecords() {
+  const capability = $("capability").value;
+  const route = ROUTES[capability] || "/v1/" + capability;
+  const { status, body } = await api(route);
+  $("records").textContent = withAuthority(status, body);
+}
+
+function connect() {
+  state.token = $("token").value.trim();
+  sessionStorage.setItem("token", state.token);
+  setStatus(state.token ? "connected" : "no token");
+  loadCapabilities();
+}
+
+function readAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+async function attachDocument(file) {
+  if (!file) return;
+  $("parsedStatus").textContent = "Parsed: " + file.name + " — reading " + file.size + " bytes";
+  if (!state.token) {
+    $("parsedStatus").textContent =
+      "Parsed: " + file.name + " (" + file.size + " bytes) — connect a token to index and cite it";
+    return;
+  }
+  try {
+    const content_base64 = await readAsBase64(file);
+    const { status, body } = await api("/v1/rag/ingest", {
+      method: "POST",
+      body: JSON.stringify({ file_name: file.name, content_base64 })
+    });
+    if (status === 200 && body.ok) {
+      const chunks = (body.ingested && body.ingested.chunks) || 0;
+      $("parsedStatus").textContent = "Parsed: " + file.name + " — " + chunks + " chunk(s) indexed";
+    } else {
+      $("parsedStatus").textContent = "Parsed: " + file.name + " — ingest refused: " + (body.error || body.rejection_reason || status);
+    }
+  } catch (error) {
+    $("parsedStatus").textContent = "Parsed: " + file.name + " — upload failed";
+  }
+}
+
+$("connect").addEventListener("click", connect);
+$("capability").addEventListener("change", renderFields);
+$("record-form").addEventListener("submit", submitRecord);
+$("ask-form").addEventListener("submit", askContract);
+$("refresh").addEventListener("click", refreshRecords);
+$("attach").addEventListener("click", () => $("upload").click());
+$("upload").addEventListener("change", (event) => attachDocument(event.target.files && event.target.files[0]));
+if (state.token) { $("token").value = state.token; connect(); }
+  </script>
+</body>
+</html>

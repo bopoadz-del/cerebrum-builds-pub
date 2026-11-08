@@ -1,0 +1,13 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; }
+body { margin: 0; padding: 24px; background: #0f172a; color: #e2e8f0; }
+header { margin-bottom: 24px; }
+h1 { margin: 0 0 4px; font-size: 1.6rem; }
+h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: .08em; color: #94a3b8; }
+main { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+section { background: #1e293b; border-radius: 10px; padding: 16px; }
+input, select, button { font: inherit; padding: 6px 8px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: inherit; }
+button { cursor: pointer; background: #2563eb; border-color: #2563eb; color: white; }
+label { display: block; margin: 8px 0; }
+.muted { color: #94a3b8; }
+.panel { background: #0b1220; padding: 12px; border-radius: 8px; overflow: auto; max-height: 320px; white-space: pre-wrap; }
+ul { padding-left: 18px; }

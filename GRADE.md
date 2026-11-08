@@ -1,0 +1,54 @@
+# GRADE -- product
+
+**Certified:** NO (Layer 1 decides; Layer 2 can only block)
+
+## Layer 1 (deterministic): RED
+- Functions graded: 7 (min 4)
+  - `progress_claim_processing`: PASS; mutants killed constant_return, drop_rule; survived none
+  - `delay_damages_tracking`: PASS; mutants killed constant_return, drop_rule; survived none
+  - `qa_itp_records`: PASS; mutants killed constant_return, drop_rule; survived none
+  - `document_register`: PASS; mutants killed constant_return, drop_rule; survived none
+  - `contract_clause_grounding`: PASS; mutants killed constant_return, drop_rule; survived none
+  - `performance_security_tracking`: PASS; mutants killed constant_return, drop_rule; survived none
+  - `compliance_dashboard`: PASS; mutants killed constant_return, drop_rule; survived none
+- UI steps passed: 0/0
+  - FAIL: UI run did not happen: no playwright report
+
+## Layer 2 (separate grader context): ran
+- PASS: Does the product deliver capability 'progress_claim_processing' as the brief asked? -- evidence: "The handler prices measured quantities (`measured * rate`) and runs `boq_processor`. It computes `defects_end = add_days(taking_over, terms.DEFECTS_NOTIFICATION_DAYS)` for release tracking and imports `formulas`, with the module docstring saying 'retention is taken at the Clause 14.3 rate'. The retention computation itself is in the truncated section. Layer-1 shows the capability ok with both mutants killed."
+- PASS: Does the product deliver capability 'delay_damages_tracking' as the brief asked? -- evidence: "The handler builds a CPM programme with `"duration": int(terms.TIME_FOR_COMPLETION_DAYS)`. It computes `damages = formulas.delay_damages(accepted, net_delay)` where `net_delay = max(0.0, delay_days - extension_days)`. It records the notice on `evidence_chain` and the dashboard aggregates `delay_exposure`. Layer-1 passes."
+- PASS: Does the product deliver capability 'qa_itp_records' as the brief asked? -- evidence: "Each ITP record links to its BOQ item via `boq_citation = terms.boq_citation(boq_item["item"])` and to a document via `document_reference`. It runs a workflow pipeline that records `"hold_point": bool(payload.get("hold_point"))` and the result on `audit_chain`. The narrative reads 'Inspection and Test Plan %s for BOQ item %s ... Hold point: %s.'"
+- PASS: Does the product deliver capability 'document_register' as the brief asked? -- evidence: "Entries are hashed via `file_hasher` (`hashes.sha256`), versioned via `document_revision` and `supersedes` with `version_diff`, and sealed on `audit_chain`. They are linked to clauses via `_citation_for(linked_clause)`, which returns `terms.clause_citation(...)`."
+- PASS: Does the product deliver capability 'contract_clause_grounding' as the brief asked? -- evidence: "The handler seeds the corpus with `retrieval.ingest(tenant, terms.DOCUMENTS[filename], "document:%s" % filename)`. It ranks clauses against the question and runs `evidence_or_refuse` and `evidence_verifier`. The docstring says 'a claim with no evidence is refused'. The refusal branch itself is truncated, so that part is inferred."
+- PASS: Does the product deliver capability 'performance_security_tracking' as the brief asked? -- evidence: "`requirement = formulas.performance_security_requirement(accepted)` gives the required amount. The handler computes `coverage = secured_amount / required_amount`, `days_to_expiry`, `renewal_due = days_to_expiry <= notice_days` and `below_cover = coverage < 1.0`. It raises a notification, 'Performance security %s coverage %.2f, expiry %s'."
+- PASS: Does the product deliver capability 'compliance_dashboard' as the brief asked? -- evidence: "`_snapshot` reads the tenant's persisted records and returns `claims_open`, `delay_exposure`, `itp_completion_ratio`, `documents_registered` and `security_valid`. It feeds them into the dashboard block with widgets such as 'Progress claims' and 'Delay-damages exposure'. Drill-down to clause or BOQ item is only claimed in the docstring, because the code is truncated."
+- FAIL: Does screen 'command_center' render the capability it is declared for? -- evidence: "No frontend screen source is shown; the only frontend file is `frontend/package.json` with `"name": "product"`. Layer-1 UI reports 'UI run did not happen: no playwright report'. Rendering cannot be confirmed."
+- FAIL: Does screen 'operational_chat' render the capability it is declared for? -- evidence: "There is no chat UI code in the rendered product, and 'UI run did not happen: no playwright report'. Only backend grounding handlers are visible."
+- FAIL: Does screen 'resident_engineer' render the capability it is declared for? -- evidence: "No 'resident_engineer' screen is present in the rendered files, and the UI check did not run ('ran': false)."
+- PASS: Is every number the product shows grounded in a kernel computation or a cited source? -- evidence: "Figures come from `formulas.delay_damages`, `formulas.performance_security_requirement` and the `terms.*` constants (ACCEPTED_CONTRACT_AMOUNT, TIME_FOR_COMPLETION_DAYS). The dashboard states 'read from the tenant's own persisted records (never from a client-supplied total)'. Citations use `terms.clause_citation` and `terms.boq_citation`. The UI was not rendered, so displayed numbers are not directly verified."
+- OPEN: Does the product deliver capability 'progress_claim_processing' as the brief asked: Build and assess Interim Payment Certificates from the BOQ: capture measured quantities per item, apply rates, compute retention at 5% of each certificate per Clause 14.3, and track release at Taking-Over and end of the Defects Notification Period.?
+- OPEN: Does the product deliver capability 'delay_damages_tracking' as the brief asked: Track Time for Completion (730 days from Commencement per Clause 8.2) and compute delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10% per Clause 8.7. Log delay events, notices, and extensions of time so the running exposure is always visible.?
+- OPEN: Does the product deliver capability 'qa_itp_records' as the brief asked: Create and manage Inspection and Test Plans per work item, record inspection results, hold points, and sign-offs, and link each ITP record to the relevant BOQ item and document so quality evidence is auditable.?
+- OPEN: Does the product deliver capability 'document_register' as the brief asked: Maintain a controlled register of contract documents, drawings, BOQ revisions, and correspondence. Each entry is hashed, versioned, and linked to the clauses or BOQ items it supports, with full audit history.?
+- OPEN: Does the product deliver capability 'contract_clause_grounding' as the brief asked: Answer questions and validate actions against the uploaded contract and BOQ by retrieving the exact clause or BOQ item, citing it as document:<filename>, and refusing when evidence is insufficient.?
+- OPEN: Does the product deliver capability 'performance_security_tracking' as the brief asked: Track the 10% Performance Security required under Clause 4.2: record issuance, expiry, and renewal dates, and flag when cover is near expiry or below the required amount.?
+- OPEN: Does the product deliver capability 'compliance_dashboard' as the brief asked: Give the project team a single view of claim status, delay-damages exposure, ITP completion, document register health, and security validity, with drill-down to the underlying contract clause or BOQ item.?
+- OPEN: Does screen 'command_center' render the capability it is declared for?
+- OPEN: Does screen 'operational_chat' render the capability it is declared for?
+- OPEN: Does screen 'resident_engineer' render the capability it is declared for?
+
+## Next tasks
+- re-run writer on: Does the product deliver capability 'progress_claim_processing' as the brief asked: Build and assess Interim Payment Certificates from the BOQ: capture measured quantities per item, apply rates, compute retention at 5% of each certificate per Clause 14.3, and track release at Taking-Over and end of the Defects Notification Period.?
+- re-run writer on: Does the product deliver capability 'delay_damages_tracking' as the brief asked: Track Time for Completion (730 days from Commencement per Clause 8.2) and compute delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10% per Clause 8.7. Log delay events, notices, and extensions of time so the running exposure is always visible.?
+- re-run writer on: Does the product deliver capability 'qa_itp_records' as the brief asked: Create and manage Inspection and Test Plans per work item, record inspection results, hold points, and sign-offs, and link each ITP record to the relevant BOQ item and document so quality evidence is auditable.?
+- re-run writer on: Does the product deliver capability 'document_register' as the brief asked: Maintain a controlled register of contract documents, drawings, BOQ revisions, and correspondence. Each entry is hashed, versioned, and linked to the clauses or BOQ items it supports, with full audit history.?
+- re-run writer on: Does the product deliver capability 'contract_clause_grounding' as the brief asked: Answer questions and validate actions against the uploaded contract and BOQ by retrieving the exact clause or BOQ item, citing it as document:<filename>, and refusing when evidence is insufficient.?
+- re-run writer on: Does the product deliver capability 'performance_security_tracking' as the brief asked: Track the 10% Performance Security required under Clause 4.2: record issuance, expiry, and renewal dates, and flag when cover is near expiry or below the required amount.?
+- re-run writer on: Does the product deliver capability 'compliance_dashboard' as the brief asked: Give the project team a single view of claim status, delay-damages exposure, ITP completion, document register health, and security validity, with drill-down to the underlying contract clause or BOQ item.?
+- re-run writer on: Does screen 'command_center' render the capability it is declared for?
+- re-run writer on: Does screen 'operational_chat' render the capability it is declared for?
+- re-run writer on: Does screen 'resident_engineer' render the capability it is declared for?
+- remove baked literals from app/domain_ops.py: ['product']
+- remove baked literals from vendor/cerebrum/blocks/knowledge.py: ['Answer']
+- remove baked literals from vendor/cerebrum/core/finance_ops.py: ['product']
+- stop leaking the prompt into the source: ['Contract', 'Every', 'product']

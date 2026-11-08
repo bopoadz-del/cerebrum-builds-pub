@@ -1,0 +1,10 @@
+{
+  "schema": "data_lifecycle.v1",
+  "durability": {
+    "journal_mode": "wal",
+    "busy_timeout_ms": 15000,
+    "fastapi_sync_threadpool": 40,
+    "backup_retention": 7
+  },
+  "persistence_root": "STORAGE_PATH"
+}

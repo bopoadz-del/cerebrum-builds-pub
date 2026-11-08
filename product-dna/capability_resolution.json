@@ -1,0 +1,108 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_canonical_model",
+        "finance_reconciliation_workflow",
+        "approval_rules",
+        "document_engine"
+      ],
+      "capability_id": "progress_claim_processing",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "cpm_engine",
+        "formula_executor",
+        "evidence_chain",
+        "transaction_state_machine"
+      ],
+      "capability_id": "delay_damages_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "review",
+        "document_engine",
+        "audit_chain"
+      ],
+      "capability_id": "qa_itp_records",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "document_engine",
+        "file_hasher",
+        "version_diff",
+        "audit_chain",
+        "search"
+      ],
+      "capability_id": "document_register",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "knowledge",
+        "vector_search",
+        "evidence_or_refuse",
+        "evidence_verifier"
+      ],
+      "capability_id": "contract_clause_grounding",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "notification",
+        "audit_chain"
+      ],
+      "capability_id": "performance_security_tracking",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "analytics",
+        "notification"
+      ],
+      "capability_id": "compliance_dashboard",
+      "notes": "dual-registered",
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "analytics",
+    "approval_rules",
+    "audit_chain",
+    "boq_processor",
+    "cpm_engine",
+    "dashboard",
+    "document_engine",
+    "evidence_chain",
+    "evidence_or_refuse",
+    "evidence_verifier",
+    "file_hasher",
+    "finance_canonical_model",
+    "finance_reconciliation_workflow",
+    "formula_executor",
+    "knowledge",
+    "notification",
+    "review",
+    "search",
+    "transaction_state_machine",
+    "vector_search",
+    "version_diff",
+    "workflow"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

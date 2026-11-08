@@ -1,0 +1,95 @@
+{
+  "blocks_commit": "f14b4f76cfa048b770787dc1c7fbc8d230da3818",
+  "factory_commit": "b802bde4ae955536f91f6abd82208dbad932db8c",
+  "pins": [
+    {
+      "block_id": "analytics",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "approval_rules",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "audit_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "boq_processor",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "cpm_engine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dashboard",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "document_engine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_chain",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_or_refuse",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "evidence_verifier",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "file_hasher",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_canonical_model",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "finance_reconciliation_workflow",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "formula_executor",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "knowledge",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "notification",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "review",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "transaction_state_machine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "vector_search",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "version_diff",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "workflow",
+      "source": "dual_registry"
+    }
+  ],
+  "schema_version": "1.0.0"
+}
