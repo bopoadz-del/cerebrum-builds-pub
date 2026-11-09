@@ -1,0 +1,89 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Builds Interim Payment Certificates against BOQ line items from document:harbourline_boq.xlsx, applies retention at 5% per document:harbourline_contract.pdf Clause 14.3, and records approvals and payment status.",
+      "id": "progress_claims",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Tracks time for completion (730 days from Commencement under Clause 8.2) and computes delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10%, per Clause 8.7 of document:harbourline_contract.pdf.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Captures inspection and test plan (ITP) records, inspection results, and sign-offs against the earthworks and other works items in the BOQ, with evidence provenance.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains a governed register of contract, BOQ, and project documents with versioning, classification, and controlled access, treating the uploaded contract and BOQ as the source of record.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Stores and retrieves the contract's key terms \u2014 time for completion, delay damages, defects notification period, retention, and performance security \u2014 from document:harbourline_contract.pdf and serves them to the claims and tracking capabilities.",
+      "id": "contract_entitlements",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the 365-day Defects Notification Period from Taking-Over under Clause 11.1 and manages the release of the second 50% retention at its end per Clause 14.3.",
+      "id": "defects_notification",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Provides dashboards and reports on claim status, delay exposure, QA/ITP compliance, and document register health for project leadership.",
+      "id": "contract_reporting",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works contracts-administration platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that turns the uploaded contract and BOQ into the single source of record. It supports progress claims against BOQ line items, tracks delay damages under the contract's time and cap rules, records QA/ITP inspections, and maintains a governed document register. It serves the project's contract administrators, cost engineers, QA managers, and project leadership.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
