@@ -1,0 +1,106 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "document_engine",
+        "file_hasher",
+        "audit_chain",
+        "storage",
+        "version"
+      ],
+      "connectors": [],
+      "description": "Controlled register of all project documents, with the uploaded contract (document:harbourline_contract.pdf) and BOQ (document:harbourline_boq.xlsx) registered as the source of record, versioned, hash-sealed, and distributed with read receipts.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "finance_canonical_model",
+        "validation"
+      ],
+      "connectors": [],
+      "description": "Holds the priced BOQ from document:harbourline_boq.xlsx as the measurement and valuation baseline: item quantities, units, rates, and amounts, from which progress claims are valued.",
+      "id": "boq_management",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_reconciliation",
+        "workflow",
+        "approval_rules",
+        "payment_split",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Prepares and certifies interim payment certificates: measures work against BOQ items, applies 5% retention per Clause 14.3, tracks release at Taking-Over and end of Defects Notification Period, and routes for approval.",
+      "id": "progress_claims",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "finance_v2",
+        "formula_executor",
+        "notification",
+        "evidence_chain"
+      ],
+      "connectors": [],
+      "description": "Tracks time for completion (730 days, Clause 8.2) and accrues delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10% (Clause 8.7), with notices, evidence, and an audit trail.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "workflow",
+        "validation",
+        "evidence_classifier",
+        "task_listing"
+      ],
+      "connectors": [],
+      "description": "Records inspection and test plans (ITPs) mapped to BOQ work items, captures inspection results and sign-offs, links non-conformances to corrective actions, and attaches evidence to the relevant claim.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "contract_retrieval",
+        "approval_rules",
+        "workflow",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Maintains the contract particulars from document:harbourline_contract.pdf (Accepted Contract Amount, time for completion, retention, performance security at 10% per Clause 4.2) and runs the approval and notice workflows that govern them.",
+      "id": "contract_administration",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that makes the uploaded contract (document:harbourline_contract.pdf) and BOQ (document:harbourline_boq.xlsx) the single source of record. It supports progress claims and certificates against the priced BOQ, delay-damages accrual per Clause 8.2/8.7, QA/ITP records tied to work items, and a controlled document register, so the project team, contract administrator, and QS administer the contract consistently and auditably.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
