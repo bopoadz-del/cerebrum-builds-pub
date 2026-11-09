@@ -1,0 +1,451 @@
+{
+  "blocks": {
+    "analytics": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/analytics",
+      "source": "cerebrum-blocks"
+    },
+    "approval_rules": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/approval_rules",
+      "source": "cerebrum-blocks"
+    },
+    "audit": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/audit",
+      "source": "cerebrum-blocks"
+    },
+    "audit_chain": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 1,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/audit_chain",
+      "source": "cerebrum-blocks"
+    },
+    "bcf_export": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/bcf_export",
+      "source": "cerebrum-blocks"
+    },
+    "boq_processor": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/boq_processor",
+      "source": "cerebrum-blocks"
+    },
+    "cpm_engine": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/cpm_engine",
+      "source": "cerebrum-blocks"
+    },
+    "dashboard": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/dashboard",
+      "source": "cerebrum-blocks"
+    },
+    "document_engine": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/document_engine",
+      "source": "cerebrum-blocks"
+    },
+    "documentation": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/documentation",
+      "source": "cerebrum-blocks"
+    },
+    "evidence_chain": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/evidence_chain",
+      "source": "cerebrum-blocks"
+    },
+    "file_hasher": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/file_hasher",
+      "source": "cerebrum-blocks"
+    },
+    "finance_reconciliation_workflow": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/finance_reconciliation_workflow",
+      "source": "cerebrum-blocks"
+    },
+    "formula_executor": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/formula_executor",
+      "source": "cerebrum-blocks"
+    },
+    "ingestion_provenance": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/ingestion_provenance",
+      "source": "cerebrum-blocks"
+    },
+    "payment_split": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/payment_split",
+      "source": "cerebrum-blocks"
+    },
+    "pdf": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/pdf",
+      "source": "cerebrum-blocks"
+    },
+    "validation": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/validation",
+      "source": "cerebrum-blocks"
+    },
+    "workflow": {
+      "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/workflow",
+      "source": "cerebrum-blocks"
+    }
+  },
+  "kits": {
+    "platform": {
+      "blocks": [
+        "analytics",
+        "approval_rules",
+        "audit",
+        "audit_chain",
+        "bcf_export",
+        "boq_processor",
+        "cpm_engine",
+        "dashboard",
+        "document_engine",
+        "documentation",
+        "evidence_chain",
+        "file_hasher",
+        "finance_reconciliation_workflow",
+        "formula_executor",
+        "ingestion_provenance",
+        "payment_split",
+        "pdf",
+        "validation",
+        "workflow"
+      ],
+      "files_copied": 0,
+      "path": "kits/platform",
+      "source": "synthesized-from-factory-shelf"
+    }
+  },
+  "runtime": {
+    "commit": "1e32c0b4d3912b109efe4938464b423b6218e78b",
+    "files": [
+      "vendor/cerebrum/__init__.py",
+      "vendor/cerebrum/blocks/__init__.py",
+      "vendor/cerebrum/blocks/analytics.py",
+      "vendor/cerebrum/blocks/approval_rules.py",
+      "vendor/cerebrum/blocks/audit.py",
+      "vendor/cerebrum/blocks/audit_chain.py",
+      "vendor/cerebrum/blocks/bcf_export.py",
+      "vendor/cerebrum/blocks/boq_processor.py",
+      "vendor/cerebrum/blocks/cpm_engine.py",
+      "vendor/cerebrum/blocks/dashboard.py",
+      "vendor/cerebrum/blocks/document_engine.py",
+      "vendor/cerebrum/blocks/document_engine/__init__.py",
+      "vendor/cerebrum/blocks/document_engine/main.py",
+      "vendor/cerebrum/blocks/document_engine/mapper.py",
+      "vendor/cerebrum/blocks/document_engine/parsers/__init__.py",
+      "vendor/cerebrum/blocks/document_engine/parsers/docx_parser.py",
+      "vendor/cerebrum/blocks/document_engine/parsers/pdf_parser.py",
+      "vendor/cerebrum/blocks/document_engine/parsers/xlsx_parser.py",
+      "vendor/cerebrum/blocks/document_engine/reasoner.py",
+      "vendor/cerebrum/blocks/document_engine_block/__init__.py",
+      "vendor/cerebrum/blocks/document_engine_block/parsers/__init__.py",
+      "vendor/cerebrum/blocks/documentation.py",
+      "vendor/cerebrum/blocks/evidence_chain.py",
+      "vendor/cerebrum/blocks/file_hasher.py",
+      "vendor/cerebrum/blocks/finance_reconciliation.py",
+      "vendor/cerebrum/blocks/finance_reconciliation_workflow.py",
+      "vendor/cerebrum/blocks/formula_executor.py",
+      "vendor/cerebrum/blocks/ingestion_provenance.py",
+      "vendor/cerebrum/blocks/marker.py",
+      "vendor/cerebrum/blocks/payment_split.py",
+      "vendor/cerebrum/blocks/pdf.py",
+      "vendor/cerebrum/blocks/validation.py",
+      "vendor/cerebrum/blocks/workflow.py",
+      "vendor/cerebrum/core/__init__.py",
+      "vendor/cerebrum/core/activation.py",
+      "vendor/cerebrum/core/file_crypto.py",
+      "vendor/cerebrum/core/finance_ops.py",
+      "vendor/cerebrum/core/http_errors.py",
+      "vendor/cerebrum/core/input_adapter.py",
+      "vendor/cerebrum/core/metric_utils.py",
+      "vendor/cerebrum/core/schema_registry.py",
+      "vendor/cerebrum/core/typed_block.py",
+      "vendor/cerebrum/core/universal_base.py",
+      "vendor/cerebrum/core/url_guard.py"
+    ],
+    "for_blocks": [
+      "analytics",
+      "approval_rules",
+      "audit",
+      "audit_chain",
+      "bcf_export",
+      "boq_processor",
+      "cpm_engine",
+      "dashboard",
+      "document_engine",
+      "documentation",
+      "evidence_chain",
+      "file_hasher",
+      "finance_reconciliation_workflow",
+      "formula_executor",
+      "ingestion_provenance",
+      "payment_split",
+      "pdf",
+      "validation",
+      "workflow"
+    ],
+    "lazy_foreign_imports": [
+      "vendor/cerebrum/blocks/cpm_engine.py: app.lib.pm_computations",
+      "vendor/cerebrum/blocks/cpm_engine.py: app.schemas.cpm"
+    ],
+    "path": "vendor/cerebrum",
+    "source": "cerebrum-blocks"
+  },
+  "schema": "blocks.lock.v1"
+}
