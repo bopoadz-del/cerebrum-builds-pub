@@ -1,0 +1,85 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Ingests, parses, and governs the contract excerpt (document:harbourline_contract.pdf) and the priced BOQ (document:harbourline_boq.xlsx) as immutable sources of record, exposing contract parameters such as the 730-day Time for Completion, 0.1%/day delay damages with a 10% cap, 5% retention, and 10% ",
+      "id": "contract_and_boq_baseline",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Prepares and certifies progress claims against the BOQ source of record, valuing measured work by item and rate, applying 5% retention per Interim Payment Certificate, and releasing retention 50% at Taking-Over and 50% at the end of the Defects Notification Period as required by the contract.",
+      "id": "progress_claims",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the contractual Time for Completion (730 days from Commencement Date) against actual progress, computes delay damages at 0.1% of the Accepted Contract Amount per day of delay, and enforces the 10% contract cap, surfacing exposure to the contract administrator.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Captures and governs QA inspection and test plan records \u2014 inspection requests, hold points, test results, and sign-offs \u2014 linked to contract requirements and BOQ scope items, with evidence capture and immutable audit trail.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Maintains a controlled document register for the project with version control, provenance, and audit history, covering contract, BOQ, drawings, ITP records, and claim submissions.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the 365-day Defects Notification Period from Taking-Over and the 10% performance security obligation, including milestone dates, release events, and alerts.",
+      "id": "defects_and_performance_security",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that manages the full commercial and quality lifecycle from the source-of-record contract and bill of quantities. It ingests the contract and BOQ as governed baselines, processes progress claims against BOQ line items with contract-compliant retention and payment handling, tracks time for completion and delay damages per the contract, governs QA/ITP inspection records with evidence, and maintains a controlled document re",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
