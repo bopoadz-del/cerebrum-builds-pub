@@ -1,0 +1,75 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Builds and validates progress claims against the BOQ and contract terms, tracking measured quantities, claimed amounts, and approval status.",
+      "id": "progress_claim_administration",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Records delay events, applies the contract's delay-damages rules, and tracks accrual and entitlement for the project.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Captures inspection and test plan (ITP) records, hold points, and sign-offs, linking each to the relevant contract obligations.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains a register of project documents with versions, status, and a tamper-evident audit trail, using the uploaded contract and BOQ as source of record.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Answers contract queries and retrieves clauses from the uploaded contract and BOQ, grounding the response in the source documents.",
+      "id": "contract_interpretation",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Provides a dashboard of claim status, delay exposure, ITP compliance, and document register health for the project team.",
+      "id": "registry_and_dashboard",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works contracts-administration platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "This platform administers the contract for the Harbourline Civil Works project, with the uploaded contract and BOQ as the source of record. It serves the project's contracts administrator and delivery team by managing progress claims against the BOQ, tracking delay events and delay damages against the contract's provisions, capturing QA/ITP records, and maintaining a document register with an auditable chain of custody.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
