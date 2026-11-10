@@ -1,0 +1,89 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Ingests the uploaded BOQ and contract as the authoritative baseline: parses BOQ line items, rates, quantities and units, maps contract clauses (time, cost, delay damages, variation) to them, and holds a validated, versioned model that all other capabilities read from.",
+      "id": "boq_source_of_record",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [
+        "client_certification_portal"
+      ],
+      "description": "Builds interim and final progress claims from measured progress against BOQ items, computes earned value and retention, applies contract-defined percentages, and routes claims through approval with an audit trail before export to the client's certification process.",
+      "id": "progress_claims",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Tracks contractual milestones, actual and forecast dates, excusable and non-excusable delay events, EOT claims and the running calculation of delay-damages exposure under the contract's clause; flags when forecast completion crosses a damages threshold.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Holds the inspection and test plan register \u2014 ITP hold/witness points tied to work packages and BOQ items \u2014 with captured inspection results, sign-offs, non-conformance records, and evidence attached and hashed so QA status is verifiable against the contract's quality requirements.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Maintains the controlled document register for the project: contract, BOQ, drawings, RFIs, variations, QA records and correspondence, with revision control, distribution status, transmittals and full-text search, and every document linked to the clause or BOQ item it governs.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Checks each claim, delay-damages assessment and QA sign-off against the governing contract clauses before it is released, refusing to pass anything that cannot be traced to a clause or BOQ line, and records the check outcome.",
+      "id": "contract_compliance_gate",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "A commercial and contracts dashboard for the project team: claim status and value, delay-damages exposure, QA/ITP completion, document register health and open non-conformances, with drill-down to the source record behind every figure.",
+      "id": "project_dashboard",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [
+    "client_certification_portal"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that treats the uploaded contract and BOQ as the single source of record. It lets the project's contract administrators and commercial team build and submit progress claims tied to BOQ line items, track delay and delay-damages exposure against contractual milestones, maintain QA/ITP records with evidence, and run a controlled document register \u2014 with everything traceable back to the governing contract clauses and BOQ qua",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
