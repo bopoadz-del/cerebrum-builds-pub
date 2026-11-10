@@ -1,0 +1,18 @@
+{
+  "blocks": [
+    "audit",
+    "pdf"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "pdf"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "pdf": "vendor/blocks/pdf"
+  },
+  "version": "1.0.0"
+}
