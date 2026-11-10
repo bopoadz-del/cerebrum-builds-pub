@@ -1,0 +1,89 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Ingests document:harbourline_boq.xlsx and holds each item (P1-P5, E1-E5) with unit, quantity and SAR rate as the priced source of record, so every claim and report draws from the same itemised baseline.",
+      "id": "boq_ingestion_and_pricing",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Builds progress claims from measured BOQ items and produces Interim Payment Certificates, applying the Clause 14.3 retention of 5% per certificate with 50% released at Taking-Over and 50% at the end of the Defects Notification Period.",
+      "id": "progress_claims_and_payment_certificates",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Tracks days of delay against the Clause 8.2 Time for Completion of 730 days and computes delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10% per Clause 8.7, with the Accepted Contract Amount carried as a stated input from document:harbourline_contract.pdf.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Holds inspection and test plan records tied to BOQ work items, with review and sign-off states so QA evidence can be cited against the claim or milestone it supports.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains a register of project documents (contract, BOQ, ITP records, certificates) with version history, hashing and provenance so each register entry is traceable to its source file.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Answers contract questions (retention, delay damages, performance security, defects period) by retrieving the relevant clause from document:harbourline_contract.pdf and refusing to answer when the clause is not present in the source of record.",
+      "id": "clause_lookup_and_evidence_qa",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Summarises certified-to-date value, retention held, delay-damages exposure under the Clause 8.7 cap, and open QA/ITP actions against the BOQ baseline for the project team.",
+      "id": "commercial_status_dashboard",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works contracts administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that treats the uploaded contract excerpt and BOQ as the source of record. It serves the project's contract administrator and commercial team by ingesting the BOQ into priced items, tracking progress claims and interim payment certificates against contract clauses, computing delay damages with the Clause 8.7 cap, holding QA/ITP records, and maintaining a document register with audit-ready provenance for every figure it r",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
