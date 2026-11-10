@@ -1,0 +1,86 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [
+        "project_document_management_system"
+      ],
+      "description": "Ingests the uploaded contract and BOQ as the authoritative baseline, structures bill items and contract terms, and versions them so every downstream claim, record, and register entry is traceable to the source.",
+      "id": "contract_and_boq_source_of_record",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Builds monthly progress claims from BOQ quantities and measured work, runs claim workflow with approval rules, and produces payment certificates with reconciliation against the contract sum.",
+      "id": "progress_claims_and_payment_certification",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [
+        "primavera_p6"
+      ],
+      "description": "Records delay events against the contract programme, attributes responsibility, computes liquidated damages exposure and entitlement, and maintains the delay register with evidence links.",
+      "id": "delay_event_and_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Defines inspection and test plans per work lot, captures inspection outcomes with evidence, enforces hold points, and links non-conformances back to the applicable contract clause and BOQ item.",
+      "id": "qa_itp_inspection_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [
+        "project_document_management_system"
+      ],
+      "description": "Central document register with revision control, transmittal tracking, and search, ensuring the current contract and BOQ versions are the only ones claims can reference.",
+      "id": "document_register_and_control",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Enforces contract-governed approvals, records every claim and inspection action with immutable evidence, and surfaces compliance exceptions on a dashboard for the contract administrator.",
+      "id": "contract_compliance_and_audit_trail",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [
+    "project_document_management_system",
+    "primavera_p6"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that turns the uploaded contract and BOQ into the single source of record. It manages progress claims and payment certification, tracks delay events and liquidated damages, maintains QA/ITP inspection records, and provides a controlled document register with full audit trail \u2014 serving the project's contract administrators, engineers, and the client's representative.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
