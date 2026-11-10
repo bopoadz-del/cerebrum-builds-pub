@@ -1,0 +1,80 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Create and manage interim payment certificates: measure progress against BOQ items (Preliminaries, Earthworks) from document:harbourline_boq.xlsx, apply retention per Clause 14.3 (5%, released 50% at Taking-Over and 50% at end of DNP), and track claim status and approvals.",
+      "id": "progress_claims_administration",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "notification",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Track time for completion (730 days per Clause 8.2), record delay events, compute delay damages at 0.1% of the Accepted Contract Amount per day capped at 10% per Clause 8.7, and hold performance security at 10% per Clause 4.2 in the project ledger.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Manage Inspection and Test Plans and QA records: hold points, inspections, test results, and sign-offs, linked to BOQ work items and clause references, with evidence chain and defect tracking through the Defects Notification Period (Clause 11.1).",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintain a controlled document register for the project: ingest and register the contract excerpt and BOQ as source-of-record documents, version them, hash for integrity, and track revisions and distribution.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Answer clause-level questions and ground claims, delay, and QA decisions in the contract text (Clauses 4.2, 8.2, 8.7, 11.1, 14.3) and BOQ line items, citing document:harbourline_contract.pdf and document:harbourline_boq.xlsx.",
+      "id": "contract_clause_retrieval",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Provide a project dashboard and rollups: claim status, certified value, retention held, delay exposure, QA open items, and document register status for the project team.",
+      "id": "commercial_reporting_dashboard",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that treats the uploaded contract excerpt and BOQ as the source of record. It tracks progress claims against BOQ items and contract terms, computes delay damages per Clause 8.7, manages QA/ITP records, and maintains a controlled document register, serving the project's contract administrators, commercial managers, QA engineers, and document controllers.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
