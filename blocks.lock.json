@@ -1,0 +1,51 @@
+{
+  "blocks": {
+    "audit": {
+      "commit": "a1a1a63a80947ce2a729d0daa9df53f764f72110",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/audit",
+      "source": "cerebrum-blocks"
+    }
+  },
+  "kits": {
+    "platform": {
+      "blocks": [
+        "audit"
+      ],
+      "files_copied": 0,
+      "path": "kits/platform",
+      "source": "synthesized-from-factory-shelf"
+    }
+  },
+  "runtime": {
+    "commit": "a1a1a63a80947ce2a729d0daa9df53f764f72110",
+    "files": [
+      "vendor/cerebrum/__init__.py",
+      "vendor/cerebrum/blocks/__init__.py",
+      "vendor/cerebrum/blocks/audit.py",
+      "vendor/cerebrum/blocks/audit_chain.py",
+      "vendor/cerebrum/core/__init__.py",
+      "vendor/cerebrum/core/http_errors.py",
+      "vendor/cerebrum/core/universal_base.py"
+    ],
+    "for_blocks": [
+      "audit"
+    ],
+    "lazy_foreign_imports": [],
+    "path": "vendor/cerebrum",
+    "source": "cerebrum-blocks"
+  },
+  "schema": "blocks.lock.v1"
+}

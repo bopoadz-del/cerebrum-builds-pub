@@ -1,0 +1,15 @@
+{
+  "blocks": [
+    "audit"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit"
+  },
+  "version": "1.0.0"
+}
