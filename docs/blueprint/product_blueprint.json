@@ -1,0 +1,89 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Ingests document:harbourline_boq.xlsx and document:harbourline_contract.pdf, structures the priced items (P1-P5, E1-E5) and the contract clauses (8.2, 8.7, 11.1, 14.3, 4.2), and holds them as the immutable source of record every other capability reads from.",
+      "id": "boq_and_contract_source_of_record",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Builds interim progress claims by measured quantity against BOQ items, applies the 5% retention under Clause 14.3, and issues Interim Payment Certificates with 50% retention released at Taking-Over and 50% at the end of the Defects Notification Period.",
+      "id": "progress_claims_and_certificates",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Tracks the 730-day time for completion from the Commencement Date under Clause 8.2, accrues delay damages at 0.1% of the Accepted Contract Amount per day of delay under Clause 8.7, and enforces the 10% cap, with the daily accrual always traceable to the contract excerpt.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Records inspection and test plans, hold points, and inspection sign-offs for earthworks and preliminaries scope, linked to the BOQ items they certify, so a claim line can only be certified against QA evidence.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Maintains a controlled register of the contract, BOQ, drawings, certificates and ITP records, with versioning, hashes and provenance so every register entry shows where it came from and who changed it.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the 10% Performance Security under Clause 4.2 and the 365-day Defects Notification Period under Clause 11.1 from Taking-Over, including the second retention release date, with alerts before each obligation falls due.",
+      "id": "performance_security_and_defects",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Gives the contracts team a live view of certified-to-date against BOQ items, retention held and released, delay days and damages accrued against the cap, and outstanding ITP hold points.",
+      "id": "claims_dashboard",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration workspace for the Harbourline Civil Works project that turns the uploaded contract and BOQ into the system of record. It administers progress claims and payment certificates under Clause 14.3 retention, tracks time for completion and delay damages against Clauses 8.2 and 8.7, holds QA/ITP records and a governed document register, and reuses validated finance, evidence and document blocks so every figure traces back to document:harbourline_boq.xlsx and document:harbourl",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
