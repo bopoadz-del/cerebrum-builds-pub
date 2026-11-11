@@ -1,0 +1,91 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [
+        "accounting_or_erp_system_for_payment_ledger_synchronisation"
+      ],
+      "description": "Generates and tracks interim payment certificates and progress claims by measuring completed quantities against BOQ line items from document:harbourline_boq.xlsx (P1-P5, E1-E5), applying retention under Clause 14.3 of document:harbourline_contract.pdf.",
+      "id": "progress_claims_and_ipc",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Monitors the 730-day Time for Completion from Clause 8.2 and computes delay damages at 0.1% per day capped at 10% of the Accepted Contract Amount per Clause 8.7, with alerting as the completion date approaches.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Captures Inspection and Test Plan records with inspection status, hold points, and evidence links, supporting the defects liability position under Clause 11.1 and the contractual quality record trail.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [
+        "cloud_file_storage_such_as_google_drive_or_onedrive_for_project_document_sync"
+      ],
+      "description": "Maintains the project document register including the source-of-record documents document:harbourline_boq.xlsx and document:harbourline_contract.pdf, with versioning, metadata, and retrieval for contract clauses and BOQ items.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [
+        "bank_or_treasury_system_for_security_instrument_status"
+      ],
+      "description": "Tracks the 10% Performance Security under Clause 4.2 and the 5% retention with 50%/50% release schedule under Clause 14.3, as a contractual obligation ledger.",
+      "id": "performance_security_and_retention_ledger",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Provides a working view of the Accepted Contract Amount derived from BOQ line items and the contract, with rollups used by delay damages and claim calculations.",
+      "id": "contract_boq_working_capital_view",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [
+    "accounting_or_erp_system_for_payment_ledger_synchronisation",
+    "cloud_file_storage_such_as_google_drive_or_onedrive_for_project_document_sync",
+    "bank_or_treasury_system_for_security_instrument_status"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that tracks progress claims against the BOQ, monitors delay damages under the contract, and manages QA/ITP records and a document register. The uploaded contract and BOQ are the source of record, anchored to the project works described in document:harbourline_boq.xlsx and the contractual provisions in document:harbourline_contract.pdf.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
