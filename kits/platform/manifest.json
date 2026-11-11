@@ -1,0 +1,15 @@
+{
+  "blocks": [
+    "notification"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "notification"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "notification": "vendor/blocks/notification"
+  },
+  "version": "1.0.0"
+}
