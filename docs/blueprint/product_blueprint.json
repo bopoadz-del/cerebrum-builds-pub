@@ -1,0 +1,69 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Builds and validates progress claims against the uploaded BOQ line items (P1-P5, E1-E5 in document:harbourline_boq.xlsx), checking quantities and rates, and applying the 5% retention per Interim Payment Certificate from Clause 14.3 of document:harbourline_contract.pdf.",
+      "id": "progress_claim_assessment",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Tracks the Clause 8.2 Time for Completion of 730 days from the Commencement Date, computes daily delay damages at 0.1% of the Accepted Contract Amount under Clause 8.7, and enforces the 10% cap, per document:harbourline_contract.pdf.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains QA inspection and test plan (ITP) records for civil works activities, with evidence capture and verification so inspection sign-offs are auditable against the document source of record.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Registers and versions contract, BOQ, and project documents, with retrieval and audit trails, ingesting the uploaded document:harbourline_boq.xlsx and document:harbourline_contract.pdf as the source of record.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Applies contract clause rules (retention under Clause 14.3, performance security of 10% under Clause 4.2, and the delay-damages cap under Clause 8.7) as governed rules from document:harbourline_contract.pdf, with approval gates for claim variations.",
+      "id": "contract_clause_governance",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 5,
+  "product_id": "product",
+  "product_name": "Contracts-Administration Platform for the Harbourline Civil Works Project",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that treats the uploaded contract and BOQ as the source of record. It serves the project's contract administrator and commercial team by computing progress claims against BOQ line items (document:harbourline_boq.xlsx), applying retention and performance-security rules from the contract (document:harbourline_contract.pdf, Clauses 14.3 and 4.2), tracking delay damages under Clause 8.7 against the Clause 8.2 Time for Comple",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
