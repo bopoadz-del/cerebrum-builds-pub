@@ -1,0 +1,91 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Controlled register of all project documents (contract, BOQ, drawings, ITPs, interim payment certificates), with versions, provenance, and audit history, treating the uploaded contract and BOQ as the source of record. Claims nothing outside document:harbourline_contract.pdf and document:harbourline_",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Ingests document:harbourline_boq.xlsx as the priced BOQ baseline (preliminaries P1-P5, earthworks E1-E5) and document:harbourline_contract.pdf as the clause baseline, producing the contract's Accepted Contract Amount and the item-level quantities and rates against which claims and delay damages are ",
+      "id": "boq_and_contract_baseline",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Builds interim payment certificates from measured BOQ quantities against the baseline, applies Clause 14.3 retention of 5% of each certificate with 50/50 release at Taking-Over and end of the Defects Notification Period, and tracks the resulting claim state.",
+      "id": "progress_claims",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the Clause 8.2 730-day Time for Completion from Commencement, computes Clause 8.7 delay damages at 0.1% of the Accepted Contract Amount per day of delay capped at 10%, with alerts as exposure accrues, and flags Taking-Over to start the Clause 11.1 365-day Defects Notification Period.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Records inspection and test plans (ITPs) by BOQ item and work type, captures inspection and test outcomes with evidence, and issues holds and releases so claimed quantities in an interim payment certificate are supported by accepted ITP records.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Assembles each interim payment certificate into a submission package with the BOQ measurement schedule, ITP evidence, and register references, and produces the signed PDF certificate and supporting pack.",
+      "id": "claim_package_generation",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Commercial and quality dashboard for the Harbourline project: cumulative certified value versus BOQ baseline, retention withheld, delay-damages exposure against the 10% cap, ITP status, and outstanding register actions.",
+      "id": "project_dashboard",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that serves the contractor's commercial and quality teams. It treats the uploaded contract and BOQ as the source of record, driving progress claims certified against the Bill of Quantities, automatic delay-damages exposure tracking under Clause 8.7, QA/ITP records, and a controlled document register, all joined on the project's contract and BOQ line items.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
