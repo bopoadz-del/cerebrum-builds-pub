@@ -1,0 +1,18 @@
+{
+  "blocks": [
+    "notification",
+    "pdf"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "notification",
+    "pdf"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "notification": "vendor/blocks/notification",
+    "pdf": "vendor/blocks/pdf"
+  },
+  "version": "1.0.0"
+}
