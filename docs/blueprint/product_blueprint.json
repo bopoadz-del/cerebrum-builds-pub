@@ -1,0 +1,79 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Build interim payment certificates line by line against the priced BOQ items (P1-P5, E1-E5), track measured quantities and rates, apply the 5% retention under Clause 14.3, and carry each claim through submission, certification and approval with an auditable trail.",
+      "id": "progress_claims_certification",
+      "required": true,
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Track the Clause 8.2 Time for Completion (730 days from Commencement) and Clause 8.7 delay damages at 0.1% of the Accepted Contract Amount per day, capped at 10%, with running exposure calculated against recorded delay events.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintain the controlled project document register, ingesting the uploaded contract and BOQ as the source of record, versioning revisions, and linking every document to the register with provenance.",
+      "id": "document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Create inspection and test plan (ITP) records against work items and BOQ sections, capture inspection results and sign-offs, and hold records ready for certification and defects-notification review.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Answer questions about contract terms such as retention, performance security, defects notification and delay damages by retrieving the governing clause from the uploaded contract excerpt, with citations back to the source document.",
+      "id": "contract_clause_retrieval",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Track the 365-day Defects Notification Period from Taking-Over, the 50% retention releases at Taking-Over and at DNP end, and the 10% Performance Security under Clause 4.2, with milestone dates and release triggers.",
+      "id": "defects_and_security_tracking",
+      "required": true,
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that turns the contract excerpt (document:harbourline_contract.pdf) and the priced BOQ (document:harbourline_boq.xlsx) into the source of record. It lets the project team submit and certify progress claims against the BOQ, track delay-damages exposure under Clause 8.7, maintain QA/ITP records, and keep a controlled document register, all tied back to the governing contract document.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
