@@ -1,0 +1,81 @@
+{
+  "blocks": {
+    "notification": {
+      "commit": "36cacf92c7976ac6ca09f83bf174e4587597bfb9",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/notification",
+      "source": "cerebrum-blocks"
+    },
+    "pdf": {
+      "commit": "36cacf92c7976ac6ca09f83bf174e4587597bfb9",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/pdf",
+      "source": "cerebrum-blocks"
+    }
+  },
+  "kits": {
+    "platform": {
+      "blocks": [
+        "notification",
+        "pdf"
+      ],
+      "files_copied": 0,
+      "path": "kits/platform",
+      "source": "synthesized-from-factory-shelf"
+    }
+  },
+  "runtime": {
+    "commit": "36cacf92c7976ac6ca09f83bf174e4587597bfb9",
+    "files": [
+      "vendor/cerebrum/__init__.py",
+      "vendor/cerebrum/blocks/__init__.py",
+      "vendor/cerebrum/blocks/marker.py",
+      "vendor/cerebrum/blocks/notification.py",
+      "vendor/cerebrum/blocks/pdf.py",
+      "vendor/cerebrum/core/__init__.py",
+      "vendor/cerebrum/core/activation.py",
+      "vendor/cerebrum/core/file_crypto.py",
+      "vendor/cerebrum/core/http_errors.py",
+      "vendor/cerebrum/core/input_adapter.py",
+      "vendor/cerebrum/core/metric_utils.py",
+      "vendor/cerebrum/core/schema_registry.py",
+      "vendor/cerebrum/core/typed_block.py",
+      "vendor/cerebrum/core/universal_base.py",
+      "vendor/cerebrum/core/url_guard.py"
+    ],
+    "for_blocks": [
+      "notification",
+      "pdf"
+    ],
+    "lazy_foreign_imports": [
+      "vendor/cerebrum/blocks/notification.py: app.dependencies"
+    ],
+    "path": "vendor/cerebrum",
+    "source": "cerebrum-blocks"
+  },
+  "schema": "blocks.lock.v1"
+}
