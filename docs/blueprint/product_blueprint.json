@@ -1,0 +1,75 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Loads the BOQ (document:harbourline_boq.xlsx), priced by item and section \u2014 Preliminaries P1\u2013P5, Earthworks E1\u2013E5 \u2014 and values measured progress against it to produce the gross amount for each interim payment certificate.",
+      "id": "boq_progress_valuation",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Generates interim payment certificates applying 5% retention per certificate under Clause 14.3 of document:harbourline_contract.pdf, with the two release milestones (50% at Taking-Over, 50% at end of the Defects Notification Period) tracked as scheduled releases, not manual adjustments.",
+      "id": "retention_and_payment_certificates",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Tracks the 730-day Time for Completion under Clause 8.2 and accrues delay damages at 0.1% of the Accepted Contract Amount per day under Clause 8.7, enforcing the 10% cap and showing the headroom left before the cap is reached.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Holds inspection and test plan (ITP) records and inspection sign-offs mapped to BOQ work items, so the QA evidence behind measured progress can be retrieved per item and per certificate.",
+      "id": "qa_itp_records",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains a document register for the project with every numbered clause, BOQ line, certificate, and ITP record registered and traceable, citing document:harbourline_contract.pdf and document:harbourline_boq.xlsx as the source of record.",
+      "id": "contract_document_register",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Answers commercial queries only from the uploaded contract and BOQ, refuses when the cited clause or BOQ line does not support the answer, and surfaces the controlling clause number instead of a paraphrase.",
+      "id": "contract_clause_guardrail",
+      "required": true,
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project that turns the uploaded contract (document:harbourline_contract.pdf) and bill of quantities (document:harbourline_boq.xlsx) into a single source of record. It serves the project's commercial and quality team: quantity surveyors, contract administrators, and site engineers. The platform measures BOQ-priced progress, values interim payment certificates with the 5% retention regime under Clause 14.3, accrues and caps delay ",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
