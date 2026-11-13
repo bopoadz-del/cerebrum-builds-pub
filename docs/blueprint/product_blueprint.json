@@ -1,0 +1,107 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains the project document register: ingests, versions, and classifies the contract, BOQ, claims, QA/ITP records, and correspondence, with audit trail and provenance back to the source of record.",
+      "id": "document_register",
+      "required": true,
+      "requirements": [
+        "Use the uploaded contract and BOQ as the source of record"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Prepares and certifies interim progress claims against BOQ line items, applying retention per Clause 14.3 and producing Interim Payment Certificates.",
+      "id": "progress_claims",
+      "required": true,
+      "requirements": [
+        "progress claims",
+        "Clause 14.3 Retention: 5% of each Interim Payment Certificate, released 50% at Taking-Over and 50% at the end of the Defects Notification Period",
+        "Use the uploaded contract and BOQ as the source of record"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks delay events against the 730-day Time for Completion, computes delay damages at 0.1% of the Accepted Contract Amount per day with a 10% cap, and raises notices when thresholds are approached.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "requirements": [
+        "delay-damages tracking",
+        "Clause 8.2 Time for Completion: 730 days from the Commencement Date",
+        "Clause 8.7 Delay Damages: 0.1% of the Accepted Contract Amount per day of delay, capped at 10% of the Accepted Contract Amount"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit",
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Captures and manages Inspection and Test Plan (ITP) records, inspection sign-offs, and non-conformance reports, tied to the relevant BOQ work sections and the Defects Notification Period.",
+      "id": "qa_itp_records",
+      "required": true,
+      "requirements": [
+        "QA/ITP records",
+        "Clause 11.1 Defects Notification Period: 365 days from Taking-Over"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the Performance Security obligation at 10% of the Accepted Contract Amount and flags expiry or shortfall against the contract term.",
+      "id": "performance_security_monitor",
+      "required": true,
+      "requirements": [
+        "Clause 4.2 Performance Security: 10% of the Accepted Contract Amount"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "documentation"
+      ],
+      "connectors": [],
+      "description": "Documentation capability (reused from the block store)",
+      "id": "documentation",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project. It manages progress claims, delay-damages tracking, QA/ITP records, and the project document register, using the uploaded contract and BOQ as the authoritative source of record. It serves the project's commercial and quality teams, who need every claim, delay event, and inspection record grounded in the contract terms and BOQ line items.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
