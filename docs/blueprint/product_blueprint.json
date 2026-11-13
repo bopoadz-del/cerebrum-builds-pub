@@ -1,0 +1,140 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Build interim payment certificates line-by-line from measured BOQ quantities and item rates, apply retention under Clause 14.3, and move each claim through submission, certification and payment.",
+      "id": "progress_claims",
+      "required": true,
+      "requirements": [
+        "Use the uploaded contract and BOQ as the source of record",
+        "5% of each Interim Payment Certificate retained (document:harbourline_contract.pdf Clause 14.3)",
+        "Retention released 50% at Taking-Over and 50% at the end of the Defects Notification Period"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Track the 730-day time for completion from Commencement Date, compute delay days and damages at 0.1% of the Accepted Contract Amount per day, cap at 10%, and record any extension of time that moves the baseline.",
+      "id": "delay_damages",
+      "required": true,
+      "requirements": [
+        "Delay Damages: 0.1% of the Accepted Contract Amount per day of delay, capped at 10% of the Accepted Contract Amount (document:harbourline_contract.pdf Clause 8.7)",
+        "Time for Completion: 730 days from the Commencement Date (document:harbourline_contract.pdf Clause 8.2)"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Hold inspection and test plans and the resulting QA records, tie each record to the BOQ work item it releases or holds, and keep an inspection-ready evidence chain for the engineer.",
+      "id": "qa_itp_records",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "A single register of contract and project deliverables (as-built documentation, signboards, submissions) with revision control, status and links back to the BOQ items and contract clauses that require them.",
+      "id": "document_register",
+      "required": true,
+      "requirements": [
+        "As-built documentation, sum, 1, SAR 26,000 (document:harbourline_boq.xlsx item P5)",
+        "Project signboard, no, 2, SAR 3,500 (document:harbourline_boq.xlsx item P4)"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintain the Performance Security at 10% of the Accepted Contract Amount and show its stated value against contract amount and any call or expiry, and similarly track retention balances until final release.",
+      "id": "security_and_retention_guarantee",
+      "required": true,
+      "requirements": [
+        "Performance Security: 10% of the Accepted Contract Amount (document:harbourline_contract.pdf Clause 4.2)",
+        "Defects Notification Period: 365 days from Taking-Over (document:harbourline_contract.pdf Clause 11.1)"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Hold the contract clauses (8.2, 8.7, 11.1, 14.3, 4.2) as structured obligations the claims, delay and security capabilities read, so the terms exist in one place rather than being retyped.",
+      "id": "contract_register_obligations",
+      "required": true,
+      "requirements": [
+        "Use the uploaded contract and BOQ as the source of record"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Roll claim status, delay exposure against the cap, open QA holds and register completeness into dashboards for the project team and engineer.",
+      "id": "project_reporting",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "documentation"
+      ],
+      "connectors": [],
+      "description": "Documentation capability (reused from the block store)",
+      "id": "documentation",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Notification capability (reused from the block store)",
+      "id": "notification",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 10,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works contracts administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project. It keeps the uploaded contract and BOQ as the single source of record and runs four linked workflows for the project team and the engineer: progress claims measured against BOQ item quantities and certified for payment (retention per Clause 14.3); delay-damages tracking from time for completion and any extension of time (Clause 8.7 with the 10% cap); QA/ITP records linked to the work items they release; and a document r",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
