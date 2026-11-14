@@ -1,0 +1,109 @@
+{
+  "build_level": "pilot",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Lets a client select a service or slot and submit a booking request, capturing the minimum details needed for a booking.",
+      "id": "booking_flow",
+      "required": true,
+      "requirements": [
+        "Any cliebt booking platform",
+        "a simple booking flow with confirmation notification"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Gives staff an admin dashboard to view, manage, and update incoming bookings.",
+      "id": "staff_admin_view",
+      "required": true,
+      "requirements": [
+        "staff admin view"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [
+        "email_provider_e_g_sendgrid_smtp"
+      ],
+      "description": "Sends a confirmation message to the client when a booking is submitted, using a notification channel.",
+      "id": "confirmation_notification",
+      "required": true,
+      "requirements": [
+        "confirmation emails"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Authenticates clients and staff so that bookings and admin views are tied to the correct identity.",
+      "id": "client_auth",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Records an auditable log of bookings and admin actions for traceability.",
+      "id": "audit_trail",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "config"
+      ],
+      "connectors": [],
+      "description": "Config capability (reused from the block store)",
+      "id": "config",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "email"
+      ],
+      "connectors": [],
+      "description": "Email capability (reused from the block store)",
+      "id": "email",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "email_provider_e_g_sendgrid_smtp"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Client Booking Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A simple pilot-level test platform that lets clients make bookings online while staff manage them through an admin view. The build defaults to a basic booking flow with confirmation notifications and a staff admin dashboard. No document answering (price lists, catalogues, policies) is configured, and no money handling (deposits or payments) is enabled until the client supplies country and currency details.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
