@@ -1,0 +1,117 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Prepares and certifies interim progress claims by measuring BOQ items and applying contract payment terms, with retention and release tracking per the contract.",
+      "id": "progress_claim_administration",
+      "required": true,
+      "requirements": [
+        "5% of each Interim Payment Certificate, released 50% at Taking-Over and 50% at the end of the Defects Notification Period (Clause 14.3 Retention)",
+        "Bulk excavation to reduced level: 12,500 m3 at SAR 38 (E1)",
+        "Imported granular fill, compacted: 6,400 m3 at SAR 92 (E3)",
+        "Interim Payment Certificate retention of 5%"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Tracks Time for Completion and computes delay damages day by day against the accepted contract amount, enforcing the contractual cap and flagging exposure.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "requirements": [
+        "Time for Completion: 730 days from the Commencement Date (Clause 8.2)",
+        "Delay Damages: 0.1% of the Accepted Contract Amount per day of delay, capped at 10% of the Accepted Contract Amount (Clause 8.7)"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains Inspection and Test Plan records tied to BOQ and contract items: inspection points, hold points, results, sign-offs, and defect tracking through the Defects Notification Period.",
+      "id": "qa_itp_records",
+      "required": true,
+      "requirements": [
+        "Defects Notification Period: 365 days from Taking-Over (Clause 11.1)"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "A controlled register of contract and project documents (contract, BOQ, certificates, ITPs) with versioning, provenance, and retrieval as the source of record.",
+      "id": "document_register",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Ingests the uploaded BOQ spreadsheet and contract PDF, extracting priced line items, quantities, rates, and contract clauses into a canonical model used by all other capabilities.",
+      "id": "boq_and_contract_ingest",
+      "required": true,
+      "requirements": [
+        "Use the uploaded contract and BOQ as the source of record",
+        "Site establishment & temporary facilities: 1 sum at SAR 185,000 (P1)",
+        "Site security & fencing (6 months): 6 months at SAR 22,000 (P2)"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Tracks the performance security obligation and its percentage of the Accepted Contract Amount, alerting when security is expiring or short.",
+      "id": "performance_security_monitoring",
+      "required": true,
+      "requirements": [
+        "Performance Security: 10% of the Accepted Contract Amount (Clause 4.2)"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "documentation"
+      ],
+      "connectors": [],
+      "description": "Documentation capability (reused from the block store)",
+      "id": "documentation",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 7,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration workspace for the Harbourline Civil Works project, serving the project's commercial and quality teams. It administers progress claims against the uploaded BOQ, tracks delay damages against the contract's time and cap provisions, holds QA/ITP records, and maintains a document register. The uploaded contract and BOQ are the single source of record for amounts, rates, and clauses.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
