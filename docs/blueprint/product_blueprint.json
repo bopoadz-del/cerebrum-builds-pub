@@ -1,0 +1,84 @@
+{
+  "build_level": "prototype",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Ingest and index the contract's conditions of contract, priced BoQ/schedule of rates, variations register, and valuation rules, and answer QS/engineer/accounts/contractor questions strictly from those documents with citations rather than inventing terms.",
+      "id": "contract_document_grounding",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Build progress-claim line items from measured works / BOQ schedule line items against the contract's priced bill, apply the contract's valuation rules, and roll the valued items into a payment certificate with line-level detail.",
+      "id": "payment_certificate_valuation",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Enforce the QS-certifies \u2192 contract administrator/engineer-approves \u2192 accounts-records-payment chain on each payment certificate, with role-based access for internal staff and contractor users and an auditable trail of each step.",
+      "id": "certificate_approval_chain",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Hold a contract-defined percentage of each payment certificate until the retention cap, release 50% at practical completion, and automatically release the remaining 50% when the 12-month defects-liability period ends \u2014 with no extra sign-off step \u2014 ahead of UAE 5% VAT treatment of certificates and a",
+      "id": "retention_lifecycle",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Apply the contract's fixed daily delay-damages rate against the contractual completion date, track elapsed delay, and cap total delay damages at the contract's stated cap; surface the calculation to QS, engineer, and accounts for inclusion in the certificate.",
+      "id": "delay_damages_assessment",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Let external contractor users log in, view the payment certificate line by line, and raise a dispute on individual line items before certification; route each dispute to the QS/engineer, capture respondent reasoning, and record the resolution against the line item.",
+      "id": "contractor_dispute_resolution",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AE",
+    "currency": "AED"
+  },
+  "n_required": 6,
+  "product_id": "product",
+  "product_name": "Contracts-Administration Platform for a Civil-Works Contract",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A single-project contracts-administration platform for an in-house civil-works contract in the UAE, used by quantity surveyors, contract administrators/engineers, accounts, and external contractor users. It builds progress-claim line items from measured works against the contract's priced BoQ, computes retention (percentage held until a cap, half released at practical completion, the balance auto-released at the 12-month defects-liability end with no extra sign-off) and delay damages (fixed dail",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
