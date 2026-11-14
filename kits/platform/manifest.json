@@ -1,0 +1,24 @@
+{
+  "blocks": [
+    "audit",
+    "config",
+    "email",
+    "notification"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "config",
+    "email",
+    "notification"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "config": "vendor/blocks/config",
+    "email": "vendor/blocks/email",
+    "notification": "vendor/blocks/notification"
+  },
+  "version": "1.0.0"
+}
