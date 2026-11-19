@@ -1,0 +1,24 @@
+{
+  "blocks": [
+    "audit",
+    "documentation",
+    "notification",
+    "pdf"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "documentation",
+    "notification",
+    "pdf"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "documentation": "vendor/blocks/documentation",
+    "notification": "vendor/blocks/notification",
+    "pdf": "vendor/blocks/pdf"
+  },
+  "version": "1.0.0"
+}
