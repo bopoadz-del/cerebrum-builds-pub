@@ -1,0 +1,27 @@
+{
+  "blocks": [
+    "audit",
+    "code",
+    "construction",
+    "dashboard",
+    "knowledge"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "code",
+    "construction",
+    "dashboard",
+    "knowledge"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "code": "vendor/blocks/code",
+    "construction": "vendor/blocks/construction",
+    "dashboard": "vendor/blocks/dashboard",
+    "knowledge": "vendor/blocks/knowledge"
+  },
+  "version": "1.0.0"
+}
