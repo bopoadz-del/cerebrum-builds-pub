@@ -1,0 +1,85 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintain the product list for the shop, each product carrying stock on hand and its own reorder level, and expose it as an editable workbench table backed by persistent storage.",
+      "id": "product_stock_register",
+      "required": true,
+      "requirements": [
+        "a product list with stock on hand and a reorder level per product"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Record a stock receipt and record a stock sale, each posted against a product and updating its stock on hand; reject non-positive quantities and sales that would drive stock negative.",
+      "id": "stock_receipt_and_sale",
+      "required": true,
+      "requirements": [
+        "record a stock receipt and a stock sale, each updating stock on hand"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Compute the low-stock report: list every product whose stock on hand is at or below its reorder level, showing the quantity to reorder for each.",
+      "id": "low_stock_report",
+      "required": true,
+      "requirements": [
+        "a low-stock report listing every product at or below its reorder level",
+        "with the quantity to reorder"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Export the low-stock report as a spreadsheet file the shopkeeper can open in a spreadsheet program and save or print.",
+      "id": "spreadsheet_export",
+      "required": true,
+      "requirements": [
+        "export that report as a spreadsheet"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Provide the one user role the shop needs (back-office operator) with no role matrix, no payments and no external integrations.",
+      "id": "single_role_access",
+      "required": true,
+      "requirements": [
+        "One user role, no payments, no integrations, no uploaded documents"
+      ],
+      "strategy_hint": "GENERATE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 5,
+  "product_id": "product",
+  "product_name": "Retail back-office tool",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A deliberately small back-office tool for a single retail shop. It keeps a product list with stock on hand and a per-product reorder level, records stock receipts and stock sales that each adjust stock on hand, produces a low-stock report listing every product at or below its reorder level together with the quantity to reorder, and lets the shopkeeper export that report as a spreadsheet. It serves one user role (the shopkeeper/back-office operator) with no payments, no external integrations, and",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
