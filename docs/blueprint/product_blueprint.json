@@ -1,0 +1,295 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "construction_advisor",
+        "construction",
+        "construction_v2",
+        "knowledge"
+      ],
+      "connectors": [],
+      "description": "Answers construction questions and gives method and sequencing advice using only the platform's built-in construction knowledge; no user-supplied drawings, method statements, safety procedures or price lists are accepted or grounded on.",
+      "id": "construction_knowledge_advisor",
+      "required": true,
+      "requirements": [
+        "answer construction questions and give method/sequencing advice from built-in construction knowledge (no document grounding)",
+        "NO document uploads: the platform must work only from built-in knowledge and store blocks (no user-supplied drawings, BOQs, contracts, method statements, safety procedures or price lists)"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "boq_processor",
+        "drawing_qto",
+        "cpm_engine",
+        "project_reasoner",
+        "spec_analyzer"
+      ],
+      "connectors": [],
+      "description": "Performs BOQ and quantity takeoff calculations from numbers the user types in, and outputs AED (Dhs) cost figures under UAE rules; it does not ingest uploaded BOQs or drawings.",
+      "id": "boq_quantity_takeoff",
+      "required": true,
+      "requirements": [
+        "BOQ / quantity takeoff calculations from numbers the user types in",
+        "Country tax/currency rules follow UAE/AED; no payroll, VAT filing or financial accounting scope was requested beyond AED cost figures in BOQ outputs"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "task_listing",
+        "workflow",
+        "audit_chain"
+      ],
+      "connectors": [],
+      "description": "Tracks construction tasks and site issues for the ten users, with orchestration and workflow routing and an auditable trail of changes.",
+      "id": "task_and_issue_tracking",
+      "required": true,
+      "requirements": [
+        "task and site-issue tracking for the 10 users",
+        "Site engineers and planners only 10 people , build is enterprise grade"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "multi_tenant_rbac"
+      ],
+      "connectors": [],
+      "description": "A simple dashboard with separate access and views for site engineers and for planners, backed by the two-role access control and tenant-aware auth.",
+      "id": "role_separated_dashboard",
+      "required": true,
+      "requirements": [
+        "a simple role-separated dashboard",
+        "separate role-based access for those two roles",
+        "Site engineers and planners only 10 people"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth"
+      ],
+      "connectors": [],
+      "description": "Auth capability (reused from the block store)",
+      "id": "auth",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "bim"
+      ],
+      "connectors": [],
+      "description": "Bim capability (reused from the block store)",
+      "id": "bim",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "bim_extractor"
+      ],
+      "connectors": [],
+      "description": "Bim Extractor capability (reused from the block store)",
+      "id": "bim_extractor",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "formula_executor"
+      ],
+      "connectors": [],
+      "description": "Formula Executor capability (reused from the block store)",
+      "id": "formula_executor",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "google_drive"
+      ],
+      "connectors": [],
+      "description": "Google Drive capability (reused from the block store)",
+      "id": "google_drive",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "historical_benchmark"
+      ],
+      "connectors": [],
+      "description": "Historical Benchmark capability (reused from the block store)",
+      "id": "historical_benchmark",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "image"
+      ],
+      "connectors": [],
+      "description": "Image capability (reused from the block store)",
+      "id": "image",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "jetson_gateway"
+      ],
+      "connectors": [],
+      "description": "Jetson Gateway capability (reused from the block store)",
+      "id": "jetson_gateway",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "learning_engine"
+      ],
+      "connectors": [],
+      "description": "Learning Engine capability (reused from the block store)",
+      "id": "learning_engine",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "microsoft_365"
+      ],
+      "connectors": [],
+      "description": "Microsoft 365 capability (reused from the block store)",
+      "id": "microsoft_365",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "ocr"
+      ],
+      "connectors": [],
+      "description": "Ocr capability (reused from the block store)",
+      "id": "ocr",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Pdf capability (reused from the block store)",
+      "id": "pdf",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "primavera_parser"
+      ],
+      "connectors": [],
+      "description": "Primavera Parser capability (reused from the block store)",
+      "id": "primavera_parser",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "recommendation_template"
+      ],
+      "connectors": [],
+      "description": "Recommendation Template capability (reused from the block store)",
+      "id": "recommendation_template",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "smart_orchestrator"
+      ],
+      "connectors": [],
+      "description": "Smart Orchestrator capability (reused from the block store)",
+      "id": "smart_orchestrator",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "sympy_reasoning"
+      ],
+      "connectors": [],
+      "description": "Sympy Reasoning capability (reused from the block store)",
+      "id": "sympy_reasoning",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "team"
+      ],
+      "connectors": [],
+      "description": "Team capability (reused from the block store)",
+      "id": "team",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": null,
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AE",
+    "currency": "AED"
+  },
+  "n_required": 22,
+  "product_id": "construction",
+  "product_name": "Construction Assistant Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A ten-seat construction assistant for a UAE operation working in AED (Dhs), serving two roles only \u2014 site engineers and planners \u2014 with role-based access. It answers construction questions and gives method/sequencing advice from built-in construction knowledge with no document grounding, computes BOQ and quantity takeoff figures from numbers the user types in, tracks tasks and site issues, and presents a simple role-separated dashboard. It is enterprise-grade in intent but the build level (proto",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "construction"
+}
