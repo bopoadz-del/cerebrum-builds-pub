@@ -1,0 +1,127 @@
+{
+  "build_level": "light",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "knowledge"
+      ],
+      "connectors": [],
+      "description": "Answers the trial user's construction questions from generic built-in construction knowledge only. No document upload, manuals or rate sheets are accepted in this trial, and it says so plainly rather than pretending to cite documents it does not have.",
+      "id": "knowledge_advisor",
+      "required": true,
+      "requirements": [
+        "knowledge advisor should just use generic construction knowledge for this trial",
+        "Since document attachments require an upgrade, let's skip the upload for now",
+        "no uploaded documents/manuals/rate sheets for this trial"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Records item takeoff and quantities against a bill of quantities, building up BOQ lines for the single trial user. Pricing currency and any tax or VAT treatment are left undetermined pending the user's choice, so no currency or tax rule is assumed.",
+      "id": "boq_takeoff",
+      "required": true,
+      "requirements": [
+        "BOQ takeoff \u2014 item takeoff/quantities into a bill of quantities",
+        "Country and currency are NOT specified by the user \u2014 since the platform touches BOQ pricing/quantities, do not assume tax, VAT or currency rules; leave pricing currency undetermined pending the user's choice"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "A plain task list for the single trial user to track what is left to do; no assignees, roles or approvals.",
+      "id": "task_tracking",
+      "required": true,
+      "requirements": [
+        "task tracking \u2014 simple task list for the trial user",
+        "Single user (the requester testing alone), no multi-user roles or scaling needed"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "dashboard"
+      ],
+      "connectors": [],
+      "description": "One dashboard that summarises the current BOQ and the task list for the trial user, with no other reporting surface.",
+      "id": "summary_dashboard",
+      "required": true,
+      "requirements": [
+        "one dashboard summarising the BOQ and tasks",
+        "Focus ONLY on knowledge advice, BOQ takeoff, task tracking, and the dashboard"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Simple sign-in for the one trial user; no multi-user roles, permissions tiers or scaling work. Carries the Coder instruction that plan_executor.py MUST NOT import from app.schemas.cpm and must define and use a local schema.",
+      "id": "single_user_trial_access",
+      "required": true,
+      "requirements": [
+        "It is just for me to test for now (single user)",
+        "As simple as possoble a trial one",
+        "Light",
+        "plan_executor.py MUST NOT use from app.schemas.cpm; it must use a local schema"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "code"
+      ],
+      "connectors": [],
+      "description": "Code capability (reused from the block store)",
+      "id": "code",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "construction"
+      ],
+      "connectors": [],
+      "description": "Construction capability (reused from the block store)",
+      "id": "construction",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 8,
+  "product_id": "product",
+  "product_name": "Construction Estimating Trial",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A deliberately simple, single-user trial platform for construction estimating. It gives one tester four things only: a knowledge advisor that answers from generic built-in construction knowledge (no uploaded documents, manuals or rate sheets, since attachments are an upgrade), a BOQ takeoff that turns item quantities into a bill of quantities, a basic task list, and one dashboard summarising the BOQ and the tasks. There are no multi-user roles, no scaling concerns, and no outside systems; countr",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
