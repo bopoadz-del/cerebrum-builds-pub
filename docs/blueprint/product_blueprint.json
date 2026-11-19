@@ -1,0 +1,131 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Builds and certifies Interim Payment Certificates from BOQ items and measured quantities, applying the contract's retention and release rules and keeping each line traceable to its BOQ item.",
+      "id": "progress_claims",
+      "required": true,
+      "requirements": [
+        "progress claims",
+        "Use the uploaded contract and BOQ as the source of record",
+        "Clause 14.3 Retention: 5% of each Interim Payment Certificate, released 50% at Taking-Over and 50% at the end of the Defects Notification Period"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Tracks elapsed time against the Time for Completion, computes delay damages at the contract rate against the cap, and tracks the performance security amount and its validity.",
+      "id": "delay_damages_tracking",
+      "required": true,
+      "requirements": [
+        "delay-damages tracking",
+        "Clause 8.2 Time for Completion: 730 days from the Commencement Date",
+        "Clause 8.7 Delay Damages: 0.1% of the Accepted Contract Amount per day of delay, capped at 10% of the Accepted Contract Amount",
+        "Clause 4.2 Performance Security: 10% of the Accepted Contract Amount"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Holds Inspection and Test Plan records against contract and BOQ line items, with review, approval and evidence trails so each record can be shown as complete or open.",
+      "id": "qa_itp_records",
+      "required": true,
+      "requirements": [
+        "QA/ITP records"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains the project document register, ingesting the contract and BOQ as controlled source documents, versioning them and tying every register entry back to a document:filename.",
+      "id": "document_register",
+      "required": true,
+      "requirements": [
+        "a document register",
+        "Use the uploaded contract and BOQ as the source of record",
+        "cite each as document:<filename>, never invent"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Parses the uploaded contract into clause records (8.2, 8.7, 11.1, 14.3, 4.2) and the BOQ into priced line items, so every other capability reads the same controlled source.",
+      "id": "contract_source_of_record",
+      "required": true,
+      "requirements": [
+        "Use the uploaded contract and BOQ as the source of record",
+        "document:harbourline_contract.pdf",
+        "document:harbourline_boq.xlsx"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Runs the Defects Notification Period from Taking-Over and drives the release of the retained balance at the end of that period.",
+      "id": "defects_notification",
+      "required": true,
+      "requirements": [
+        "Clause 11.1 Defects Notification Period: 365 days from Taking-Over",
+        "Clause 14.3 Retention: 5% of each Interim Payment Certificate, released 50% at Taking-Over and 50% at the end of the Defects Notification Period"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Shows the contract administrator a single view of claim status, accrued delay damages against the cap, open ITP records and register completeness, all sourced from the controlled documents.",
+      "id": "commercial_dashboard",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "documentation"
+      ],
+      "connectors": [],
+      "description": "Documentation capability (reused from the block store)",
+      "id": "documentation",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 8,
+  "product_id": "product",
+  "product_name": "Harbourline Civil Works Contracts Administration",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A contracts-administration platform for the Harbourline Civil Works project, used by the project's contract administrator and commercial team. It takes the uploaded contract and BOQ as the source of record, and runs progress claims, delay-damages tracking, QA/ITP records and a document register on top of them. Every figure it produces is traceable back to a contract clause or a BOQ item.",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
