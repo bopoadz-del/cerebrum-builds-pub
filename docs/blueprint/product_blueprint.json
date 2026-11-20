@@ -1,0 +1,148 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains the register of every machine in the fleet with type, size class, identifiers, registration, insurance and service status. Covers 20 excavators/shovels (5 each at 3, 5, 8 and 10 tons), 10 road sweepers, 20 bobcats, 5 forklifts, 20 plate compactors, 5 roller compactors and 5 power generator",
+      "id": "fleet_asset_register",
+      "required": true,
+      "requirements": [
+        "20 excavator / shovel , 3 Tons 5 Ton and 8 tons 10 tons 5 each , 10 road sweepers , 20 bobcats , 5 forklifts , 20 plate compactors , 5 roller compactors , 5 power genarators"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Manages hire agreements from quote to on-hire and off-hire, tracking which machine is with which customer, on what terms, and when it returns. Supports overdue-hire reminders when a machine is not returned by the agreed date.",
+      "id": "hire_agreement_lifecycle",
+      "required": true,
+      "requirements": [
+        "hire agreements/on-hire and off-hire lifecycle",
+        "overdue-hire reminders"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Computes machine availability from the hire book and detects double-booking clashes before an agreement is confirmed.",
+      "id": "availability_and_clash_detection",
+      "required": true,
+      "requirements": [
+        "machine availability and double-booking clash detection"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [
+        "bank_payment_gateway_for_aud_receipts_placeholder_until_built"
+      ],
+      "description": "Issues invoices from the platform itself in AUD including 10% GST, with production-ready billing, payment tracking and chasing of unpaid/overdue invoices.",
+      "id": "invoicing_aud_gst",
+      "required": true,
+      "requirements": [
+        "invoicing issued by the platform itself in AUD including GST at 10% with chasing of unpaid/overdue invoices",
+        "invoicing production ready",
+        "Country AU, currency AUD"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Tracks service-due intervals, registration expiry and insurance expiry per machine and raises alerts to managers ahead of time.",
+      "id": "compliance_and_service_alerts",
+      "required": true,
+      "requirements": [
+        "service-due and registration/insurance expiry alerts"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Single-role manager workbench: authenticated manager logins only, with dashboards over the fleet book, invoices and alerts. No driver logins and no customer self-serve portal.",
+      "id": "manager_workbench",
+      "required": true,
+      "requirements": [
+        "the manager only no drivers",
+        "nothing to upload"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "construction"
+      ],
+      "connectors": [],
+      "description": "Construction capability (reused from the block store)",
+      "id": "construction",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "insurance"
+      ],
+      "connectors": [],
+      "description": "Insurance capability (reused from the block store)",
+      "id": "insurance",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "voice"
+      ],
+      "connectors": [],
+      "description": "Voice capability (reused from the block store)",
+      "id": "voice",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "bank_payment_gateway_for_aud_receipts_placeholder_until_built"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AU",
+    "currency": "AUD"
+  },
+  "n_required": 10,
+  "product_id": "product",
+  "product_name": "Fleet ops platform for construction machine hire operation in Sydney Australia",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A production-grade fleet operations platform for a Sydney construction machine hire business, serving a small number of manager users only. It maintains a fleet asset register of excavators/shovels, road sweepers, bobcats, forklifts, plate compactors, roller compactors and power generators; manages the on-hire/off-hire lifecycle through hire agreements; tracks machine availability and flags double-booking clashes; issues AUD invoices with 10% GST and chases unpaid/overdue invoices; and raises al",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
