@@ -1,0 +1,24 @@
+{
+  "blocks": [
+    "audit",
+    "construction",
+    "insurance",
+    "voice"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "construction",
+    "insurance",
+    "voice"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "construction": "vendor/blocks/construction",
+    "insurance": "vendor/blocks/insurance",
+    "voice": "vendor/blocks/voice"
+  },
+  "version": "1.0.0"
+}
