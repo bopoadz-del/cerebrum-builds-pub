@@ -1,0 +1,27 @@
+{
+  "blocks": [
+    "audit",
+    "auth",
+    "code",
+    "ocr",
+    "storage"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "auth",
+    "code",
+    "ocr",
+    "storage"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "auth": "vendor/blocks/auth",
+    "code": "vendor/blocks/code",
+    "ocr": "vendor/blocks/ocr",
+    "storage": "vendor/blocks/storage"
+  },
+  "version": "1.0.0"
+}
