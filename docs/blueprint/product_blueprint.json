@@ -1,0 +1,163 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Loads every piece of program content -- track names, term and week structure, themes, readings with authors and optional chapters, cases with decision questions and public sources, deliverables with briefs and page counts, and rubric criterion wording -- from YAML domain packs read at run time, with",
+      "id": "program_content_packs",
+      "required": true,
+      "requirements": [
+        "All program content (track names, themes, readings, cases, questions, deliverables, rubric criterion wording) must live in YAML domain packs read at run time, never hardwired in code; no stubs, canned returns or placeholder features",
+        "tracks made of terms, terms of weeks, each week with a theme, readings (title, author, optional chapters), a case with a decision question and public sources, and a deliverable with a brief and page count",
+        "any structured program built as a data-driven track"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "From the learner's enrolment start date, generates the week-by-week session calendar using the fixed session template (framework 90 min, case prep 60, case class 120, lab 90, lab 90, exam 60), lays in deliverable due dates and end-of-term defenses, and shows which week the learner is currently in.",
+      "id": "session_calendar",
+      "required": true,
+      "requirements": [
+        "From an enrolment start date it generates the week-by-week session calendar using the fixed session template (framework 90 min, case prep 60, case class 120, lab 90, lab 90, exam 60) with deliverable due dates and end-of-term defenses, and shows which week the learner is currently in"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Scores each deliverable and defense against the 5-criteria x 20-point rubric inherited from the program pack, maps totals to A/B/C/rewrite bands, and enforces the band wording supplied by the pack rather than any built-in phrasing.",
+      "id": "rubric_grading",
+      "required": true,
+      "requirements": [
+        "Grading uses a 5-criteria x 20-point rubric with A/B/C/rewrite bands"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Maintains a weighted gradebook across memos, defenses and capstone, refusing any weight set that does not sum to 100, and runs the graduation check: average at or above the B band, all defenses passed, and the capstone accepted.",
+      "id": "gradebook_graduation",
+      "required": true,
+      "requirements": [
+        "a weighted gradebook (memos/defenses/capstone weights that must sum to 100)",
+        "a graduation check requiring an average at or above the B band, all defenses passed and the capstone accepted"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Assembles six-to-seven faculty session modes (lecture, brief, socratic, sparring, oral quiz, examiner, jury) into a self-contained prompt for each session, plus defense and jury prompts, with sparring mode always refusing to draft the learner's work for them.",
+      "id": "session_prompt_assembly",
+      "required": true,
+      "requirements": [
+        "It assembles six-to-seven faculty session modes (lecture, brief, socratic, sparring, oral quiz, examiner, jury) into a self-contained session prompt for each session, plus defense and jury prompts, with the sparring mode always refusing to draft the learner's work for them"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Exports the learner's full state as Markdown and JSON backup and restores it from pasted or uploaded backup text, validating the payload before replacing anything.",
+      "id": "backup_restore",
+      "required": true,
+      "requirements": [
+        "It exports Markdown and JSON backup and supports restore from pasted or uploaded backup text"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "A single-file browser tool the learner opens as a local file on a phone browser to draft and self-assess memos: sticky program bar and tab strip, localStorage persistence guarded in try/catch, copy-to-clipboard with fallback, optional dictation hidden when unsupported, light and dark themes, phone-w",
+      "id": "phone_memo_workbench",
+      "required": true,
+      "requirements": [
+        "It includes a single-file browser tool the learner opens as a local file on a phone browser to work on and self-assess memos, with sticky program bar and tab strip, localStorage persistence guarded in try/catch, copy-to-clipboard with fallback, optional dictation hidden when unsupported, light and dark themes, phone-width safe-area layout, and two-tap confirmation on destructive actions",
+        "Works on both phone and laptop browsers"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth"
+      ],
+      "connectors": [],
+      "description": "Auth capability (reused from the block store)",
+      "id": "auth",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "code"
+      ],
+      "connectors": [],
+      "description": "Code capability (reused from the block store)",
+      "id": "code",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "ocr"
+      ],
+      "connectors": [],
+      "description": "Ocr capability (reused from the block store)",
+      "id": "ocr",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "storage"
+      ],
+      "connectors": [],
+      "description": "Storage capability (reused from the block store)",
+      "id": "storage",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 12,
+  "product_id": "product",
+  "product_name": "Educational Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A single-learner, personal executive-education platform for self-directed structured programs. Any program is expressed as YAML domain packs read at run time: a track of terms, each term of weeks, each week carrying a theme, readings, a decision case with public sources, and a deliverable. From an enrolment start date the platform generates a week-by-week session calendar on the fixed template (framework 90, case prep 60, case class 120, lab 90, lab 90, exam 60) with deliverable due dates and en",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
