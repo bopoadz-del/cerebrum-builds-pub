@@ -1,0 +1,169 @@
+{
+  "blocks": {
+    "audit": {
+      "commit": "3707330c54c460ba7d1c6a5d99e341a1708f9051",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/audit",
+      "source": "cerebrum-blocks"
+    },
+    "code": {
+      "commit": "3707330c54c460ba7d1c6a5d99e341a1708f9051",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/code",
+      "source": "cerebrum-blocks"
+    },
+    "program_engine": {
+      "commit": "3707330c54c460ba7d1c6a5d99e341a1708f9051",
+      "image_pin": "none",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 1,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/program_engine",
+      "source": "cerebrum-blocks"
+    },
+    "storage": {
+      "commit": "3707330c54c460ba7d1c6a5d99e341a1708f9051",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/storage",
+      "source": "cerebrum-blocks"
+    },
+    "version": {
+      "commit": "3707330c54c460ba7d1c6a5d99e341a1708f9051",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/version",
+      "source": "cerebrum-blocks"
+    },
+    "web": {
+      "commit": "3707330c54c460ba7d1c6a5d99e341a1708f9051",
+      "image_pin": "refused_unverified",
+      "integrity": {
+        "absent": [],
+        "bad_signature": [],
+        "files_hashed": 2,
+        "findings": [],
+        "has_digests": true,
+        "mismatched": [],
+        "signature_reason": "verified against cerebrum_platform",
+        "signature_verified": true,
+        "signed_unverified": false,
+        "verified": true
+      },
+      "path": "vendor/blocks/web",
+      "source": "cerebrum-blocks"
+    }
+  },
+  "kits": {
+    "platform": {
+      "blocks": [
+        "audit",
+        "code",
+        "program_engine",
+        "storage",
+        "version",
+        "web"
+      ],
+      "files_copied": 0,
+      "path": "kits/platform",
+      "source": "synthesized-from-factory-shelf"
+    }
+  },
+  "runtime": {
+    "commit": "3707330c54c460ba7d1c6a5d99e341a1708f9051",
+    "files": [
+      "vendor/cerebrum/__init__.py",
+      "vendor/cerebrum/blocks/__init__.py",
+      "vendor/cerebrum/blocks/audit.py",
+      "vendor/cerebrum/blocks/audit_chain.py",
+      "vendor/cerebrum/blocks/code.py",
+      "vendor/cerebrum/blocks/program_engine/__init__.py",
+      "vendor/cerebrum/blocks/program_engine/block.py",
+      "vendor/cerebrum/blocks/program_engine/calendar.py",
+      "vendor/cerebrum/blocks/program_engine/export.py",
+      "vendor/cerebrum/blocks/program_engine/modes.py",
+      "vendor/cerebrum/blocks/program_engine/prompts.py",
+      "vendor/cerebrum/blocks/program_engine/rubric.py",
+      "vendor/cerebrum/blocks/program_engine/schema.py",
+      "vendor/cerebrum/blocks/storage.py",
+      "vendor/cerebrum/blocks/version.py",
+      "vendor/cerebrum/blocks/web.py",
+      "vendor/cerebrum/core/__init__.py",
+      "vendor/cerebrum/core/activation.py",
+      "vendor/cerebrum/core/http_errors.py",
+      "vendor/cerebrum/core/input_adapter.py",
+      "vendor/cerebrum/core/metric_utils.py",
+      "vendor/cerebrum/core/schema_registry.py",
+      "vendor/cerebrum/core/typed_block.py",
+      "vendor/cerebrum/core/universal_base.py",
+      "vendor/cerebrum/core/url_guard.py"
+    ],
+    "for_blocks": [
+      "audit",
+      "code",
+      "program_engine",
+      "storage",
+      "version",
+      "web"
+    ],
+    "lazy_foreign_imports": [],
+    "path": "vendor/cerebrum",
+    "source": "cerebrum-blocks"
+  },
+  "schema": "blocks.lock.v1"
+}

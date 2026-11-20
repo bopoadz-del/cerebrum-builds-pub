@@ -1,0 +1,30 @@
+{
+  "blocks": [
+    "audit",
+    "code",
+    "program_engine",
+    "storage",
+    "version",
+    "web"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "code",
+    "program_engine",
+    "storage",
+    "version",
+    "web"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "code": "vendor/blocks/code",
+    "program_engine": "vendor/blocks/program_engine",
+    "storage": "vendor/blocks/storage",
+    "version": "vendor/blocks/version",
+    "web": "vendor/blocks/web"
+  },
+  "version": "1.0.0"
+}
