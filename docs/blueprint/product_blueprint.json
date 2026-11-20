@@ -1,0 +1,171 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "program_engine"
+      ],
+      "connectors": [],
+      "description": "Defines and validates the track schema that domain packs are authored against: terms, weeks, readings, cases, deliverables, session modes, weights, rubric and grade bands. All program content lives in YAML and is read at run time with no hardwiring in code, no stubs and no canned returns.",
+      "id": "yaml_program_schema",
+      "required": true,
+      "requirements": [
+        "track schema with terms/weeks/readings/cases/deliverables",
+        "All program content (track names, themes, readings, cases, questions, deliverables) must live in YAML domain packs read at run time \u2014 no hardwiring in code, no stubs or canned returns, serves any program (COO, CEO, future tracks)",
+        "Ships with coo.v1 and ceo.v1 domain packs (16 weeks, 9 hours/week, weights 60/20/20, bands A 90 B 80 C 70)",
+        "pytest suites red-first-then-green for schema"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "program_engine"
+      ],
+      "connectors": [],
+      "description": "The generic execution engine that runs any structured executive program: 6-session week calendar from an enrolment start date, 5x20 rubric with letter bands, weighted gradebook, seven faculty session modes assembled into self-contained session, defense and jury prompts, plus Markdown export and JSON",
+      "id": "program_kernel",
+      "required": true,
+      "requirements": [
+        "a generic engine that runs any structured executive program from YAML content",
+        "6-session week calendar computed from an enrolment start date",
+        "5x20 rubric with letter bands",
+        "weighted gradebook",
+        "seven faculty session modes assembled into self-contained session/defense/jury prompts",
+        "Markdown export, JSON backup/restore",
+        "pytest suites red-first-then-green for calendar, rubric, prompts"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "version"
+      ],
+      "connectors": [],
+      "description": "A generator plus lint contract that produces one self-contained .html file requiring no build step and no server, opening from a phone browser with token-based theming, sticky program bar and tab strip, try/catch localStorage persistence, clipboard copy with execCommand fallback, Web Speech dictatio",
+      "id": "single_file_tool_skill",
+      "required": true,
+      "requirements": [
+        "a generator plus lint contract for producing one self-contained .html file (no build step, no server) that opens from a phone browser",
+        "token-based light/dark theming",
+        "sticky program bar and tab strip",
+        "localStorage persistence in try/catch",
+        "clipboard copy with execCommand fallback",
+        "Web Speech dictation with graceful hide",
+        "Markdown/JSON export, backup/restore",
+        "two-tap destructive actions",
+        "no external hosts except Google Fonts"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "program_engine"
+      ],
+      "connectors": [],
+      "description": "Enforces the content/code separation: the generator refuses with ToolSpecError when a view string embeds content from the data block, the lint function returns one finding per contract line, and a grep test proves no program content is hardwired.",
+      "id": "no_hardwiring_guard",
+      "required": true,
+      "requirements": [
+        "The generator must refuse (ToolSpecError) when a view string embeds content from the data block (no-hardwiring check)",
+        "a lint function returns one finding per contract line",
+        "a no-hardwiring grep test",
+        "pytest suites red-first-then-green for generator/lint"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "program_engine"
+      ],
+      "connectors": [],
+      "description": "Regenerates a file functionally equal to the owner's exec-programs.html and proves the lint contract holds, returning zero findings on both the regenerated file and the original.",
+      "id": "reference_build_conformance",
+      "required": true,
+      "requirements": [
+        "Reference build: regenerate a file functionally equal to the owner's exec-programs.html, with lint returning zero findings on both the regenerated file and the original"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "program_engine",
+        "version"
+      ],
+      "connectors": [],
+      "description": "Packages and registers the deliverable as Store block program_engine version 1.0.0 at platform trust tier, dual-registered on the factory shelf, alongside the kernel package, domain pack directory, skill doc and generator, with full pytest coverage.",
+      "id": "store_block_delivery",
+      "required": true,
+      "requirements": [
+        "Delivered as a Store block program_engine (version 1.0.0, trust_tier platform, dual-registered on the factory shelf), the kernel package, a domain pack directory, the skill doc and generator",
+        "Build level: not chosen by the user \u2014 please ask or confirm on the Floor before coding starts"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "code"
+      ],
+      "connectors": [],
+      "description": "Code capability (reused from the block store)",
+      "id": "code",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "storage"
+      ],
+      "connectors": [],
+      "description": "Storage capability (reused from the block store)",
+      "id": "storage",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "web"
+      ],
+      "connectors": [],
+      "description": "Web capability (reused from the block store)",
+      "id": "web",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 10,
+  "product_id": "product",
+  "product_name": "program_engine",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A generic, content-driven engine for running structured executive development programs from YAML domain packs, paired with a single-file HTML tool skill for generating self-contained, phone-usable program apps. It serves program owners, faculty, and participants across any track (COO, CEO, future programs) without hardwiring content in code, delivering session prompts, defense and jury materials, weighted gradebooks, and portable Markdown/JSON exports. It ships as Store block program_engine (1.0",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
