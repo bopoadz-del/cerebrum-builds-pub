@@ -1,0 +1,147 @@
+{
+  "build_level": "prototype",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "config",
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Administrator-entered contract configuration: delay-damages rate and cap, retention percentage and retention release terms, contractual completion date, currency AED. The platform holds no defaults or assumptions for these figures and works only from what the administrator enters.",
+      "id": "contract_settings",
+      "required": true,
+      "requirements": [
+        "all contract figures \u2014 delay-damages rate and cap, retention percentage, retention release terms \u2014 must be configurable settings the administrator enters, never assumed by the platform",
+        "Jurisdiction UAE, currency AED"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Raising, reviewing and issuing payment certificates for the single civil-works contract, with certificate numbers generated and kept inside the platform.",
+      "id": "payment_certificates",
+      "required": true,
+      "requirements": [
+        "No external accounting integration is wanted \u2014 certificate numbers stay inside the platform",
+        "Scope centres on payment certificates"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Automatically calculates retention off each payment certificate using the configured retention percentage and applies the configured retention release terms.",
+      "id": "retention_automation",
+      "required": true,
+      "requirements": [
+        "retention auto-calculated off each payment certificate",
+        "retention percentage, retention release terms \u2014 must be configurable settings the administrator enters"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Detects when the contractual completion date is missed and automatically deducts delay damages at the configured rate, bounded by the configured cap.",
+      "id": "delay_damages_automation",
+      "required": true,
+      "requirements": [
+        "delay damages automatically deducted once the contractual completion date is missed (bounded by the configured cap)",
+        "delay-damages rate and cap ... must be configurable settings the administrator enters"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Routes an issued payment certificate for sign-off to the client reviewer, with approval rules governing the review and approval path.",
+      "id": "certificate_signoff_routing",
+      "required": true,
+      "requirements": [
+        "certificate sign-off routed to the client reviewer when a certificate is issued"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Role-based permissions for the five roles \u2014 contracts manager, quantity surveyor, site engineer, finance, client reviewer \u2014 restricting who may raise, review and approve certificates.",
+      "id": "role_based_access",
+      "required": true,
+      "requirements": [
+        "operated by a small team of 5 with role-based permissions: contracts manager, quantity surveyor, site engineer, finance, and client reviewer",
+        "Role-based access restricts who can raise, review and approve certificates"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Records who configured contract figures, raised, reviewed, issued and approved each certificate, and every automated retention and delay-damages deduction.",
+      "id": "audit_trail",
+      "required": true,
+      "requirements": [
+        "Role-based access restricts who can raise, review and approve certificates"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "review"
+      ],
+      "connectors": [],
+      "description": "Review capability (reused from the block store)",
+      "id": "review",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "team"
+      ],
+      "connectors": [],
+      "description": "Team capability (reused from the block store)",
+      "id": "team",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AE",
+    "currency": "AED"
+  },
+  "n_required": 9,
+  "product_id": "product",
+  "product_name": "Contracts Administration Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A single-contract contracts-administration platform for a UAE civil-works contract, operated by a five-person team with role-based permissions (contracts manager, quantity surveyor, site engineer, finance, client reviewer) in AED. It centres on payment certificates, retention and delay damages: every contract figure \u2014 delay-damages rate and cap, retention percentage, retention release terms \u2014 is entered by the administrator as configuration, never assumed. Retention is auto-calculated off each p",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
