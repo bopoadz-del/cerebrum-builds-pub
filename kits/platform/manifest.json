@@ -1,0 +1,27 @@
+{
+  "blocks": [
+    "audit",
+    "billing",
+    "construction",
+    "insurance",
+    "notification"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "billing",
+    "construction",
+    "insurance",
+    "notification"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "billing": "vendor/blocks/billing",
+    "construction": "vendor/blocks/construction",
+    "insurance": "vendor/blocks/insurance",
+    "notification": "vendor/blocks/notification"
+  },
+  "version": "1.0.0"
+}
