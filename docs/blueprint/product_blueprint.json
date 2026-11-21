@@ -1,0 +1,147 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Single-operator registry of every machine in the fleet, grouped by class (excavators 3t/5t/8t/10t, road sweepers, bobcats, forklifts, plate compactors, roller compactors, power generators) and serving as the anchor for maintenance, insurance and QA/QC records.",
+      "id": "machine_registry",
+      "required": true,
+      "requirements": [
+        "fleet: 20 excavators (5 each of 3t, 5t, 8t, 10t), 10 road sweepers, 20 bobcats, 5 forklifts, 20 plate compactors, 5 roller compactors, 5 power generators",
+        "per-machine records",
+        "used by ONE person only \u2014 the owner/manager \u2014 with a single login (no driver or staff accounts)"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Per-machine maintenance schedules with service intervals and due dates, upcoming-due views and completion logging, so the manager can keep every excavator, sweeper, bobcat, forklift, plate compactor, roller compactor and generator on its service cycle.",
+      "id": "maintenance_schedules",
+      "required": true,
+      "requirements": [
+        "maintenance schedules with due dates/service intervals",
+        "Full production level to cover safety qaqc checks maintenance and insurance"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Per-machine insurance policy records with premiums in AUD, policy expiry tracking and renewal reminders pushed to the single manager login; no billing or money movement.",
+      "id": "insurance_policies",
+      "required": true,
+      "requirements": [
+        "insurance policies with expiry and renewal reminders",
+        "Country Australia (currency AUD if any money figures appear, e.g. insurance premiums, but no billing)",
+        "No invoicing, no money handling and no accounting package integration \u2014 explicitly out of scope"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Per-machine QA/QC and safety checklists that the manager can run before hire or on schedule, capturing pass/fail results per machine with an auditable record of each check.",
+      "id": "qaqc_safety_checks",
+      "required": true,
+      "requirements": [
+        "QA/QC + safety checklists with pass/fail records per machine",
+        "safety qaqc checks"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "A single-manager dashboard that rolls up machines due for service, policies nearing expiry, failed QA/QC or safety checks, and overall fleet status so the owner can run the operation from one screen.",
+      "id": "manager_dashboard",
+      "required": true,
+      "requirements": [
+        "just to manage two feature of t construction machine hire operation in sydney australia",
+        "only me"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "billing"
+      ],
+      "connectors": [],
+      "description": "Billing capability (reused from the block store)",
+      "id": "billing",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "construction"
+      ],
+      "connectors": [],
+      "description": "Construction capability (reused from the block store)",
+      "id": "construction",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "insurance"
+      ],
+      "connectors": [],
+      "description": "Insurance capability (reused from the block store)",
+      "id": "insurance",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Notification capability (reused from the block store)",
+      "id": "notification",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AU",
+    "currency": "AUD"
+  },
+  "n_required": 10,
+  "product_id": "product",
+  "product_name": "fleet ops platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A single-operator fleet operations platform for a construction machine hire business in Sydney, Australia. It serves the owner/manager only, with one login and no driver or staff accounts. The platform covers exactly two production-grade operational areas: (1) maintenance schedules with due dates and service intervals per machine, and (2) insurance policies with expiry and renewal reminders, plus QA/QC and safety checklists with pass/fail records per machine. It maintains per-machine records for",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
