@@ -1,0 +1,30 @@
+{
+  "blocks": [
+    "audit",
+    "code",
+    "config",
+    "review",
+    "team",
+    "workflow"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "code",
+    "config",
+    "review",
+    "team",
+    "workflow"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "code": "vendor/blocks/code",
+    "config": "vendor/blocks/config",
+    "review": "vendor/blocks/review",
+    "team": "vendor/blocks/team",
+    "workflow": "vendor/blocks/workflow"
+  },
+  "version": "1.0.0"
+}
