@@ -1,0 +1,163 @@
+{
+  "build_level": "prototype",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "workflow"
+      ],
+      "connectors": [],
+      "description": "Progress payment certification: quantity surveyor builds a certificate line by line, contracts manager and finance review, and the certificate is issued and routed to the client reviewer for sign-off. Certificate state is tracked from draft through issued to signed, with role-based authority at each",
+      "id": "payment_certificate_workflow",
+      "required": true,
+      "requirements": [
+        "payment certificates (progress payment certification workflow)",
+        "certificate sign-off routed to the client reviewer when a certificate is issued",
+        "operated in the UAE in AED",
+        "small team of 5 people across 5 roles with role-based permissions \u2014 contracts manager, quantity surveyor, site engineer, finance, and client reviewer"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Holds a retention percentage against each payment certificate, accumulating and tracking a configurable cap, and applying configured release terms. Percentage, cap and release conditions are read from settings on every certificate \u2014 never assumed.",
+      "id": "retention_management",
+      "required": true,
+      "requirements": [
+        "retention (percentage and release terms held, auto-calculated off each certificate)",
+        "retention automatically calculated off each payment certificate",
+        "retention percentage and release terms must be exposed as configurable settings that the team can enter and change",
+        "the platform must not assume or hard-code any of them"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Applies a configured delay-damages rate and cap against the contractual completion date once it is missed, deducting the assessed amount from certificates. Rate, cap and completion date all come from configurable settings.",
+      "id": "delay_damages",
+      "required": true,
+      "requirements": [
+        "delay damages (rate and cap applied against the contractual completion date)",
+        "delay damages automatically deducted once the completion date is missed",
+        "delay-damages rate and cap ... must be exposed as configurable settings that the team can enter and change"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "config"
+      ],
+      "connectors": [],
+      "description": "The team's data-entry surface for every contract figure not yet on file: conditions of contract, bill of quantities, delay-damages rate and cap, retention percentage and release terms, completion date, and the jurisdiction values for UAE/AED including interest on late certification. Every downstream",
+      "id": "contract_settings",
+      "required": true,
+      "requirements": [
+        "No contract documents are available to upload yet (conditions of contract, bill of quantities, delay-damages rate and cap, retention percentage and release terms)",
+        "these figures must be exposed as configurable settings that the team can enter and change",
+        "Country UAE and currency AED apply to money, retention caps, delay damages and interest on late certification, so jurisdiction-driven values come from the configurable settings, not from guesses"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Five roles with scoped permissions over certificates, settings and approvals, so the quantity surveyor can draft, finance can review, the contracts manager can issue, and the client reviewer can sign \u2014 with a full audit trail of who changed what contract parameter and when.",
+      "id": "role_based_access",
+      "required": true,
+      "requirements": [
+        "5 people across 5 roles with role-based permissions \u2014 contracts manager, quantity surveyor, site engineer, finance, and client reviewer"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "A single view of each certificate's gross value, retention held, delay damages deducted and net payable in AED, plus retention cap headroom and the days-past-completion clock driving damages.",
+      "id": "certificate_summary_dashboard",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Calculates interest on late certification using the UAE/AED values entered in settings, applied when a certificate is issued later than its configured certification period. No rate is assumed by the platform.",
+      "id": "late_certification_interest",
+      "required": true,
+      "requirements": [
+        "interest on late certification ... come from the configurable settings, not from guesses"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "code"
+      ],
+      "connectors": [],
+      "description": "Code capability (reused from the block store)",
+      "id": "code",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "review"
+      ],
+      "connectors": [],
+      "description": "Review capability (reused from the block store)",
+      "id": "review",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "team"
+      ],
+      "connectors": [],
+      "description": "Team capability (reused from the block store)",
+      "id": "team",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AE",
+    "currency": "AED"
+  },
+  "n_required": 11,
+  "product_id": "product",
+  "product_name": "Contracts Administration Platform for a Single Civil-Works Contract",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A prototype contracts-administration platform for a single civil-works contract in the UAE, operated in AED by a five-person team across five roles (contracts manager, quantity surveyor, site engineer, finance, client reviewer). It covers progress payment certification, retention held and released against each certificate, and delay damages assessed against the contractual completion date \u2014 all governed by contract parameters the team enters and can change in settings, since no contract document",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
