@@ -1,0 +1,141 @@
+{
+  "build_level": "prototype",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Core product workflows and data model",
+      "id": "product_core",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "code"
+      ],
+      "connectors": [],
+      "description": "Code capability (reused from the block store)",
+      "id": "code",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "config"
+      ],
+      "connectors": [],
+      "description": "Config capability (reused from the block store)",
+      "id": "config",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard"
+      ],
+      "connectors": [],
+      "description": "Dashboard capability (reused from the block store)",
+      "id": "dashboard",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "microsoft_365"
+      ],
+      "connectors": [],
+      "description": "Microsoft 365 capability (reused from the block store)",
+      "id": "microsoft_365",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "pdf"
+      ],
+      "connectors": [],
+      "description": "Pdf capability (reused from the block store)",
+      "id": "pdf",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "review"
+      ],
+      "connectors": [],
+      "description": "Review capability (reused from the block store)",
+      "id": "review",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "onedrive"
+      ],
+      "connectors": [],
+      "description": "Onedrive capability (reused from the block store)",
+      "id": "onedrive",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [],
+      "description": "Notification capability (reused from the block store)",
+      "id": "notification",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "procore",
+    "pdf"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "keyword_fallback",
+  "drafting_note": "LLM drafting failed (LlmSoftMiss); deterministic fallback used; inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AE",
+    "currency": "AED"
+  },
+  "n_required": 10,
+  "product_id": "product",
+  "product_name": "Product Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A simple, prototype-level payment certificate and contract administration platform for a UAE contractor/consultant operation, working in AED. Country: United Arab Emirates (AE); currency: AED; build level: prototype.\n\nPrimary user: the QS (quantity surveyor) who runs contract administration end to end, plus a small team with role-based access (e.g. QS, contracts/commercial lead, finance reviewer, approver). Prototype scope \u2014 keep it deliberately simple, one clean path rather than configurability",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
