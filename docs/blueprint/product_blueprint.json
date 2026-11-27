@@ -1,0 +1,187 @@
+{
+  "build_level": "production",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Asset master for every machine with type, tonnage/size class, asset ID, serial/registration, year, purchase date and current status, driving a status lifecycle of available, on hire, booked, under maintenance, off hire and retired. Operated through a single authenticated manager account with no mult",
+      "id": "fleet_register",
+      "required": true,
+      "requirements": [
+        "85 machines, all recorded as individual assets with type, tonnage/size class, asset ID, serial/registration, year, purchase date, current status",
+        "Excavators / shovels: 20 total \u2014 3 ton (5), 5 ton (5), 8 ton (5), 10 ton (5)",
+        "Road sweepers: 10",
+        "Bobcats (skid-steer loaders): 20",
+        "Forklifts: 5",
+        "Plate compactors: 20",
+        "Roller compactors: 5",
+        "Power generators: 5",
+        "status lifecycle: available, on hire, booked, under maintenance, off hire, retired",
+        "SINGLE USER: one person, the manager (owner-operator) \u2014 a single authenticated account, no multi-role or multi-user administrative complexity, no customer-facing logins"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard"
+      ],
+      "connectors": [],
+      "description": "Hire agreements and bookings per machine capturing customer, site/delivery address, hire start and end dates, delivery and pickup, day/week rate, extensions, early return and off-hire, with conflict checking that prevents a machine being double-booked and a calendar/schedule view of availability acr",
+      "id": "hire_management",
+      "required": true,
+      "requirements": [
+        "hire agreements and bookings per machine (customer, site/delivery address, hire start and end dates, delivery and pickup, day/week rate, extensions, early return, off-hire)",
+        "conflict checking so a machine cannot be double-booked",
+        "with a calendar / schedule view of availability across the fleet"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Raises invoices and hire charges in Australian dollars with Australian GST at 10% calculated, shown as a separate line and included in the total, plus hire dockets and credit notes, with outstanding/paid tracking. All tax, invoice and date handling follows Australian rules for country AU.",
+      "id": "invoicing_gst",
+      "required": true,
+      "requirements": [
+        "Invoicing and hire charges in Australian dollars (AUD) with Australian GST at 10% calculated, shown as a separate line and included in the total",
+        "invoices, hire dockets and credit notes; outstanding/paid tracking",
+        "LOCATION AND MONEY: Australia (Sydney, NSW) \u2014 country AU, currency AUD, GST 10% applied to hire charges. All tax, invoice and date handling follows Australian rules."
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "notification",
+        "dashboard"
+      ],
+      "connectors": [],
+      "description": "Service schedules and intervals per machine and per machine type, service history, fault and downtime logging, cost per machine, and reminders for upcoming services and for registration/insurance expiry.",
+      "id": "maintenance_servicing",
+      "required": true,
+      "requirements": [
+        "Maintenance and servicing: service schedules and intervals per machine and type, service history, fault/downtime logging, cost per machine",
+        "reminders for upcoming services and registration/insurance expiry"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Customer records with full hire history per customer, and generation of hire quotes that can be turned into bookings and agreements.",
+      "id": "customer_quotes",
+      "required": true,
+      "requirements": [
+        "Customer records and hire history; quote generation."
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "dashboard"
+      ],
+      "connectors": [],
+      "description": "Reporting dashboard showing fleet utilisation by machine and by machine type, revenue per machine, upcoming and overdue services, and machines currently out on hire.",
+      "id": "reporting_dashboard",
+      "required": true,
+      "requirements": [
+        "Reporting dashboard: fleet utilisation by machine and by type, revenue per machine, upcoming/overdue services, machines currently out on hire"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "google_drive",
+        "storage",
+        "email",
+        "notification"
+      ],
+      "connectors": [
+        "gmail"
+      ],
+      "description": "Document storage for hire agreements, service records and compliance certificates, filed to Google Drive. Outbound email of hire agreements, invoices and reminders ships as a clearly marked placeholder: no Gmail connector exists yet, so the generic email notification path carries it until a Gmail co",
+      "id": "documents_and_email",
+      "required": true,
+      "requirements": [
+        "Document storage for hire agreements, service records and compliance certificates",
+        "Google Drive for document storage; Gmail for sending hire agreements, invoices and reminders",
+        "Google Drive is attachable from the store. There is no ready-made Gmail connector in the store, so email ships as a clearly marked placeholder until a Gmail connector is built (the generic email notification connector can be attached in the meantime).",
+        "No other integrations are wanted."
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "auth"
+      ],
+      "connectors": [],
+      "description": "Auth capability (reused from the block store)",
+      "id": "auth",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "construction"
+      ],
+      "connectors": [],
+      "description": "Construction capability (reused from the block store)",
+      "id": "construction",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "insurance"
+      ],
+      "connectors": [],
+      "description": "Insurance capability (reused from the block store)",
+      "id": "insurance",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "voice"
+      ],
+      "connectors": [],
+      "description": "Voice capability (reused from the block store)",
+      "id": "voice",
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "gmail",
+    "gmail_gmail_api_no_ready_made_gmail_connector_in_the_store_ships_as_a_marked_placeholder_until_it_is_built"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": {
+    "country": "AU",
+    "currency": "AUD"
+  },
+  "n_required": 11,
+  "product_id": "construction",
+  "product_name": "Construction Machine Hire Fleet Operations Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A single-user fleet operations platform for a Sydney construction machine hire business, used by one owner-operator manager through one authenticated account. It holds all 85 machines as individual assets with a full status lifecycle, runs hire agreements and bookings with double-booking conflict checks and a fleet-wide availability calendar, keeps customer records, hire history and quotes, and raises AUD invoices, hire dockets and credit notes with Australian GST at 10% shown as a separate line",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "construction"
+}
