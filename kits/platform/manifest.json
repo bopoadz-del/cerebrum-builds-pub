@@ -1,0 +1,42 @@
+{
+  "blocks": [
+    "audit",
+    "auth",
+    "construction",
+    "dashboard",
+    "email",
+    "google_drive",
+    "insurance",
+    "notification",
+    "storage",
+    "voice"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "auth",
+    "construction",
+    "dashboard",
+    "email",
+    "google_drive",
+    "insurance",
+    "notification",
+    "storage",
+    "voice"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "auth": "vendor/blocks/auth",
+    "construction": "vendor/blocks/construction",
+    "dashboard": "vendor/blocks/dashboard",
+    "email": "vendor/blocks/email",
+    "google_drive": "vendor/blocks/google_drive",
+    "insurance": "vendor/blocks/insurance",
+    "notification": "vendor/blocks/notification",
+    "storage": "vendor/blocks/storage",
+    "voice": "vendor/blocks/voice"
+  },
+  "version": "1.0.0"
+}
