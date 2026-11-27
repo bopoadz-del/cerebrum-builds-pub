@@ -1,0 +1,39 @@
+{
+  "blocks": [
+    "audit",
+    "code",
+    "config",
+    "dashboard",
+    "microsoft_365",
+    "notification",
+    "onedrive",
+    "pdf",
+    "review"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "code",
+    "config",
+    "dashboard",
+    "microsoft_365",
+    "notification",
+    "onedrive",
+    "pdf",
+    "review"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "code": "vendor/blocks/code",
+    "config": "vendor/blocks/config",
+    "dashboard": "vendor/blocks/dashboard",
+    "microsoft_365": "vendor/blocks/microsoft_365",
+    "notification": "vendor/blocks/notification",
+    "onedrive": "vendor/blocks/onedrive",
+    "pdf": "vendor/blocks/pdf",
+    "review": "vendor/blocks/review"
+  },
+  "version": "1.0.0"
+}
