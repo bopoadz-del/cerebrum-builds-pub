@@ -1,0 +1,64 @@
+{"ts": "2026-11-28T08:54:37Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/customer_booking_flow 422", "request_id": "a3b2c9f1-cc08-4a13-b3cf-6dacd331b02f"}
+{"ts": "2026-11-28T08:54:37Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/customer_booking_flow \"HTTP/1.1 422 Unprocessable Entity\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:37Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/contractor_onboarding_and_service_areas 200", "request_id": "6a07dcad-953f-45f9-a183-392809483884"}
+{"ts": "2026-11-28T08:54:37Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/contractor_onboarding_and_service_areas \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/contractor_onboarding_and_service_areas 200", "request_id": "1f920015-d6d3-47b2-8701-be10ae2ef070"}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/contractor_onboarding_and_service_areas \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/contractor_onboarding_and_service_areas/1 200", "request_id": "e2d252f1-fd68-4647-84a0-833333bfb190"}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/contractor_onboarding_and_service_areas/1 \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/contractor_onboarding_and_service_areas/999999 404", "request_id": "9b40550b-34f8-499d-8492-570ca51378b0"}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/contractor_onboarding_and_service_areas/999999 \"HTTP/1.1 404 Not Found\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/contractor_availability_schedule 422", "request_id": "1768afe1-11f2-49f1-82a5-b15702f3c85c"}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/contractor_availability_schedule \"HTTP/1.1 422 Unprocessable Entity\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/location_based_matching 422", "request_id": "3a5bd23f-7579-4d42-a7b5-d1186165c5be"}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/location_based_matching \"HTTP/1.1 422 Unprocessable Entity\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/booking_status_lifecycle 200", "request_id": "2c674d4c-459b-4ae4-bfcd-143fcab4bd86"}
+{"ts": "2026-11-28T08:54:38Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/booking_status_lifecycle \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/booking_status_lifecycle 200", "request_id": "c81bde31-db7e-429c-bfc6-b80bdff4d9e6"}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/booking_status_lifecycle \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/booking_status_lifecycle/1 200", "request_id": "84687342-7d36-4d84-bbb5-d38513cd1762"}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/booking_status_lifecycle/1 \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/booking_status_lifecycle/999999 404", "request_id": "0feb7b0a-bbdc-4364-8cd5-348df58fffc3"}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/booking_status_lifecycle/999999 \"HTTP/1.1 404 Not Found\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/booking_notifications 503", "request_id": "1a762a3d-b70a-41ba-b472-7ddc1879737d"}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/booking_notifications \"HTTP/1.1 503 Service Unavailable\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/booking_notifications 200", "request_id": "d6f5b965-9ddf-40b2-b33a-12eb989cce1d"}
+{"ts": "2026-11-28T08:54:39Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/booking_notifications \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/invoicing_and_payouts 503", "request_id": "671d5ea3-1100-4760-9276-1253de017962"}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/invoicing_and_payouts \"HTTP/1.1 503 Service Unavailable\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/invoicing_and_payouts 200", "request_id": "f593c06b-2e55-471c-b3f2-3cbf4c02b463"}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/invoicing_and_payouts \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/ops_back_office 200", "request_id": "70757f3c-6da8-4788-8367-f8feaf51a43d"}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/ops_back_office \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/ops_back_office 200", "request_id": "37726c55-652e-40ff-bd90-e3d5e92c0243"}
+{"ts": "2026-11-28T08:54:40Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/ops_back_office \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/ops_back_office/1 200", "request_id": "426834cd-9a24-403d-b16b-97c0fba580e7"}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/ops_back_office/1 \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/ops_back_office/999999 404", "request_id": "a8e1f5c8-6b69-4df6-83c0-fb106904f93c"}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/ops_back_office/999999 \"HTTP/1.1 404 Not Found\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/audit 200", "request_id": "7ad476e6-f303-42df-8151-2e0905e162c1"}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/audit \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/audit 200", "request_id": "bbea0f5b-4d98-4e19-aa6d-f02dff6a3de1"}
+{"ts": "2026-11-28T08:54:41Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/audit \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:42Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/audit/1 200", "request_id": "b908535c-f535-4d62-9f64-faea571e7fa0"}
+{"ts": "2026-11-28T08:54:42Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/audit/1 \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:42Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/audit/999999 404", "request_id": "95149432-7edf-495d-90ef-6c38e55339a6"}
+{"ts": "2026-11-28T08:54:42Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/audit/999999 \"HTTP/1.1 404 Not Found\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:42Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/config 200", "request_id": "149522e3-d574-4a6b-af26-0e1f18dd4112"}
+{"ts": "2026-11-28T08:54:42Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/config \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/config 200", "request_id": "90cd92a0-6e2d-496f-b0d0-8a6f27ae0ce5"}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/config \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/config/1 200", "request_id": "c8aa62bc-2a8e-42c4-9804-2e325391727a"}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/config/1 \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/config/999999 404", "request_id": "45614c48-8286-43c4-a15a-ea9d5cf76c79"}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/config/999999 \"HTTP/1.1 404 Not Found\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/email 422", "request_id": "170c26c5-c248-4a73-99fc-54e8007d3959"}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/email \"HTTP/1.1 422 Unprocessable Entity\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "platform.request", "msg": "POST /v1/billing 200", "request_id": "71a486b3-dc6c-4c86-8688-a8296130ef07"}
+{"ts": "2026-11-28T08:54:43Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: POST http://testserver/v1/billing \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:44Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/billing 200", "request_id": "de798ff3-59c4-48f8-8458-7ee658d64402"}
+{"ts": "2026-11-28T08:54:44Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/billing \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:44Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/billing/1 200", "request_id": "37a32229-afc9-4c27-9e26-54c2d1dd1b33"}
+{"ts": "2026-11-28T08:54:44Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/billing/1 \"HTTP/1.1 200 OK\"", "request_id": ""}
+{"ts": "2026-11-28T08:54:44Z", "level": "INFO", "logger": "platform.request", "msg": "GET /v1/billing/999999 404", "request_id": "2ecf9f52-a592-42fa-bd45-b81e76103092"}
+{"ts": "2026-11-28T08:54:44Z", "level": "INFO", "logger": "httpx", "msg": "HTTP Request: GET http://testserver/v1/billing/999999 \"HTTP/1.1 404 Not Found\"", "request_id": ""}

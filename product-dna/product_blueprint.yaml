@@ -1,0 +1,184 @@
+schema_version: product_blueprint.v1
+product_id: product
+product_name: Delivery Service Platform
+vertical: product
+summary: A delivery-service marketplace where an operator employs subcontractor drivers/contractors
+  who each get their own account, publish a weekly availability schedule and pick
+  the active suburb locations they will work in. Customers browse contractors by suburb
+  and availability and book them into time slots, with double-booking prevented and
+  each booking matched to contractors who have that suburb active. Bookings move through
+  a requested → accepted → in progress → completed → cancelled lifecycle, co
+capabilities:
+- id: customer_booking_flow
+  description: 'Customer-facing browsing and booking: search contractors filtered
+    by suburb and by availability, view open time slots, and create a booking with
+    fail-closed validation that prevents a contractor from being double-booked in
+    the same slot.'
+  block_ids:
+  - task_listing
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements:
+  - Customers browse available contractors by location (suburb) and availability,
+    and book them into time slots.
+  - customer-facing booking flow filtered by suburb and availability with double-booking
+    prevention
+- id: contractor_onboarding_and_service_areas
+  description: Contractor account creation and profile management, including the per-suburb
+    service areas a contractor selects as active; the admin/ops side can see and maintain
+    the suburb list those selections draw from.
+  block_ids:
+  - vendor_catalog
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements:
+  - I need a delivery service platform where I can employ subcontractors
+  - Contractors get their own accounts to manage their schedule and availability,
+    and choose the active suburb locations they are willing to work in.
+  - contractor onboarding and profiles with per-suburb service areas
+  - The contractors has to choose active suburb locations they want to work in
+- id: contractor_availability_schedule
+  description: 'Contractor-managed availability calendar: recurring working hours
+    and per-slot availability/unavailability that the customer booking filter and
+    the matching step read from. Persistence and slot algebra are built new; no available
+    block supplies a schedule calendar.'
+  block_ids: []
+  kit_ids: []
+  strategy_hint: GENERATE
+  required: true
+  connectors: []
+  requirements:
+  - I need a delivery service platform where I can employ subcontractors where they
+    can manage their schedules availability
+  - contractor availability/schedule calendar management
+- id: location_based_matching
+  description: Matches each incoming booking to contractors who have selected the
+    booking's suburb as an active service area and are available for the slot, scoring
+    candidates deterministically and explaining the ranking.
+  block_ids:
+  - dispatch_matching
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements:
+  - location-based matching of bookings to contractors who have selected that suburb
+    as active
+- id: booking_status_lifecycle
+  description: Fail-closed lifecycle for every booking — requested, accepted, in progress,
+    completed, cancelled — enforcing which transitions are legal, who may make them,
+    and what the customer and contractor see at each state.
+  block_ids:
+  - transaction_state_machine
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements:
+  - booking status lifecycle (requested, accepted, in progress, completed, cancelled)
+- id: booking_notifications
+  description: Sends the contractor a new-booking alert and the customer a booking
+    confirmation on each lifecycle change. Email and webhook channels are covered
+    by the picked block; SMS is listed as a placeholder because the user did not name
+    an SMS provider.
+  block_ids:
+  - notification
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - sms_gateway_provider_not_specified_by_the_user_ships_as_a_marked_placeholder
+  requirements:
+  - notifications to contractor on new booking and confirmation to the customer
+- id: invoicing_and_payouts
+  description: 'Customer invoicing and subcontractor payout lifecycle (hold, fee quote,
+    release, partial release, refund). Country and currency are NOT assumed: tax,
+    VAT and payout rules are exposed as explicit configuration parameters to be supplied
+    before build, and the payment processor and accounting/tax system'
+  block_ids:
+  - payment_escrow
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors:
+  - payment_processor_not_specified_by_the_user_ships_as_a_marked_placeholder
+  - accounting_and_tax_vat_system_not_specified_by_the_user_ships_as_a_marked_placeholder
+  requirements:
+  - money handling for customer invoicing and subcontractor payouts
+  - Country and currency were not specified by the user and must not be assumed —
+    tax, VAT and payout rules depend on them, so the blueprint must leave them as
+    explicit open parameters (with country/currency configurable) rather than guessing.
+- id: ops_back_office
+  description: 'Admin/ops console to oversee contractors, suburbs, bookings and disputes:
+    oversight views over the contractor, suburb and booking records, plus a party-gated
+    dispute lifecycle for booking complaints.'
+  block_ids:
+  - dashboard
+  - dispute_resolution
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements:
+  - an admin/ops back office to oversee contractors, suburbs, bookings and disputes
+- id: audit
+  description: Audit capability (reused from the block store)
+  block_ids:
+  - audit
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements: []
+- id: config
+  description: Config capability (reused from the block store)
+  block_ids:
+  - config
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements: []
+- id: email
+  description: Email capability (reused from the block store)
+  block_ids:
+  - email
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements: []
+- id: billing
+  description: Billing capability (reused from the block store)
+  block_ids:
+  - billing
+  kit_ids: []
+  strategy_hint: REUSE
+  required: true
+  connectors: []
+  requirements: []
+ui_modules:
+- command_center
+- operational_chat
+- resident_engineer
+connectors:
+- sms_gateway_provider_not_specified_by_the_user_ships_as_a_marked_placeholder
+- payment_processor_not_specified_by_the_user_ships_as_a_marked_placeholder
+- accounting_and_tax_vat_system_not_specified_by_the_user_ships_as_a_marked_placeholder
+edge_profile: standard
+serves_verticals: []
+canonical_output: null
+build_level: prototype
+human_authority: true
+factory_scenario: CREATE_PRODUCT
+drafting_mode: architect_llm
+drafting_note: 'inventory: ''product'' is not on the declared-ready list (construction,
+  finance, finance_ops, hotel_management, insurance, retail); the Store kit for this
+  vertical is unverified — domain depth not guaranteed'
+golden_suggestion: null
+delivery_format: zip
+locale: null

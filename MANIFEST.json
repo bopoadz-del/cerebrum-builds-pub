@@ -1,0 +1,66 @@
+{
+  "acceptance": {
+    "passed": 0,
+    "total": 23
+  },
+  "advisory_checks": [],
+  "build_level": {
+    "build_level": "prototype",
+    "stop_gate": "CODE"
+  },
+  "build_state": "failed",
+  "certified": false,
+  "failed": {
+    "check": "grader_not_certified",
+    "finding": "UI step FAIL: bind:tenant",
+    "gate": "WRITER"
+  },
+  "failed_label": "FAILED(WRITER, grader_not_certified, UI step FAIL: bind:tenant)",
+  "failure_narrative": {
+    "attempts": 0,
+    "cites": [
+      "e8",
+      "e36",
+      "e114",
+      "e117",
+      "e173",
+      "e224",
+      "e261"
+    ],
+    "mode": "off",
+    "refusals": [],
+    "source": "ledger",
+    "text": "What was tried: the run passed COLLECTOR, CLONER and WRITER. It ran 3 rework rounds (WRITER/grader). Where it stopped: WRITER. Why: GRADER: NOT_CERTIFIED after 3 round(s) -- same failing items again: UI step FAIL: bind:tenant: UI step FAIL: bind:tenant; re-run writer on: Is every number the product shows grounded in a kernel computation or a cited source? -- grader FAIL: \"Some numbers are grounded: invoicing withholds figures un"
+  },
+  "next_continue": "Continuing runs this step again with what the check found, using the fix rounds this build has left.",
+  "platform_id": "plt_dc11aa7819ab4b72",
+  "product_id": "product",
+  "schema": "export_manifest.v1",
+  "stopped": {
+    "outcome": "FAILED_GATE",
+    "state": "FAILED",
+    "step": "WRITER",
+    "stop": {
+      "check_plain": null,
+      "elapsed_s": 7564,
+      "fix_rounds": 3,
+      "kind": "check_failed",
+      "plain": "A quality check did not pass.",
+      "restarted": false,
+      "step": "WRITER",
+      "step_index": 3,
+      "steps_done": 2,
+      "steps_total": 5,
+      "technical": {
+        "code": "grader_not_certified",
+        "message": "GRADER: NOT_CERTIFIED",
+        "reason_chain": [
+          "grader_not_certified",
+          "GRADER",
+          "NOT_CERTIFIED"
+        ],
+        "reference": "89fd0e3047"
+      }
+    }
+  }
+}

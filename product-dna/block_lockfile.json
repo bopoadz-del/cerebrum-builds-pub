@@ -1,0 +1,55 @@
+{
+  "blocks_commit": "e5e34c7b8aaaf1e7c717fdd668679922d4f1ee50",
+  "factory_commit": "d62e07729e3b3adaf6b2d973c7b1cbcf2c63af1e",
+  "pins": [
+    {
+      "block_id": "audit",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "billing",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "config",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dashboard",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dispatch_matching",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "dispute_resolution",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "email",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "notification",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "payment_escrow",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "task_listing",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "transaction_state_machine",
+      "source": "dual_registry"
+    },
+    {
+      "block_id": "vendor_catalog",
+      "source": "dual_registry"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

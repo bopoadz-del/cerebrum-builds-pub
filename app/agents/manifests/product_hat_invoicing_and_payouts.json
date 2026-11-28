@@ -1,0 +1,46 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.invoicing_and_payouts"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "invoicing_and_payouts"
+      },
+      {
+        "type": "capability",
+        "value": "invoicing_and_payouts"
+      }
+    ]
+  },
+  "agent_id": "product.hat.invoicing_and_payouts",
+  "allowed_actions": [
+    "product.invoicing_and_payouts"
+  ],
+  "block_ids": [
+    "payment_escrow"
+  ],
+  "discipline": "invoicing_and_payouts",
+  "display_name": "Delivery Service Platform Invoicing And Payouts Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'invoicing_and_payouts' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "invoicing_and_payouts"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "auto",
+    "put_off_by": [
+      "disable:product.base"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "unknown"
+      }
+    ]
+  },
+  "agent_id": "product.base",
+  "allowed_actions": [
+    "product.customer_booking_flow",
+    "product.contractor_onboarding_and_service_areas",
+    "product.contractor_availability_schedule",
+    "product.location_based_matching",
+    "product.booking_status_lifecycle",
+    "product.booking_notifications",
+    "product.invoicing_and_payouts",
+    "product.ops_back_office",
+    "product.audit",
+    "product.config",
+    "product.email",
+    "product.billing"
+  ],
+  "context_sources": [
+    {
+      "description": "Tenant/project documents via hybrid retrieval",
+      "kind": "project_documents",
+      "source_id": "project_docs"
+    }
+  ],
+  "discipline": "base",
+  "display_name": "Delivery Service Platform Base Agent",
+  "extends": null,
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "base",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "summary": "Shared product cortex adapted from RetailClient hat patterns: trusted context, ActionRegistry awareness, honesty policies. Discipline hats specialize this base \u2014 they never replace it.",
+  "tags": [
+    "base",
+    "factory-generated",
+    "product"
+  ]
+}

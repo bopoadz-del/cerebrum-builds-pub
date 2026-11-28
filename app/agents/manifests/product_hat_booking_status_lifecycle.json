@@ -1,0 +1,46 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.booking_status_lifecycle"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "booking_status_lifecycle"
+      },
+      {
+        "type": "capability",
+        "value": "booking_status_lifecycle"
+      }
+    ]
+  },
+  "agent_id": "product.hat.booking_status_lifecycle",
+  "allowed_actions": [
+    "product.booking_status_lifecycle"
+  ],
+  "block_ids": [
+    "transaction_state_machine"
+  ],
+  "discipline": "booking_status_lifecycle",
+  "display_name": "Delivery Service Platform Booking Status Lifecycle Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'booking_status_lifecycle' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "booking_status_lifecycle"
+  ]
+}

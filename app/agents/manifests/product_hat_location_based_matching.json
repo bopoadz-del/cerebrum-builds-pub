@@ -1,0 +1,46 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.location_based_matching"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "location_based_matching"
+      },
+      {
+        "type": "capability",
+        "value": "location_based_matching"
+      }
+    ]
+  },
+  "agent_id": "product.hat.location_based_matching",
+  "allowed_actions": [
+    "product.location_based_matching"
+  ],
+  "block_ids": [
+    "dispatch_matching"
+  ],
+  "discipline": "location_based_matching",
+  "display_name": "Delivery Service Platform Location Based Matching Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'location_based_matching' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "location_based_matching"
+  ]
+}

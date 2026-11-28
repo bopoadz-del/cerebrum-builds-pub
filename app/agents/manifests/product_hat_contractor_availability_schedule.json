@@ -1,0 +1,44 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.contractor_availability_schedule"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "contractor_availability_schedule"
+      },
+      {
+        "type": "capability",
+        "value": "contractor_availability_schedule"
+      }
+    ]
+  },
+  "agent_id": "product.hat.contractor_availability_schedule",
+  "allowed_actions": [
+    "product.contractor_availability_schedule"
+  ],
+  "block_ids": [],
+  "discipline": "contractor_availability_schedule",
+  "display_name": "Delivery Service Platform Contractor Availability Schedule Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "GENERATE",
+  "summary": "Specialized hat for capability 'contractor_availability_schedule' (strategy=GENERATE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "contractor_availability_schedule"
+  ]
+}

@@ -1,0 +1,57 @@
+WORKFLOWS = [
+  {
+    "description": "Default linear workflow over planned capabilities.",
+    "name": "Capability sequence",
+    "steps": [
+      {
+        "capability_id": "customer_booking_flow",
+        "role": "execute"
+      },
+      {
+        "capability_id": "contractor_onboarding_and_service_areas",
+        "role": "execute"
+      },
+      {
+        "capability_id": "contractor_availability_schedule",
+        "role": "execute"
+      },
+      {
+        "capability_id": "location_based_matching",
+        "role": "execute"
+      },
+      {
+        "capability_id": "booking_status_lifecycle",
+        "role": "execute"
+      },
+      {
+        "capability_id": "booking_notifications",
+        "role": "execute"
+      },
+      {
+        "capability_id": "invoicing_and_payouts",
+        "role": "execute"
+      },
+      {
+        "capability_id": "ops_back_office",
+        "role": "execute"
+      },
+      {
+        "capability_id": "audit",
+        "role": "execute"
+      },
+      {
+        "capability_id": "config",
+        "role": "execute"
+      },
+      {
+        "capability_id": "email",
+        "role": "execute"
+      },
+      {
+        "capability_id": "billing",
+        "role": "execute"
+      }
+    ],
+    "workflow_id": "product.capability_sequence"
+  }
+]

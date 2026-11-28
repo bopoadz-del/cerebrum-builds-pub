@@ -1,0 +1,101 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "task_listing"
+      ],
+      "capability_id": "customer_booking_flow",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "vendor_catalog"
+      ],
+      "capability_id": "contractor_onboarding_and_service_areas",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "capability_id": "contractor_availability_schedule",
+      "strategy": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "dispatch_matching"
+      ],
+      "capability_id": "location_based_matching",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "transaction_state_machine"
+      ],
+      "capability_id": "booking_status_lifecycle",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "capability_id": "booking_notifications",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "payment_escrow"
+      ],
+      "capability_id": "invoicing_and_payouts",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "dispute_resolution"
+      ],
+      "capability_id": "ops_back_office",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "capability_id": "audit",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "config"
+      ],
+      "capability_id": "config",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "email"
+      ],
+      "capability_id": "email",
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "billing"
+      ],
+      "capability_id": "billing",
+      "strategy": "REUSE"
+    }
+  ],
+  "connectors": [
+    "sms_gateway_provider_not_specified_by_the_user_ships_as_a_marked_placeholder",
+    "payment_processor_not_specified_by_the_user_ships_as_a_marked_placeholder",
+    "accounting_and_tax_vat_system_not_specified_by_the_user_ships_as_a_marked_placeholder"
+  ],
+  "layers": [],
+  "product_id": "product",
+  "schema_version": "1.0.0",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}

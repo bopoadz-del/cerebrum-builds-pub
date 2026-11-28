@@ -1,0 +1,150 @@
+{
+  "capabilities": [
+    {
+      "block_ids": [
+        "task_listing"
+      ],
+      "capability_id": "customer_booking_flow",
+      "notes": "dual-registered",
+      "requirements": [
+        "Customers browse available contractors by location (suburb) and availability, and book them into time slots.",
+        "customer-facing booking flow filtered by suburb and availability with double-booking prevention"
+      ],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "vendor_catalog"
+      ],
+      "capability_id": "contractor_onboarding_and_service_areas",
+      "notes": "dual-registered",
+      "requirements": [
+        "I need a delivery service platform where I can employ subcontractors",
+        "Contractors get their own accounts to manage their schedule and availability, and choose the active suburb locations they are willing to work in.",
+        "contractor onboarding and profiles with per-suburb service areas",
+        "The contractors has to choose active suburb locations they want to work in"
+      ],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "capability_id": "contractor_availability_schedule",
+      "notes": "kernel/template generation (no block ids)",
+      "requirements": [
+        "I need a delivery service platform where I can employ subcontractors where they can manage their schedules availability",
+        "contractor availability/schedule calendar management"
+      ],
+      "strategy": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "dispatch_matching"
+      ],
+      "capability_id": "location_based_matching",
+      "notes": "dual-registered",
+      "requirements": [
+        "location-based matching of bookings to contractors who have selected that suburb as active"
+      ],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "transaction_state_machine"
+      ],
+      "capability_id": "booking_status_lifecycle",
+      "notes": "dual-registered",
+      "requirements": [
+        "booking status lifecycle (requested, accepted, in progress, completed, cancelled)"
+      ],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "capability_id": "booking_notifications",
+      "notes": "dual-registered",
+      "requirements": [
+        "notifications to contractor on new booking and confirmation to the customer"
+      ],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "payment_escrow"
+      ],
+      "capability_id": "invoicing_and_payouts",
+      "notes": "dual-registered",
+      "requirements": [
+        "money handling for customer invoicing and subcontractor payouts",
+        "Country and currency were not specified by the user and must not be assumed \u2014 tax, VAT and payout rules depend on them, so the blueprint must leave them as explicit open parameters (with country/currency configurable) rather than guessing."
+      ],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "dispute_resolution"
+      ],
+      "capability_id": "ops_back_office",
+      "notes": "dual-registered",
+      "requirements": [
+        "an admin/ops back office to oversee contractors, suburbs, bookings and disputes"
+      ],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "capability_id": "audit",
+      "notes": "dual-registered",
+      "requirements": [],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "config"
+      ],
+      "capability_id": "config",
+      "notes": "dual-registered",
+      "requirements": [],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "email"
+      ],
+      "capability_id": "email",
+      "notes": "dual-registered",
+      "requirements": [],
+      "strategy": "REUSE"
+    },
+    {
+      "block_ids": [
+        "billing"
+      ],
+      "capability_id": "billing",
+      "notes": "dual-registered",
+      "requirements": [],
+      "strategy": "REUSE"
+    }
+  ],
+  "dual_registered_blocks": [
+    "audit",
+    "billing",
+    "config",
+    "dashboard",
+    "dispatch_matching",
+    "dispute_resolution",
+    "email",
+    "notification",
+    "payment_escrow",
+    "task_listing",
+    "transaction_state_machine",
+    "vendor_catalog"
+  ],
+  "notes": [],
+  "schema_version": "1.0.0",
+  "unsupported": []
+}

@@ -1,0 +1,46 @@
+{
+  "activation": {
+    "default_enabled": true,
+    "mode": "hybrid",
+    "put_off_by": [
+      "disable:product.hat.customer_booking_flow"
+    ],
+    "triggers": [
+      {
+        "type": "intent",
+        "value": "customer_booking_flow"
+      },
+      {
+        "type": "capability",
+        "value": "customer_booking_flow"
+      }
+    ]
+  },
+  "agent_id": "product.hat.customer_booking_flow",
+  "allowed_actions": [
+    "product.customer_booking_flow"
+  ],
+  "block_ids": [
+    "task_listing"
+  ],
+  "discipline": "customer_booking_flow",
+  "display_name": "Delivery Service Platform Customer Booking Flow Hat",
+  "extends": "product.base",
+  "handoffs": [],
+  "human_authority": true,
+  "kind": "hat",
+  "manifest_version": "1.0.0",
+  "memory": {
+    "pii_policy": "never_store_pii",
+    "save": [],
+    "scope": "tenant_project"
+  },
+  "strategy": "REUSE",
+  "summary": "Specialized hat for capability 'customer_booking_flow' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+  "tags": [
+    "hat",
+    "factory-generated",
+    "product",
+    "customer_booking_flow"
+  ]
+}

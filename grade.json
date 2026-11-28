@@ -1,0 +1,566 @@
+{
+  "certified": false,
+  "hardwiring": {
+    "clean": false,
+    "findings": [
+      {
+        "file": "tests/test_smoke.py",
+        "kind": "prompt_leak",
+        "literals": [
+          "A delivery-service marketplace platform where the operator employs subcontractor drivers/contractors",
+          "Build level also not chosen by the user",
+          "Core needs",
+          "Country and currency were not specified by the user and must not be assumed \u2014 tax",
+          "Outside systems in use",
+          "Scale in the first year was not stated",
+          "VAT and payout rules depend on them",
+          "an admin/ops back office to oversee contractors",
+          "and money handling for customer invoicing and subcontractor payouts",
+          "ask the user to pick prototype/light/pilot/production before the build starts",
+          "booking status lifecycle",
+          "bookings and disputes",
+          "contractor availability/schedule calendar management",
+          "notifications to contractor on new booking and confirmation to the customer",
+          "rather than guessing",
+          "so the blueprint must leave them as explicit open parameters",
+          "were not stated",
+          "with country/currency configurable"
+        ],
+        "owner": "FACTORY",
+        "owner_reason": "in a file the Factory rendered"
+      }
+    ],
+    "ran": true
+  },
+  "layer1": {
+    "functions": {
+      "failing": [],
+      "functions": [
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "customer_booking_flow",
+          "depends_on": [
+            "status"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "contractor_onboarding_and_service_areas",
+          "depends_on": [
+            "active"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "contractor_availability_schedule",
+          "depends_on": [
+            "start_time",
+            "end_time",
+            "active"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "location_based_matching",
+          "depends_on": [
+            "booking_date"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "booking_status_lifecycle",
+          "depends_on": [
+            "current_state",
+            "target_state"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "booking_notifications",
+          "depends_on": [
+            "channel"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "invoicing_and_payouts",
+          "depends_on": [
+            "amount",
+            "invoice_reference",
+            "payout_stage"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "ops_back_office",
+          "depends_on": [
+            "status",
+            "claimant",
+            "suburb",
+            "dispute_action",
+            "maintain_suburbs"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "audit",
+          "depends_on": [
+            "reference",
+            "status",
+            "notes",
+            "event",
+            "resource_type",
+            "resource_id",
+            "details",
+            "actor"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "config",
+          "depends_on": [
+            "config_block",
+            "key",
+            "value"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "email",
+          "depends_on": [
+            "recipient_email",
+            "subject",
+            "body"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        },
+        {
+          "blocks_cannot_run": {},
+          "capability_id": "billing",
+          "depends_on": [
+            "plan"
+          ],
+          "detail": "",
+          "mutants_killed": [
+            "field_dependence"
+          ],
+          "mutants_survived": [],
+          "ok": true,
+          "one_input_passed": false,
+          "probe": {},
+          "two_input_passed": true
+        }
+      ],
+      "graded": 12,
+      "min_functions": 4,
+      "ok": true,
+      "ungraded": [],
+      "vault": {
+        "entries": [],
+        "gaps": [
+          {
+            "capability_id": "customer_booking_flow",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "contractor_onboarding_and_service_areas",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "contractor_availability_schedule",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "location_based_matching",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "booking_status_lifecycle",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "booking_notifications",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "invoicing_and_payouts",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "ops_back_office",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "audit",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "config",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "email",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          },
+          {
+            "capability_id": "billing",
+            "gradable": false,
+            "reason": "not gradable -- kernel gap"
+          }
+        ],
+        "seed": 2761197175174541419
+      }
+    },
+    "ok": false,
+    "ui": {
+      "failing": [
+        "bind:tenant"
+      ],
+      "not_applicable": [
+        {
+          "applicable": false,
+          "kind": "attach_pdf",
+          "name": "attach:pdf",
+          "status": "not_applicable",
+          "target": "fixture.pdf"
+        },
+        {
+          "applicable": false,
+          "kind": "attach_xlsx",
+          "name": "attach:xlsx",
+          "status": "not_applicable",
+          "target": "fixture.xlsx"
+        },
+        {
+          "applicable": false,
+          "kind": "parsed",
+          "name": "parsed:status",
+          "status": "not_applicable",
+          "target": "fixture.pdf"
+        },
+        {
+          "applicable": false,
+          "kind": "cited_answer",
+          "name": "answer:cited",
+          "status": "not_applicable",
+          "target": "customer_booking_flow"
+        }
+      ],
+      "ok": false,
+      "ran": true,
+      "steps": [
+        {
+          "kind": "load",
+          "name": "load:/",
+          "passed": true,
+          "target": "/"
+        },
+        {
+          "kind": "bind",
+          "name": "bind:tenant",
+          "passed": false,
+          "target": "product"
+        },
+        {
+          "kind": "honest_error",
+          "name": "honest_error:/v1/customer_booking_flow",
+          "passed": true,
+          "target": "/v1/customer_booking_flow"
+        },
+        {
+          "kind": "screen",
+          "name": "screen:command_center",
+          "passed": true,
+          "target": "/#/command_center"
+        },
+        {
+          "kind": "screen",
+          "name": "screen:operational_chat",
+          "passed": true,
+          "target": "/#/operational_chat"
+        },
+        {
+          "kind": "screen",
+          "name": "screen:resident_engineer",
+          "passed": true,
+          "target": "/#/resident_engineer"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/customer_booking_flow",
+          "passed": true,
+          "target": "/v1/customer_booking_flow"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/contractor_onboarding_and_service_areas",
+          "passed": true,
+          "target": "/v1/contractor_onboarding_and_service_areas"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/contractor_availability_schedule",
+          "passed": true,
+          "target": "/v1/contractor_availability_schedule"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/location_based_matching",
+          "passed": true,
+          "target": "/v1/location_based_matching"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/booking_status_lifecycle",
+          "passed": true,
+          "target": "/v1/booking_status_lifecycle"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/booking_notifications",
+          "passed": true,
+          "target": "/v1/booking_notifications"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/invoicing_and_payouts",
+          "passed": true,
+          "target": "/v1/invoicing_and_payouts"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/ops_back_office",
+          "passed": true,
+          "target": "/v1/ops_back_office"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/audit",
+          "passed": true,
+          "target": "/v1/audit"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/config",
+          "passed": true,
+          "target": "/v1/config"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/email",
+          "passed": true,
+          "target": "/v1/email"
+        },
+        {
+          "kind": "route",
+          "name": "route:/v1/billing",
+          "passed": true,
+          "target": "/v1/billing"
+        }
+      ]
+    }
+  },
+  "layer2": {
+    "open_fails": [
+      "Is every number the product shows grounded in a kernel computation or a cited source?"
+    ],
+    "ran": true,
+    "unasked": [],
+    "verdicts": [
+      {
+        "evidence": "app/actions/customer_booking_flow.py implements both halves. `_browse` lists contractors from `domain_rules.serving_contractors(suburb)`, skips any where `schedule_covers(...)` is False, and returns `open_slots` within the requested window. Booking fails closed: \"contractor is not active\", \"contractor does not serve the booking suburb\", \"contractor is not available for that slot\". Double-booking is blocked by `overlapping = domain_rules.overlapping_bookings(contractor, booking_date, start, end)`",
+        "question": "Does the product deliver capability 'customer_booking_flow' as the brief asked: Customer-facing browsing and booking: search contractors filtered by suburb and by availability, view open time slots, and create a booking with fail-closed validation that prevents a contractor from being double-booked in the same slot. Requirements: Customers browse available contractors by location (suburb) and availability, and book them into time slots. | customer-facing booking flow filtered by suburb and availability with double-booking prevention?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "The handler `contractor_onboarding_and_service_areas.py` validates the profile (contractor_name, contact_email, phone, vehicle_type, capacity, active). It requires at least one suburb (\"service_suburbs must name at least one suburb\") and registers the contractor through `vendor_catalog/register_vendor` with `service_areas: active_areas`. Per-suburb selection is handled by `domain_rules.partition_selection(areas)`, which returns active, retired and proposed suburbs. The result includes `service_a",
+        "question": "Does the product deliver capability 'contractor_onboarding_and_service_areas' as the brief asked: Contractor account creation and profile management, including the per-suburb service areas a contractor selects as active; the admin/ops side can see and maintain the suburb list those selections draw from. Requirements: I need a delivery service platform where I can employ subcontractors | Contractors get their own accounts to manage their schedule and availability, and choose the active suburb locations they are willing to work in. | contractor onboarding and profiles with per-suburb service areas | The contractors has to choose active suburb locations they want to work in?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "The handler `app/actions/contractor_availability_schedule.py` takes a recurring weekly window (`weekday`, `start_time`, `end_time`, `capacity`, `active`). It splits the window into slots and marks each one `\"booked\": booked, \"available\": booked < capacity`, or `available: False` when `active` is off. A window crossing midnight or covering a whole day is handled. The `contractor_availability_schedule` table in the baseline migration has `weekday`, `start_time`, `end_time`, `capacity` and `active`",
+        "question": "Does the product deliver capability 'contractor_availability_schedule' as the brief asked: Contractor-managed availability calendar: recurring working hours and per-slot availability/unavailability that the customer booking filter and the matching step read from. Persistence and slot algebra are built new; no available block supplies a schedule calendar. Requirements: I need a delivery service platform where I can employ subcontractors where they can manage their schedules availability | contractor availability/schedule calendar management?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/location_based_matching.py builds candidates via `domain_rules.serving_contractors(suburb)` (contractors whose own active service areas include the suburb) and then filters on `schedule_covers(reference, weekday, start, end)`. Contractors that fail go to `excluded` with a reason (\"published schedule does not cover the slot\" / \"no published schedule on file\"). Remaining candidates are scored via the dispatch_matching block (`register_job`, `register_worker`, `match`). A deterministic ",
+        "question": "Does the product deliver capability 'location_based_matching' as the brief asked: Matches each incoming booking to contractors who have selected the booking's suburb as an active service area and are available for the slot, scoring candidates deterministically and explaining the ranking. Requirements: location-based matching of bookings to contractors who have selected that suburb as active?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/booking_status_lifecycle.py defines STATES = [\"requested\", \"accepted\", \"in_progress\", \"completed\", \"cancelled\"] and NEXT_STATES (e.g. \"requested\": [\"accepted\", \"cancelled\"], \"completed\": []). It enforces who may act via ALLOWED_ACTORS (e.g. \"in_progress\": [\"contractor\"]). Illegal moves are refused as a decision (\"reason = \\\"invalid_transition\\\"\", \"actor_not_permitted\", \"allowed\": False), and unknown states are rejected with a validation_error. It returns per-state VIEWS for customer ",
+        "question": "Does the product deliver capability 'booking_status_lifecycle' as the brief asked: Fail-closed lifecycle for every booking \u2014 requested, accepted, in progress, completed, cancelled \u2014 enforcing which transitions are legal, who may make them, and what the customer and contractor see at each state. Requirements: booking status lifecycle (requested, accepted, in progress, completed, cancelled)?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/booking_notifications.py routes by event: `REQUEST_EVENTS = {\"requested\", \"booking_requested\", \"new\", \"created\"}` yields `return \"contractor\"` (new-booking alert), while `CONFIRM_EVENTS = {\"accepted\", \"confirmed\", \"in_progress\", \"completed\", \"cancelled\"}` yields `return \"customer\"` (confirmation / lifecycle change). It sends via the notification block (`execute(\"notification\", {\"channel\": channel, \"to\": recipient, ...})`) for email and webhook, and delivered is only true when `bool(d",
+        "question": "Does the product deliver capability 'booking_notifications' as the brief asked: Sends the contractor a new-booking alert and the customer a booking confirmation on each lifecycle change. Email and webhook channels are covered by the picked block; SMS is listed as a placeholder because the user did not name an SMS provider. Requirements: notifications to contractor on new booking and confirmation to the customer?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/invoicing_and_payouts.py implements STAGES = (\"hold\", \"fee_quote\", \"release\", \"partial_release\", \"refund\") through the payment_escrow block. Currency, fee and tax are read from app.money_settings, and when unset the quote is \"withheld\" with `\"state\": \"awaiting_setting\"` and `\"setting\": missing` (PLATFORM_CURRENCY / PLATFORM_RATE_PLATFORM_FEE). Tax uses PLATFORM_TAX_RATE and is reported as \"withheld\" if unset. The code never guesses a country or currency, which matches the brief. Laye",
+        "question": "Does the product deliver capability 'invoicing_and_payouts' as the brief asked: Customer invoicing and subcontractor payout lifecycle (hold, fee quote, release, partial release, refund). Country and currency are NOT assumed: tax, VAT and payout rules are exposed as explicit configuration parameters to be supplied before build, and the payment processor and accounting/tax system Requirements: money handling for customer invoicing and subcontractor payouts | Country and currency were not specified by the user and must not be assumed \u2014 tax, VAT and payout rules depend on them, so the blueprint must leave them as explicit open parameters (with country/currency configurable) rather than guessing.?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/ops_back_office.py renders a dashboard over `surfaces: [\"contractors\", \"suburbs\", \"bookings\", \"disputes\"]`. `_oversight` returns counts from the tenant's own records: `\"contractors\": len(contractors)`, `\"bookings\": len(bookings)`, `\"disputes\": len(disputes)`, plus active suburbs and pending proposals. Disputes run through the dispute_resolution block with `DISPUTE_ACTIONS = (\"open\", \"escalate\", \"resolve\", \"status\")`. Parties are fixed as `[claimant, \"counterparty\"]`, and resolution i",
+        "question": "Does the product deliver capability 'ops_back_office' as the brief asked: Admin/ops console to oversee contractors, suburbs, bookings and disputes: oversight views over the contractor, suburb and booking records, plus a party-gated dispute lifecycle for booking complaints. Requirements: an admin/ops back office to oversee contractors, suburbs, bookings and disputes?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/audit.py declares BLOCK_IDS = [\"audit\"] and writes through the vendored audit block via execute(\"audit\", {...}, action=\"log\"). It adds a persisted hash chain (sequence, previous_digest, chain_digest) and re-walks it with _walk(prior), reporting \"chain_violations\" and \"chain_verified\": verified if prior else None, so it never claims verified on an empty walk. vendor/cerebrum/blocks/audit.py is the append-only audit block with a full-walk verify_chain. Layer 1 grades the 'audit' functi",
+        "question": "Does the product deliver capability 'audit' as the brief asked: Audit capability (reused from the block store)?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/config.py reuses the vendored config block. It performs a real `set` when key and value are supplied (`steps.append({\"action\": \"set\", \"input\": {\"block\": block_name, \"key\": key, \"value\": value}})`) and then reads back `get_all`. It reports `\"applied\": bool(has_value and key in block_config)` and a `config_digest`, and returns `fail(refusal_text(...))` when the block refuses. Layer-1 shows the `config` function ok, with `two_input_passed` true and the `field_dependence` mutant killed. ",
+        "question": "Does the product deliver capability 'config' as the brief asked: Config capability (reused from the block store)?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "app/actions/email.py reuses the vendored email block (BLOCK_IDS = [\"email\"]). It validates the address through the block with `execute(\"email\", {\"email\": recipient}, action=\"validate_address\")`. It sends through `execute_sequence` only when a provider is configured. Otherwise it reports `\"delivered\": False, \"delivery\": \"unconfigured\", \"setting\": \"SMTP_HOST or SENDGRID_API_KEY or EMAIL_PROVIDER\"` and never claims a send. Layer-1 shows the `email` function ok with `two_input_passed: true`, the `fi",
+        "question": "Does the product deliver capability 'email' as the brief asked: Email capability (reused from the block store)?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "The brief asked for 'Billing capability (reused from the block store)'. `app/actions/billing.py` sets `BLOCK_IDS = [\"billing\"]` and calls the vendored block via `execute(\"billing\", {...}, action=\"record_usage\")`. It reports `cost_cents` from the block and `quota_limit` from the block's own `PLANS` table (`\"quota_basis\": \"billing.PLANS[%s].requests\"`). For a plan the block does not declare, it reports `\"plan not declared by the block; no quota reported\"` instead of inventing a limit. `vendor/bloc",
+        "question": "Does the product deliver capability 'billing' as the brief asked: Billing capability (reused from the block store)?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "The screen is declared for customer_booking_flow and renders that surface. Its header says \"Command centre: the customer booking surface\" and it shows \"Browse contractors by suburb and slot, then book one.\" It calls GET /v1/customer_booking_flow/available, POST /v1/customer_booking_flow with suburb, booking_date, start_time, end_time and contractor_reference, and GET /v1/customer_booking_flow for \"Stored bookings\". It also surfaces the double-booking conflict: on a 409 it shows \"That contractor ",
+        "question": "Does screen 'command_center' render the capability it is declared for?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "The operational_chat module is declared as booking communication and lifecycle actions, and it renders exactly that. It has a booking selector fed from GET /v1/customer_booking_flow, and an 'Apply transition' button that POSTs to /v1/booking_status_lifecycle. It also has 'Send email' (POST /v1/email) and 'Send booking notification' (POST /v1/booking_notifications) buttons, and a 'Conversation' list that shows refusals such as \"Transition refused: ...\" and \"503 ...\" honestly. Layer-1 ran `screen:",
+        "question": "Does screen 'operational_chat' render the capability it is declared for?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "The resident_engineer screen is declared for contractor fleet maintenance, which covers onboarding, availability and matching. It renders all three. It POSTs to `/v1/contractor_onboarding_and_service_areas` via the \"Register contractor\" button, to `/v1/contractor_availability_schedule` via \"Publish window\" with weekday, start and end inputs, and to `/v1/location_based_matching` via \"Rank contractors\". It also lists the contractors (`Contractors ({contractors.length})`) and the suburb catalogue (",
+        "question": "Does screen 'resident_engineer' render the capability it is declared for?",
+        "verdict": "PASS"
+      },
+      {
+        "evidence": "Some numbers are grounded: invoicing withholds figures until currency and fee rate are set (`\"quote\": \"withheld\"`), and tax uses `universal:tax_amount_v1` with an authority label. But the availability slot counts and capacity are explicitly improvised: \"No Store block supplies a schedule calendar, so the slot algebra is authored here ... (labelled \\\"improvised, no Store coverage\\\")\". The Layer-1 vault lists every capability as \"not gradable -- kernel gap\", and each graded function has `one_input",
+        "question": "Is every number the product shows grounded in a kernel computation or a cited source?",
+        "verdict": "FAIL"
+      }
+    ]
+  },
+  "next_tasks": [
+    "re-run writer on: Is every number the product shows grounded in a kernel computation or a cited source? -- grader FAIL: \"Some numbers are grounded: invoicing withholds figures until currency and fee rate are set (`\"quote\": \"withheld\"`), and tax uses `universal:tax_amount_v1` with an authority label. But the availability slot counts and capacity are explicitly improvised: \"No Store block supplies a schedule calendar, so the slot algebra is authored here ... (labelled \\\"improvised, no Store coverage\\\")\". The Layer-1 vault lists every capability as \"not gradable -- kernel gap\", and each graded function has `one_input\""
+  ],
+  "product_id": "product",
+  "schema": "product_grade.v1"
+}

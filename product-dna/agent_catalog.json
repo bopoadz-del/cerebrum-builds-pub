@@ -1,0 +1,611 @@
+{
+  "agents": [
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "auto",
+        "put_off_by": [
+          "disable:product.base"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "unknown"
+          }
+        ]
+      },
+      "agent_id": "product.base",
+      "allowed_actions": [
+        "product.customer_booking_flow",
+        "product.contractor_onboarding_and_service_areas",
+        "product.contractor_availability_schedule",
+        "product.location_based_matching",
+        "product.booking_status_lifecycle",
+        "product.booking_notifications",
+        "product.invoicing_and_payouts",
+        "product.ops_back_office",
+        "product.audit",
+        "product.config",
+        "product.email",
+        "product.billing"
+      ],
+      "context_sources": [
+        {
+          "description": "Tenant/project documents via hybrid retrieval",
+          "kind": "project_documents",
+          "source_id": "project_docs"
+        }
+      ],
+      "discipline": "base",
+      "display_name": "Delivery Service Platform Base Agent",
+      "extends": null,
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "base",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "summary": "Shared product cortex adapted from RetailClient hat patterns: trusted context, ActionRegistry awareness, honesty policies. Discipline hats specialize this base \u2014 they never replace it.",
+      "tags": [
+        "base",
+        "factory-generated",
+        "product"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.customer_booking_flow"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "customer_booking_flow"
+          },
+          {
+            "type": "capability",
+            "value": "customer_booking_flow"
+          }
+        ]
+      },
+      "agent_id": "product.hat.customer_booking_flow",
+      "allowed_actions": [
+        "product.customer_booking_flow"
+      ],
+      "block_ids": [
+        "task_listing"
+      ],
+      "discipline": "customer_booking_flow",
+      "display_name": "Delivery Service Platform Customer Booking Flow Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'customer_booking_flow' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "customer_booking_flow"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.contractor_onboarding_and_service_areas"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "contractor_onboarding_and_service_areas"
+          },
+          {
+            "type": "capability",
+            "value": "contractor_onboarding_and_service_areas"
+          }
+        ]
+      },
+      "agent_id": "product.hat.contractor_onboarding_and_service_areas",
+      "allowed_actions": [
+        "product.contractor_onboarding_and_service_areas"
+      ],
+      "block_ids": [
+        "vendor_catalog"
+      ],
+      "discipline": "contractor_onboarding_and_service_areas",
+      "display_name": "Delivery Service Platform Contractor Onboarding And Service Areas Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'contractor_onboarding_and_service_areas' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "contractor_onboarding_and_service_areas"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.contractor_availability_schedule"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "contractor_availability_schedule"
+          },
+          {
+            "type": "capability",
+            "value": "contractor_availability_schedule"
+          }
+        ]
+      },
+      "agent_id": "product.hat.contractor_availability_schedule",
+      "allowed_actions": [
+        "product.contractor_availability_schedule"
+      ],
+      "block_ids": [],
+      "discipline": "contractor_availability_schedule",
+      "display_name": "Delivery Service Platform Contractor Availability Schedule Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "GENERATE",
+      "summary": "Specialized hat for capability 'contractor_availability_schedule' (strategy=GENERATE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "contractor_availability_schedule"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.location_based_matching"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "location_based_matching"
+          },
+          {
+            "type": "capability",
+            "value": "location_based_matching"
+          }
+        ]
+      },
+      "agent_id": "product.hat.location_based_matching",
+      "allowed_actions": [
+        "product.location_based_matching"
+      ],
+      "block_ids": [
+        "dispatch_matching"
+      ],
+      "discipline": "location_based_matching",
+      "display_name": "Delivery Service Platform Location Based Matching Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'location_based_matching' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "location_based_matching"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.booking_status_lifecycle"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "booking_status_lifecycle"
+          },
+          {
+            "type": "capability",
+            "value": "booking_status_lifecycle"
+          }
+        ]
+      },
+      "agent_id": "product.hat.booking_status_lifecycle",
+      "allowed_actions": [
+        "product.booking_status_lifecycle"
+      ],
+      "block_ids": [
+        "transaction_state_machine"
+      ],
+      "discipline": "booking_status_lifecycle",
+      "display_name": "Delivery Service Platform Booking Status Lifecycle Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'booking_status_lifecycle' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "booking_status_lifecycle"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.booking_notifications"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "booking_notifications"
+          },
+          {
+            "type": "capability",
+            "value": "booking_notifications"
+          }
+        ]
+      },
+      "agent_id": "product.hat.booking_notifications",
+      "allowed_actions": [
+        "product.booking_notifications"
+      ],
+      "block_ids": [
+        "notification"
+      ],
+      "discipline": "booking_notifications",
+      "display_name": "Delivery Service Platform Booking Notifications Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'booking_notifications' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "booking_notifications"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.invoicing_and_payouts"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "invoicing_and_payouts"
+          },
+          {
+            "type": "capability",
+            "value": "invoicing_and_payouts"
+          }
+        ]
+      },
+      "agent_id": "product.hat.invoicing_and_payouts",
+      "allowed_actions": [
+        "product.invoicing_and_payouts"
+      ],
+      "block_ids": [
+        "payment_escrow"
+      ],
+      "discipline": "invoicing_and_payouts",
+      "display_name": "Delivery Service Platform Invoicing And Payouts Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'invoicing_and_payouts' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "invoicing_and_payouts"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.ops_back_office"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "ops_back_office"
+          },
+          {
+            "type": "capability",
+            "value": "ops_back_office"
+          }
+        ]
+      },
+      "agent_id": "product.hat.ops_back_office",
+      "allowed_actions": [
+        "product.ops_back_office"
+      ],
+      "block_ids": [
+        "dashboard",
+        "dispute_resolution"
+      ],
+      "discipline": "ops_back_office",
+      "display_name": "Delivery Service Platform Ops Back Office Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'ops_back_office' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "ops_back_office"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.audit"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "audit"
+          },
+          {
+            "type": "capability",
+            "value": "audit"
+          }
+        ]
+      },
+      "agent_id": "product.hat.audit",
+      "allowed_actions": [
+        "product.audit"
+      ],
+      "block_ids": [
+        "audit"
+      ],
+      "discipline": "audit",
+      "display_name": "Delivery Service Platform Audit Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'audit' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "audit"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.config"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "config"
+          },
+          {
+            "type": "capability",
+            "value": "config"
+          }
+        ]
+      },
+      "agent_id": "product.hat.config",
+      "allowed_actions": [
+        "product.config"
+      ],
+      "block_ids": [
+        "config"
+      ],
+      "discipline": "config",
+      "display_name": "Delivery Service Platform Config Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'config' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "config"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.email"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "email"
+          },
+          {
+            "type": "capability",
+            "value": "email"
+          }
+        ]
+      },
+      "agent_id": "product.hat.email",
+      "allowed_actions": [
+        "product.email"
+      ],
+      "block_ids": [
+        "email"
+      ],
+      "discipline": "email",
+      "display_name": "Delivery Service Platform Email Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'email' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "email"
+      ]
+    },
+    {
+      "activation": {
+        "default_enabled": true,
+        "mode": "hybrid",
+        "put_off_by": [
+          "disable:product.hat.billing"
+        ],
+        "triggers": [
+          {
+            "type": "intent",
+            "value": "billing"
+          },
+          {
+            "type": "capability",
+            "value": "billing"
+          }
+        ]
+      },
+      "agent_id": "product.hat.billing",
+      "allowed_actions": [
+        "product.billing"
+      ],
+      "block_ids": [
+        "billing"
+      ],
+      "discipline": "billing",
+      "display_name": "Delivery Service Platform Billing Hat",
+      "extends": "product.base",
+      "handoffs": [],
+      "human_authority": true,
+      "kind": "hat",
+      "manifest_version": "1.0.0",
+      "memory": {
+        "pii_policy": "never_store_pii",
+        "save": [],
+        "scope": "tenant_project"
+      },
+      "strategy": "REUSE",
+      "summary": "Specialized hat for capability 'billing' (strategy=REUSE). Adapted from RetailClient retail hat pattern; product-neutral.",
+      "tags": [
+        "hat",
+        "factory-generated",
+        "product",
+        "billing"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0"
+}

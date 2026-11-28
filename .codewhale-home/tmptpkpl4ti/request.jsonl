@@ -1,0 +1,7 @@
+{"ts": "2026-11-28T09:21:03Z", "level": "INFO", "logger": "alembic.runtime.plugins", "msg": "setup plugin alembic.autogenerate.schemas", "request_id": ""}
+{"ts": "2026-11-28T09:21:03Z", "level": "INFO", "logger": "alembic.runtime.plugins", "msg": "setup plugin alembic.autogenerate.tables", "request_id": ""}
+{"ts": "2026-11-28T09:21:03Z", "level": "INFO", "logger": "alembic.runtime.plugins", "msg": "setup plugin alembic.autogenerate.types", "request_id": ""}
+{"ts": "2026-11-28T09:21:03Z", "level": "INFO", "logger": "alembic.runtime.plugins", "msg": "setup plugin alembic.autogenerate.constraints", "request_id": ""}
+{"ts": "2026-11-28T09:21:03Z", "level": "INFO", "logger": "alembic.runtime.plugins", "msg": "setup plugin alembic.autogenerate.defaults", "request_id": ""}
+{"ts": "2026-11-28T09:21:03Z", "level": "INFO", "logger": "alembic.runtime.plugins", "msg": "setup plugin alembic.autogenerate.comments", "request_id": ""}
+{"ts": "2026-11-28T09:21:03Z", "level": "INFO", "logger": "alembic.runtime.plugins", "msg": "setup plugin alembic.ext.checkconstraint_byname", "request_id": ""}
