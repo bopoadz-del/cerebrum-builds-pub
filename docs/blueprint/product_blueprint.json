@@ -1,0 +1,201 @@
+{
+  "build_level": "prototype",
+  "canonical_output": null,
+  "capabilities": [
+    {
+      "block_ids": [
+        "task_listing"
+      ],
+      "connectors": [],
+      "description": "Customer-facing browsing and booking: search contractors filtered by suburb and by availability, view open time slots, and create a booking with fail-closed validation that prevents a contractor from being double-booked in the same slot.",
+      "id": "customer_booking_flow",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "Customers browse available contractors by location (suburb) and availability, and book them into time slots.",
+        "customer-facing booking flow filtered by suburb and availability with double-booking prevention"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "vendor_catalog"
+      ],
+      "connectors": [],
+      "description": "Contractor account creation and profile management, including the per-suburb service areas a contractor selects as active; the admin/ops side can see and maintain the suburb list those selections draw from.",
+      "id": "contractor_onboarding_and_service_areas",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "I need a delivery service platform where I can employ subcontractors",
+        "Contractors get their own accounts to manage their schedule and availability, and choose the active suburb locations they are willing to work in.",
+        "contractor onboarding and profiles with per-suburb service areas",
+        "The contractors has to choose active suburb locations they want to work in"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [],
+      "connectors": [],
+      "description": "Contractor-managed availability calendar: recurring working hours and per-slot availability/unavailability that the customer booking filter and the matching step read from. Persistence and slot algebra are built new; no available block supplies a schedule calendar.",
+      "id": "contractor_availability_schedule",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "I need a delivery service platform where I can employ subcontractors where they can manage their schedules availability",
+        "contractor availability/schedule calendar management"
+      ],
+      "strategy_hint": "GENERATE"
+    },
+    {
+      "block_ids": [
+        "dispatch_matching"
+      ],
+      "connectors": [],
+      "description": "Matches each incoming booking to contractors who have selected the booking's suburb as an active service area and are available for the slot, scoring candidates deterministically and explaining the ranking.",
+      "id": "location_based_matching",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "location-based matching of bookings to contractors who have selected that suburb as active"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "transaction_state_machine"
+      ],
+      "connectors": [],
+      "description": "Fail-closed lifecycle for every booking \u2014 requested, accepted, in progress, completed, cancelled \u2014 enforcing which transitions are legal, who may make them, and what the customer and contractor see at each state.",
+      "id": "booking_status_lifecycle",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "booking status lifecycle (requested, accepted, in progress, completed, cancelled)"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "notification"
+      ],
+      "connectors": [
+        "sms_gateway_provider_not_specified_by_the_user_ships_as_a_marked_placeholder"
+      ],
+      "description": "Sends the contractor a new-booking alert and the customer a booking confirmation on each lifecycle change. Email and webhook channels are covered by the picked block; SMS is listed as a placeholder because the user did not name an SMS provider.",
+      "id": "booking_notifications",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "notifications to contractor on new booking and confirmation to the customer"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "payment_escrow"
+      ],
+      "connectors": [
+        "payment_processor_not_specified_by_the_user_ships_as_a_marked_placeholder",
+        "accounting_and_tax_vat_system_not_specified_by_the_user_ships_as_a_marked_placeholder"
+      ],
+      "description": "Customer invoicing and subcontractor payout lifecycle (hold, fee quote, release, partial release, refund). Country and currency are NOT assumed: tax, VAT and payout rules are exposed as explicit configuration parameters to be supplied before build, and the payment processor and accounting/tax system",
+      "id": "invoicing_and_payouts",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "money handling for customer invoicing and subcontractor payouts",
+        "Country and currency were not specified by the user and must not be assumed \u2014 tax, VAT and payout rules depend on them, so the blueprint must leave them as explicit open parameters (with country/currency configurable) rather than guessing."
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "dashboard",
+        "dispute_resolution"
+      ],
+      "connectors": [],
+      "description": "Admin/ops console to oversee contractors, suburbs, bookings and disputes: oversight views over the contractor, suburb and booking records, plus a party-gated dispute lifecycle for booking complaints.",
+      "id": "ops_back_office",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [
+        "an admin/ops back office to oversee contractors, suburbs, bookings and disputes"
+      ],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "audit"
+      ],
+      "connectors": [],
+      "description": "Audit capability (reused from the block store)",
+      "id": "audit",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "config"
+      ],
+      "connectors": [],
+      "description": "Config capability (reused from the block store)",
+      "id": "config",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "email"
+      ],
+      "connectors": [],
+      "description": "Email capability (reused from the block store)",
+      "id": "email",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    },
+    {
+      "block_ids": [
+        "billing"
+      ],
+      "connectors": [],
+      "description": "Billing capability (reused from the block store)",
+      "id": "billing",
+      "kit_ids": [],
+      "required": true,
+      "requirements": [],
+      "strategy_hint": "REUSE"
+    }
+  ],
+  "connectors": [
+    "sms_gateway_provider_not_specified_by_the_user_ships_as_a_marked_placeholder",
+    "payment_processor_not_specified_by_the_user_ships_as_a_marked_placeholder",
+    "accounting_and_tax_vat_system_not_specified_by_the_user_ships_as_a_marked_placeholder"
+  ],
+  "delivery_format": "zip",
+  "drafting_mode": "architect_llm",
+  "drafting_note": "inventory: 'product' is not on the declared-ready list (construction, finance, finance_ops, hotel_management, insurance, retail); the Store kit for this vertical is unverified \u2014 domain depth not guaranteed",
+  "edge_profile": "standard",
+  "factory_scenario": "CREATE_PRODUCT",
+  "golden_suggestion": null,
+  "human_authority": true,
+  "locale": null,
+  "n_required": 12,
+  "product_id": "product",
+  "product_name": "Delivery Service Platform",
+  "schema_version": "product_blueprint.v1",
+  "serves_verticals": [],
+  "summary": "A delivery-service marketplace where an operator employs subcontractor drivers/contractors who each get their own account, publish a weekly availability schedule and pick the active suburb locations they will work in. Customers browse contractors by suburb and availability and book them into time slots, with double-booking prevented and each booking matched to contractors who have that suburb active. Bookings move through a requested \u2192 accepted \u2192 in progress \u2192 completed \u2192 cancelled lifecycle, co",
+  "ui_modules": [
+    "command_center",
+    "operational_chat",
+    "resident_engineer"
+  ],
+  "vertical": "product"
+}
