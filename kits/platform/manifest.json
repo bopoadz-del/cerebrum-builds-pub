@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    "audit",
+    "billing",
+    "config",
+    "dashboard",
+    "dispatch_matching",
+    "dispute_resolution",
+    "email",
+    "notification",
+    "payment_escrow",
+    "task_listing",
+    "transaction_state_machine",
+    "vendor_catalog"
+  ],
+  "id": "platform",
+  "name": "Platform",
+  "product_blocks": [
+    "audit",
+    "billing",
+    "config",
+    "dashboard",
+    "dispatch_matching",
+    "dispute_resolution",
+    "email",
+    "notification",
+    "payment_escrow",
+    "task_listing",
+    "transaction_state_machine",
+    "vendor_catalog"
+  ],
+  "source": "synthesized-from-factory-shelf",
+  "vendored_blocks": {
+    "audit": "vendor/blocks/audit",
+    "billing": "vendor/blocks/billing",
+    "config": "vendor/blocks/config",
+    "dashboard": "vendor/blocks/dashboard",
+    "dispatch_matching": "vendor/blocks/dispatch_matching",
+    "dispute_resolution": "vendor/blocks/dispute_resolution",
+    "email": "vendor/blocks/email",
+    "notification": "vendor/blocks/notification",
+    "payment_escrow": "vendor/blocks/payment_escrow",
+    "task_listing": "vendor/blocks/task_listing",
+    "transaction_state_machine": "vendor/blocks/transaction_state_machine",
+    "vendor_catalog": "vendor/blocks/vendor_catalog"
+  },
+  "version": "1.0.0"
+}
